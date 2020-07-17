@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
@@ -29,24 +30,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://takyamamoto.github.io/compneuro-julia/markdown.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Hodgkin-Huxleyモデル" href="hodgkinhuxley.html" />
-    <link rel="prev" title="Content in Jupyter Book" href="content.html" />
+    <link rel="next" title="Content with notebooks" href="jb_notebooks.html" />
+    <link rel="prev" title="Default pages of Jupyter Book" href="jb_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
-
-<!-- Opengraph tags -->
-<meta property="og:url"         content="https://takyamamoto.github.io/compneuro-julia/markdown.html" />
-<meta property="og:type"        content="article" />
-<meta property="og:title"       content="Markdown Files" />
-<meta property="og:description" content="Markdown Files  Whether you write your book’s content in Jupyter Notebooks (.ipynb) or in regular markdown files (.md), you’ll write in the same flavor of markd" />
-<meta property="og:image"       content="https://takyamamoto.github.io/compneuro-julia/_static/logo.png" />
-
-<meta name="twitter:card" content="summary">
 
 
   </head>
@@ -61,7 +52,7 @@
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
   
-  <img src="_static/logo.png" class="logo" alt="logo">
+  <img src="_static/logo.svg" class="logo" alt="logo">
   
   
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
@@ -77,15 +68,50 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
+  <a class="reference internal" href="index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
 <ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch0_intro.html">
+   はじめに / 神経生理入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch1_intro.html">
+   単一神経細胞のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_intro.html">
+   シナプス伝達のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch3_intro.html">
+   神経回路網の構築 (発火率モデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4_intro.html">
+   神経回路網の構築 (Spikingモデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch5_intro.html">
+   神経回路網の演算処理
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch6_intro.html">
+   神経回路網の学習則
+  </a>
+ </li>
  <li class="toctree-l1 current active">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
+  <a class="reference internal" href="jb_intro.html">
+   Default pages of Jupyter Book
   </a>
   <ul class="current">
    <li class="toctree-l2 current active">
@@ -94,12 +120,7 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="hodgkinhuxley.html">
-     Hodgkin-Huxleyモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks.html">
+    <a class="reference internal" href="jb_notebooks.html">
      Content with notebooks
     </a>
    </li>
@@ -147,7 +168,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/markdown.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/jb_markdown.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -274,7 +295,7 @@ this pattern:</p>
 <p>Again, roles will only work if <code class="docutils literal notranslate"><span class="pre">rolename</span></code> is a valid role’s name. For example,
 the <code class="docutils literal notranslate"><span class="pre">doc</span></code> role can be used to refer to another page in your book. You can
 refer directly to another page by its relative path. For example, the
-role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`intro`</span></code> will result in: <a class="reference internal" href="intro.html"><span class="doc">Juliaで学ぶ計算論的神経科学</span></a>.</p>
+role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`intro`</span></code> will result in: <span class="xref std std-doc">intro</span>.</p>
 <p>For more information on writing roles, see the
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
@@ -293,7 +314,7 @@ then the bibliography is inserted with:</p>
 </pre></div>
 </div>
 <p>Resulting in a rendered bibliography that looks like:</p>
-<p id="bibtex-bibliography-markdown-0"><dl class="citation">
+<p id="bibtex-bibliography-jb_markdown-0"><dl class="citation">
 <dt class="bibtex label" id="holdgraf-evidence-2014"><span class="brackets"><a class="fn-backref" href="#id1">HdHPK14</a></span></dt>
 <dd><p>Christopher Ramsay Holdgraf, Wendy de Heer, Brian N. Pasley, and Robert T. Knight. Evidence for Predictive Coding in Human Auditory Cortex. In <em>International Conference on Cognitive Neuroscience</em>. Brisbane, Australia, Australia, 2014. Frontiers in Neuroscience.</p>
 </dd>
@@ -335,8 +356,8 @@ see <a class="reference external" href="https://myst-nb.readthedocs.io/">The MyS
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="content.html" title="previous page">Content in Jupyter Book</a>
-    <a class='right-next' id="next-link" href="hodgkinhuxley.html" title="next page">Hodgkin-Huxleyモデル</a>
+    <a class='left-prev' id="prev-link" href="jb_intro.html" title="previous page">Default pages of Jupyter Book</a>
+    <a class='right-next' id="next-link" href="jb_notebooks.html" title="next page">Content with notebooks</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Juliaで学ぶ計算論的神経科学 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>Default pages of Jupyter Book &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
@@ -29,23 +30,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://takyamamoto.github.io/compneuro-julia/intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Content in Jupyter Book" href="content.html" />
+    <link rel="next" title="Markdown Files" href="jb_markdown.html" />
+    <link rel="prev" title="神経回路網の学習則" href="ch6_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
-
-<!-- Opengraph tags -->
-<meta property="og:url"         content="https://takyamamoto.github.io/compneuro-julia/intro.html" />
-<meta property="og:type"        content="article" />
-<meta property="og:title"       content="Juliaで学ぶ計算論的神経科学" />
-<meta property="og:description" content="Juliaで学ぶ計算論的神経科学  一先ずはSNN本(ゼロから作るSpiking Neural Networks)のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。  " />
-<meta property="og:image"       content="https://takyamamoto.github.io/compneuro-julia/_static/logo.png" />
-
-<meta name="twitter:card" content="summary">
 
 
   </head>
@@ -60,7 +52,7 @@
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
   
-  <img src="_static/logo.png" class="logo" alt="logo">
+  <img src="_static/logo.svg" class="logo" alt="logo">
   
   
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
@@ -76,16 +68,63 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
+  <a class="reference internal" href="index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
+  <a class="reference internal" href="ch0_intro.html">
+   はじめに / 神経生理入門
   </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch1_intro.html">
+   単一神経細胞のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_intro.html">
+   シナプス伝達のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch3_intro.html">
+   神経回路網の構築 (発火率モデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4_intro.html">
+   神経回路網の構築 (Spikingモデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch5_intro.html">
+   神経回路網の演算処理
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch6_intro.html">
+   神経回路網の学習則
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Default pages of Jupyter Book
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="jb_markdown.html">
+     Markdown Files
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="jb_notebooks.html">
+     Content with notebooks
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -129,7 +168,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/jb_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -165,9 +204,9 @@
         
               <div>
                 
-  <div class="section" id="julia">
-<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
-<p>一先ずはSNN本(<a class="reference external" href="https://yamtak.booth.pm/items/1585421">ゼロから作るSpiking Neural Networks</a>)のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。</p>
+  <div class="section" id="default-pages-of-jupyter-book">
+<h1>Default pages of Jupyter Book<a class="headerlink" href="#default-pages-of-jupyter-book" title="Permalink to this headline">¶</a></h1>
+<p>Jupyter bookのdefaultページ。出力の参考にするために残している。</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -181,7 +220,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="content.html" title="next page">Content in Jupyter Book</a>
+    <a class='left-prev' id="prev-link" href="ch6_intro.html" title="previous page">神経回路網の学習則</a>
+    <a class='right-next' id="next-link" href="jb_markdown.html" title="next page">Markdown Files</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

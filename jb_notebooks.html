@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
@@ -29,23 +30,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://takyamamoto.github.io/compneuro-julia/notebooks.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Hodgkin-Huxleyモデル" href="hodgkinhuxley.html" />
+    <link rel="prev" title="Markdown Files" href="jb_markdown.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
-
-<!-- Opengraph tags -->
-<meta property="og:url"         content="https://takyamamoto.github.io/compneuro-julia/notebooks.html" />
-<meta property="og:type"        content="article" />
-<meta property="og:title"       content="Content with notebooks" />
-<meta property="og:description" content="Content with notebooks  You can also create content with Jupyter Notebooks. This means that you can include code blocks and their outputs in your book.  Markdow" />
-<meta property="og:image"       content="https://takyamamoto.github.io/compneuro-julia/_static/logo.png" />
-
-<meta name="twitter:card" content="summary">
 
 
   </head>
@@ -60,7 +51,7 @@
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
   
-  <img src="_static/logo.png" class="logo" alt="logo">
+  <img src="_static/logo.svg" class="logo" alt="logo">
   
   
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
@@ -76,25 +67,55 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
+  <a class="reference internal" href="index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
 <ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch0_intro.html">
+   はじめに / 神経生理入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch1_intro.html">
+   単一神経細胞のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_intro.html">
+   シナプス伝達のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch3_intro.html">
+   神経回路網の構築 (発火率モデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4_intro.html">
+   神経回路網の構築 (Spikingモデル)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch5_intro.html">
+   神経回路網の演算処理
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch6_intro.html">
+   神経回路網の学習則
+  </a>
+ </li>
  <li class="toctree-l1 current active">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
+  <a class="reference internal" href="jb_intro.html">
+   Default pages of Jupyter Book
   </a>
   <ul class="current">
    <li class="toctree-l2">
-    <a class="reference internal" href="markdown.html">
+    <a class="reference internal" href="jb_markdown.html">
      Markdown Files
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="hodgkinhuxley.html">
-     Hodgkin-Huxleyモデル
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -146,7 +167,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/notebooks.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/jb_notebooks.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -164,23 +185,6 @@
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=lab/tree/notebooks.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
 
     </div>
 
@@ -283,7 +287,7 @@ For example, here’s some sample Matplotlib code:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/notebooks_2_0.png" src="_images/notebooks_2_0.png" />
+<img alt="_images/jb_notebooks_2_0.png" src="_images/jb_notebooks_2_0.png" />
 </div>
 </div>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
@@ -300,7 +304,7 @@ with your book. For more information about this, see <a class="reference externa
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="hodgkinhuxley.html" title="previous page">Hodgkin-Huxleyモデル</a>
+    <a class='left-prev' id="prev-link" href="jb_markdown.html" title="previous page">Markdown Files</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

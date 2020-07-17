@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Juliaで学ぶ計算論的神経科学 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>神経回路網の構築 (Spikingモデル) &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -32,7 +32,8 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="はじめに / 神経生理入門" href="ch0_intro.html" />
+    <link rel="next" title="神経回路網の演算処理" href="ch5_intro.html" />
+    <link rel="prev" title="神経回路網の構築 (発火率モデル)" href="ch3_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -49,7 +50,7 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="#">
+<a class="navbar-brand text-wrap" href="index.html">
   
   <img src="_static/logo.svg" class="logo" alt="logo">
   
@@ -67,12 +68,12 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
+  <a class="reference internal" href="index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="ch0_intro.html">
    はじめに / 神経生理入門
@@ -93,8 +94,8 @@
    神経回路網の構築 (発火率モデル)
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ch4_intro.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    神経回路網の構築 (Spikingモデル)
   </a>
  </li>
@@ -155,7 +156,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/ch4_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -182,101 +183,7 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   目次
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     はじめに / 神経生理入門
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
-     単一神経細胞のモデル
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     シナプス伝達のモデル
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     神経回路網の構築 (発火率モデル)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#spiking">
-     神経回路網の構築 (Spikingモデル)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
-     神経回路網の演算処理
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     神経回路網の学習則
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
-     神経回路網の学習ダイナミクス
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#energy-based">
-     Energy-based モデル
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
-     自己組織化マップと教師なし学習
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reservoir-computing">
-     Reservoir Computing
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     情報理論と最適化原理
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
-     ベイズ脳理論と生成モデル
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     時空間の符号化
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id13">
-     運動学習
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
-     強化学習
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id15">
-     神経細胞の形態と数理モデル
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
+            
         </nav>
     </div>
 </div>
@@ -285,69 +192,12 @@
         
               <div>
                 
-  <div class="section" id="julia">
-<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
-<p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目的とします。</p>
-<p>当面はSNN本(<a class="reference external" href="https://yamtak.booth.pm/items/1585421">ゼロから作るSpiking Neural Networks</a>)のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。</p>
-<div class="section" id="id1">
-<h2>目次<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>はじめに / 神経生理入門<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id3">
-<h3>単一神経細胞のモデル<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+  <div class="section" id="spiking">
+<h1>神経回路網の構築 (Spikingモデル)<a class="headerlink" href="#spiking" title="Permalink to this headline">¶</a></h1>
+<p>順序を迷っているが、学習則は後の章で書き、とりあえず構築を目指す。</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/ch1_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
+<li><p>random network</p></li>
 </ul>
-</div>
-<div class="section" id="id4">
-<h3>シナプス伝達のモデル<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id5">
-<h3>神経回路網の構築 (発火率モデル)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="spiking">
-<h3>神経回路網の構築 (Spikingモデル)<a class="headerlink" href="#spiking" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id6">
-<h3>神経回路網の演算処理<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id7">
-<h3>神経回路網の学習則<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id8">
-<h3>神経回路網の学習ダイナミクス<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="energy-based">
-<h3>Energy-based モデル<a class="headerlink" href="#energy-based" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id9">
-<h3>自己組織化マップと教師なし学習<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="reservoir-computing">
-<h3>Reservoir Computing<a class="headerlink" href="#reservoir-computing" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id10">
-<h3>情報理論と最適化原理<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id11">
-<h3>ベイズ脳理論と生成モデル<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id12">
-<h3>時空間の符号化<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id13">
-<h3>運動学習<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id14">
-<h3>強化学習<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="id15">
-<h3>神経細胞の形態と数理モデル<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<div class="toctree-wrapper compound">
-</div>
-</div>
-</div>
 </div>
 
 
@@ -359,7 +209,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="ch0_intro.html" title="next page">はじめに / 神経生理入門</a>
+    <a class='left-prev' id="prev-link" href="ch3_intro.html" title="previous page">神経回路網の構築 (発火率モデル)</a>
+    <a class='right-next' id="next-link" href="ch5_intro.html" title="next page">神経回路網の演算処理</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
