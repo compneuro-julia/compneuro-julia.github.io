@@ -67,13 +67,6 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
-   Juliaで学ぶ計算論的神経科学
-  </a>
- </li>
-</ul>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
   <a class="reference internal" href="1_intro.html">
    1. はじめに / 神経生理入門
   </a>
@@ -119,10 +112,6 @@
 
  <!-- To handle the deprecated key -->
 
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
 </div>
 
 
@@ -166,6 +155,22 @@
 </div>
         <!-- Source interaction buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia.github.io"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/compneuro-julia/compneuro-julia.github.io/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -201,6 +206,7 @@
   <div class="section" id="julia">
 <h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
 <p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目的とする。当面はSNN本(<a class="reference external" href="https://yamtak.booth.pm/items/1585421">ゼロから作るSpiking Neural Networks</a>)のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。</p>
+<p>内容に関する指摘やコメントは各ページ右上のGitHubアイコンから<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Issue</span></code>を選択し、リポジトリのIssueとして行っていただければ幸いです。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>使用しているJuliaのバージョン：Julia 1.4.0</p>
