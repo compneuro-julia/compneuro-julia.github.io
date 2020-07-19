@@ -32,7 +32,6 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Markdown Files" href="jb_markdown.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -65,64 +64,45 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="1_intro.html">
-   1. はじめに / 神経生理入門
+  <a class="reference internal" href="index.html">
+   Juliaで学ぶ計算論的神経科学
   </a>
  </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. 単一神経細胞のモデル
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="2_intro.html">
-   2. 単一神経細胞のモデル
+  <a class="reference internal" href="2-1_hodgkinhuxley.html">
+   2.1 Hodgkin-Huxleyモデル
   </a>
  </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. シナプス伝達のモデル
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="3_intro.html">
-   3. シナプス伝達のモデル
+  <a class="reference internal" href="3-1_hhsynapse.html">
+   3.1. Hodgkin-Huxleyモデルとシナプスモデル
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="4_intro.html">
-   4. 神経回路網の構築 (発火率モデル)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="5_intro.html">
-   5. 神経回路網の構築 (Spikingモデル)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="6_intro.html">
-   6. 神経回路網の演算処理
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="7_intro.html">
-   7. 神経回路網の学習則
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="reference internal" href="jb_intro.html">
-   Default pages of Jupyter Book
-  </a>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="jb_markdown.html">
-     Markdown Files
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Content with notebooks
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
 </nav>
 
  <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
 
 </div>
 
@@ -179,7 +159,9 @@
             href="https://github.com/compneuro-julia/compneuro-julia.github.io/issues/new?title=Issue%20on%20page%20%2Fjb_notebooks.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia.github.io/edit/master/jb_notebooks.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -309,7 +291,6 @@ with your book. For more information about this, see <a class="reference externa
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="jb_markdown.html" title="previous page">Markdown Files</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
@@ -329,6 +310,16 @@ with your book. For more information about this, see <a class="reference externa
     </div>
 
     <script src="_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
     
   </body>
 </html>

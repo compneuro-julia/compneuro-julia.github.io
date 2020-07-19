@@ -32,7 +32,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. はじめに / 神経生理入門" href="1_intro.html" />
+    <link rel="next" title="2.1 Hodgkin-Huxleyモデル" href="2-1_hodgkinhuxley.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -67,43 +67,32 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="1_intro.html">
-   1. はじめに / 神経生理入門
+  <a class="reference internal" href="#">
+   Juliaで学ぶ計算論的神経科学
   </a>
  </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. 単一神経細胞のモデル
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="2_intro.html">
-   2. 単一神経細胞のモデル
+  <a class="reference internal" href="2-1_hodgkinhuxley.html">
+   2.1 Hodgkin-Huxleyモデル
   </a>
  </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. シナプス伝達のモデル
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="3_intro.html">
-   3. シナプス伝達のモデル
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="4_intro.html">
-   4. 神経回路網の構築 (発火率モデル)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="5_intro.html">
-   5. 神経回路網の構築 (Spikingモデル)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="6_intro.html">
-   6. 神経回路網の演算処理
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="7_intro.html">
-   7. 神経回路網の学習則
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="jb_intro.html">
-   Default pages of Jupyter Book
+  <a class="reference internal" href="3-1_hhsynapse.html">
+   3.1. Hodgkin-Huxleyモデルとシナプスモデル
   </a>
  </li>
 </ul>
@@ -111,6 +100,10 @@
 </nav>
 
  <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
 
 </div>
 
@@ -167,7 +160,9 @@
             href="https://github.com/compneuro-julia/compneuro-julia.github.io/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia.github.io/edit/master/index.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -193,6 +188,13 @@
    目次
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neural-networks">
+   『ゼロから作るSpiking Neural Networks』について
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -205,7 +207,7 @@
                 
   <div class="section" id="julia">
 <h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
-<p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目的とする。当面はSNN本(<a class="reference external" href="https://yamtak.booth.pm/items/1585421">ゼロから作るSpiking Neural Networks</a>)のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。</p>
+<p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目標とします。</p>
 <p>内容に関する指摘やコメントは各ページ右上のGitHubアイコンから<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Issue</span></code>を選択し、リポジトリのIssueとして行っていただければ幸いです。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -214,21 +216,21 @@
 <div class="section" id="id1">
 <h2>目次<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/1_intro.html">はじめに / 神経生理入門</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2_intro.html">単一神経細胞のモデル</a></p>
+<li><p>はじめに / 神経生理入門</p></li>
+<li><p>単一神経細胞のモデル</p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-1_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
 </ol>
 </li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/3_intro.html">シナプス伝達のモデル</a></p>
+<li><p>シナプス伝達のモデル</p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/3-1_hhsynapse.html">Hodgkin-Huxleyモデルとシナプスモデル</a></p></li>
 </ol>
 </li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/4_intro.html">神経回路網の構築 (発火率モデル)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/5_intro.html">神経回路網の構築 (Spikingモデル)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/6_intro.html">神経回路網の演算処理</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/7_intro.html">神経回路網の学習則</a></p></li>
+<li><p>神経回路網の構築 (発火率モデル)</p></li>
+<li><p>神経回路網の構築 (Spikingモデル)</p></li>
+<li><p>神経回路網の演算処理</p></li>
+<li><p>神経回路網の学習則</p></li>
 <li><p>神経回路網の学習ダイナミクス</p></li>
 <li><p>Energy-based モデル</p></li>
 <li><p>自己組織化マップと教師なし学習</p></li>
@@ -240,6 +242,16 @@
 <li><p>強化学習</p></li>
 <li><p>神経細胞の形態と数理モデル</p></li>
 </ol>
+</div>
+<div class="section" id="spiking-neural-networks">
+<h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>『ゼロから作るSpiking Neural Networks』 (通称：SNN本) はPythonでSpiking neural networksの構築と学習を実装することを目標とした本です。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入をお願いいたします。なお、物理本は完売し、再販の予定はありません。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/compneuro-julia/compneuro-julia-management/tree/master/contents/_static/pdf/SNN_from_scratch_with_python_ver2_05.pdf">pdf</a></p></li>
+<li><p><a class="reference external" href="https://booth.pm/ja/items/1585421">BOOTH</a></p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -254,7 +266,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="1_intro.html" title="next page">1. はじめに / 神経生理入門</a>
+    <a class='right-next' id="next-link" href="2-1_hodgkinhuxley.html" title="next page">2.1 Hodgkin-Huxleyモデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
@@ -274,6 +286,16 @@
     </div>
 
     <script src="_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
     
   </body>
 </html>
