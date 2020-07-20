@@ -33,7 +33,7 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/2-2_lif.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3.1. Hodgkin-Huxleyモデルとシナプスモデル" href="3-1_hhsynapse.html" />
+    <link rel="next" title="2.3 Izhikevich モデル" href="2-3_iz.html" />
     <link rel="prev" title="2.1 Hodgkin-Huxleyモデル" href="2-1_hodgkinhuxley.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +44,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/2-2_lif.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2.2 Leaky integrate-and-fire モデル" />
-<meta property="og:description" content="2.2 Leaky integrate-and-fire モデル  2.2.1 LIFモデルの実装  生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルをIntegrate-and-fire (IF, 積分発火)モデル という。さらに, IFモデルにおいて膜電位の" />
+<meta property="og:description" content="2.2 Leaky integrate-and-fire モデル  2.2.1 LIFモデルの定義  生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルをIntegrate-and-fire (IF, 積分発火)モデル という。さらに, IFモデルにおいて膜電位の" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -97,6 +97,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2.2 Leaky integrate-and-fire モデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-3_iz.html">
+   2.3 Izhikevich モデル
   </a>
  </li>
 </ul>
@@ -217,12 +222,17 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#lif">
-   2.2.1 LIFモデルの実装
+   2.2.1 LIFモデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   2.2.2 LIFモデルのシミュレーションの実行
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#liff-i-curve">
-   2.2.2 LIFモデルのF-I curve
+   2.2.3 LIFモデルのF-I curve
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -231,7 +241,7 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id8">
      解析的計算によるF-I curveの描画
     </a>
    </li>
@@ -250,7 +260,7 @@
   <div class="section" id="leaky-integrate-and-fire">
 <h1>2.2 Leaky integrate-and-fire モデル<a class="headerlink" href="#leaky-integrate-and-fire" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="lif">
-<h2>2.2.1 LIFモデルの実装<a class="headerlink" href="#lif" title="Permalink to this headline">¶</a></h2>
+<h2>2.2.1 LIFモデルの定義<a class="headerlink" href="#lif" title="Permalink to this headline">¶</a></h2>
 <p>生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを<strong>Integrate-and-fire (IF, 積分発火)モデル</strong> という。さらに, IFモデルにおいて膜電位の漏れ(leak)<a class="footnote-reference brackets" href="#leak" id="id1">1</a>も考慮したモデルを <strong>Leaky integrate-and-fire (LIF, 漏れ積分発火) モデル</strong> と呼ぶ。ここではLIFモデルのみを取り扱う。</p>
 <p>ニューロンの膜電位を<span class="math notranslate nohighlight">\(V_m(t)\)</span>, 静止膜電位を<span class="math notranslate nohighlight">\(V_\text{rest}\)</span>, 入力電流<a class="footnote-reference brackets" href="#isyn" id="id2">2</a>を<span class="math notranslate nohighlight">\(I(t)\)</span>, 膜抵抗を<span class="math notranslate nohighlight">\(R_m\)</span>, 膜電位の時定数を<span class="math notranslate nohighlight">\(\tau_m\ (=R_m \cdot C_m)\)</span>とすると, 式は次のようになる<a class="footnote-reference brackets" href="#vrest" id="id3">3</a>。</p>
 <div class="math notranslate nohighlight">
@@ -331,6 +341,10 @@ end
 </div>
 <p>いくつかの処理について解説しておく。まず、一番目のforループ内の<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>の<code class="docutils literal notranslate"><span class="pre">((dt*tcount[1])</span> <span class="pre">&gt;</span> <span class="pre">(tlast[i]</span> <span class="pre">+</span> <span class="pre">tref))</span></code>は最後にニューロンが発火した時刻<code class="docutils literal notranslate"><span class="pre">tlast[i]</span></code>に不応期<code class="docutils literal notranslate"><span class="pre">tref</span></code>を足した時刻よりも現在の時刻<code class="docutils literal notranslate"><span class="pre">dt*tcount[1]</span></code>が大きければ膜電位の更新を許可し、小さければ更新しない。二番目のforループにおける<code class="docutils literal notranslate"><span class="pre">fire[i]</span></code>はニューロンの膜電位が閾値電位<code class="docutils literal notranslate"><span class="pre">vthr</span></code>を超えたら<code class="docutils literal notranslate"><span class="pre">True</span></code>となる。<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>などの更新式にある<code class="docutils literal notranslate"><span class="pre">ifelse(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code>はaが<code class="docutils literal notranslate"><span class="pre">True</span></code>の時はbを返し、<code class="docutils literal notranslate"><span class="pre">False</span></code>の時はcを返す関数であり、<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">=</span> <span class="pre">ifelse(fire[i],</span> <span class="pre">vreset,</span> <span class="pre">v[i])</span></code>は<code class="docutils literal notranslate"><span class="pre">fire[i]</span></code>が<code class="docutils literal notranslate"><span class="pre">True</span></code>なら<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>をリセット電位<code class="docutils literal notranslate"><span class="pre">vreset</span></code>とし、そうでなければそのままの値を返すという処理である。同様にして<code class="docutils literal notranslate"><span class="pre">tlast[i]</span></code>は発火したときにその時刻を記録する変数となっている。なお、<code class="docutils literal notranslate"><span class="pre">v_[i]</span> <span class="pre">=</span> <span class="pre">ifelse(fire[i],</span> <span class="pre">vpeak,</span> <span class="pre">v[i])</span></code>は実際のシミュレーションにおいて意味をなさない。単に発火時の電位<code class="docutils literal notranslate"><span class="pre">vpeak</span></code>を含めて記録すると描画時の見栄えが良いというだけである。</p>
 <p>これらの<code class="docutils literal notranslate"><span class="pre">struct</span></code>と関数を用いてシミュレーションを実行する。<code class="docutils literal notranslate"><span class="pre">I</span></code> はHHモデルのときと同じように矩形波を入力する。実は<code class="docutils literal notranslate"><span class="pre">I</span></code>は入力電流ではなく入力電流に比例する量となっているが、これは膜抵抗を乗じた後の値であると考えるとよい。</p>
+</div>
+<div class="section" id="id7">
+<h2>2.2.2 LIFモデルのシミュレーションの実行<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>いくつかの定数を設定してシミュレーションを実行する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
@@ -357,7 +371,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.118745 seconds (755.02 k allocations: 25.164 MiB, 3.82% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.120481 seconds (755.02 k allocations: 25.164 MiB, 4.34% gc time)
 </pre></div>
 </div>
 </div>
@@ -382,11 +396,11 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2-2_lif_10_0.svg" src="_images/2-2_lif_10_0.svg" /></div>
+<img alt="_images/2-2_lif_11_0.svg" src="_images/2-2_lif_11_0.svg" /></div>
 </div>
 </div>
 <div class="section" id="liff-i-curve">
-<h2>2.2.2 LIFモデルのF-I curve<a class="headerlink" href="#liff-i-curve" title="Permalink to this headline">¶</a></h2>
+<h2>2.2.3 LIFモデルのF-I curve<a class="headerlink" href="#liff-i-curve" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="f-i-curve">
 <h3>数値的計算によるF-I curveの描画<a class="headerlink" href="#f-i-curve" title="Permalink to this headline">¶</a></h3>
 <p>この項目ではLIFモデルにおける入力電流に対する発火率の変化 (F-I curve)を描画する。方法はHHモデルの場合と同様だが、今回は発火したかどうかがモデル内の変数として明示的に記録されているので処理が少ない。</p>
@@ -432,12 +446,12 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2-2_lif_14_0.svg" src="_images/2-2_lif_14_0.svg" /></div>
+<img alt="_images/2-2_lif_15_0.svg" src="_images/2-2_lif_15_0.svg" /></div>
 </div>
 <p>さらに電流を強めると発火率は飽和(saturation)する。なお、不応期がない、すなわち0の場合は閾値付近以外はReLU関数のような挙動をする。</p>
 </div>
-<div class="section" id="id7">
-<h3>解析的計算によるF-I curveの描画<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>解析的計算によるF-I curveの描画<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>ここまでは数値的なシミュレーションによりF-I curveを求めた。以下では解析的にF-I curveの式を求めよう。具体的には、一定かつ持続的な入力電流を<span class="math notranslate nohighlight">\(I\)</span>としたときのLIFニューロンの発火率(firing rate)が</p>
 <div class="math notranslate nohighlight">
 \[
@@ -508,7 +522,7 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2-2_lif_19_0.svg" src="_images/2-2_lif_19_0.svg" /></div>
+<img alt="_images/2-2_lif_20_0.svg" src="_images/2-2_lif_20_0.svg" /></div>
 </div>
 <hr class="docutils" />
 <dl class="footnote brackets">
@@ -545,7 +559,7 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="2-1_hodgkinhuxley.html" title="previous page">2.1 Hodgkin-Huxleyモデル</a>
-    <a class='right-next' id="next-link" href="3-1_hhsynapse.html" title="next page">3.1. Hodgkin-Huxleyモデルとシナプスモデル</a>
+    <a class='right-next' id="next-link" href="2-3_iz.html" title="next page">2.3 Izhikevich モデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

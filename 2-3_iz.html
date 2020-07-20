@@ -44,7 +44,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/2-3_iz.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2.3 Izhikevich モデル" />
-<meta property="og:description" content="2.3 Izhikevich モデル  2.3.1 Izhikevich モデルの実装  Izhikevich モデル (またはSimple model)は(Izhikevich, 2003)で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複" />
+<meta property="og:description" content="2.3 Izhikevich モデル  2.3.1 Izhikevich モデルの定義  Izhikevich モデル (またはSimple model)は(Izhikevich, 2003)で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,17 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   2.3.1 Izhikevich モデルの実装
+   2.3.1 Izhikevich モデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   2.3.2 Izhikevich モデルのシミュレーションの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   2.3.2 様々な発火パターンのシミュレーション
   </a>
  </li>
 </ul>
@@ -238,7 +248,7 @@
   <div class="section" id="izhikevich">
 <h1>2.3 Izhikevich モデル<a class="headerlink" href="#izhikevich" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>2.3.1 Izhikevich モデルの実装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>2.3.1 Izhikevich モデルの定義<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p><strong>Izhikevich モデル</strong> (または<strong>Simple model</strong>)は(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複雑化するため、数学的な解析が難しく、計算量が増えるために大規模なシミュレーションも困難となる<a class="footnote-reference brackets" href="#hh" id="id2">1</a>。そこで、生理学的な正しさには目をつぶり、生体内でのニューロンの発火特性を再現するモデルが求められた。その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)。Izモデルは 2変数しかない<a class="footnote-reference brackets" href="#ber" id="id3">2</a>簡素な微分方程式だが, 様々なニューロンの活動を模倣することができる。定式化には主に2種類ある。まず、(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で提案されたのが次式である。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -302,6 +312,7 @@ v&amp;\leftarrow v_{\text{reset}}
 </div>
 </div>
 </div>
+<p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">updateIZ!</span></code>を書く。LIFの場合と異なり、<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vpeak</span></code>であることに注意する (<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vthr</span></code>ではない)。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function updateIZ!(variable::IZ, param::IZParameter, I::Vector, dt)
@@ -326,6 +337,10 @@ end
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="id6">
+<h2>2.3.2 Izhikevich モデルのシミュレーションの実行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>いくつかの定数を設定してシミュレーションを実行する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
@@ -354,11 +369,12 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.136301 seconds (839.73 k allocations: 26.255 MiB, 3.33% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.133198 seconds (839.73 k allocations: 26.255 MiB, 3.84% gc time)
 </pre></div>
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">Plots</span></code>を読み込み、膜電位<code class="docutils literal notranslate"><span class="pre">v</span></code>, 回復変数<code class="docutils literal notranslate"><span class="pre">u</span></code>, 入力電流<code class="docutils literal notranslate"><span class="pre">I</span></code>を描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
@@ -372,18 +388,73 @@ end
 <span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">uarr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
+    <span class="n">title</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Regular Spiking (RS) Neurons&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
     <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;Recovery</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2-3_iz_7_0.svg" src="_images/2-3_iz_7_0.svg" /></div>
+<img alt="_images/2-3_iz_10_0.svg" src="_images/2-3_iz_10_0.svg" /></div>
 </div>
+</div>
+<div class="section" id="id7">
+<h2>2.3.2 様々な発火パターンのシミュレーション<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう。Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う。基本的には定数を変えるだけである。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう。Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う。基本的には定数を変えるだけである。</p>
+<p>本書で用いている式における発火パターンに対するパラメータは(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)では得られないが、<a class="reference external" href="https://mitpress.mit.edu/books/dynamical-systems-neuroscience">”Dynamical Systems in Neuroscience” (Izhikevich, 2007)</a>には記載がある。他の発火パターンに関してはこの本を参照のこと。</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># 記録用
+varr_ib = zeros(Float32, nt, N)
+varr_ch = zeros(Float32, nt, N)
+
+I = repeat(500f0 * ((t .&gt; 50) - (t .&gt; 200)) + 700f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+
+# IB neurons
+neurons_ib = IZ{Float32}(N=N, 
+    param=IZParameter{Float32}(C = 150, a = 0.01, b = 5, k =1.2, d = 130, vrest = -75, vreset = -56, vthr = -45, vpeak = 50))
+
+# CH neurons
+neurons_ch = IZ{Float32}(N=N, 
+    param=IZParameter{Float32}(C = 50, a = 0.03, b = 1, k =1.5, d = 150, vrest = -60, vreset = -40, vthr = -40, vpeak = 35))
+
+# simulation
+@time for i = 1:nt
+    updateIZ!(neurons_ib, neurons_ib.param, I[i, :], dt)
+    updateIZ!(neurons_ch, neurons_ch.param, I[i, :], dt)
+    varr_ib[i, :] = neurons_ib.v
+    varr_ch[i, :] = neurons_ch.v
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.089416 seconds (759.91 k allocations: 19.150 MiB, 8.65% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>これまでと異なり、モデルの定義時に<code class="docutils literal notranslate"><span class="pre">param</span></code>を設定していることに注意しよう。最後に膜電位変化を描画する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ib</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ch</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IB Neurons&quot;</span> <span class="s2">&quot;CH neurons&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-3_iz_14_0.svg" src="_images/2-3_iz_14_0.svg" /></div>
 </div>
 <hr class="docutils" />
 <dl class="footnote brackets">
@@ -391,7 +462,7 @@ end
 <dd><p>これに関しては必ずしも正しくない。計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である。</p>
 </dd>
 <dt class="label" id="ber"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
-<dd><p>数値計算をする上では簡易的だが、if文が入るために解析をするのは難しくなる。(Bernardo, et al., 2008)を読むといいらしい。</p>
+<dd><p>数値計算をする上では簡易的だが、if文が入るために解析をするのは難しくなる。(<a class="reference external" href="https://www.springer.com/gp/book/9781846280399">Bernardo, et al., 2008</a>)を読むといいらしい。</p>
 </dd>
 <dt class="label" id="rec"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
 <dd><p>ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る、という意味である (対義語はactivationで膜電位の上昇を意味する)。
