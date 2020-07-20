@@ -340,7 +340,7 @@ N = 1 # ニューロンの数
 
 # 入力刺激
 t = Array{Float32}(1:nt)*dt
-I = repeat(25f0 * ((t .&gt; 50) - (t .&gt; 200)) + 0f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+I = repeat(25f0 * ((t .&gt; 50) - (t .&gt; 200)) + 50f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
 
 # 記録用
 varr = zeros(Float32, nt, N)
@@ -357,7 +357,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.120513 seconds (755.02 k allocations: 25.164 MiB, 4.73% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.118745 seconds (755.02 k allocations: 25.164 MiB, 3.82% gc time)
 </pre></div>
 </div>
 </div>
@@ -516,7 +516,7 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
 <dd><p>この漏れはイオンの拡散などによるもの。</p>
 </dd>
 <dt class="label" id="isyn"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>シナプス入力による電流がどうなるかは、シナプスのモデルの項で扱う。</p>
+<dd><p>シナプス入力による電流がどうなるかは、第三章「シナプス伝達のモデル」で扱う。</p>
 </dd>
 <dt class="label" id="vrest"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p><span class="math notranslate nohighlight">\((V_{m}(t)-V_\text{rest})\)</span>の部分は膜電位の基準を静止膜電位としたことにして, 単に<span class="math notranslate nohighlight">\(V_m(t)\)</span>だけの場合もある。 また, 右辺の<span class="math notranslate nohighlight">\(RI(t)\)</span>の部分は単に<span class="math notranslate nohighlight">\(I(t)\)</span>とされることもある。 同じ表記だが, この場合の<span class="math notranslate nohighlight">\(I(t)\)</span>はシナプス電流に比例する量, となっている(単位はmV)。</p>

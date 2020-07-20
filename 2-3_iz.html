@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>2.3 Izhikevich モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/2-3_iz.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3.1. Hodgkin-Huxleyモデルとシナプスモデル" href="3-1_hhsynapse.html" />
+    <link rel="prev" title="2.2 Leaky integrate-and-fire モデル" href="2-2_lif.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://compneuro-julia.github.io/2-3_iz.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="2.3 Izhikevich モデル" />
+<meta property="og:description" content="2.3 Izhikevich モデル  2.3.1 Izhikevich モデルの実装  Izhikevich モデル (またはSimple model)は(Izhikevich, 2003)で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複" />
+<meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
+
+<meta name="twitter:card" content="summary">
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.svg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. 単一神経細胞のモデル
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-1_hodgkinhuxley.html">
+   2.1 Hodgkin-Huxleyモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-2_lif.html">
+   2.2 Leaky integrate-and-fire モデル
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2.3 Izhikevich モデル
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. シナプス伝達のモデル
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="3-1_hhsynapse.html">
+   3.1. Hodgkin-Huxleyモデルとシナプスモデル
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/2-3_iz.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management/issues/new?title=Issue%20on%20page%20%2F2-3_iz.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/2-3_iz.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/2-3_iz.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> On this page
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   2.3.1 Izhikevich モデルの実装
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="izhikevich">
+<h1>2.3 Izhikevich モデル<a class="headerlink" href="#izhikevich" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2.3.1 Izhikevich モデルの実装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>Izhikevich モデル</strong> (または<strong>Simple model</strong>)は(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複雑化するため、数学的な解析が難しく、計算量が増えるために大規模なシミュレーションも困難となる<a class="footnote-reference brackets" href="#hh" id="id2">1</a>。そこで、生理学的な正しさには目をつぶり、生体内でのニューロンの発火特性を再現するモデルが求められた。その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)。Izモデルは 2変数しかない<a class="footnote-reference brackets" href="#ber" id="id3">2</a>簡素な微分方程式だが, 様々なニューロンの活動を模倣することができる。定式化には主に2種類ある。まず、(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で提案されたのが次式である。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\frac{dv(t)}{dt}&amp;=0.04v(t)^2 + 5v(t)+140-u(t)+I(t) \\
+\frac{du(t)}{dt}&amp;=a(bv(t)-u(t))
+\end{align} 
+\end{split}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(v\)</span>と<span class="math notranslate nohighlight">\(u\)</span>が変数であり, <span class="math notranslate nohighlight">\(v\)</span>は膜電位(membrane potential;単位はmV), <span class="math notranslate nohighlight">\(u\)</span>は回復電流(recovery current; 単位はpA)<a class="footnote-reference brackets" href="#rec" id="id4">3</a>である。また、<span class="math notranslate nohighlight">\(a\)</span>は回復時定数(recovery time constant; 単位はms<span class="math notranslate nohighlight">\(^{-1}\)</span>)の逆数 (これが大きいと<span class="math notranslate nohighlight">\(u\)</span>が元に戻る時間が短くなる), <span class="math notranslate nohighlight">\(b\)</span>は<span class="math notranslate nohighlight">\(u\)</span>の<span class="math notranslate nohighlight">\(v\)</span>に対する感受性(共鳴度合い,  resonance; 単位はpA/mV)である。</p>
+<p>この式は簡便だが、生理学的な意味づけが分かりにくい。改善された式として<a class="reference external" href="https://mitpress.mit.edu/books/dynamical-systems-neuroscience">”Dynamical Systems in Neuroscience” (Izhikevich, 2007)</a>のChapter 8で紹介されているのが次式である。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+C\frac{dv(t)}{dt}&amp;=k\left(v(t)-v_r\right)\left(v(t)-v_t\right)-u(t)+I(t) \\
+\frac{du(t)}{dt}&amp;=a\left\{b\left(v(t)-v_{r}\right)-u(t)\right\}
+\end{align} 
+\end{split}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(C\)</span>は膜容量(membrane capacitance; 単位はpF), <span class="math notranslate nohighlight">\(v_r\)</span>は静止膜電位(resting membrane potential; 単位はmV), <span class="math notranslate nohighlight">\(v_t\)</span>は閾値電位(instantaneous threshold potential; 単位はmV), <span class="math notranslate nohighlight">\(k\)</span>はニューロンのゲインに関わる定数で、小さいと発火しやすくなる (単位はpA/mV)。以後はこちらの式を用いる。</p>
+<p>Izモデルの<strong>閾値の取り扱い</strong>はLIFモデルと異なり、HHモデルに近い。LIFモデルでは閾値を超えた時に膜電位をピーク電位まで上昇させ (この過程は無くてもよい)、続いて膜電位をリセットする。Izモデルの閾値は<span class="math notranslate nohighlight">\(v_t\)</span>だが, 膜電位のリセットは閾値を超えたかで判断せず、膜電位<span class="math notranslate nohighlight">\(v\)</span>がピーク電位<span class="math notranslate nohighlight">\(v_{\text{peak}}\)</span>になったとき（または超えた時）に行う。そのためIzモデルの実際の閾値は膜電位の挙動が変化する(発火状態に移行する)、つまり分岐(bifurcation) が生じる点であり、パラメータの閾値<span class="math notranslate nohighlight">\(v_t\)</span>との間には差異がある。</p>
+<p>さて、膜電位がピーク電位<span class="math notranslate nohighlight">\(v_{\text{peak}}\)</span>に達したとき (すなわち <code class="docutils literal notranslate"><span class="pre">if</span></code> <span class="math notranslate nohighlight">\(v \geq v_{\text{peak}}\)</span>)、<span class="math notranslate nohighlight">\(u, v\)</span>を次のようにリセットする<a class="footnote-reference brackets" href="#burst" id="id5">4</a>。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align} 
+u&amp;\leftarrow u+d\\
+v&amp;\leftarrow v_{\text{reset}}
+\end{align}
+\end{split}\]</div>
+<p>とする。ただし, <span class="math notranslate nohighlight">\(v_{\text{reset}}\)</span>は過分極を考慮して静止膜電位<span class="math notranslate nohighlight">\(v_r\)</span>よりも小さい値とする。また、<span class="math notranslate nohighlight">\(d\)</span>はスパイク発火中に活性化される正味の外向き電流の合計を表し、発火後の膜電位の挙動に影響する (単位はpA)。</p>
+<p>以上を踏まえて, シミュレーションを行う。まず、必要なパッケージを読み込む。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
+<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>変更しない定数を保持する<code class="docutils literal notranslate"><span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZParameter</span></code>と、変数を保持する<code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZ</span></code>を作成する。2つの定式化でパラメータの値が異なるので注意すること。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">C</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># 膜容量 (pF)</span>
+    <span class="n">a</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1"># 回復時定数の逆数 (1/ms)</span>
+    <span class="n">b</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="c1"># u の v に対する共鳴度合い (pA/mV)</span>
+    <span class="n">d</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># 発火で活性化される正味の外向き電流 (pA)</span>
+    <span class="n">k</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="c1"># ゲイン (pA/mV)</span>
+    <span class="n">vthr</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c1"># 閾値電位 (mV)</span>
+    <span class="n">vrest</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c1"># 静止膜電位 (mV)</span>
+    <span class="n">vreset</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="c1"># リセット電位 (mV)</span>
+    <span class="n">vpeak</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">35</span> <span class="c1">#　ピーク電位 (mV)</span>
+<span class="n">end</span>
+
+<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">IZ</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="p">::</span><span class="n">IZParameter</span> <span class="o">=</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="p">::</span><span class="n">Int32</span>
+    <span class="n">v</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">vrest</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">fire</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function updateIZ!(variable::IZ, param::IZParameter, I::Vector, dt)
+    @unpack N, v, u, fire = variable
+    @unpack C, a, b, d, k, vthr, vrest, vreset, vpeak = param
+    @inbounds for i = 1:N
+        v[i] += dt/C * (k*(v[i]-vrest)*(v[i]-vthr) - u[i] + I[i])
+        u[i] += dt * (a * (b * (v[i]-vrest) - u[i]))
+    end
+    @inbounds for i = 1:N
+        fire[i] = v[i] &gt;= vpeak
+        v[i] = ifelse(fire[i], vreset, v[i])
+        u[i] += ifelse(fire[i], d, 0)
+    end
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>updateIZ! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
+dt = 0.01f0 # ms
+nt = Int32(T/dt) # number of timesteps
+N = 1 # ニューロンの数
+
+# 入力刺激
+t = Array{Float32}(1:nt)*dt
+I = repeat(150f0 * ((t .&gt; 50) - (t .&gt; 200)) + 300f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+
+# 記録用
+varr = zeros(Float32, nt, N)
+uarr = zeros(Float32, nt, N)
+
+# modelの定義
+neurons = IZ{Float32}(N=N)
+
+# simulation
+@time for i = 1:nt
+    updateIZ!(neurons, neurons.param, I[i, :], dt)
+    varr[i, :] = neurons.v
+    uarr[i, :] = neurons.u
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.136301 seconds (839.73 k allocations: 26.255 MiB, 3.33% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">uarr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;Recovery</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-3_iz_7_0.svg" src="_images/2-3_iz_7_0.svg" /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう。Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う。基本的には定数を変えるだけである。</p>
+</div>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="hh"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>これに関しては必ずしも正しくない。計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である。</p>
+</dd>
+<dt class="label" id="ber"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>数値計算をする上では簡易的だが、if文が入るために解析をするのは難しくなる。(Bernardo, et al., 2008)を読むといいらしい。</p>
+</dd>
+<dt class="label" id="rec"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p>ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る、という意味である (対義語はactivationで膜電位の上昇を意味する)。
+<span class="math notranslate nohighlight">\(u\)</span>は<span class="math notranslate nohighlight">\(v\)</span>の導関数において<span class="math notranslate nohighlight">\(v\)</span>の上昇を抑制するように<span class="math notranslate nohighlight">\(-u\)</span>で入っているため、<span class="math notranslate nohighlight">\(u\)</span>としてはK<span class="math notranslate nohighlight">\(^+\)</span>チャネル電流やNa<span class="math notranslate nohighlight">\(^+\)</span>チャネルの不活性化動態などが考えられる。</p>
+</dd>
+<dt class="label" id="burst"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p>バースト発火(bursting)の挙動を表現するためには、速い回復変数(fast recovery variable)と遅い回復変数(slow recovery variable)の2つが必要となる(従って膜電位も合わせて全部で3変数必要)。一方で、IzモデルではLIFモデルのようなif文によるリセットを用いているため、速い回復変数が必要なく、遅い回復変数<span class="math notranslate nohighlight">\(u\)</span>のみでバースト発火を表現できる。</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="2-2_lif.html" title="previous page">2.2 Leaky integrate-and-fire モデル</a>
+    <a class='right-next' id="next-link" href="3-1_hhsynapse.html" title="next page">3.1. Hodgkin-Huxleyモデルとシナプスモデル</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By 山本拓都 (Yamamoto Takuto)<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
