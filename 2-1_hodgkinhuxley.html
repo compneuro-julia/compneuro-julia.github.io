@@ -33,7 +33,7 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/2-1_hodgkinhuxley.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3.1. Hodgkin-Huxleyモデルとシナプスモデル" href="3-1_hhsynapse.html" />
+    <link rel="next" title="2.2 Leaky integrate-and-fire モデル" href="2-2_lif.html" />
     <link rel="prev" title="Juliaで学ぶ計算論的神経科学" href="index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -92,6 +92,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2.1 Hodgkin-Huxleyモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-2_lif.html">
+   2.2 Leaky integrate-and-fire モデル
   </a>
  </li>
 </ul>
@@ -350,7 +355,7 @@ E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function updateHH!(variable::HH, param::HHParameter, I::Vector, dt)
     @unpack N, v, m, h, n, r = variable
-    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0= param
+    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0 = param
     @inbounds for i = 1:N
         m[i] += dt * ((0.1(v[i]+40.0)/(1.0 - exp(-0.1(v[i]+40.0))))*(1.0 - m[i]) - 4.0exp(-(v[i]+65.0) / 18.0)*m[i])
         h[i] += dt * ((0.07exp(-0.05(v[i]+65.0)))*(1.0 - h[i]) - 1.0/(1.0 + exp(-0.1(v[i]+35.0)))*h[i])
@@ -402,7 +407,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.240186 seconds (1.41 M allocations: 48.393 MiB, 2.02% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.248344 seconds (1.41 M allocations: 48.393 MiB, 2.81% gc time)
 </pre></div>
 </div>
 </div>
@@ -536,7 +541,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.110522 seconds (848.89 k allocations: 19.134 MiB)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.112616 seconds (848.89 k allocations: 19.134 MiB)
 </pre></div>
 </div>
 </div>
@@ -576,7 +581,7 @@ end
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="index.html" title="previous page">Juliaで学ぶ計算論的神経科学</a>
-    <a class='right-next' id="next-link" href="3-1_hhsynapse.html" title="next page">3.1. Hodgkin-Huxleyモデルとシナプスモデル</a>
+    <a class='right-next' id="next-link" href="2-2_lif.html" title="next page">2.2 Leaky integrate-and-fire モデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
