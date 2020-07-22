@@ -104,6 +104,11 @@
    2.3 Izhikevich モデル
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-5_isi.html">
+   2.5 Inter-spike interval モデル
+  </a>
+ </li>
 </ul>
 <p class="caption">
  <span class="caption-text">
@@ -308,7 +313,7 @@
 <p class="sidebar-title"></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">tcount</span></code>はスカラーでもよいと思われるが、更新されないバグ(?)が発生したのでサイズ1の配列を用いている。(cf.) <a class="reference external" href="https://discourse.julialang.org/t/scalar-parameter-doesnt-update-in-flux-but-array-does/32548">Scalar parameter doesn’t update in Flux, but array does</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">tcount</span></code>はスカラーでもよいと思われるが、更新されないエラーが発生したのでサイズ1の配列を用いている。(cf.) <a class="reference external" href="https://discourse.julialang.org/t/scalar-parameter-doesnt-update-in-flux-but-array-does/32548">Scalar parameter doesn’t update in Flux, but array does</a></p>
 </div>
 </div>
 <p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">updateLIF!</span></code>を書く。</p>
@@ -321,6 +326,7 @@
     @inbounds for i = 1:N
         #v[i] += dt * ((vrest - v[i] + I[i]) / tc_m) # 不応期を考慮しない場合の更新式
         v[i] += dt * ((dt*tcount[1]) &gt; (tlast[i] + tref))*((vrest - v[i] + I[i]) / tc_m)
+        #v[i] += dt * ifelse(dt*tcount[1] &gt; tlast[i] + tref, (vrest - v[i] + I[i]) / tc_m, 0)
     end
     @inbounds for i = 1:N
         fire[i] = v[i] &gt;= vthr
@@ -371,7 +377,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.120481 seconds (755.02 k allocations: 25.164 MiB, 4.34% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.117923 seconds (755.02 k allocations: 25.164 MiB, 3.98% gc time)
 </pre></div>
 </div>
 </div>
@@ -386,12 +392,12 @@ end
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> 
     <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
     <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Current&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -425,10 +431,15 @@ neurons = LIF{Float32}(N=N)
 firearr = zeros(Bool, nt, N)
 
 # simulation
-for i = 1:nt
+@time for i = 1:nt
     updateLIF!(neurons, neurons.param, I[:], dt)
     firearr[i, :] = neurons.fire
 end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.139206 seconds (888.25 k allocations: 64.071 MiB, 6.08% gc time)
 </pre></div>
 </div>
 </div>
