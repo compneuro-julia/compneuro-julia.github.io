@@ -44,7 +44,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/tips.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="JuliaのTips集" />
-<meta property="og:description" content="JuliaのTips集  配列の1次元化  using Random  a = rand(2, 2, 2)  2×2×2 Array{Float64,3}: [:, :, 1] =  0.253362  0.968019  0.532142  0.507388  [:, :, 2] =  0.0981171  0.78" />
+<meta property="og:description" content="JuliaのTips集  このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。  関数名の!記号  単なる慣習として関数への入力を変更する場合に!を付ける。  関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -251,11 +251,16 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   配列の1次元化
+   関数名の!記号
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
+   配列の1次元化
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
    行列の正規化
   </a>
  </li>
@@ -271,112 +276,154 @@
                 
   <div class="section" id="juliatips">
 <h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
+<p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。</p>
 <div class="section" id="id1">
-<h2>配列の1次元化<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>単なる<strong>慣習</strong>として関数への入力を変更する場合に!を付ける。</p>
+<p>関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1の配列で置き換える、ということを目的として書かれた2つの関数がある。違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Random</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
-[:, :, 1] =
- 0.253362  0.968019
- 0.532142  0.507388
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(A::Array)
+    a = ones(size(a))
+end
 
-[:, :, 2] =
- 0.0981171  0.782664
- 0.128448   0.350107
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Base.Iterators</span><span class="p">:</span> <span class="n">flatten</span>
-<span class="n">collect</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+function right!(a::Array)
+    a[:] = ones(size(a))
+end
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.2533618273578748
- 0.5321424593489519
- 0.9680186716623347
- 0.5073876288735386
- 0.09811712970827102
- 0.12844825565445417
- 0.7826640380385332
- 0.3501070353330651
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 2 methods)
 </pre></div>
 </div>
 </div>
 </div>
-<p>単に次のようにするだけでもよい。</p>
+<p>実行すると<code class="docutils literal notranslate"><span class="pre">wrong!</span></code>の場合には入力された配列が変更されていないことがわかる (なのでこの場合には!は付けるべきではない)。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">[:]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Random
+v = rand(2, 2)
+print(&quot;v : &quot;, v)
+
+wrong!(v)
+print(&quot;\nwrong : &quot;, v)
+
+right!(v)
+print(&quot;\nright : &quot;, v)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.2533618273578748
- 0.5321424593489519
- 0.9680186716623347
- 0.5073876288735386
- 0.09811712970827102
- 0.12844825565445417
- 0.7826640380385332
- 0.3501070353330651
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
+wrong : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
+right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="id2">
-<h2>行列の正規化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>配列を一次元化(flatten)する方法。まずは3次元配列を作成する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
+[:, :, 1] =
+ 0.997107  0.0827965
+ 0.394606  0.847174
+
+[:, :, 2] =
+ 0.0305417  0.448929
+ 0.270553   0.601419
+</pre></div>
+</div>
+</div>
+</div>
+<p>用意されている<code class="docutils literal notranslate"><span class="pre">flatten</span></code>を素直に用いると次のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Base.Iterators</span><span class="p">:</span> <span class="n">flatten</span>
+<span class="n">collect</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">B</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
+</pre></div>
+</div>
+</div>
+</div>
+<p>単に<code class="docutils literal notranslate"><span class="pre">B[:]</span></code>とするだけでもよい。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="p">[:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>行列の正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.300354  0.0885653  0.441135
- 0.407555  0.53293    0.597422
- 0.160025  0.609892   0.342932
+ 0.855098  0.334425  0.452792
+ 0.406012  0.918184  0.852633
+ 0.790828  0.840249  0.333119
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">A</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">C</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.346057  0.0719232  0.319318
- 0.469569  0.432788   0.432448
- 0.184374  0.495289   0.248234
+ 0.416727  0.159794  0.276338
+ 0.197868  0.438722  0.52036
+ 0.385405  0.401484  0.203302
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
