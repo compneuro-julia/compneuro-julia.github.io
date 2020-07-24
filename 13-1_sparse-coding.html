@@ -43,7 +43,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/13-1_sparse-coding.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="13.1 Sparse coding (Olshausen & Field, 1996) モデル" />
-<meta property="og:description" content="13.1 Sparse coding (Olshausen & Field, 1996) モデル  視覚におけるSparse codingのモデル (Olshausen & Field, Nature. 1996)の実装を目標とする。  Note  Sparse codingをどこに入れるかは迷ったが、生成モデルである" />
+<meta property="og:description" content="13.1 Sparse coding (Olshausen & Field, 1996) モデル  視覚におけるSparse codingのモデル (Olshausen & Field, Nature. 1996)の実装を目標とする。  Note  Sparse codingをどこに入れるかは迷ったが、生成モデルではあ" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -322,16 +322,16 @@
 <p>視覚におけるSparse codingのモデル (<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)の実装を目標とする。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Sparse codingをどこに入れるかは迷ったが、生成モデルであるのでこの章に入れた。</p>
+<p>Sparse codingをどこに入れるかは迷ったが、生成モデルではあるのでこの章に入れた。</p>
 </div>
 <div class="section" id="sparse-coding">
 <h2>13.1.1 画像のsparse coding<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">¶</a></h2>
-<p>画像 <span class="math notranslate nohighlight">\(\boldsymbol{I} (\boldsymbol{x})\)</span>が基底関数(basis function) <span class="math notranslate nohighlight">\(\Phi = [\phi_i(\boldsymbol{x})]\)</span>の線形和 (係数は$\boldsymbol{r}=[r_i] $)で表されるとする。</p>
+<p>画像 <span class="math notranslate nohighlight">\(\boldsymbol{I} (\boldsymbol{x})\)</span>が基底関数(basis function) <span class="math notranslate nohighlight">\(\Phi = [\phi_i(\boldsymbol{x})]\)</span> の線形和で表されるとする。</p>
 <div class="math notranslate nohighlight">
 \[
 \boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \epsilon(\boldsymbol{x})
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>は画像上の座標, <span class="math notranslate nohighlight">\(\epsilon\)</span>は平均0のGaussianノイズを表す。また、<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>は入力よりも高次の神経細胞の活動、<span class="math notranslate nohighlight">\(\Phi\)</span>は重み行列とする。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>は画像上の座標, <span class="math notranslate nohighlight">\(\epsilon\)</span>は平均0のGaussianノイズを表す。また、<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>は係数であるが、モデルにおいては入力よりも高次の神経細胞の活動とみなす。この場合、<span class="math notranslate nohighlight">\(\Phi\)</span>は重み行列となる。</p>
 <p>Sparse codingは、少数の基底で画像 (や目的変数)を表すことを目的とする。要は(1)式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>を求めたい。</p>
 </div>
 <div class="section" id="id1">
@@ -421,7 +421,7 @@ y-\lambda &amp; (y&gt;\lambda)\\
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/13-1_sparse-coding_8_0.png" src="_images/13-1_sparse-coding_8_0.png" />
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>PyObject &lt;matplotlib.legend.Legend object at 0x000000003EF4A148&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>PyObject &lt;matplotlib.legend.Legend object at 0x000000003EF0EB08&gt;
 </pre></div>
 </div>
 </div>
@@ -508,6 +508,7 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <span class="n">using</span> <span class="n">LinearAlgebra</span>
 <span class="n">using</span> <span class="n">Random</span>
 <span class="n">using</span> <span class="n">Statistics</span>
+<span class="n">using</span> <span class="n">ProgressMeter</span>
 </pre></div>
 </div>
 </div>
@@ -606,7 +607,7 @@ end
     errorarr = zeros(num_iter) # Vector to save errors    
     
     # Run simulation
-    for iter in 1:num_iter
+    @showprogress &quot;Computing...&quot; for iter in 1:num_iter
         # Get the coordinates of the upper left corner of clopping image randomly.
         beginx = rand(1:W-sz, batch_size)
         beginy = rand(1:H-sz, batch_size)
@@ -651,6 +652,13 @@ end
                 break
             end
         end
+        &quot;&quot;&quot;
+        # Print moving average error
+        if iter % 100 == 0
+            moving_average_error = mean(errorarr[iter-99:iter])
+            println(&quot;iter: &quot;, iter, &quot;/&quot;, num_iter, &quot;, Moving average error:&quot;, moving_average_error)
+        end
+        &quot;&quot;&quot;
     end
     return model, errorarr
 end
@@ -666,7 +674,7 @@ end
 </div>
 <div class="section" id="id5">
 <h3>シミュレーションの実行<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulation constants</span>
 <span class="n">num_iter</span> <span class="o">=</span> <span class="mi">500</span> <span class="c1"># number of iterations</span>
@@ -681,11 +689,6 @@ end
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>(OlshausenField1996Model{Float32}(OFParameter{Float32}(0.01f0, 0.01f0, 0.005f0), 256, 100, 250, Float32[0.0 0.0 … 0.0 0.0; 0.0 0.0007850456 … 0.0 0.15073903; … ; 0.0 0.0 … 0.0 0.0; 0.0 0.018943947 … -0.1601082 0.0], Float32[-0.017734002 -0.018975828 … 0.006353693 -0.0025040756; -0.02225796 -0.026118845 … -0.0017411283 -0.008100528; … ; 0.036290295 -0.17078501 … -0.018307343 -0.0033057167; 0.02395473 -0.109661035 … -0.02482062 -0.03276723]), [0.0731233136934977, 0.06558680450822263, 0.06177503807053745, 0.06511496927663316, 0.0651293904856416, 0.07301915108793329, 0.06691081435385433, 0.06541867330515021, 0.0638641435802944, 0.0673469594096154  …  0.04729728077870827, 0.042899955492595836, 0.04711741851381893, 0.04829346716722183, 0.04558555721631229, 0.0426254842717056, 0.045481949806768174, 0.049779126384034755, 0.04509056558455084, 0.04691811678592445])
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="id6">
@@ -694,7 +697,7 @@ end
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot error</span>
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
 <span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_iter</span><span class="p">,</span> <span class="n">errorarr</span><span class="p">)</span>
@@ -713,7 +716,7 @@ end
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Receptive fields</span>
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">num_units</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
