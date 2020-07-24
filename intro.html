@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Juliaで学ぶ計算論的神経科学 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>はじめに &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -30,20 +30,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/index.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="はじめに" href="intro.html" />
+    <link rel="next" title="JuliaのTips集" href="tips.html" />
+    <link rel="prev" title="Juliaで学ぶ計算論的神経科学" href="index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/index.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Juliaで学ぶ計算論的神経科学" />
-<meta property="og:description" content="Juliaで学ぶ計算論的神経科学  このサイトは計算論的神経科学 (Computational Neuroscience) をプログラミング言語 Juliaを通して学習することを目標とします。  内容に関する指摘やコメントは各ページ右上のGitHubアイコンからOpen Issueを選択し、リポジトリのIssueとして" />
+<meta property="og:title"       content="はじめに" />
+<meta property="og:description" content="はじめに  何故このサイトを書こうと思ったか、というと鬱憤が溜まっていたためである。物理シミュレーションの本はあるのに神経科学のシミュレーションの本は何故無いのか？ もちろん、洋書を探せば何冊かあるが、ブラックボックス的なライブラリを用いたり、幅広い分野の内容を扱っていなかったりする。数理モデルを扱う和書の名著は何冊か" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -59,7 +60,7 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="#">
+<a class="navbar-brand text-wrap" href="index.html">
   
   <img src="_static/logo.svg" class="logo" alt="logo">
   
@@ -77,14 +78,14 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
+  <a class="reference internal" href="index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    はじめに
   </a>
  </li>
@@ -186,7 +187,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -206,10 +207,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/compneuro-julia/compneuro-julia-management/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/compneuro-julia/compneuro-julia-management/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/index.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -231,21 +232,7 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   目次
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spiking-neural-networks">
-   『ゼロから作るSpiking Neural Networks』について
-  </a>
-  <ul class="nav section-nav flex-column">
-  </ul>
- </li>
-</ul>
-
+            
         </nav>
     </div>
 </div>
@@ -254,78 +241,18 @@
         
               <div>
                 
-  <div class="section" id="julia">
-<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
-<p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目標とします。</p>
-<p>内容に関する指摘やコメントは各ページ右上のGitHubアイコンから<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Issue</span></code>を選択し、リポジトリのIssueとして行っていただければ幸いです。</p>
-<div class="admonition-julia admonition">
-<p class="admonition-title">記事で使用しているJuliaのバージョン</p>
-<p>Julia 1.4.0</p>
-</div>
-<div class="section" id="id1">
-<h2>目次<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/intro.html">はじめに</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/tips.html">JuliaのTips集</a></p></li>
-</ul>
-<ol class="simple">
-<li><p>神経生理入門</p></li>
-<li><p>単一神経細胞のモデル</p>
-<ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-1_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-2_lif.html">Leaky integrate-and-fire モデル</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-3_iz.html">Izhikevich モデル</a></p></li>
-<li><p>Multi-compartment モデル</p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-5_isi.html">Inter-spike interval モデル</a></p></li>
-<li><p>発火率モデル</p></li>
-</ol>
-</li>
-<li><p>シナプス伝達のモデル</p>
-<ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-1_hhsynapse.html">Hodgkin-Huxleyモデルとシナプスモデル</a></p></li>
-</ol>
-</li>
-<li><p>神経回路網の構築 (発火率モデル)</p></li>
-<li><p>神経回路網の構築 (Spikingモデル)</p></li>
-<li><p>神経回路網の演算処理</p></li>
-<li><p>神経回路網の学習則</p></li>
-<li><p>神経回路網の学習ダイナミクス</p></li>
-<li><p>Energy-based モデル</p></li>
-<li><p>自己組織化マップと教師なし学習</p></li>
-<li><p>Reservoir Computing</p></li>
-<li><p>情報理論と最適化原理</p></li>
-<li><p>ベイズ脳理論と生成モデル</p>
-<ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/13-1_sparse-coding.html">Sparse coding (Olshausen &amp; Field, 1996) モデル</a></p></li>
-</ol>
-</li>
-<li><p>時空間の符号化</p></li>
-<li><p>運動学習</p></li>
-<li><p>強化学習</p></li>
-<li><p>神経細胞の形態と数理モデル</p></li>
-</ol>
-</div>
-<hr class="docutils" />
-<div class="section" id="spiking-neural-networks">
-<h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this headline">¶</a></h2>
-<p>『<strong>ゼロから作るSpiking Neural Networks</strong>』 (通称：SNN本) は<strong>Python</strong>でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です。本サイトはこの本をベースとして作成しています。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入いただければと思います。なお、物理本は完売し、再販の予定はありません。</p>
-<div class="admonition-spiking-neural-networkslinks admonition">
-<p class="admonition-title">『ゼロから作るSpiking Neural Networks』Links</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_05.pdf">pdf</a> (Ver. 2.05)</p></li>
-<li><p><a class="reference external" href="https://github.com/takyamamoto/SNN-from-scratch-with-Python">GitHub</a></p></li>
-<li><p><a class="reference external" href="https://booth.pm/ja/items/1585421">BOOTH</a></p></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-</div>
+  <div class="section" id="id1">
+<h1>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>何故このサイトを書こうと思ったか、というと鬱憤が溜まっていたためである。<strong>物理シミュレーションの本はあるのに神経科学のシミュレーションの本は何故無いのか？</strong> もちろん、洋書を探せば何冊かあるが、ブラックボックス的なライブラリを用いたり、幅広い分野の内容を扱っていなかったりする。数理モデルを扱う和書の名著は何冊かあるが、実装までは記述してくれない。シミュレーションを実施する講義を受けたいと思っても医学部のカリキュラムで試験と被る。潜りも難しい。Twitterで流れてくる講義の情報を見るたびに「どうして資料を公開してくれないんだ」と枕を濡らす日々であった。</p>
+<p>「本が無いなら本を書けばいいじゃない」、とはマリー・アントワネットが言った言葉…ではないが、一先ずこれまでに自分が書いてきたコードやノートをまとめるだけでも良い資料になるのではないか、という中々思い上がった考えからこのサイトを始めた。</p>
+<p>目標とするのは幅広い分野を扱っていて、数式や理論も書いていて、何より大事なのが実装を掲載しているサイトである。実装も線形代数の演算は許容するが、できるだけブラックボックスな演算を無くし、「作って学ぶ」を基本とする。また、可読性があり、高速に実行出来て研究にも使える実装が望ましい (もちろん、現時点でこれが実現できているとは思わない)。</p>
+<p>問題はサイトで使用するプログラミング言語であった。一体何を使えばいいだろうか？神経科学ではMATLABがよく使われているし、関連分野の機械学習ではPythonがよく使われる。ただ、MATLABはライセンスが必要だし、Pythonが数値計算に向いているとは思えない。高速に実行したいし、これらのユーザーが簡単に移行できる言語を考えたとき、<a class="reference external" href="https://julialang.org/">Julia</a>が望ましいという結論に至った。</p>
+<p><a class="reference external" href="https://www.geidai.ac.jp/~marui/julialang/why_we_created_julia/index.html">欲張りな言語であるJulia</a>は欲張りなこのサイトの理念に合致している。Juliaはまだ発展途上ではあるが、ユーザーも増えており、このサイトが一通り完成するころ (3～5年後?) にはかなり良い環境が整っているはずである。</p>
+<p>サイトの作成に関しては<a class="reference external" href="https://jupyterbook.org/intro.html">Jupyter book</a>を用いている。Jupyter bookはJupyter notebookやmarkdownをちゃんとしたサイトの形式に変換してくれ、大変便利である。</p>
+<p>内容に関しての疑問点や指摘に関しては、各記事にIssueができるようになっている (各記事右上のGithubマークからIssueを立てられる)。もし、このサイトに協力してくれるという方がいれば、Twitter(<a class="reference external" href="https://twitter.com/tak_yamm">&#64;tak_yamm</a>)でDMをしていただければ幸いである。</p>
+<p>なお、知り合いの方向けに言っておくと、このサイトはあくまで趣味であって、勉強や研究や仕事の方を優先するので安心してほしい。などという言葉を試験3日前に書いている私であった。</p>
+<p>2020年7月24日<br />
+山本 拓都</p>
 </div>
 
 
@@ -337,7 +264,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="intro.html" title="next page">はじめに</a>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Juliaで学ぶ計算論的神経科学</a>
+    <a class='right-next' id="next-link" href="tips.html" title="next page">JuliaのTips集</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
