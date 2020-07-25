@@ -25,6 +25,7 @@
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/mystnb.js"></script>
+    <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -34,7 +35,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="2.1 Hodgkin-Huxleyモデル" href="2-1_hodgkinhuxley.html" />
-    <link rel="prev" title="Juliaで学ぶ計算論的神経科学" href="index.html" />
+    <link rel="prev" title="1.2 シナプス伝達" href="1-2_synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -44,7 +45,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/2_intro.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2. 単一神経細胞のモデル" />
-<meta property="og:description" content="2. 単一神経細胞のモデル  単一神経細胞の数理モデルに関連する内容を書く予定。  HH model  LIF model  Izhikevich model  Pinsky-Rinzel model  Multi compartment model  Inter-spike interval model  発火率モデ" />
+<meta property="og:description" content="2. 単一神経細胞のモデル  2.1 Hodgkin-Huxleyモデル  2.2 Leaky integrate-and-fire モデル  2.3 Izhikevich モデル  2.5 Inter-spike interval モデル  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -83,38 +84,99 @@
   </a>
  </li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  2. 単一神経細胞のモデル
- </span>
-</p>
 <ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   はじめに
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="tips.html">
+   JuliaのTips集
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_intro.html">
+   1. 神経生理の基礎
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1-2_synapse.html">
+     1.2 シナプス伝達
+    </a>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2. 単一神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-1_hodgkinhuxley.html">
+     2.1 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_lif.html">
+     2.2 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_iz.html">
+     2.3 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_isi.html">
+     2.5 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="#leaky-integrate-and-fire">
-   2.2 Leaky integrate-and-fire モデル
+  <a class="reference internal" href="3_intro.html">
+   3. シナプス伝達のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_current-conductance-synapse.html">
+     3.1 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_expo-synapse.html">
+     3.2 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_kinetic-synapse.html">
+     3.3 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_hhsynapse.html">
+     3.4 Hodgkin-Huxleyモデルとシナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="2-1_hodgkinhuxley.html">
-   2.1 Hodgkin-Huxleyモデル
+  <a class="reference internal" href="13_intro.html">
+   13. ベイズ脳理論と生成モデル
   </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  3. シナプス伝達のモデル
- </span>
-</p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="3-1_hhsynapse.html">
-   3.1. Hodgkin-Huxleyモデルとシナプスモデル
-  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="13-1_sparse-coding.html">
+     13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -177,10 +239,7 @@
             href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/compneuro-julia/compneuro-julia-management/issues/new?title=Issue%20on%20page%20%2F2_intro.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
         <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/2_intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
@@ -214,32 +273,15 @@
                 
   <div class="section" id="id1">
 <h1>2. 単一神経細胞のモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>単一神経細胞の数理モデルに関連する内容を書く予定。</p>
-<ul class="simple">
-<li><p>HH model</p></li>
-<li><p>LIF model</p></li>
-<li><p>Izhikevich model</p></li>
-<li><p>Pinsky-Rinzel model</p></li>
-<li><p>Multi compartment model</p></li>
-<li><p>Inter-spike interval model</p></li>
-<li><p>発火率モデル</p></li>
-<li><p>Fokker-Planck方程式</p></li>
+<div class="tableofcontents-wrapper compound">
+<ul>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-1_hodgkinhuxley.html">2.1 Hodgkin-Huxleyモデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-2_lif.html">2.2 Leaky integrate-and-fire モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-3_iz.html">2.3 Izhikevich モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-5_isi.html">2.5 Inter-spike interval モデル</a></li>
 </ul>
 </div>
-<div class="section" id="leaky-integrate-and-fire">
-<h1>2.2 Leaky integrate-and-fire モデル<a class="headerlink" href="#leaky-integrate-and-fire" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="lif">
-<h2>2.2.1 LIFモデルの実装<a class="headerlink" href="#lif" title="Permalink to this headline">¶</a></h2>
-<p>生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを<strong>Integrate-and-fire (IF, 積分発火)モデル</strong> という。さらに, IFモデルにおいて膜電位の漏れ(leak)<span class="xref std std-ref">leak</span>も考慮したモデルを <strong>Leaky integrate-and-fire (LIF, 漏れ積分発火) モデル</strong> と呼ぶ。ここではLIFモデルのみを取り扱う。</p>
-<p>ニューロンの膜電位を<span class="math notranslate nohighlight">\(V_m(t)\)</span>, 静止膜電位を<span class="math notranslate nohighlight">\(V_\text{rest}\)</span>, 入力電流[^isyn]を<span class="math notranslate nohighlight">\(I(t)\)</span>, 膜抵抗を<span class="math notranslate nohighlight">\(R_m\)</span>, 膜電位の時定数を<span class="math notranslate nohighlight">\(\tau_m\ (=R_m \cdot C_m)\)</span>とすると, 式は次のようになる[^vrest]。</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\tau_m \frac{dV_{m}(t)}{dt}=-(V_{m}(t)-V_\text{rest})+R_mI(t)
-\end{equation}
-\]</div>
-<p>ここで, <span class="math notranslate nohighlight">\(V_m\)</span>が閾値(threshold)[^theta]<span class="math notranslate nohighlight">\(V_{\text{th}}\)</span>を超えると, 脱分極が起こり, 膜電位はピーク電位 <span class="math notranslate nohighlight">\(V_{\text{peak}}\)</span>まで上昇する。発火後は再分極が起こり, 膜電位はリセット電位 <span class="math notranslate nohighlight">\(V_{\text{reset}}\)</span>まで低下すると仮定する[^reset]。発火後, 一定の期間<span class="math notranslate nohighlight">\(\tau_{\text{ref}}\)</span> の間は膜電位が変化しない[^ref], とする。これを <strong>不応期(refractory time period)</strong> と呼ぶ。</p>
-<p>以上を踏まえてLIFモデルを実装してみよう。まず必要なパッケージを読み込む。</p>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -252,7 +294,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Juliaで学ぶ計算論的神経科学</a>
+    <a class='left-prev' id="prev-link" href="1-2_synapse.html" title="previous page">1.2 シナプス伝達</a>
     <a class='right-next' id="next-link" href="2-1_hodgkinhuxley.html" title="next page">2.1 Hodgkin-Huxleyモデル</a>
 
     </div>
@@ -260,9 +302,20 @@
     <div class="container">
       <p>
         
-          By 山本拓都 (Yamamoto Takuto)<br/>
-        
             &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
       </p>
     </div>
   </footer>

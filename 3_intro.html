@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.3 動力学モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3. シナプス伝達のモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -31,21 +31,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/3-3_kinetic-synapse.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/3_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3.4 Hodgkin-Huxleyモデルとシナプスモデル" href="3-4_hhsynapse.html" />
-    <link rel="prev" title="3.2 指数関数型シナプスモデル" href="3-2_expo-synapse.html" />
+    <link rel="next" title="3.1 Current-based vs Conductance-based シナプス" href="3-1_current-conductance-synapse.html" />
+    <link rel="prev" title="2.5 Inter-spike interval モデル" href="2-5_isi.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/3-3_kinetic-synapse.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/3_intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.3 動力学モデル" />
-<meta property="og:description" content="3.3 動力学モデル  指数関数型シナプスとモデルの振る舞いはほぼ同一だが, 式の構成が少し異なるモデルとして動力学モデル(Kinetic model)がある (Destexhe et al., 1994)。動力学モデルはHHモデルのゲート変数の式と類似した式で表される。このモデルではチャネルが開いた状態(Open)と" />
+<meta property="og:title"       content="3. シナプス伝達のモデル" />
+<meta property="og:description" content="3. シナプス伝達のモデル  3.1 Current-based vs Conductance-based シナプス  3.2 指数関数型シナプスモデル  3.3 動力学モデル  3.4 Hodgkin-Huxleyモデルとシナプスモデル  3.6 シナプス入力の重みづけ  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -135,10 +135,10 @@
   </ul>
  </li>
  <li class="toctree-l1 current active">
-  <a class="reference internal" href="3_intro.html">
+  <a class="current reference internal" href="#">
    3. シナプス伝達のモデル
   </a>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="3-1_current-conductance-synapse.html">
      3.1 Current-based vs Conductance-based シナプス
@@ -149,8 +149,8 @@
      3.2 指数関数型シナプスモデル
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_kinetic-synapse.html">
      3.3 動力学モデル
     </a>
    </li>
@@ -220,7 +220,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/3-3_kinetic-synapse.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/3_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -240,7 +240,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-3_kinetic-synapse.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3_intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -272,22 +272,18 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>3.3 動力学モデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>指数関数型シナプスとモデルの振る舞いはほぼ同一だが, 式の構成が少し異なるモデルとして<strong>動力学モデル</strong>(Kinetic model)がある (<a class="reference external" href="https://link.springer.com/article/10.1007/BF00961734">Destexhe et al., 1994</a>)。動力学モデルはHHモデルのゲート変数の式と類似した式で表される。このモデルではチャネルが開いた状態(Open)と閉じた状態(Close), および神経伝達物質(neurotransmitter)の放出状態(T)の2つの要素に関する状態がある。また, 閉<span class="math notranslate nohighlight">\(\to\)</span>開の反応速度を<span class="math notranslate nohighlight">\(\alpha\)</span>, 開<span class="math notranslate nohighlight">\(\to\)</span>閉の反応速度を<span class="math notranslate nohighlight">\(\beta\)</span>とする。このとき、これらを表す状態遷移の式は次のようになる。</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\text{Close}+\text{T}  \underset{\beta}{\overset{\alpha}{\rightleftharpoons}}\text{Open}    
-\end{equation}
-\]</div>
-<p>ここで, シナプス動態を<span class="math notranslate nohighlight">\(r\)</span>とすると</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\frac{dr}{dt}=\alpha T (1-r) - \beta r
-\end{equation}
-\]</div>
-<p>となる。ただし, Tはシナプス前細胞が発火したときにインパルス的に1だけ増加するとする。また, <span class="math notranslate nohighlight">\(\alpha, \beta\)</span>は速度なので, 時定数の逆数であることに注意しよう。 <span class="math notranslate nohighlight">\(\alpha=2000 \text{ms}^{-1}\)</span>, <span class="math notranslate nohighlight">\(\beta=200 \text{ms}^{-1}\)</span>とすると, シナプス動態は図のようになる。</p>
+<h1>3. シナプス伝達のモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="tableofcontents-wrapper compound">
+<ul>
+<li class="tableofcontents-l2"><a class="reference internal" href="/3-1_current-conductance-synapse.html">3.1 Current-based vs Conductance-based シナプス</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/3-2_expo-synapse.html">3.2 指数関数型シナプスモデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/3-3_kinetic-synapse.html">3.3 動力学モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/3-4_hhsynapse.html">3.4 Hodgkin-Huxleyモデルとシナプスモデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/3-6_synaptic-weighted.html">3.6 シナプス入力の重みづけ</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
 
@@ -299,8 +295,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="3-2_expo-synapse.html" title="previous page">3.2 指数関数型シナプスモデル</a>
-    <a class='right-next' id="next-link" href="3-4_hhsynapse.html" title="next page">3.4 Hodgkin-Huxleyモデルとシナプスモデル</a>
+    <a class='left-prev' id="prev-link" href="2-5_isi.html" title="previous page">2.5 Inter-spike interval モデル</a>
+    <a class='right-next' id="next-link" href="3-1_current-conductance-synapse.html" title="next page">3.1 Current-based vs Conductance-based シナプス</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
