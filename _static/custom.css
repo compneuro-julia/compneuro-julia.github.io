@@ -15,5 +15,5 @@ h2 {
 }
 
 .utterances {
-  margin-left: none!important;
+  margin-left: inherit!important;
 }
