@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>JuliaのTips集 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.4 Hodgkin-Huxleyモデルとシナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -31,21 +31,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/tips.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/3-4_hhsynapse.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1.2 シナプス伝達" href="1-2_synapse.html" />
-    <link rel="prev" title="はじめに" href="intro.html" />
+    <link rel="next" title="3.6 シナプス入力の重みづけ" href="3-6_synaptic-weighted.html" />
+    <link rel="prev" title="3.3 動力学モデル" href="3-3_kinetic-synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/tips.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/3-4_hhsynapse.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="JuliaのTips集" />
-<meta property="og:description" content="JuliaのTips集  このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。  関数名の!記号  単なる慣習として関数への入力を変更する場合に!を付ける。  関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1" />
+<meta property="og:title"       content="3.4 Hodgkin-Huxleyモデルとシナプスモデル" />
+<meta property="og:description" content="3.4 Hodgkin-Huxleyモデルとシナプスモデル  r_{j}をj番目のニューロンのpre-synaptic dynamicsとすると、r_{j}は次式に従う。   \frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -84,14 +84,14 @@
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    はじめに
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tips.html">
    JuliaのTips集
   </a>
  </li>
@@ -140,7 +140,7 @@
   3. シナプス伝達のモデル
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="3-1_current-conductance-synapse.html">
    3.1 Current-based vs Conductance-based シナプス
@@ -156,8 +156,8 @@
    3.3 動力学モデル
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="3-4_hhsynapse.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    3.4 Hodgkin-Huxleyモデルとシナプスモデル
   </a>
  </li>
@@ -220,7 +220,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/tips.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/3-4_hhsynapse.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -240,7 +240,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/tips.ipynb"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-4_hhsynapse.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -261,7 +261,7 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/tips.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/3-4_hhsynapse.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="_static/images/logo_colab.png"
                     alt="Interact on Colab">Colab</button></a>
@@ -278,24 +278,7 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   関数名の!記号
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   配列の1次元化
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   行列の正規化
-  </a>
- </li>
-</ul>
-
+            
         </nav>
     </div>
 </div>
@@ -304,165 +287,114 @@
         
               <div>
                 
-  <div class="section" id="juliatips">
-<h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
-<p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。</p>
-<div class="section" id="id1">
-<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>単なる<strong>慣習</strong>として関数への入力を変更する場合に!を付ける。</p>
-<p>関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1の配列で置き換える、ということを目的として書かれた2つの関数がある。違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである。</p>
+  <div class="section" id="hodgkin-huxley">
+<h1>3.4 Hodgkin-Huxleyモデルとシナプスモデル<a class="headerlink" href="#hodgkin-huxley" title="Permalink to this headline">¶</a></h1>
+<p><span class="math notranslate nohighlight">\(r_{j}\)</span>を<span class="math notranslate nohighlight">\(j\)</span>番目のニューロンのpre-synaptic dynamicsとすると、<span class="math notranslate nohighlight">\(r_{j}\)</span>は次式に従う。</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{\tau_{d}}\right) \frac{1-r_{j}}{1+\exp \left(-V_{j}+V_{0}\right)}-\frac{r_{j}}{\tau_{d}}
+\]</div>
+<p>ただし、時定数 <span class="math notranslate nohighlight">\(\tau_r=0.5, \tau_d = 8\)</span> (ms), 反転電位 <span class="math notranslate nohighlight">\(V_0 = -20\)</span> (mV)とする。前節で既に<span class="math notranslate nohighlight">\(r\)</span>の描画は行ったが、パルス波を印加した場合の挙動を確認する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(A::Array)
-    a = ones(size(a))
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Plots
+using Base: @kwdef
+using Parameters: @unpack # or using UnPack
+
+@kwdef struct HHParameter{FT}
+    Cm::FT = 1.0 # 膜容量(uF/cm^2)
+    gNa::FT = 120.0 # Na+ の最大コンダクタンス(mS/cm^2)
+    gK::FT = 36.0 # K+ の最大コンダクタンス(mS/cm^2)
+    gL::FT = 0.3 # 漏れイオンの最大コンダクタンス(mS/cm^2)
+    ENa::FT = 50.0 # Na+ の平衡電位(mV)
+    EK::FT = -77.0 # K+ の平衡電位(mV)
+    EL::FT = -54.387 #漏れイオンの平衡電位(mV)
+    tr::FT = 0.5 # ms
+    td::FT = 8.0 # ms
+    invtr::FT = 1.0 / tr
+    invtd::FT = 1.0 / td
+    v0::FT = -20.0 # mV
 end
 
-function right!(a::Array)
-    a[:] = ones(size(a))
+@kwdef mutable struct HH{FT}
+    param::HHParameter = HHParameter{FT}()
+    N::Int32
+    v::Vector{FT} = fill(-65.0, N)
+    m::Vector{FT} = fill(0.05, N)
+    h::Vector{FT} = fill(0.6, N)
+    n::Vector{FT} = fill(0.32, N)
+    r::Vector{FT} = zeros(N)
+end
+
+function updateHH!(variable::HH, param::HHParameter, I::Vector, dt)
+    @unpack N, v, m, h, n, r = variable
+    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0= param
+    @inbounds for i = 1:N
+        m[i] += dt * ((0.1(v[i]+40.0)/(1.0 - exp(-0.1(v[i]+40.0))))*(1.0 - m[i]) - 4.0exp(-(v[i]+65.0) / 18.0)*m[i])
+        h[i] += dt * ((0.07exp(-0.05(v[i]+65.0)))*(1.0 - h[i]) - 1.0/(1.0 + exp(-0.1(v[i]+35.0)))*h[i])
+        n[i] += dt * ((0.01(v[i]+55.0)/(1.0 - exp(-0.1(v[i]+55.0))))*(1.0 - n[i]) - (0.125exp(-0.0125(v[i]+65)))*n[i])
+        v[i] += dt / Cm * (I[i] - gNa * m[i]^3 * h[i] * (v[i] - ENa) - gK * n[i]^4 * (v[i] - EK) - gL * (v[i] - EL))
+        r[i] += dt * ((invtr - invtd) * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * invtd)
+    end
 end
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 2 methods)
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>updateHH! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
 </div>
-<p>実行すると<code class="docutils literal notranslate"><span class="pre">wrong!</span></code>の場合には入力された配列が変更されていないことがわかる (なのでこの場合には!は付けるべきではない)。</p>
+<p>シミュレーションを実行する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Random
-v = rand(2, 2)
-print(&quot;v : &quot;, v)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 50 # ms
+dt = 0.01f0 # ms
+nt = Int32(T/dt) # number of timesteps
+N = 1 # ニューロンの数
 
-wrong!(v)
-print(&quot;\nwrong : &quot;, v)
+# 入力刺激
+t = Array{Float32}(1:nt)*dt
+I = repeat(5f0 * ((t .&gt; 10) - (t .&gt; 15)), 1, N)  # injection current
 
-right!(v)
-print(&quot;\nright : &quot;, v)
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
-wrong : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
-right : [1.0 1.0; 1.0 1.0]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id2">
-<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>配列を一次元化(flatten)する方法。まずは3次元配列を作成する。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
-[:, :, 1] =
- 0.997107  0.0827965
- 0.394606  0.847174
+# 記録用
+varr = zeros(Float32, nt, N)
+rarr = zeros(Float32, nt, N)
 
-[:, :, 2] =
- 0.0305417  0.448929
- 0.270553   0.601419
-</pre></div>
-</div>
-</div>
-</div>
-<p>用意されている<code class="docutils literal notranslate"><span class="pre">flatten</span></code>を素直に用いると次のようになる。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Base.Iterators</span><span class="p">:</span> <span class="n">flatten</span>
-<span class="n">collect</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">B</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
-</pre></div>
-</div>
-</div>
-</div>
-<p>単に<code class="docutils literal notranslate"><span class="pre">B[:]</span></code>とするだけでもよい。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="p">[:]</span>
+# modelの定義
+neurons = HH{Float32}(N=N)
+
+# simulation
+@time for i = 1:nt
+    updateHH!(neurons, neurons.param, I[i, :], dt)
+    varr[i, :] = neurons.v
+    rarr[i, :] = neurons.r
+end
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.107618 seconds (481.58 k allocations: 23.462 MiB)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="id3">
-<h2>行列の正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>描画してみる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rarr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;Pre-synaptic</span><span class="se">\n</span><span class="s2"> dynamics&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (nA)&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.855098  0.334425  0.452792
- 0.406012  0.918184  0.852633
- 0.790828  0.840249  0.333119
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">C</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.416727  0.159794  0.276338
- 0.197868  0.438722  0.52036
- 0.385405  0.401484  0.203302
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
-</pre></div>
-</div>
-</div>
-</div>
+<img alt="_images/3-4_hhsynapse_5_0.svg" src="_images/3-4_hhsynapse_5_0.svg" /></div>
 </div>
 </div>
 
@@ -475,8 +407,8 @@ right : [1.0 1.0; 1.0 1.0]
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">はじめに</a>
-    <a class='right-next' id="next-link" href="1-2_synapse.html" title="next page">1.2 シナプス伝達</a>
+    <a class='left-prev' id="prev-link" href="3-3_kinetic-synapse.html" title="previous page">3.3 動力学モデル</a>
+    <a class='right-next' id="next-link" href="3-6_synaptic-weighted.html" title="next page">3.6 シナプス入力の重みづけ</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

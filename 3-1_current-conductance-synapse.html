@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>JuliaのTips集 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.1 Current-based vs Conductance-based シナプス &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -31,21 +31,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/tips.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/3-1_current-conductance-synapse.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1.2 シナプス伝達" href="1-2_synapse.html" />
-    <link rel="prev" title="はじめに" href="intro.html" />
+    <link rel="next" title="3.2 指数関数型シナプスモデル" href="3-2_expo-synapse.html" />
+    <link rel="prev" title="2.5 Inter-spike interval モデル" href="2-5_isi.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/tips.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/3-1_current-conductance-synapse.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="JuliaのTips集" />
-<meta property="og:description" content="JuliaのTips集  このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。  関数名の!記号  単なる慣習として関数への入力を変更する場合に!を付ける。  関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1" />
+<meta property="og:title"       content="3.1 Current-based vs Conductance-based シナプス" />
+<meta property="og:description" content="3.1 Current-based vs Conductance-based シナプス  3.1.1 化学シナプスの2つの記述形式  具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, Current-based シナプスとConductance-" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -84,14 +84,14 @@
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    はじめに
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="tips.html">
    JuliaのTips集
   </a>
  </li>
@@ -140,9 +140,9 @@
   3. シナプス伝達のモデル
  </span>
 </p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="3-1_current-conductance-synapse.html">
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    3.1 Current-based vs Conductance-based シナプス
   </a>
  </li>
@@ -220,9 +220,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/tips.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/3-1_current-conductance-synapse.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -240,7 +240,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/tips.ipynb"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-1_current-conductance-synapse.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -254,22 +254,6 @@
 
         <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/tips.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
     </div>
 
     <!-- Table of contents -->
@@ -281,17 +265,17 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   関数名の!記号
+   3.1.1 化学シナプスの2つの記述形式
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   配列の1次元化
+  <a class="reference internal nav-link" href="#current-based">
+   3.1.2 Current-based シナプス
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   行列の正規化
+  <a class="reference internal nav-link" href="#conductance-based">
+   3.1.3 Conductance-based シナプス
   </a>
  </li>
 </ul>
@@ -304,165 +288,63 @@
         
               <div>
                 
-  <div class="section" id="juliatips">
-<h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
-<p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである。体系的にまとまってはいない。</p>
+  <div class="section" id="current-based-vs-conductance-based">
+<h1>3.1 Current-based vs Conductance-based シナプス<a class="headerlink" href="#current-based-vs-conductance-based" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>単なる<strong>慣習</strong>として関数への入力を変更する場合に!を付ける。</p>
-<p>関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1の配列で置き換える、ということを目的として書かれた2つの関数がある。違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(A::Array)
-    a = ones(size(a))
-end
-
-function right!(a::Array)
-    a[:] = ones(size(a))
-end
-</pre></div>
+<h2>3.1.1 化学シナプスの2つの記述形式<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, <strong>Current-based シナプス</strong>と<strong>Conductance-based シナプス</strong>について説明する。簡単に言うと、Current-based シナプスは入力電流が変化するというモデルで, Conductance-based シナプスはイオンチャネルのコンダクタンス (電気抵抗の逆数, 電流の流れやすさ)が変化するというモデルである (cf. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3943173/">Cavallari et al., 2014</a>)。</p>
+<p>以下では例として, 次のLIFニューロンの方程式におけるシナプス入力を考える。</p>
+<div class="math notranslate nohighlight">
+\[
+\tau_m \frac{dV_{m}(t)}{dt}=-(V_{m}(t)-V_\text{rest})+R_m I_{\text{syn}}(t)    
+\]</div>
+<p>とする。ただし, <span class="math notranslate nohighlight">\(\tau_m\)</span>は膜電位の時定数, <span class="math notranslate nohighlight">\(V_m(t)\)</span>は膜電位, <span class="math notranslate nohighlight">\(V_\text{rest}\)</span>は静止膜電位, <span class="math notranslate nohighlight">\(R_m\)</span>は膜抵抗である。ここで、シナプス入力の電流<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>が<a class="footnote-reference brackets" href="#syn" id="id2">1</a>2つのモデルにおいて異なる部分となる。</p>
 </div>
+<div class="section" id="current-based">
+<h2>3.1.2 Current-based シナプス<a class="headerlink" href="#current-based" title="Permalink to this headline">¶</a></h2>
+<p>Current-based シナプスは単純に<strong>入力電流が変化</strong>するというモデルで, 簡略化したい場合によく用いられる。シナプス入力<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>はシナプス効率(synaptic efficacy)<a class="footnote-reference brackets" href="#syneff" id="id3">2</a>を<span class="math notranslate nohighlight">\(J_{\text{syn}}\)</span> (単位はpA)とし , シナプスの動態(synaptic kinetics)を<span class="math notranslate nohighlight">\(s_{\text{syn}}(t)\)</span>とすると, 次式のようになる。ただし, シナプスの動態とは, 前細胞に注目すれば神経伝達物質の放出量, 後細胞に注目すれば神経伝達物質の結合量やイオンチャネルの開口率を表す。</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+I_{\text{syn}}(t)=\underbrace{J_{\text{syn}}s_{\text{syn}}(t)}_{電流の変化}    
+\end{equation}
+\]</div>
+<p>ただし, <span class="math notranslate nohighlight">\(s_{\text{syn}}(t)\)</span>は, 例えば次節で紹介する<span class="math notranslate nohighlight">\(\alpha\)</span>関数を用いる場合,</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+s_{\text{syn}}(t)=\dfrac{t}{\tau_s} \exp \left(1-\dfrac{t}{\tau_s}\right)    
+\end{equation}
+\]</div>
+<p>のようになる。</p>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 2 methods)
-</pre></div>
-</div>
-</div>
-</div>
-<p>実行すると<code class="docutils literal notranslate"><span class="pre">wrong!</span></code>の場合には入力された配列が変更されていないことがわかる (なのでこの場合には!は付けるべきではない)。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Random
-v = rand(2, 2)
-print(&quot;v : &quot;, v)
-
-wrong!(v)
-print(&quot;\nwrong : &quot;, v)
-
-right!(v)
-print(&quot;\nright : &quot;, v)
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
-wrong : [0.7076135447844478 0.055541893053967284; 0.1206100612228862 0.18385182053893634]
-right : [1.0 1.0; 1.0 1.0]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id2">
-<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>配列を一次元化(flatten)する方法。まずは3次元配列を作成する。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
-[:, :, 1] =
- 0.997107  0.0827965
- 0.394606  0.847174
-
-[:, :, 2] =
- 0.0305417  0.448929
- 0.270553   0.601419
-</pre></div>
-</div>
-</div>
-</div>
-<p>用意されている<code class="docutils literal notranslate"><span class="pre">flatten</span></code>を素直に用いると次のようになる。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Base.Iterators</span><span class="p">:</span> <span class="n">flatten</span>
-<span class="n">collect</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">B</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
-</pre></div>
-</div>
-</div>
-</div>
-<p>単に<code class="docutils literal notranslate"><span class="pre">B[:]</span></code>とするだけでもよい。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="p">[:]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id3">
-<h2>行列の正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.855098  0.334425  0.452792
- 0.406012  0.918184  0.852633
- 0.790828  0.840249  0.333119
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">C</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.416727  0.159794  0.276338
- 0.197868  0.438722  0.52036
- 0.385405  0.401484  0.203302
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
-</pre></div>
-</div>
-</div>
-</div>
+<div class="section" id="conductance-based">
+<h2>3.1.3 Conductance-based シナプス<a class="headerlink" href="#conductance-based" title="Permalink to this headline">¶</a></h2>
+<p>Conductance-based シナプスはイオンチャネルの<strong>コンダクタンスが変化</strong>するというモデルである。関連して、例えば Hodgkin-Huxley モデルはConductance-based モデルの1つである。Current-basedよりもConductance-based の方が生理学的に妥当である。例えば抑制性シナプスは膜電位が平衡電位と比べて脱分極側にあるか, 過分極側にあるかで抑制的に働くか興奮的に働くかが逆転する。これはCurrent-based シナプスでは再現できない。</p>
+<p>Conductance-based モデルにおけるシナプス入力は<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>は次のようになる。</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+I_{\text{syn}}(t)=\underbrace{g_{\text{syn}}s_{\text{syn}}(t)}_{コンダクタンスの変化}\cdot\ \left(V_{\text{syn}}-V_{m}(t)\right)    
+\end{equation}
+\]</div>
+<p>ただし, <span class="math notranslate nohighlight">\(g_{\text{syn}}\)</span> (単位はnS)はシナプスの最大コンダクタンス<a class="footnote-reference brackets" href="#gsyn" id="id4">3</a>, <span class="math notranslate nohighlight">\(V_{\text{syn}}\)</span> (単位はmV)はシナプスの平衡電位を表す。これらも<span class="math notranslate nohighlight">\(J_{\text{syn}}\)</span>と同じく, シナプスにおける受容体の種類によって決まる定数である。</p>
+<p>注意しなければならないことは, <span class="math notranslate nohighlight">\(s_{\text{syn}}(t)\leq 0\)</span>としたとき, Current-based モデルにおける<span class="math notranslate nohighlight">\(J_{\text{syn}}\)</span>は正の値(興奮性)と負の値(抑制性)を取るが, <span class="math notranslate nohighlight">\(g_{\text{syn}}\)</span>は正の値のみである、ということである <a class="footnote-reference brackets" href="#gsyn2" id="id5">4</a>. Conductance-basedモデルで興奮性と抑制性を決定しているのは, 平衡電位<span class="math notranslate nohighlight">\(V_{\text{syn}}\)</span>である。興奮性シナプスの平衡電位は高く, 抑制性シナプスの平衡電位は低いため, 膜電位を引いた符号はそれぞれ正と負になる。</p>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="syn"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>シナプス(synapse)入力であることを明らかにするためにsynと添え字をつけている。</p>
+</dd>
+<dt class="label" id="syneff"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>シナプス強度(Synaptic strength)とは違い, 受容体の種類(GABA受容体やAMPA受容体,  およびそのサブタイプなど)によって決まる。</p>
+</dd>
+<dt class="label" id="gsyn"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p><span class="math notranslate nohighlight">\(g_{\text{syn}}\)</span>がシナプスの最大コンダクタンスとなるのは <span class="math notranslate nohighlight">\(s_{\text{syn}}\)</span>の最大値を1に正規化する場合である。正規化は必須ではないので, 単なる係数と思うのがよい。</p>
+</dd>
+<dt class="label" id="gsyn2"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p>これはコンダクタンスが電気抵抗の逆数であり, 基本的に抵抗は正の値しか取らないことからも分かる。なお電子回路においては負性抵抗という,  素子の抵抗値が見かけ上, 負の値を取る場合もある。</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -475,8 +357,8 @@ right : [1.0 1.0; 1.0 1.0]
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">はじめに</a>
-    <a class='right-next' id="next-link" href="1-2_synapse.html" title="next page">1.2 シナプス伝達</a>
+    <a class='left-prev' id="prev-link" href="2-5_isi.html" title="previous page">2.5 Inter-spike interval モデル</a>
+    <a class='right-next' id="next-link" href="3-2_expo-synapse.html" title="next page">3.2 指数関数型シナプスモデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
