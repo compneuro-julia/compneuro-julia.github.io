@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.4 Hodgkin-Huxleyモデルとシナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.5 シナプス入力の重みづけ &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -31,10 +31,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/3-4_hhsynapse.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/3-5_synaptic-weighted.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3.6 シナプス入力の重みづけ" href="3-6_synaptic-weighted.html" />
+    <link rel="next" title="13. ベイズ脳理論と生成モデル" href="13_intro.html" />
     <link rel="prev" title="3.3 動力学モデル" href="3-3_kinetic-synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,10 +42,10 @@
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/3-4_hhsynapse.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/3-5_synaptic-weighted.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.4 Hodgkin-Huxleyモデルとシナプスモデル" />
-<meta property="og:description" content="3.4 Hodgkin-Huxleyモデルとシナプスモデル  r_{j}をj番目のニューロンのpre-synaptic dynamicsとすると、r_{j}は次式に従う。   \frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{" />
+<meta property="og:title"       content="3.5 シナプス入力の重みづけ" />
+<meta property="og:description" content="3.5 シナプス入力の重みづけ  ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -88,11 +88,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    はじめに
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tips.html">
-   JuliaのTips集
   </a>
  </li>
  <li class="toctree-l1">
@@ -156,12 +151,7 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     3.4 Hodgkin-Huxleyモデルとシナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.6 シナプス入力の重みづけ
+     3.5 シナプス入力の重みづけ
     </a>
    </li>
   </ul>
@@ -174,6 +164,18 @@
    <li class="toctree-l2">
     <a class="reference internal" href="13-1_sparse-coding.html">
      13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix_intro.html">
+   付録
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
     </a>
    </li>
   </ul>
@@ -220,9 +222,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/3-4_hhsynapse.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/3-5_synaptic-weighted.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -240,7 +242,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-4_hhsynapse.ipynb"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-5_synaptic-weighted.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -253,22 +255,6 @@
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/3-4_hhsynapse.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
 
     </div>
 
@@ -287,115 +273,40 @@
         
               <div>
                 
-  <div class="section" id="hodgkin-huxley">
-<h1>3.4 Hodgkin-Huxleyモデルとシナプスモデル<a class="headerlink" href="#hodgkin-huxley" title="Permalink to this headline">¶</a></h1>
-<p><span class="math notranslate nohighlight">\(r_{j}\)</span>を<span class="math notranslate nohighlight">\(j\)</span>番目のニューロンのpre-synaptic dynamicsとすると、<span class="math notranslate nohighlight">\(r_{j}\)</span>は次式に従う。</p>
+  <div class="section" id="id1">
+<h1>3.5 シナプス入力の重みづけ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく。</p>
+<p>シナプス前細胞が<span class="math notranslate nohighlight">\(N_{\text{pre}}\)</span>個, シナプス後細胞が<span class="math notranslate nohighlight">\(N_{\text{post}}\)</span>個あるとする。このとき<strong>シナプス前過程に注目した</strong>シナプス動態を<span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}\in \mathbb{R}^{N_{\text{pre}}}\)</span>, シナプス後細胞の入力電流を<span class="math notranslate nohighlight">\(\boldsymbol{I_{\text{syn}}}\in \mathbb{R}^{N_{\text{post}}}\)</span>, シナプス結合強度の行列を<span class="math notranslate nohighlight">\(W\in \mathbb{R}^{N_{\text{post}} \times N_{\text{pre}}}\)</span>とすると, Current-basedの場合は</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{\tau_{d}}\right) \frac{1-r_{j}}{1+\exp \left(-V_{j}+V_{0}\right)}-\frac{r_{j}}{\tau_{d}}
+\begin{equation}
+\boldsymbol{I_{\text{syn}}}(t)=W \boldsymbol{s_{\text{syn}}}  
+\end{equation}
 \]</div>
-<p>ただし、時定数 <span class="math notranslate nohighlight">\(\tau_r=0.5, \tau_d = 8\)</span> (ms), 反転電位 <span class="math notranslate nohighlight">\(V_0 = -20\)</span> (mV)とする。前節で既に<span class="math notranslate nohighlight">\(r\)</span>の描画は行ったが、パルス波を印加した場合の挙動を確認する。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Plots
-using Base: @kwdef
-using Parameters: @unpack # or using UnPack
-
-@kwdef struct HHParameter{FT}
-    Cm::FT = 1.0 # 膜容量(uF/cm^2)
-    gNa::FT = 120.0 # Na+ の最大コンダクタンス(mS/cm^2)
-    gK::FT = 36.0 # K+ の最大コンダクタンス(mS/cm^2)
-    gL::FT = 0.3 # 漏れイオンの最大コンダクタンス(mS/cm^2)
-    ENa::FT = 50.0 # Na+ の平衡電位(mV)
-    EK::FT = -77.0 # K+ の平衡電位(mV)
-    EL::FT = -54.387 #漏れイオンの平衡電位(mV)
-    tr::FT = 0.5 # ms
-    td::FT = 8.0 # ms
-    invtr::FT = 1.0 / tr
-    invtd::FT = 1.0 / td
-    v0::FT = -20.0 # mV
-end
-
-@kwdef mutable struct HH{FT}
-    param::HHParameter = HHParameter{FT}()
-    N::Int32
-    v::Vector{FT} = fill(-65.0, N)
-    m::Vector{FT} = fill(0.05, N)
-    h::Vector{FT} = fill(0.6, N)
-    n::Vector{FT} = fill(0.32, N)
-    r::Vector{FT} = zeros(N)
-end
-
-function updateHH!(variable::HH, param::HHParameter, I::Vector, dt)
-    @unpack N, v, m, h, n, r = variable
-    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0= param
-    @inbounds for i = 1:N
-        m[i] += dt * ((0.1(v[i]+40.0)/(1.0 - exp(-0.1(v[i]+40.0))))*(1.0 - m[i]) - 4.0exp(-(v[i]+65.0) / 18.0)*m[i])
-        h[i] += dt * ((0.07exp(-0.05(v[i]+65.0)))*(1.0 - h[i]) - 1.0/(1.0 + exp(-0.1(v[i]+35.0)))*h[i])
-        n[i] += dt * ((0.01(v[i]+55.0)/(1.0 - exp(-0.1(v[i]+55.0))))*(1.0 - n[i]) - (0.125exp(-0.0125(v[i]+65)))*n[i])
-        v[i] += dt / Cm * (I[i] - gNa * m[i]^3 * h[i] * (v[i] - ENa) - gK * n[i]^4 * (v[i] - EK) - gL * (v[i] - EL))
-        r[i] += dt * ((invtr - invtd) * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * invtd)
-    end
-end
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>updateHH! (generic function with 1 method)
-</pre></div>
-</div>
-</div>
-</div>
-<p>シミュレーションを実行する。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 50 # ms
-dt = 0.01f0 # ms
-nt = Int32(T/dt) # number of timesteps
-N = 1 # ニューロンの数
-
-# 入力刺激
-t = Array{Float32}(1:nt)*dt
-I = repeat(5f0 * ((t .&gt; 10) - (t .&gt; 15)), 1, N)  # injection current
-
-# 記録用
-varr = zeros(Float32, nt, N)
-rarr = zeros(Float32, nt, N)
-
-# modelの定義
-neurons = HH{Float32}(N=N)
-
-# simulation
-@time for i = 1:nt
-    updateHH!(neurons, neurons.param, I[i, :], dt)
-    varr[i, :] = neurons.v
-    rarr[i, :] = neurons.r
-end
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.108602 seconds (481.58 k allocations: 23.462 MiB)
-</pre></div>
-</div>
-</div>
-</div>
-<p>描画してみる。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rarr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
-    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;Pre-synaptic</span><span class="se">\n</span><span class="s2"> dynamics&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (nA)&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/3-4_hhsynapse_5_0.svg" src="_images/3-4_hhsynapse_5_0.svg" /></div>
-</div>
+<p>となる。ただし, シナプス強度にシナプス効率が含まれるとした. また, Conductance-basedの場合はシナプス後細胞の膜電位を<span class="math notranslate nohighlight">\(\boldsymbol{V}_{m}\in \mathbb{R}^{N_{\text{post}}}\)</span>として,</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\boldsymbol{I_{\text{syn}}}(t)=\left(V_{\text{syn}}-\boldsymbol{V}_{m}(t)\right)\odot W \boldsymbol{s_{\text{syn}}}
+\end{equation}
+\]</div>
+<p>となる。ただし, <span class="math notranslate nohighlight">\(\odot\)</span>はHadamard積である。</p>
+<p>これらの式は順序を入れ替えることも可能である。シナプス前細胞でスパイクが生じたことを表すベクトルを<span class="math notranslate nohighlight">\(\boldsymbol{\delta}_{t,t_{\text{spike}}}\in \mathbb{R}^{N_{\text{pre}}}\)</span>とする。ただし, <span class="math notranslate nohighlight">\(t_{\text{spike}}\)</span>は各ニューロンにおいてスパイクが生じた時刻である。 <span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}\)</span>は<span class="math notranslate nohighlight">\(\boldsymbol{\delta}_{t,t_{\text{spike}}}\)</span>の関数であり, <span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}(\boldsymbol{\delta}_{t,t_{\text{spike}}})\)</span>と表せる。このとき<strong>シナプス後過程に注目した</strong>シナプス動態を<span class="math notranslate nohighlight">\(\boldsymbol{s}^\prime_{\text{syn}}\in \mathbb{R}^{N_{\text{post}}}\)</span>とすると, Current-basedの場合は</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\boldsymbol{I_{\text{syn}}}(t)=\boldsymbol{s}^\prime_{\text{syn}}(W\boldsymbol{\delta}_{t,t_{\text{spike}}})  
+\end{equation}
+\]</div>
+<p>Conductance-basedの場合は</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\boldsymbol{I_{\text{syn}}}(t)=\left(V_{\text{syn}}-\boldsymbol{V}_{m}(t)\right)\odot \boldsymbol{s}^\prime_{\text{syn}}(W\boldsymbol{\delta}_{t,t_{\text{spike}}})
+\end{equation}
+\]</div>
+<p>と表すことができる。</p>
+<p>シナプス動態を前過程か後過程のどちらに注目したものとするかは, 実装によって様々である。シナプス入力の計算における中間の値を学習に用いるということもあるため, 単なる計算量の観点だけではどちらを選ぶかは決めることができない (計算量だけならシナプス変数に先に重み行列をかけた方がよい場合が多い)。実装の中で異なってくるのは計算順序と保持するベクトルの要素数である。 同じ実装の中で2つとも用いる場合もあるので注意してほしい。</p>
 </div>
 
 
@@ -408,7 +319,7 @@ end
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="3-3_kinetic-synapse.html" title="previous page">3.3 動力学モデル</a>
-    <a class='right-next' id="next-link" href="3-6_synaptic-weighted.html" title="next page">3.6 シナプス入力の重みづけ</a>
+    <a class='right-next' id="next-link" href="13_intro.html" title="next page">13. ベイズ脳理論と生成モデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.6 シナプス入力の重みづけ &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>付録 &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -31,21 +31,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/3-6_synaptic-weighted.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/appendix_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="13. ベイズ脳理論と生成モデル" href="13_intro.html" />
-    <link rel="prev" title="3.4 Hodgkin-Huxleyモデルとシナプスモデル" href="3-4_hhsynapse.html" />
+    <link rel="next" title="JuliaのTips集" href="tips.html" />
+    <link rel="prev" title="13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル" href="13-1_sparse-coding.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/3-6_synaptic-weighted.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/appendix_intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.6 シナプス入力の重みづけ" />
-<meta property="og:description" content="3.6 シナプス入力の重みづけ  ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく" />
+<meta property="og:title"       content="付録" />
+<meta property="og:description" content="付録    " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -91,11 +91,6 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="tips.html">
-   JuliaのTips集
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="1_intro.html">
    1. 神経生理の基礎
   </a>
@@ -134,11 +129,11 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="3-1_current-conductance-synapse.html">
      3.1 Current-based vs Conductance-based シナプス
@@ -155,13 +150,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-4_hhsynapse.html">
-     3.4 Hodgkin-Huxleyモデルとシナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     3.6 シナプス入力の重みづけ
+    <a class="reference internal" href="3-5_synaptic-weighted.html">
+     3.5 シナプス入力の重みづけ
     </a>
    </li>
   </ul>
@@ -174,6 +164,18 @@
    <li class="toctree-l2">
     <a class="reference internal" href="13-1_sparse-coding.html">
      13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   付録
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
     </a>
    </li>
   </ul>
@@ -220,7 +222,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/3-6_synaptic-weighted.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/appendix_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -240,7 +242,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-6_synaptic-weighted.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix_intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -272,39 +274,13 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>3.6 シナプス入力の重みづけ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく。</p>
-<p>シナプス前細胞が<span class="math notranslate nohighlight">\(N_{\text{pre}}\)</span>個, シナプス後細胞が<span class="math notranslate nohighlight">\(N_{\text{post}}\)</span>個あるとする。このとき<strong>シナプス前過程に注目した</strong>シナプス動態を<span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}\in \mathbb{R}^{N_{\text{pre}}}\)</span>, シナプス後細胞の入力電流を<span class="math notranslate nohighlight">\(\boldsymbol{I_{\text{syn}}}\in \mathbb{R}^{N_{\text{post}}}\)</span>, シナプス結合強度の行列を<span class="math notranslate nohighlight">\(W\in \mathbb{R}^{N_{\text{post}} \times N_{\text{pre}}}\)</span>とすると, Current-basedの場合は</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\boldsymbol{I_{\text{syn}}}(t)=W \boldsymbol{s_{\text{syn}}}  
-\end{equation}
-\]</div>
-<p>となる。ただし, シナプス強度にシナプス効率が含まれるとした. また, Conductance-basedの場合はシナプス後細胞の膜電位を<span class="math notranslate nohighlight">\(\boldsymbol{V}_{m}\in \mathbb{R}^{N_{\text{post}}}\)</span>として,</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\boldsymbol{I_{\text{syn}}}(t)=\left(V_{\text{syn}}-\boldsymbol{V}_{m}(t)\right)\odot W \boldsymbol{s_{\text{syn}}}
-\end{equation}
-\]</div>
-<p>となる。ただし, <span class="math notranslate nohighlight">\(\odot\)</span>はHadamard積である。</p>
-<p>これらの式は順序を入れ替えることも可能である。シナプス前細胞でスパイクが生じたことを表すベクトルを<span class="math notranslate nohighlight">\(\boldsymbol{\delta}_{t,t_{\text{spike}}}\in \mathbb{R}^{N_{\text{pre}}}\)</span>とする。ただし, <span class="math notranslate nohighlight">\(t_{\text{spike}}\)</span>は各ニューロンにおいてスパイクが生じた時刻である。 <span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}\)</span>は<span class="math notranslate nohighlight">\(\boldsymbol{\delta}_{t,t_{\text{spike}}}\)</span>の関数であり, <span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}(\boldsymbol{\delta}_{t,t_{\text{spike}}})\)</span>と表せる。このとき<strong>シナプス後過程に注目した</strong>シナプス動態を<span class="math notranslate nohighlight">\(\boldsymbol{s}^\prime_{\text{syn}}\in \mathbb{R}^{N_{\text{post}}}\)</span>とすると, Current-basedの場合は</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\boldsymbol{I_{\text{syn}}}(t)=\boldsymbol{s}^\prime_{\text{syn}}(W\boldsymbol{\delta}_{t,t_{\text{spike}}})  
-\end{equation}
-\]</div>
-<p>Conductance-basedの場合は</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{equation}
-\boldsymbol{I_{\text{syn}}}(t)=\left(V_{\text{syn}}-\boldsymbol{V}_{m}(t)\right)\odot \boldsymbol{s}^\prime_{\text{syn}}(W\boldsymbol{\delta}_{t,t_{\text{spike}}})
-\end{equation}
-\]</div>
-<p>と表すことができる。</p>
-<p>シナプス動態を前過程か後過程のどちらに注目したものとするかは, 実装によって様々である。シナプス入力の計算における中間の値を学習に用いるということもあるため, 単なる計算量の観点だけではどちらを選ぶかは決めることができない (計算量だけならシナプス変数に先に重み行列をかけた方がよい場合が多い)。実装の中で異なってくるのは計算順序と保持するベクトルの要素数である。 同じ実装の中で2つとも用いる場合もあるので注意してほしい。</p>
+<h1>付録<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="tableofcontents-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
 
@@ -316,8 +292,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="3-4_hhsynapse.html" title="previous page">3.4 Hodgkin-Huxleyモデルとシナプスモデル</a>
-    <a class='right-next' id="next-link" href="13_intro.html" title="next page">13. ベイズ脳理論と生成モデル</a>
+    <a class='left-prev' id="prev-link" href="13-1_sparse-coding.html" title="previous page">13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル</a>
+    <a class='right-next' id="next-link" href="tips.html" title="next page">JuliaのTips集</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
