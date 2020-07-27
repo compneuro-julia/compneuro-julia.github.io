@@ -103,7 +103,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
-   2. 単一神経細胞のモデル
+   2. 神経細胞のモデル
   </a>
   <ul>
    <li class="toctree-l2">
@@ -156,12 +156,12 @@
   </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="13_intro.html">
-   13. ベイズ脳理論と生成モデル
+  <a class="reference internal" href="11_intro.html">
+   11. ベイズ脳理論と生成モデル
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="13-1_sparse-coding.html">
+    <a class="reference internal" href="11-1_sparse-coding.html">
      13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
     </a>
    </li>
@@ -302,16 +302,21 @@
 <ol class="simple">
 <li><p>神経細胞の形態と膜電位変化</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/1-2_synapse.html">シナプス伝達</a></p></li>
+<li><p>神経回路の可塑性</p></li>
 </ol>
 </li>
-<li><p>単一神経細胞のモデル</p>
+<li><p>神経細胞のモデル</p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-1_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
+<li><p>FitzHugh–Nagumoモデル</p></li>
+<li><p>Morris–Lecarモデル</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-2_lif.html">Leaky integrate-and-fire モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-3_iz.html">Izhikevich モデル</a></p></li>
 <li><p>Multi-compartment モデル</p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-5_isi.html">Inter-spike interval モデル</a></p></li>
 <li><p>発火率モデル</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-5_isi.html">Inter-spike interval モデル</a></p></li>
+<li><p>確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)</p></li>
+<li><p>確率的集団モデル (Fokker–Planck 方程式)</p></li>
 </ol>
 </li>
 <li><p>シナプス伝達のモデル</p>
@@ -327,27 +332,47 @@
 <li><p>神経回路網の構築 (発火率モデル)</p></li>
 <li><p>神経回路網の構築 (Spikingモデル)</p></li>
 <li><p>神経回路網の演算処理</p></li>
-<li><p>神経回路網の学習則</p></li>
-<li><p>神経回路網の学習ダイナミクス</p></li>
-<li><p>Energy-based モデル</p></li>
-<li><p>自己組織化マップと教師なし学習</p></li>
-<li><p>Reservoir Computing</p></li>
+<li><p>神経回路網の学習則</p>
+<ol class="simple">
+<li><p>学習則と貢献度分配問題 (credit assignment problem)</p></li>
+<li><p>Hebb則</p></li>
+<li><p>STDP (Spike-timing dependent plasticity) 則</p></li>
+<li><p>Burst発火と可塑性</p></li>
+<li><p>競合学習 (competitive learning)</p></li>
+<li><p>勾配法と誤差逆伝播法 (backpropagation)</p></li>
+<li><p>誤差逆伝播法の近似手法</p></li>
+<li><p>経時的貢献度分配問題 (temporal credit assignment problem)</p></li>
+<li><p>RTRL vs BPTT</p></li>
+<li><p>RTRLの近似手法</p></li>
+<li><p>Reservoir computing (FORCE etc.)</p></li>
+</ol>
+</li>
+<li><p>神経細胞・神経回路の非線形ダイナミクス</p></li>
+<li><p>連想記憶モデル</p>
+<ol class="simple">
+<li><p>Ising model</p></li>
+<li><p>Hopfield model</p></li>
+<li><p>Boltzmann machine</p></li>
+</ol>
+</li>
 <li><p>情報理論と最適化原理</p></li>
 <li><p>ベイズ脳理論と生成モデル</p>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/13-1_sparse-coding.html">Sparse coding (Olshausen &amp; Field, 1996) モデル</a></p></li>
+<li><p>Sparse coding (Olshausen &amp; Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)</p></li>
 </ol>
 </li>
-<li><p>時空間の符号化</p></li>
-<li><p>運動学習</p></li>
 <li><p>強化学習</p></li>
+<li><p>運動制御</p></li>
+<li><p>時空間の符号化</p></li>
 <li><p>神経細胞の形態と数理モデル</p></li>
-<li><p>付録</p>
+</ol>
 <ul class="simple">
+<li><p>付録</p>
+<ul>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/tips.html">JuliaのTips集</a></p></li>
 </ul>
 </li>
-</ol>
+</ul>
 </div>
 <hr class="docutils" />
 <div class="section" id="spiking-neural-networks">

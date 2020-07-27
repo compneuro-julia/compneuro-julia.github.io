@@ -31,18 +31,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/13-1_sparse-coding.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/11-1_sparse-coding.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="付録" href="appendix_intro.html" />
-    <link rel="prev" title="13. ベイズ脳理論と生成モデル" href="13_intro.html" />
+    <link rel="prev" title="11. ベイズ脳理論と生成モデル" href="11_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/13-1_sparse-coding.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/11-1_sparse-coding.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="13.1 Sparse coding (Olshausen & Field, 1996) モデル" />
 <meta property="og:description" content="13.1 Sparse coding (Olshausen & Field, 1996) モデル  視覚におけるSparse codingのモデル (Olshausen & Field, Nature. 1996)の実装を目標とする。  Note  Sparse codingをどこに入れるかは迷ったが、生成モデルではあ" />
@@ -104,7 +104,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
-   2. 単一神経細胞のモデル
+   2. 神経細胞のモデル
   </a>
   <ul>
    <li class="toctree-l2">
@@ -157,8 +157,8 @@
   </ul>
  </li>
  <li class="toctree-l1 current active">
-  <a class="reference internal" href="13_intro.html">
-   13. ベイズ脳理論と生成モデル
+  <a class="reference internal" href="11_intro.html">
+   11. ベイズ脳理論と生成モデル
   </a>
   <ul class="current">
    <li class="toctree-l2 current active">
@@ -222,7 +222,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/13-1_sparse-coding.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/11-1_sparse-coding.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -242,7 +242,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/13-1_sparse-coding.ipynb"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/11-1_sparse-coding.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -263,7 +263,7 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/13-1_sparse-coding.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/11-1_sparse-coding.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="_static/images/logo_colab.png"
                     alt="Interact on Colab">Colab</button></a>
@@ -453,8 +453,8 @@ y-\lambda &amp; (y&gt;\lambda)\\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/13-1_sparse-coding_8_0.png" src="_images/13-1_sparse-coding_8_0.png" />
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>PyObject &lt;matplotlib.legend.Legend object at 0x000000003EF2CB88&gt;
+<img alt="_images/11-1_sparse-coding_8_0.png" src="_images/11-1_sparse-coding_8_0.png" />
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>PyObject &lt;matplotlib.legend.Legend object at 0x000000003EF2CE08&gt;
 </pre></div>
 </div>
 </div>
@@ -527,7 +527,7 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/13-1_sparse-coding_16_0.png" src="_images/13-1_sparse-coding_16_0.png" />
+<img alt="_images/11-1_sparse-coding_16_0.png" src="_images/11-1_sparse-coding_16_0.png" />
 </div>
 </div>
 </div>
@@ -739,7 +739,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/13-1_sparse-coding_32_0.png" src="_images/13-1_sparse-coding_32_0.png" />
+<img alt="_images/11-1_sparse-coding_32_0.png" src="_images/11-1_sparse-coding_32_0.png" />
 </div>
 </div>
 </div>
@@ -762,7 +762,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/13-1_sparse-coding_34_0.png" src="_images/13-1_sparse-coding_34_0.png" />
+<img alt="_images/11-1_sparse-coding_34_0.png" src="_images/11-1_sparse-coding_34_0.png" />
 </div>
 </div>
 <p>白色が<strong>ON領域</strong>(興奮)、黒色が<strong>OFF領域</strong>(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。</p>
@@ -779,7 +779,7 @@ end
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="13_intro.html" title="previous page">13. ベイズ脳理論と生成モデル</a>
+    <a class='left-prev' id="prev-link" href="11_intro.html" title="previous page">11. ベイズ脳理論と生成モデル</a>
     <a class='right-next' id="next-link" href="appendix_intro.html" title="next page">付録</a>
 
     </div>

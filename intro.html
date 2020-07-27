@@ -104,7 +104,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
-   2. 単一神経細胞のモデル
+   2. 神経細胞のモデル
   </a>
   <ul>
    <li class="toctree-l2">
@@ -157,12 +157,12 @@
   </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="13_intro.html">
-   13. ベイズ脳理論と生成モデル
+  <a class="reference internal" href="11_intro.html">
+   11. ベイズ脳理論と生成モデル
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="13-1_sparse-coding.html">
+    <a class="reference internal" href="11-1_sparse-coding.html">
      13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
     </a>
    </li>
@@ -276,7 +276,7 @@
   <div class="section" id="id1">
 <h1>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>何故このサイトを作ろうと思ったか、というと鬱憤が溜まっていたためである。<strong>物理シミュレーションの本はあるのに神経科学のシミュレーションの本は何故無いのか？</strong> もちろん、洋書を探せば何冊かあるが、ブラックボックス的なライブラリを用いたり、幅広い分野の内容を扱っていなかったりする。数理モデルを扱う和書の名著は何冊かあるが、実装までは記述してくれない。そのくせ、関連分野のニューラルネットワークの本は腐るほど出版されている (というと著者の方々に大変失礼だが)。有名な論文でも再現するためのパラメータの記載が不足していたり、著者実装がなかったり、あっても古いMATLAB実装は動かない。シミュレーションを実施する講義を受けたいと思っても医学部のカリキュラムで試験と被る。潜りも難しい。所属している研究室は理論や数値計算がメインではないので研究室の「秘伝のタレ」があるわけでもない。Twitterで流れてくる講義の情報を見ても「どうして資料を公開してくれないんだ」と嘆きながら枕を濡らすしかない。</p>
-<p>「本が無いなら本を書けばいいじゃない」とはマリー・アントワネットが言った言葉…ではないが、一先ずこれまでに自分が書いてきたコードやノート (<a class="reference external" href="https://salad-bowl-of-knowledge.github.io/hp/">ブログ</a>、<a class="reference external" href="https://compneuro-julia.github.io/#spiking-neural-networks">同人誌</a>などを含む)をまとめるだけでも良い資料になるのではないか、という中々思い上がった考えからこのサイトを始めた。</p>
+<p>「本が無いなら本を書けばいいじゃない」とはマリー・アントワネットが言った言葉…ではないが、一先ずこれまでに自分が書いてきたコードやノート (<a class="reference external" href="https://salad-bowl-of-knowledge.github.io/hp/">ブログ</a>、<a class="reference external" href="https://compneuro-julia.github.io/#spiking-neural-networks">同人誌</a>などを含む)をまとめるだけでも良い資料になるのではないか、という中々思い上がった考えからこのサイトを始めた (目次を見るとかなり無謀なことが察せられる。何事も勢いで初めてはいけない)。</p>
 <p>目標とするのは<strong>幅広い分野を取り扱うと同時に体系的であり、数式や理論も書いていて、実装を掲載しているサイト</strong>である。実装も線形代数の演算は許容するが、できるだけブラックボックスな演算を無くし、「手を動かして学ぶ」を基本とする。また、可読性が高く、高速に実行出来て研究にも使える実装が望ましい (もちろん、現時点でこれが実現できているとは思わない)。</p>
 <p>問題はサイトで使用するプログラミング言語であった。一体何を使えばいいだろうか？神経科学ではMATLABがよく使われているし、関連分野の機械学習ではPythonがよく使われる。ただ、MATLABはライセンスが必要だし、Pythonが数値計算に向いているとは思えない。高速に実行したいし、これらのユーザーが簡単に移行できる言語を考えたとき、<a class="reference external" href="https://julialang.org/">Julia</a>が望ましいという結論に至った。</p>
 <p><a class="reference external" href="https://www.geidai.ac.jp/~marui/julialang/why_we_created_julia/index.html">欲張りな言語であるJulia</a>は欲張りなこのサイトの理念に合致している。Juliaはまだ発展途上ではあるが、ユーザーも増えており、このサイトが一通り完成するころ (3～5年後?) にはかなり良い環境が整っているはずである。</p>
