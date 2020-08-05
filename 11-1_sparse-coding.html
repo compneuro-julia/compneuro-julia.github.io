@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>11.1 Sparse coding (Olshausen &amp; Field, 1996) モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -44,8 +44,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/11-1_sparse-coding.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="13.1 Sparse coding (Olshausen & Field, 1996) モデル" />
-<meta property="og:description" content="13.1 Sparse coding (Olshausen & Field, 1996) モデル  視覚におけるSparse codingのモデル (Olshausen & Field, Nature. 1996)の実装を目標とする。  Note  Sparse codingをどこに入れるかは迷ったが、生成モデルではあ" />
+<meta property="og:title"       content="11.1 Sparse coding (Olshausen & Field, 1996) モデル" />
+<meta property="og:description" content="11.1 Sparse coding (Olshausen & Field, 1996) モデル  11.1.1 Sparse codingと生成モデル  Sparse codingモデル(Olshausen & Field, Nature. 1996)はV1のニューロンの応答特性を説明する線形生成モデル (linea" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -123,8 +123,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-5_isi.html">
-     2.5 Inter-spike interval モデル
+    <a class="reference internal" href="2-7_isi.html">
+     2.7 Inter-spike interval モデル
     </a>
    </li>
   </ul>
@@ -163,7 +163,7 @@
   <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+     11.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
     </a>
    </li>
   </ul>
@@ -283,17 +283,29 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sparse-coding">
-   13.1.1 画像のsparse coding
+   11.1.1 Sparse codingと生成モデル
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     確率的モデルの記述
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     事前分布の設定
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   13.1.2 目的関数の設定
+  <a class="reference internal nav-link" href="#map">
+   11.1.2 MAP推定と目的関数の設定
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#locally-competitive-algorithm-lca">
-   13.1.3 Locally Competitive Algorithm (LCA)
+   11.1.3 Locally Competitive Algorithm (LCA)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -304,37 +316,37 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   13.1.4 重み行列の更新則
+  <a class="reference internal nav-link" href="#id6">
+   11.1.4 重み行列の更新則
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sparse-coding-network">
-   13.1.5 Sparse coding networkの実装
+   11.1.5 Sparse coding networkの実装
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id7">
      画像データの読み込み
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id9">
      モデルの定義
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id10">
      シミュレーションの実行
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
+    <a class="reference internal nav-link" href="#id11">
      訓練中の損失の描画
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id12">
      重み行列 (受容野)の描画
     </a>
    </li>
@@ -351,35 +363,164 @@
               <div>
                 
   <div class="section" id="sparse-coding-olshausen-field-1996">
-<h1>13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル<a class="headerlink" href="#sparse-coding-olshausen-field-1996" title="Permalink to this headline">¶</a></h1>
-<p>視覚におけるSparse codingのモデル (<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)の実装を目標とする。</p>
+<h1>11.1 Sparse coding (Olshausen &amp; Field, 1996) モデル<a class="headerlink" href="#sparse-coding-olshausen-field-1996" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sparse-coding">
+<h2>11.1.1 Sparse codingと生成モデル<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">¶</a></h2>
+<p>Sparse codingモデル(<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である。まず、画像パッチ <span class="math notranslate nohighlight">\(\boldsymbol{I} (\boldsymbol{x})\)</span>が基底関数(basis function)あるいは特徴量(features) <span class="math notranslate nohighlight">\(\Phi = [\phi_i(\boldsymbol{x})]\)</span> のノイズを含む線形和で表されるとする (係数は<span class="math notranslate nohighlight">\(\boldsymbol{r}=[r_i]\)</span>とする)。</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \boldsymbol{\epsilon}(\boldsymbol{x})\quad \tag{1}
+\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>は画像上の座標, <span class="math notranslate nohighlight">\(\epsilon\)</span>は平均0, 分散<span class="math notranslate nohighlight">\(\sigma^2\)</span>のGaussianノイズを表す (各ノイズは独立とする)。このモデルを神経ネットワークのモデルと考えると、<span class="math notranslate nohighlight">\(\Phi\)</span>は重み行列、係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、<span class="math notranslate nohighlight">\(r_i\)</span>は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。</p>
+<p>Sparse codingでは神経活動<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>を求めたい。</p>
+<div class="section" id="id1">
+<h3>確率的モデルの記述<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Sparse codingをどこに入れるかは迷ったが、生成モデルではあるのでこの章に入れた。</p>
+<p>以後の記述は(<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/9425546/">Olshausen &amp; Field, 1997</a>)に従ったものである。</p>
 </div>
-<div class="section" id="sparse-coding">
-<h2>13.1.1 画像のsparse coding<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">¶</a></h2>
-<p>画像 <span class="math notranslate nohighlight">\(\boldsymbol{I} (\boldsymbol{x})\)</span>が基底関数(basis function) <span class="math notranslate nohighlight">\(\Phi = [\phi_i(\boldsymbol{x})]\)</span> の線形和で表されるとする。</p>
+</div>
+<p>入力される画像パッチの真の分布を<span class="math notranslate nohighlight">\(q(\boldsymbol{I})\)</span>, 生成モデルの分布を<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\Phi)\)</span>とする。さらに潜在変数 <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の事前分布 (prior)を<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>, 画像パッチ <span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span>の尤度 (likelihood)を<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)\)</span>とする。このとき、</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \epsilon(\boldsymbol{x})
+p(\boldsymbol{I}|\Phi)=\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r} \quad \tag{2}
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>は画像上の座標, <span class="math notranslate nohighlight">\(\epsilon\)</span>は平均0のGaussianノイズを表す。また、<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>は係数であるが、モデルにおいては入力よりも高次の神経細胞の活動とみなす。この場合、<span class="math notranslate nohighlight">\(\Phi\)</span>は重み行列となる。</p>
-<p>Sparse codingは、少数の基底で画像 (や目的変数)を表すことを目的とする。要は(1)式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>を求めたい。</p>
+<p>が成り立つ。<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)\)</span>は、(1)式においてノイズ項を<span class="math notranslate nohighlight">\(\epsilon_j \sim\mathcal{N}(0, \sigma^2)\)</span>としたことから、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(\boldsymbol{I}|\ \boldsymbol{r}, \Phi)&amp;=\mathcal{N}\left(\boldsymbol{I}|\ \Phi \boldsymbol{r}, \sigma^2 \right)\\
+&amp;=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\boldsymbol{I} - \Phi \boldsymbol{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
+\end{align}
+\end{split}\]</div>
+<p>と表せる。ただし、<span class="math notranslate nohighlight">\(Z_{\sigma}\)</span>は規格化定数である。</p>
 </div>
-<div class="section" id="id1">
-<h2>13.1.2 目的関数の設定<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Sparse codingのための目的関数(cost function) <span class="math notranslate nohighlight">\(E\)</span>は(2)式のようになる。</p>
+<div class="section" id="id2">
+<h3>事前分布の設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>事前分布<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>としては、0においてピークがあり、裾の重い(heavy tail)を持つsparse distributionあるいは <strong>super-Gaussian distribution</strong> (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い。このような分布では、<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の各要素<span class="math notranslate nohighlight">\(r_i\)</span>はほとんど0に等しく、ある入力に対しては大きな値を取る。<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>は一般化して式(4), (5)のように表記する。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(\boldsymbol{r})&amp;=\prod_i p(r_i) \quad \tag{4}\\
+p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
+\end{align}
+\end{split}\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\beta\)</span>は逆温度(inverse temperature), <span class="math notranslate nohighlight">\(Z_{\beta}\)</span>は規格化定数 (分配関数) である<a class="footnote-reference brackets" href="#can" id="id3">1</a>。<span class="math notranslate nohighlight">\(S(x)\)</span>と分布の関係をまとめた表が以下となる (cf. <a class="reference external" href="https://pdfs.semanticscholar.org/be08/da912362bf40fe3ded78bdadc644f921b4e7.pdf">Harpur, 1997</a>)。</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:center head"><p><span class="math notranslate nohighlight">\(S(r)\)</span></p></th>
+<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(\dfrac{dS(r)}{dr}\)</span></p></th>
+<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(p(r)\)</span></p></th>
+<th class="text-align:center head"><p>分布名</p></th>
+<th class="text-align:center head"><p>尖度(kurtosis)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(r^2\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(2r\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\dfrac{1}{\alpha \sqrt{2\pi}}\exp\left(-\dfrac{r^2}{2\alpha^2}\right)\)</span></p></td>
+<td class="text-align:center"><p>Gaussian 分布</p></td>
+<td class="text-align:center"><p>0</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\vert r\vert\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\text{sign}(r)\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\dfrac{1}{2\alpha}\exp\left(-\dfrac{\vert r\vert}{\alpha}\right)\)</span></p></td>
+<td class="text-align:center"><p>Laplace 分布</p></td>
+<td class="text-align:center"><p>3.0</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:center"><p><span class="math notranslate nohighlight">\(\ln (\alpha^2+r^2)\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\dfrac{2r}{\alpha^2+r^2}\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(\dfrac{\alpha}{\pi}\dfrac{1}{\alpha^2+r^2}=\dfrac{\alpha}{\pi}\exp[-\ln (\alpha^2+r^2)]\)</span></p></td>
+<td class="text-align:center"><p>Cauchy 分布</p></td>
+<td class="text-align:center"><p>-</p></td>
+</tr>
+</tbody>
+</table>
+<p>分布<span class="math notranslate nohighlight">\(p(r)\)</span>や<span class="math notranslate nohighlight">\(S(r)\)</span>を描画すると次のようになる。</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">PyPlot</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$p(x)$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gaussian&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">./</span> <span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cauchy&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> 
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">()</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;S(x)&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gaussian&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">log</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cauchy&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/11-1_sparse-coding_6_0.png" src="_images/11-1_sparse-coding_6_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="map">
+<h2>11.1.2 MAP推定と目的関数の設定<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+<p>最適な生成モデルを得るために、入力される画像パッチの真の分布 <span class="math notranslate nohighlight">\(q(\boldsymbol{I})\)</span>と生成モデルの分布 <span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\Phi)\)</span>を近づける。すなわち、2つの分布のKullback-Leibler ダイバージェンス <span class="math notranslate nohighlight">\(D_{\text{KL}}\left(q(\boldsymbol{I}) \Vert\ p(\boldsymbol{I}|\Phi)\right)\)</span>を最小化する。ただし、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))&amp;=\int q(\boldsymbol{I}) \log \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)} d\boldsymbol{I}\\
+&amp;=\mathbb{E}_q \left[\ln \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)}\right]\\
+&amp;=\mathbb{E}_q \left[\ln q(\boldsymbol{I})\right]-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right] \tag{6}
+\end{align}
+\end{split}\]</div>
+<p>が成り立つ。(6)式の1番目の項は一定なので、<span class="math notranslate nohighlight">\(D_{\text{KL}}\)</span>を最小化するには<span class="math notranslate nohighlight">\(\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\)</span>を最大化すればよい。ここで、(2)式より、</p>
 <div class="math notranslate nohighlight">
 \[
-E = \underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(\frac{r_i}{\sigma}\right)}_{\text{sparseness of}\ r_i}
+\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]=\mathbb{E}_q \left[\ln \int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\right]\tag{7}
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\lambda\)</span>は正則化係数、<span class="math notranslate nohighlight">\(\sigma\)</span>は定数(scaling constant)である。ここで、第一項が復元損失、第二項が罰則項 (係数が大きな値とならないようにする項)となっている。</p>
-<p><span class="math notranslate nohighlight">\(S(x)\)</span>としては <span class="math notranslate nohighlight">\(-\exp(-x^2), \ln(1+x^2), |x|\)</span> などの関数が用いられる。これらの関数は原点において尖った形状をしており、解が0になりやすくなっている。</p>
+<p>が成り立つ。ここで近似として <span class="math notranslate nohighlight">\(\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\)</span> を <span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r}) \left(=p(\boldsymbol{I}, \boldsymbol{r}| \Phi)\right)\)</span> の最大値で評価することにする。この近似の下、最適な<span class="math notranslate nohighlight">\(\Phi=\Phi^*\)</span>は次のようにして求められる。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\Phi^*&amp;=\text{arg} \min_{\Phi} \min_{\boldsymbol{r}} D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))\\
+&amp;=\text{arg} \max_{\Phi} \max_{\boldsymbol{r}} \mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\\
+&amp;\approx \text{arg} \max_{\Phi}\max_{\boldsymbol{r}} \ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
+&amp;=\text{arg}\min_{\Phi} \min_{\boldsymbol{r}}\ E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\tag{8}
+\end{align}
+\end{split}\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>はコスト関数であり、次式のように表される。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+E(\boldsymbol{I}, \boldsymbol{r}|\Phi):=&amp;-\ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
+=&amp;\underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+\end{align}
+\end{split}\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\lambda=2\sigma^2\beta\)</span>は正則化係数<a class="footnote-reference brackets" href="#lam" id="id4">2</a>であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。勾配法により、<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>を最小化する。これには<span class="math notranslate nohighlight">\(\Phi\)</span>を固定した下で<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>を最小化する<span class="math notranslate nohighlight">\(\boldsymbol{r}=\hat{\boldsymbol{r}}\)</span>を求める (<a class="reference external" href="#locally-competitive-algorithm-lca">11.1.3</a>)。</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\boldsymbol{r}}=\text{arg}\min_{\boldsymbol{r}}E(\boldsymbol{I}, \boldsymbol{r}|\Phi)
+\]</div>
+<p>次に<span class="math notranslate nohighlight">\(\hat{\boldsymbol{r}}\)</span>を用いて</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi^*=\text{arg}\min_{\Phi}\langle E(\boldsymbol{I}, \hat{\boldsymbol{r}}|\Phi)\rangle
+\]</div>
+<p>とすることにより、<span class="math notranslate nohighlight">\(\Phi\)</span>を最適化する (<a class="reference external" href="#id6">11.1.4</a>)。ただし、<span class="math notranslate nohighlight">\(\langle\cdot \rangle\)</span>は複数の画像に対する平均を取ることを意味する。</p>
 </div>
 <div class="section" id="locally-competitive-algorithm-lca">
-<h2>13.1.3 Locally Competitive Algorithm (LCA)<a class="headerlink" href="#locally-competitive-algorithm-lca" title="Permalink to this headline">¶</a></h2>
-<p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の勾配法による更新則は、目的関数 <span class="math notranslate nohighlight">\(E\)</span>の微分により次のように得られる。</p>
+<h2>11.1.3 Locally Competitive Algorithm (LCA)<a class="headerlink" href="#locally-competitive-algorithm-lca" title="Permalink to this headline">¶</a></h2>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の勾配法による更新則は、<span class="math notranslate nohighlight">\(E\)</span>の微分により次のように得られる。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -400,20 +541,20 @@ E = \underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{pres
 <ol class="simple">
 <li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}(0)\)</span>を要素が全て0のベクトルで初期化</p></li>
 <li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}_*(t+1)=\boldsymbol{r}(t)+\eta_\boldsymbol{r}\cdot \Phi^T(\boldsymbol{I}-\Phi\boldsymbol{r}(t))\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}(t+1) = S_\lambda(\boldsymbol{r}_*(t+1))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}(t+1) = \Theta_\lambda(\boldsymbol{r}_*(t+1))\)</span></p></li>
 <li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束するまで2と3を繰り返す</p></li>
 </ol>
-<p>ここで<span class="math notranslate nohighlight">\(S_\lambda(\cdot)\)</span>は<strong>軟判定閾値関数</strong> (Soft thresholding function)と呼ばれ、次式で表される。</p>
+<p>ここで<span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>は<strong>軟判定閾値関数</strong> (Soft thresholding function)と呼ばれ、次式で表される。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-S_\lambda(y)= 
+\Theta_\lambda(y)= 
 \begin{cases} 
 y-\lambda &amp; (y&gt;\lambda)\\ 
 0 &amp; (-\lambda\leq y\leq\lambda)\\ 
  y+\lambda &amp; (y&lt;-\lambda) 
 \end{cases}
 \end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(S_\lambda(\cdot)\)</span>を関数として定義すると次のようになる。</p>
+<p><span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を関数として定義すると次のようになる <a class="footnote-reference brackets" href="#softthr" id="id5">3</a>。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># thresholding function of S(x)=|x|</span>
@@ -429,37 +570,56 @@ y-\lambda &amp; (y&gt;\lambda)\\
 </div>
 </div>
 </div>
-<p>次に<span class="math notranslate nohighlight">\(S_\lambda(\cdot)\)</span>を描画すると次のようになる。ただし、先に<code class="docutils literal notranslate"><span class="pre">PyPlot</span></code>を読み込んでおく。</p>
-<div class="cell docutils container">
+<p>次に<span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を描画すると次のようになる。</p>
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">PyPlot</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">soft_thresholding_func</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.5</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$S(x)=|x|$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;y=x&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Soft thresholding (lambda=1)&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;S (x)&quot;</span><span class="p">)</span>
-<span class="n">legend</span><span class="p">()</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$</span><span class="se">\f</span><span class="s2">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$f_\lambda(x)=x+\lambda\cdot</span><span class="se">\f</span><span class="s2">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$\Theta_\lambda(x)$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-1_sparse-coding_8_0.png" src="_images/11-1_sparse-coding_8_0.png" />
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>PyObject &lt;matplotlib.legend.Legend object at 0x000000003EF2CE08&gt;
-</pre></div>
+<img alt="_images/11-1_sparse-coding_12_0.png" src="_images/11-1_sparse-coding_12_0.png" />
 </div>
 </div>
-</div>
-<p>なお、Soft thresholding関数は次の目的関数<span class="math notranslate nohighlight">\(C\)</span>を最小化する<span class="math notranslate nohighlight">\(x\)</span>を求めることで導出できる。</p>
+<p>なお、軟判定閾値関数は次の目的関数<span class="math notranslate nohighlight">\(C\)</span>を最小化する<span class="math notranslate nohighlight">\(x\)</span>を求めることで導出できる。</p>
 <div class="math notranslate nohighlight">
 \[
 C=\frac{1}{2}(y-x)^2+\lambda |x|
@@ -470,10 +630,11 @@ C=\frac{1}{2}(y-x)^2+\lambda |x|
 C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 \]</div>
 <p>となる。(7)式の最小値を与える<span class="math notranslate nohighlight">\(x\)</span>は場合分けをして考えると、<span class="math notranslate nohighlight">\(y-\lambda\geq0\)</span>のとき二次関数の頂点を考えて<span class="math notranslate nohighlight">\(x=y-\lambda\)</span>となる。 一方で<span class="math notranslate nohighlight">\(y-\lambda&lt;0\)</span>のときは<span class="math notranslate nohighlight">\(x\geq0\)</span>において単調増加な関数となるので、最小となるのは<span class="math notranslate nohighlight">\(x=0\)</span>のときである。同様の議論を<span class="math notranslate nohighlight">\(x\leq0\)</span>に対しても行うことで (5)式が得られる。</p>
+<p>閾値関数としては軟判定閾値関数だけではなく、硬判定閾値関数や<span class="math notranslate nohighlight">\(y=x - \text{tanh}(x)\)</span> (Tanhshrink)など様々な関数を用いることができます。</p>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>13.1.4 重み行列の更新則<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>11.1.4 重み行列の更新則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束したら勾配法により<span class="math notranslate nohighlight">\(\Phi\)</span>を更新する。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -484,14 +645,15 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 \end{split}\]</div>
 </div>
 <div class="section" id="sparse-coding-network">
-<h2>13.1.5 Sparse coding networkの実装<a class="headerlink" href="#sparse-coding-network" title="Permalink to this headline">¶</a></h2>
+<h2>11.1.5 Sparse coding networkの実装<a class="headerlink" href="#sparse-coding-network" title="Permalink to this headline">¶</a></h2>
 <p>ネットワークは入力層を含め2層の単純な構造である。今回は、入力はランダムに切り出した16×16 (＝256)の画像パッチとし、これを入力層の256個のニューロンが受け取るとする。入力層のニューロンは次層の100個のニューロンに投射するとする。100個のニューロンが入力をSparseに符号化するようにその活動および重み行列を最適化する。</p>
-<div class="section" id="id3">
-<h3>画像データの読み込み<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>データは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできる。<code class="docutils literal notranslate"><span class="pre">IMAGES_RAW.mat</span></code>は10枚の自然画像で、<code class="docutils literal notranslate"><span class="pre">IMAGES.mat</span></code>はそれを白色化したものである。<code class="docutils literal notranslate"><span class="pre">mat</span></code>ファイルの読み込みには<a class="reference external" href="https://github.com/JuliaIO/MAT.jl">MAT.jl</a>を用いる。</p>
+<div class="section" id="id7">
+<h3>画像データの読み込み<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>データは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできる <a class="footnote-reference brackets" href="#datasets" id="id8">4</a>。<code class="docutils literal notranslate"><span class="pre">IMAGES_RAW.mat</span></code>は10枚の自然画像で、<code class="docutils literal notranslate"><span class="pre">IMAGES.mat</span></code>はそれを白色化したものである。<code class="docutils literal notranslate"><span class="pre">mat</span></code>ファイルの読み込みには<a class="reference external" href="https://github.com/JuliaIO/MAT.jl">MAT.jl</a>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">MAT</span>
+<span class="c1">#using PyPlot</span>
 </pre></div>
 </div>
 </div>
@@ -527,12 +689,12 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-1_sparse-coding_16_0.png" src="_images/11-1_sparse-coding_16_0.png" />
+<img alt="_images/11-1_sparse-coding_20_0.png" src="_images/11-1_sparse-coding_20_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>モデルの定義<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>モデルの定義<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>必要なパッケージを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -705,8 +867,8 @@ end
 </div>
 </div>
 </div>
-<div class="section" id="id5">
-<h3>シミュレーションの実行<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>シミュレーションの実行<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulation constants</span>
@@ -724,8 +886,8 @@ end
 </div>
 </div>
 </div>
-<div class="section" id="id6">
-<h3>訓練中の損失の描画<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>訓練中の損失の描画<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>訓練中の損失の変化を描画してみよう。損失が低下し、学習が進行したことが分かる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -739,12 +901,12 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-1_sparse-coding_32_0.png" src="_images/11-1_sparse-coding_32_0.png" />
+<img alt="_images/11-1_sparse-coding_36_0.png" src="_images/11-1_sparse-coding_36_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id7">
-<h3>重み行列 (受容野)の描画<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>重み行列 (受容野)の描画<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>学習後の重み行列 <code class="docutils literal notranslate"><span class="pre">Phi</span></code> (<span class="math notranslate nohighlight">\(\Phi\)</span>)を可視化してみよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -762,10 +924,33 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-1_sparse-coding_34_0.png" src="_images/11-1_sparse-coding_34_0.png" />
+<img alt="_images/11-1_sparse-coding_38_0.png" src="_images/11-1_sparse-coding_38_0.png" />
 </div>
 </div>
 <p>白色が<strong>ON領域</strong>(興奮)、黒色が<strong>OFF領域</strong>(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。</p>
+<div class="admonition- admonition">
+<p class="admonition-title">論文以外の参考資料</p>
+<ul class="simple">
+<li><p>Bruno Olshausen: “Sparse coding in brains and machines”(<a class="reference external" href="https://talks.stanford.edu/bruno-olshausen-sparse-coding-in-brains-and-machines/">Stanford talks</a>), <a class="reference external" href="http://www.rctn.org/bruno/public/Simons-sparse-coding.pdf">Slide</a></p></li>
+<li><p><a class="reference external" href="https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-LCA.pdf">https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-LCA.pdf</a></p></li>
+<li><p><a class="reference external" href="https://redwood.berkeley.edu/wp-content/uploads/2018/08/Dylan-lca_overcompleteness_09-27-2018.pdf">https://redwood.berkeley.edu/wp-content/uploads/2018/08/Dylan-lca_overcompleteness_09-27-2018.pdf</a></p></li>
+</ul>
+</div>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="can"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
+<dd><p>これらの用語は統計力学における正準分布 (ボルツマン分布)から来ている。</p>
+</dd>
+<dt class="label" id="lam"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
+<dd><p>この式から逆温度<span class="math notranslate nohighlight">\(\beta\)</span>が正則化の度合いを調整するパラメータであることがわかる。</p>
+</dd>
+<dt class="label" id="softthr"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p>なお、ReLU (ランプ関数)は<code class="docutils literal notranslate"><span class="pre">max(x,</span> <span class="pre">0)</span></code>で実装できる。この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる (<a class="reference external" href="https://ieeexplore.ieee.org/document/8398588">Papyan et al., 2018</a>)。</p>
+</dd>
+<dt class="label" id="datasets"><span class="brackets"><a class="fn-backref" href="#id8">4</a></span></dt>
+<dd><p>これはアメリカ北西部で撮影された自然画像であり、<a class="reference external" href="http://bethgelab.org/datasets/vanhateren/">van Hateren’s Natural Image Dataset</a>から取得されたものである。</p>
+</dd>
+</dl>
 </div>
 </div>
 </div>

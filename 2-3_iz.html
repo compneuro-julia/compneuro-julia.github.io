@@ -34,7 +34,7 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/2-3_iz.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2.5 Inter-spike interval モデル" href="2-5_isi.html" />
+    <link rel="next" title="2.7 Inter-spike interval モデル" href="2-7_isi.html" />
     <link rel="prev" title="2.2 Leaky integrate-and-fire モデル" href="2-2_lif.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -123,8 +123,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-5_isi.html">
-     2.5 Inter-spike interval モデル
+    <a class="reference internal" href="2-7_isi.html">
+     2.7 Inter-spike interval モデル
     </a>
    </li>
   </ul>
@@ -163,7 +163,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="11-1_sparse-coding.html">
-     13.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+     11.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
     </a>
    </li>
   </ul>
@@ -294,6 +294,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id7">
    2.3.2 様々な発火パターンのシミュレーション
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   2.3.3 ランダムネットワークのシミュレーション
   </a>
  </li>
 </ul>
@@ -430,7 +435,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.130878 seconds (839.73 k allocations: 26.255 MiB, 3.54% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.111561 seconds (797.86 k allocations: 24.586 MiB, 6.14% gc time)
 </pre></div>
 </div>
 </div>
@@ -494,7 +499,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.087840 seconds (759.91 k allocations: 19.150 MiB, 8.47% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.052946 seconds (759.91 k allocations: 19.149 MiB)
 </pre></div>
 </div>
 </div>
@@ -517,6 +522,52 @@ end
 <div class="cell_output docutils container">
 <img alt="_images/2-3_iz_14_0.svg" src="_images/2-3_iz_14_0.svg" /></div>
 </div>
+</div>
+<div class="section" id="id8">
+<h2>2.3.3 ランダムネットワークのシミュレーション<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>1000個のIzニューロン(興奮性800個, 抑制性200個)によるランダムネットワークのシミュレーションを行う。これは(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)においてMATLABコードが示されており、それをJuliaに移植したものである。このシミュレーションではRS(regular spiking)ニューロンを興奮性細胞、FS(fast spiking)ニューロンを抑制性細胞のモデルとして用いている。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Excitatory neurons    Inhibitory neurons
+Ne = 800;               Ni = 200
+re = rand(Ne,1);        ri = rand(Ni,1)
+a = [0.02*ones(Ne,1);   0.02 .+ 0.08*ri]
+b = [0.2*ones(Ne,1);    0.25 .- 0.05*ri]
+c = [-65 .+ 15*re.^2;   -65*ones(Ni,1)]
+d = [8 .- 6*re.^2;      2*ones(Ni,1)]
+S = [0.5*rand(Ne+Ni,Ne) -rand(Ne+Ni,Ni)] # synaptic weight
+v = -65*ones(Ne+Ni,1)   # Initial values of v
+u = b .* v              # Initial values of u
+firings = []            # spike timings
+
+for t=1:1000 # simulation of 1000 ms
+    I=[5*randn(Ne,1); 2*randn(Ni,1)] # thalamic input
+    fired = findall(v[:, 1] .&gt;= 30) # indices of spikes
+    firings = t==1 ? [t .+ 0*fired fired] : [firings; [t .+ 0*fired fired]]
+    v[fired]=c[fired]
+    u[fired]=u[fired]+d[fired]
+    I = I + sum(S[:,fired], dims=2)
+    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) # step 0.5 ms for numerical stability
+    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) 
+    u = u+a.*(b.*v-u)
+end
+</pre></div>
+</div>
+</div>
+</div>
+<p>膜電位の更新の際、<code class="docutils literal notranslate"><span class="pre">v</span></code>を2回に分けて更新しているが、これは数値的な安定性を高めるためである。計算量は上がるが、前述したモデルにおいても同様の処理を行う実装もある。</p>
+<p>シミュレーションの実行後、ネットワークを構成するニューロンの発火を描画する。これを<strong>ラスタープロット</strong> (raster plot)という。この図は横軸が時間、縦軸がニューロンの番号となっており、各ニューロンが発火したことを点で表している。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">firings</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">firings</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">markercolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> 
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;# neuron&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-3_iz_18_0.svg" src="_images/2-3_iz_18_0.svg" /></div>
+</div>
+<p>初めの400msぐらいまでは100msごとに10Hzの<span class="math notranslate nohighlight">\(\alpha\)</span>波が</p>
 <hr class="docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="hh"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
@@ -546,7 +597,7 @@ end
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="2-2_lif.html" title="previous page">2.2 Leaky integrate-and-fire モデル</a>
-    <a class='right-next' id="next-link" href="2-5_isi.html" title="next page">2.5 Inter-spike interval モデル</a>
+    <a class='right-next' id="next-link" href="2-7_isi.html" title="next page">2.7 Inter-spike interval モデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
