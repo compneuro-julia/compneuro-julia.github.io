@@ -11,11 +11,11 @@ Julia 1.5.0
 ## 目次
 - [はじめに](https://compneuro-julia.github.io/intro.html)
 
-1. 神経生理の基礎
+1. [神経生理の基礎](https://compneuro-julia.github.io/1_intro.html)
 	1. 神経細胞の形態と膜電位変化
 	2. [シナプス伝達](https://compneuro-julia.github.io/1-2_synapse.html)
 	3. 神経回路の可塑性
-1. 神経細胞のモデル
+1. [神経細胞のモデル](https://compneuro-julia.github.io/2_intro.html)
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
 	1. FitzHugh–Nagumoモデル
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
@@ -26,7 +26,7 @@ Julia 1.5.0
 	1. 確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)
 	1. 確率的集団モデル (Fokker–Planck 方程式)
 	1. 発火率モデル
-1. シナプス伝達のモデル
+1. [シナプス伝達のモデル](https://compneuro-julia.github.io/3_intro.html)
 	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
 	2. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
 	3. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
@@ -44,7 +44,6 @@ Julia 1.5.0
 	5. 競合学習 (competitive learning)
 	6. 勾配法と誤差逆伝播法 (backpropagation)
 	7. 誤差逆伝播法の近似手法
-	
 	8. 経時的貢献度分配問題 (temporal credit assignment problem)
 	9. RTRL vs BPTT
 	10. RTRLの近似手法
@@ -55,8 +54,8 @@ Julia 1.5.0
 	2. Hopfield モデル
 	3. Boltzmann machine
 10. 情報理論と最適化原理
-13. ベイズ脳理論と生成モデル
-	1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)
+11. [ベイズ脳理論と生成モデル](https://compneuro-julia.github.io/11_intro.html)
+	1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/11-1_sparse-coding.html)
 12. 強化学習
 13. 運動制御
 14. 時空間の符号化

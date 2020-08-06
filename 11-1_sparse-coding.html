@@ -94,67 +94,16 @@
   <a class="reference internal" href="1_intro.html">
    1. 神経生理の基礎
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="1-2_synapse.html">
-     1.2 シナプス伝達
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-1_hodgkinhuxley.html">
-     2.1 Hodgkin-Huxleyモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-2_lif.html">
-     2.2 Leaky integrate-and-fire モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-3_iz.html">
-     2.3 Izhikevich モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-7_isi.html">
-     2.7 Inter-spike interval モデル
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-1_current-conductance-synapse.html">
-     3.1 Current-based vs Conductance-based シナプス
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-2_expo-synapse.html">
-     3.2 指数関数型シナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-3_kinetic-synapse.html">
-     3.3 動力学モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-5_synaptic-weighted.html">
-     3.5 シナプス入力の重みづけ
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
@@ -172,13 +121,6 @@
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="tips.html">
-     JuliaのTips集
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -305,7 +247,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#locally-competitive-algorithm-lca">
-   11.1.3 Locally Competitive Algorithm (LCA)
+   11.1.3 Locally competitive algorithm (LCA)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -519,13 +461,13 @@ E(\boldsymbol{I}, \boldsymbol{r}|\Phi):=&amp;-\ln p(\boldsymbol{I}|\boldsymbol{r
 <p>とすることにより、<span class="math notranslate nohighlight">\(\Phi\)</span>を最適化する (<a class="reference external" href="#id6">11.1.4</a>)。ただし、<span class="math notranslate nohighlight">\(\langle\cdot \rangle\)</span>は複数の画像に対する平均を取ることを意味する。</p>
 </div>
 <div class="section" id="locally-competitive-algorithm-lca">
-<h2>11.1.3 Locally Competitive Algorithm (LCA)<a class="headerlink" href="#locally-competitive-algorithm-lca" title="Permalink to this headline">¶</a></h2>
+<h2>11.1.3 Locally competitive algorithm (LCA)<a class="headerlink" href="#locally-competitive-algorithm-lca" title="Permalink to this headline">¶</a></h2>
 <p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の勾配法による更新則は、<span class="math notranslate nohighlight">\(E\)</span>の微分により次のように得られる。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
 \frac{d \boldsymbol{r}}{dt} &amp;= -\frac{\eta_\boldsymbol{r}}{2}\frac{\partial E}{\partial \boldsymbol{r}}\\
-&amp;=\eta_\boldsymbol{r} \cdot\left[\Phi^T (\boldsymbol{I}-\Phi\boldsymbol{r})- \frac{\lambda}{2\sigma}S'\left(\frac{r_i}{\sigma}\right)\right]
+&amp;=\eta_\boldsymbol{r} \cdot\left[\Phi^T (\boldsymbol{I}-\Phi\boldsymbol{r})- \frac{\lambda}{2}S'\left(r_i\right)\right]
 \end{align}
 \end{split}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\eta_{\boldsymbol{r}}\)</span>は学習率である。この式により<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束するまで最適化するが、単なる勾配法ではなく、(Olshausen &amp; Field, 1996)では<strong>共役勾配法</strong> (conjugate gradient method)を用いている。しかし、共役勾配法は実装が煩雑で非効率であるため、より効率的かつ生理学的な妥当性の高い学習法として、<strong>LCA</strong>  (locally competitive algorithm)が提案されている (<a class="reference external" href="https://www.ece.rice.edu/~eld1/papers/Rozell08.pdf">Rozell et al., <em>Neural Comput</em>. 2008</a>)。LCAは<strong>側抑制</strong> (local competition, lateral inhibition)と<strong>閾値関数</strong> (thresholding function)を用いる更新則である。LCAによる更新を行うRNNは通常のRNNとは異なり、コスト関数(またはエネルギー関数)を最小化する動的システムである。このような機構はHopfield networkで用いられているために、Olshausenは<strong>Hopfield trick</strong>と呼んでいる。</p>
@@ -630,7 +572,7 @@ C=\frac{1}{2}(y-x)^2+\lambda |x|
 C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 \]</div>
 <p>となる。(7)式の最小値を与える<span class="math notranslate nohighlight">\(x\)</span>は場合分けをして考えると、<span class="math notranslate nohighlight">\(y-\lambda\geq0\)</span>のとき二次関数の頂点を考えて<span class="math notranslate nohighlight">\(x=y-\lambda\)</span>となる。 一方で<span class="math notranslate nohighlight">\(y-\lambda&lt;0\)</span>のときは<span class="math notranslate nohighlight">\(x\geq0\)</span>において単調増加な関数となるので、最小となるのは<span class="math notranslate nohighlight">\(x=0\)</span>のときである。同様の議論を<span class="math notranslate nohighlight">\(x\leq0\)</span>に対しても行うことで (5)式が得られる。</p>
-<p>閾値関数としては軟判定閾値関数だけではなく、硬判定閾値関数や<span class="math notranslate nohighlight">\(y=x - \text{tanh}(x)\)</span> (Tanhshrink)など様々な関数を用いることができます。</p>
+<p>なお、閾値関数としては軟判定閾値関数だけではなく、硬判定閾値関数や<span class="math notranslate nohighlight">\(y=x - \text{tanh}(x)\)</span> (Tanh-shrink)など様々な関数を用いることができる。</p>
 </div>
 </div>
 <div class="section" id="id6">
@@ -932,6 +874,7 @@ end
 <p class="admonition-title">論文以外の参考資料</p>
 <ul class="simple">
 <li><p>Bruno Olshausen: “Sparse coding in brains and machines”(<a class="reference external" href="https://talks.stanford.edu/bruno-olshausen-sparse-coding-in-brains-and-machines/">Stanford talks</a>), <a class="reference external" href="http://www.rctn.org/bruno/public/Simons-sparse-coding.pdf">Slide</a></p></li>
+<li><p><a class="reference external" href="https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-ICA.pdf">https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-ICA.pdf</a></p></li>
 <li><p><a class="reference external" href="https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-LCA.pdf">https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-LCA.pdf</a></p></li>
 <li><p><a class="reference external" href="https://redwood.berkeley.edu/wp-content/uploads/2018/08/Dylan-lca_overcompleteness_09-27-2018.pdf">https://redwood.berkeley.edu/wp-content/uploads/2018/08/Dylan-lca_overcompleteness_09-27-2018.pdf</a></p></li>
 </ul>
