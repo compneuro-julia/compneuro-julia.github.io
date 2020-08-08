@@ -51,7 +51,7 @@ Julia 1.5.0
 8. 神経細胞・神経回路の非線形ダイナミクス
 9. 連想記憶モデル
 	1. Ising モデル
-	2. Hopfield モデル
+	2. Amari-Hopfield モデル
 	3. Boltzmann machine
 10. 情報理論と最適化原理
 11. [ベイズ脳理論と生成モデル](https://compneuro-julia.github.io/11_intro.html)
@@ -63,6 +63,7 @@ Julia 1.5.0
 
 - 付録
 	- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
+	- [有用なリンク集](https://compneuro-julia.github.io/useful_links.html)
 
 
 ***
