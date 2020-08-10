@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>2.2 Hodgkin-Huxleyモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/custom.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/2-2_hodgkinhuxley.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2.4 Leaky integrate-and-fire モデル" href="2-4_lif.html" />
+    <link rel="prev" title="2. 神経細胞のモデル" href="2_intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://compneuro-julia.github.io/2-2_hodgkinhuxley.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="2.2 Hodgkin-Huxleyモデル" />
+<meta property="og:description" content="2.2 Hodgkin-Huxleyモデル  2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル  Hodgkin-Huxleyモデル (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである (Hodgkin & H" />
+<meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
+
+<meta name="twitter:card" content="summary">
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/logo.svg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_intro.html">
+   1. はじめに
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="reference internal" href="2_intro.html">
+   2. 神経細胞のモデル
+  </a>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3_intro.html">
+   3. シナプス伝達のモデル
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
+     3.1 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_expo-synapse.html">
+     3.2 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
+     3.3 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.5 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="11_intro.html">
+   11. ベイズ脳理論と生成モデル
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix_intro.html">
+   付録
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/2-2_hodgkinhuxley.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/2-2_hodgkinhuxley.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/2-2_hodgkinhuxley.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> On this page
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   2.2.2 Hodgkin-Huxley モデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   2.2.3 Hodgkin-Huxleyモデルのシミュレーションの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#frequency-current-f-i-curve">
+   2.2.4 Frequency-current (F-I) curve
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#postinhibitory-rebound-pir">
+   2.2.5  抑制後リバウンド (Postinhibitory rebound; PIR)
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="hodgkin-huxley">
+<h1>2.2 Hodgkin-Huxleyモデル<a class="headerlink" href="#hodgkin-huxley" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>Hodgkin-Huxleyモデル</strong> (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである (<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1392413/">Hodgkin &amp; Huxley, 1952</a>)。Hodgkinらはヤリイカの巨大神経軸索に対する<strong>電位固定法</strong>(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した。</p>
+<p>HHモデルには等価な電気回路モデルがあり, <strong>膜の並列等価回路モデル</strong> (parallel conductance model)と呼ばれている。膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える。</p>
+<p><strong>イオンチャネル</strong> (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である。それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)。また, イオンチャネルにはイオンの種類に応じて異なる<strong>コンダクタンス</strong>(抵抗の逆数で電流の「流れやすさ」を意味する)と<strong>平衡電位</strong>(equilibrium potential)がある。HHモデルでは, ナトリウム(Na<span class="math notranslate nohighlight">\(^{+}\)</span>)チャネル, カリウム(K<span class="math notranslate nohighlight">\(^{+}\)</span>)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する。漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する。なお, 現在では漏れ電流の多くはCl<span class="math notranslate nohighlight">\(^{-}\)</span>イオン(chloride ion)によることが分かっている。</p>
+<div class="figure align-default" id="parallel-conductance-model">
+<a class="reference internal image-reference" href="_images/parallel_conductance_model.JPG"><img alt="_images/parallel_conductance_model.JPG" src="_images/parallel_conductance_model.JPG" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Hodgkin-Huxleyモデルの膜の等価回路モデル</span><a class="headerlink" href="#parallel-conductance-model" title="Permalink to this image">¶</a></p>
+</div>
+<p>それでは, 等価回路モデルを用いて電位変化の式を立ててみよう。上図において, <span class="math notranslate nohighlight">\(C_m\)</span>は細胞膜のキャパシタンス(膜容量), <span class="math notranslate nohighlight">\(I_{m}(t)\)</span>は細胞膜を流れる電流(外部からの入力電流), <span class="math notranslate nohighlight">\(I_\text{Cap}(t)\)</span>は膜のコンデンサを流れる電流, <span class="math notranslate nohighlight">\(I_\text{Na}(t)\)</span>及び <span class="math notranslate nohighlight">\(I_K(t)\)</span>はそれぞれナトリウムチャネルとカリウムチャネルを通って膜から流出する電流, <span class="math notranslate nohighlight">\(I_\text{L}(t)\)</span>は漏れ電流である。このとき,</p>
+<div class="math notranslate nohighlight">
+\[
+I_{m}(t)=I_\text{Cap}(t)+I_\text{Na}(t)+I_\text{K}(t)+I_\text{L}(t)    
+\]</div>
+<p>という仮定をしている。</p>
+<p>膜電位を<span class="math notranslate nohighlight">\(V(t)\)</span>とすると, Kirchhoffの第二法則 (Kirchhoff’s Voltage Law)より,</p>
+<div class="math notranslate nohighlight">
+\[
+\underbrace{C_m\frac {dV(t)}{dt}}_{I_\text{Cap} (t)}=I_{m}(t)-I_\text{Na}(t)-I_\text{K}(t)-I_\text{L}(t)
+\]</div>
+<p>となる。Hodgkinらはチャネル電流<span class="math notranslate nohighlight">\(I_\text{Na}, I_K, I_\text{L}\)</span>が従う式を実験的に求めた。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+I_\text{Na}(t) &amp;= g_{\text{Na}}\cdot m^{3}h(V-E_{\text{Na}})\\
+I_\text{K}(t) &amp;= g_{\text{K}}\cdot n^{4}(V-E_{\text{K}})\\
+I_\text{L}(t) &amp;= g_{\text{L}}(V-E_{\text{L}})
+\end{aligned}
+\end{split}\]</div>
+<p>ただし, <span class="math notranslate nohighlight">\(g_{\text{Na}}, g_{\text{K}}\)</span>はそれぞれNa<span class="math notranslate nohighlight">\(^+\)</span>, K<span class="math notranslate nohighlight">\(^+\)</span>の最大コンダクタンスである。<span class="math notranslate nohighlight">\(g_{\text{L}}\)</span>はオームの法則に従うコンダクタンスで, Lコンダクタンスは時間的に変化はしないと仮定する。また, <span class="math notranslate nohighlight">\(m\)</span>はNa<span class="math notranslate nohighlight">\(^+\)</span>コンダクタンスの活性化パラメータ, <span class="math notranslate nohighlight">\(h\)</span>はNa<span class="math notranslate nohighlight">\(^+\)</span>コンダクタンスの不活性化パラメータ, <span class="math notranslate nohighlight">\(n\)</span>はK<span class="math notranslate nohighlight">\(^+\)</span>コンダクタンスの活性化パラメータであり, ゲートの開閉確率を表している。よって, HHモデルの状態は<span class="math notranslate nohighlight">\(V, m, h, n\)</span>の4変数で表される。これらの変数は以下の<span class="math notranslate nohighlight">\(x\)</span>を<span class="math notranslate nohighlight">\(m, n, h\)</span>に置き換えた3つの微分方程式に従う。</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dx}{dt}=\alpha_{x}(V)(1-x)-\beta_{x}(V)x
+\]</div>
+<p>ただし, <span class="math notranslate nohighlight">\(V\)</span>の関数である<span class="math notranslate nohighlight">\(\alpha_{x}(V),\ \beta_{x}(V)\)</span>は<span class="math notranslate nohighlight">\(m, h, n\)</span>によって異なり, 次の6つの式に従う。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{ll}
+\alpha_{m}(V)=\dfrac {0.1(25-V)}{\exp \left[(25-V)/10\right]-1}, &amp;\beta_{m}(V)=4\exp {(-V/18)}\\
+\alpha_{h}(V)=0.07\exp {(-V/20)}, &amp; \beta_{h}(V)={\dfrac{1}{\exp {\left[(30-V)/10 \right]}+1}}\\
+\alpha_{n}(V)={\dfrac {0.01(10-V)}{\exp {\left[(10-V)/10\right]}-1}},&amp; \beta_{n}(V)=0.125\exp {(-V/80)} 
+\end{array}
+\end{split}\]</div>
+<p>なお、この式は6.3℃の条件下においてイカの巨大軸索の活動から得たデータを用いて導かれたものであることに注意しよう。</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>HHモデルの構築に関する歴史については(<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3424716/">Schwiening, 2012</a>)を参照。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>2.2.2 Hodgkin-Huxley モデルの定義<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>これまでに説明した式を用いてHHモデルを実装する。まず必要なパッケージを読み込む。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
+<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>変更しない定数を保持する <code class="docutils literal notranslate"><span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">HHParameter</span></code> と, 変数を保持する <code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">HH</span></code> を作成する。<code class="docutils literal notranslate"><span class="pre">v,</span> <span class="pre">m,</span> <span class="pre">h,</span> <span class="pre">n</span></code> はHH modelの4変数だが, <code class="docutils literal notranslate"><span class="pre">r</span></code> はpre-synaptic dynamicsを表す変数である。詳細は3章で解説する。 定数は次のように設定する。</p>
+<p>\begin{align*}
+C_m=1.0, g_{\text{Na}}=120, g_{\text{K}}=36, g_{\text{L}}=0.3\
+E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
+\end{align*}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">HHParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">Cm</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># 膜容量(uF/cm^2)</span>
+    <span class="n">gNa</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">120.0</span> <span class="c1"># Na+ の最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">gK</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">36.0</span> <span class="c1"># K+ の最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">gL</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c1"># 漏れイオンの最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">ENa</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">50.0</span> <span class="c1"># Na+ の平衡電位(mV)</span>
+    <span class="n">EK</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">77.0</span> <span class="c1"># K+ の平衡電位(mV)</span>
+    <span class="n">EL</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">54.387</span> <span class="c1">#漏れイオンの平衡電位(mV)</span>
+    <span class="n">tr</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># ms</span>
+    <span class="n">td</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">8.0</span> <span class="c1"># ms</span>
+    <span class="n">invtr</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">tr</span>
+    <span class="n">invtd</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">td</span>
+    <span class="n">v0</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">20.0</span> <span class="c1"># mV</span>
+<span class="n">end</span>
+
+<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">HH</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="p">::</span><span class="n">HHParameter</span> <span class="o">=</span> <span class="n">HHParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="p">::</span><span class="n">UInt16</span>
+    <span class="n">v</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">m</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">n</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">0.32</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">update!</span></code>を書く。ソルバーとしては陽的Euler法または4次のRunge-Kutta法を用いる。以下ではEuler法を用いている。Juliaではforループを用いて1つのニューロンごとにパラメータを更新する方がベクトルを用いるよりも高速である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update!(variable::HH, param::HHParameter, I::Vector, dt)
+    @unpack N, v, m, h, n, r = variable
+    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0 = param
+    @inbounds for i = 1:N
+        m[i] += dt * ((0.1(v[i]+40.0)/(1.0 - exp(-0.1(v[i]+40.0))))*(1.0 - m[i]) - 4.0exp(-(v[i]+65.0) / 18.0)*m[i])
+        h[i] += dt * ((0.07exp(-0.05(v[i]+65.0)))*(1.0 - h[i]) - 1.0/(1.0 + exp(-0.1(v[i]+35.0)))*h[i])
+        n[i] += dt * ((0.01(v[i]+55.0)/(1.0 - exp(-0.1(v[i]+55.0))))*(1.0 - n[i]) - (0.125exp(-0.0125(v[i]+65)))*n[i])
+        v[i] += dt / Cm * (I[i] - gNa * m[i]^3 * h[i] * (v[i] - ENa) - gK * n[i]^4 * (v[i] - EK) - gL * (v[i] - EL))
+        r[i] += dt * ((invtr - invtd) * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * invtd)
+    end
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>2.2.3 Hodgkin-Huxleyモデルのシミュレーションの実行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>いくつかの定数を設定してシミュレーションを実行する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
+dt = 0.01f0 # ms
+nt = UInt32(T/dt) # number of timesteps
+N = 1 # ニューロンの数
+
+# 入力刺激
+t = Array{Float32}(1:nt)*dt
+I = repeat(10f0 * ((t .&gt; 50) - (t .&gt; 200)) + 35f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+
+# 記録用
+varr = zeros(Float32, nt, N)
+gatearr = zeros(Float32, nt, 3, N)
+
+# modelの定義
+neurons = HH{Float32}(N=N)
+
+# simulation
+@time for i = 1:nt
+    update!(neurons, neurons.param, I[i, :], dt)
+    varr[i, :] = neurons.v
+    gatearr[i, 1, :] = neurons.m
+    gatearr[i, 2, :] = neurons.h
+    gatearr[i, 3, :] = neurons.n
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.206651 seconds (1.36 M allocations: 46.979 MiB, 3.60% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>結果を表示するために <code class="docutils literal notranslate"><span class="pre">Plots</span></code>を読み込む。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ニューロンの膜電位 <code class="docutils literal notranslate"><span class="pre">v</span></code>, ゲート変数 <code class="docutils literal notranslate"><span class="pre">m,</span> <span class="pre">h,</span> <span class="pre">n</span></code>, 刺激電流 <code class="docutils literal notranslate"><span class="pre">I</span></code>の描画をする。入力電流の単位は <span class="math notranslate nohighlight">\(\mu\text{A/cm}^2\)</span>である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Gating Value&quot;</span> <span class="s2">&quot;Current&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">500</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-2_hodgkinhuxley_14_0.svg" src="_images/2-2_hodgkinhuxley_14_0.svg" /></div>
+</div>
+<p>次項で用いるために発火回数を求める。<code class="docutils literal notranslate"><span class="pre">bitwise</span> <span class="pre">and</span></code>を用いると楽である。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike</span> <span class="o">=</span> <span class="p">(</span><span class="n">varr</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">.&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">varr</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="n">nt</span><span class="p">,</span> <span class="p">:]</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">num_spikes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spike</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Num. of spikes : &quot;</span><span class="p">,</span> <span class="n">num_spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Num. of spikes : 27
+</pre></div>
+</div>
+</div>
+</div>
+<p>50msから200msまでで11回, 250msから400msまでで16回発火しているので発火回数は計27回であり、この結果は正しい。</p>
+</div>
+<div class="section" id="frequency-current-f-i-curve">
+<h2>2.2.4 Frequency-current (F-I) curve<a class="headerlink" href="#frequency-current-f-i-curve" title="Permalink to this headline">¶</a></h2>
+<p>この項ではHodgkin-Huxleyモデルにおいて、入力電流に対する発火率がどのように変化するかを調べる。次のコードのように入力電流を徐々に増加させたときの発火率を見てみよう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 1000 # ms
+dt = 0.01f0 # ms
+nt = UInt32(T/dt) # number of timesteps
+
+N = 100 # ニューロンの数
+
+# 入力刺激
+maxcurrent = 30
+t = Array{Float32}(1:nt)*dt
+I = Array{Float32}(range(1,maxcurrent,length=N)) # injection current
+
+# modelの定義
+neurons = HH{Float32}(N=N)
+
+# 記録用
+varr_fi = zeros(Float32, nt, N)
+
+# simulation
+for i = 1:nt
+    update!(neurons, neurons.param, I[:], dt)
+    varr_fi[i, :] = neurons.v
+end
+</pre></div>
+</div>
+</div>
+</div>
+<p>発火率を計算して結果を描画する。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike</span> <span class="o">=</span> <span class="p">(</span><span class="n">varr_fi</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">.&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">varr_fi</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="n">nt</span><span class="p">,</span> <span class="p">:]</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">num_spikes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spike</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rate</span> <span class="o">=</span> <span class="n">num_spikes</span><span class="o">/</span><span class="n">T</span><span class="o">*</span><span class="mf">1e3</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">[:],</span> <span class="n">rate</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Input current&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-2_hodgkinhuxley_21_0.svg" src="_images/2-2_hodgkinhuxley_21_0.svg" /></div>
+</div>
+<p>このような曲線を<strong>frequency-current (F-I) curve</strong> (または neuronal input/output (I/O) curve)と呼ぶ。</p>
+</div>
+<div class="section" id="postinhibitory-rebound-pir">
+<h2>2.2.5  抑制後リバウンド (Postinhibitory rebound; PIR)<a class="headerlink" href="#postinhibitory-rebound-pir" title="Permalink to this headline">¶</a></h2>
+<p>ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると発火が起こる, というのはニューロンの活動電位発生についての典型的な説明である。それではHHモデルの膜電位閾値はどのくらいの値になるのだろうか。答えは「<strong>膜電位閾値は一定ではない</strong>」である。それを示す現象として <strong>抑制後リバウンド</strong> (Postinhibitory rebound; PIR)がある。この時生じる発火を<strong>リバウンド発火</strong> (rebound spikes)
+と呼ぶ。抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である。この現象が生じる要因として</p>
+<ol class="simple">
+<li><p><strong>アノーダルブレイク</strong> (anodal break, またはanode break excitation; ABE)</p></li>
+<li><p>遅いT型カルシウム電流 (slow T-type calcium current)</p></li>
+</ol>
+<p>がある (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/15324089/">Chik et al., 2004</a>)。HH モデルはこのうちアノーダルブレイクを再現できるため, シミュレーションによりどのような現象か確認してみよう。これは入力電流を変更するだけで行える。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
+dt = 0.01f0 # ms
+nt = UInt32(T/dt) # number of timesteps
+N = 1 # ニューロンの数
+
+# 入力刺激
+t = Array{Float32}(1:nt)*dt
+I = repeat(10f0 * (-(t .&gt; 50) + (t .&gt; 200)) + 20f0 * (-(t .&gt; 250) + (t .&gt; 400)), 1, N)  # injection current
+
+# modelの定義
+neurons = HH{Float32}(N=N)
+
+# 記録用
+varr2 = zeros(Float32, nt, N)
+gatearr2 = zeros(Float32, nt, 3, N)
+
+# simulation
+@time for i = 1:nt
+    update!(neurons, neurons.param, I[i, :], dt)
+    varr2[i, :] = neurons.v
+    gatearr2[i, 1, :] = neurons.m
+    gatearr2[i, 2, :] = neurons.h
+    gatearr2[i, 3, :] = neurons.n
+end
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.072346 seconds (848.89 k allocations: 19.134 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>結果は次のようになる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Gating Value&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">500</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2-2_hodgkinhuxley_26_0.svg" src="_images/2-2_hodgkinhuxley_26_0.svg" /></div>
+</div>
+<p>なぜこのようなことが起こるか, というと過分極の状態から静止膜電位へと戻る際にNa<span class="math notranslate nohighlight">\(^+\)</span>チャネルが活性化 (Na<span class="math notranslate nohighlight">\(^+\)</span>チャネルの活性化パラメータ<span class="math notranslate nohighlight">\(m\)</span>が増加し, 不活性化パラメータ<span class="math notranslate nohighlight">\(h\)</span>が減少)し, 膜電位が脱分極することで再度Na<span class="math notranslate nohighlight">\(^+\)</span>チャネルが活性化する, というポジティブフィードバック過程(<strong>自己再生的過程</strong>)に突入するためである (もちろん, この過程は通常の活動電位発生のメカニズムである)。 この際, 発火に必要な閾値が膜電位の低下に応じて下がった, ということもできる。</p>
+<p>このように膜電位閾値は一定ではない。しかし, この後の節で紹介するLIFモデルなどでは簡略化のためにif文を用い, 膜電位閾値を超えたから発火, というものもある。実際には違うということを頭の片隅に残しながら読み進めることを推奨する。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>PIRに関連する現象として抑制後促通 (Postinhibitory facilitation; PIF)がある。これは抑制入力の後に興奮入力がある一定の時間内で入ると発火が起こるという現象である (<a class="reference external" href="http://www.brain.riken.jp/en/summer/prev/2006/files/j_rinzel04.pdf">Dolda et al., 2006</a>, <a class="reference external" href="https://link.springer.com/referenceworkentry/10.1007%2F978-1-4614-7320-6_152-1">Dodla, 2014</a>)。</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="2_intro.html" title="previous page">2. 神経細胞のモデル</a>
+    <a class='right-next' id="next-link" href="2-4_lif.html" title="next page">2.4 Leaky integrate-and-fire モデル</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>

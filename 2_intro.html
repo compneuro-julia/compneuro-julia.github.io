@@ -34,8 +34,8 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/2_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2.1 Hodgkin-Huxleyモデル" href="2-1_hodgkinhuxley.html" />
-    <link rel="prev" title="1.2 シナプス伝達" href="1-2_synapse.html" />
+    <link rel="next" title="2.2 Hodgkin-Huxleyモデル" href="2-2_hodgkinhuxley.html" />
+    <link rel="prev" title="1.2 記号の表記" href="notation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -45,7 +45,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/2_intro.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2. 神経細胞のモデル" />
-<meta property="og:description" content="2. 神経細胞のモデル  2.1 Hodgkin-Huxleyモデル  2.2 Leaky integrate-and-fire モデル  2.3 Izhikevich モデル  2.7 Inter-spike interval モデル  " />
+<meta property="og:description" content="2. 神経細胞のモデル  2.2 Hodgkin-Huxleyモデル  2.4 Leaky integrate-and-fire モデル  2.5 Izhikevich モデル  2.8 Inter-spike interval モデル  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary">
@@ -86,18 +86,18 @@
 </ul>
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="intro.html">
-   はじめに
+  <a class="reference internal" href="preface.html">
+   まえがき
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="1_intro.html">
-   1. 神経生理の基礎
+   1. はじめに
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="1-2_synapse.html">
-     1.2 シナプス伝達
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
     </a>
    </li>
   </ul>
@@ -108,23 +108,23 @@
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-1_hodgkinhuxley.html">
-     2.1 Hodgkin-Huxleyモデル
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-2_lif.html">
-     2.2 Leaky integrate-and-fire モデル
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-3_iz.html">
-     2.3 Izhikevich モデル
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="2-7_isi.html">
-     2.7 Inter-spike interval モデル
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
     </a>
    </li>
   </ul>
@@ -135,22 +135,27 @@
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-1_current-conductance-synapse.html">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
      3.1 Current-based vs Conductance-based シナプス
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-2_expo-synapse.html">
+    <a class="reference internal" href="3-3_expo-synapse.html">
      3.2 指数関数型シナプスモデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-3_kinetic-synapse.html">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
      3.3 動力学モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-5_synaptic-weighted.html">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
      3.5 シナプス入力の重みづけ
     </a>
    </li>
@@ -162,8 +167,18 @@
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="11-1_sparse-coding.html">
-     11.1 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    <a class="reference internal" href="11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
     </a>
    </li>
   </ul>
@@ -282,10 +297,10 @@
 <h1>2. 神経細胞のモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="tableofcontents-wrapper compound">
 <ul>
-<li class="tableofcontents-l2"><a class="reference internal" href="/2-1_hodgkinhuxley.html">2.1 Hodgkin-Huxleyモデル</a></li>
-<li class="tableofcontents-l2"><a class="reference internal" href="/2-2_lif.html">2.2 Leaky integrate-and-fire モデル</a></li>
-<li class="tableofcontents-l2"><a class="reference internal" href="/2-3_iz.html">2.3 Izhikevich モデル</a></li>
-<li class="tableofcontents-l2"><a class="reference internal" href="/2-7_isi.html">2.7 Inter-spike interval モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-2_hodgkinhuxley.html">2.2 Hodgkin-Huxleyモデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-4_lif.html">2.4 Leaky integrate-and-fire モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-5_iz.html">2.5 Izhikevich モデル</a></li>
+<li class="tableofcontents-l2"><a class="reference internal" href="/2-8_isi.html">2.8 Inter-spike interval モデル</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -301,8 +316,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="1-2_synapse.html" title="previous page">1.2 シナプス伝達</a>
-    <a class='right-next' id="next-link" href="2-1_hodgkinhuxley.html" title="next page">2.1 Hodgkin-Huxleyモデル</a>
+    <a class='left-prev' id="prev-link" href="notation.html" title="previous page">1.2 記号の表記</a>
+    <a class='right-next' id="next-link" href="2-2_hodgkinhuxley.html" title="next page">2.2 Hodgkin-Huxleyモデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
