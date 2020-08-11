@@ -94,72 +94,16 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notation.html">
-     1.2 記号の表記
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-2_hodgkinhuxley.html">
-     2.2 Hodgkin-Huxleyモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-4_lif.html">
-     2.4 Leaky integrate-and-fire モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-5_iz.html">
-     2.5 Izhikevich モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-8_isi.html">
-     2.8 Inter-spike interval モデル
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-1_synapse.html">
-     3.1 シナプス伝達
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-2_current-conductance-synapse.html">
-     3.1 Current-based vs Conductance-based シナプス
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-3_expo-synapse.html">
-     3.2 指数関数型シナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-4_kinetic-synapse.html">
-     3.3 動力学モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.5 シナプス入力の重みづけ
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
@@ -187,18 +131,6 @@
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="tips.html">
-     JuliaのTips集
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="useful_links.html">
-     有用なリンク集
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -386,13 +318,13 @@
 <h1>11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル<a class="headerlink" href="#sparse-coding-olshausen-field-1996" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="sparse-coding">
 <h2>11.2.1 Sparse codingと生成モデル<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">¶</a></h2>
-<p>Sparse codingモデル(<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である。まず、画像パッチ <span class="math notranslate nohighlight">\(\boldsymbol{I} (\boldsymbol{x})\)</span>が基底関数(basis function)あるいは特徴量(features) <span class="math notranslate nohighlight">\(\Phi = [\phi_i(\boldsymbol{x})]\)</span> のノイズを含む線形和で表されるとする (係数は<span class="math notranslate nohighlight">\(\boldsymbol{r}=[r_i]\)</span>とする)。</p>
+<p>Sparse codingモデル(<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である。まず、画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_i]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_i]\)</span> とする)。</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \boldsymbol{\epsilon}(\boldsymbol{x})\quad \tag{1}
+\mathbf{x} = \sum_i r_i \phi_i + \mathbf{\epsilon} = \mathbf{\Phi} \mathbf{r}+ \mathbf{\epsilon} \quad \tag{1}
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>は画像上の座標, <span class="math notranslate nohighlight">\(\epsilon\)</span>は平均0, 分散<span class="math notranslate nohighlight">\(\sigma^2\)</span>のGaussianノイズを表す (各ノイズは独立とする)。このモデルを神経ネットワークのモデルと考えると、<span class="math notranslate nohighlight">\(\Phi\)</span>は重み行列、係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、<span class="math notranslate nohighlight">\(r_i\)</span>は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。</p>
-<p>Sparse codingでは神経活動<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>を求めたい。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\mathbf{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)</span> である。このモデルを神経ネットワークのモデルと考えると、 <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span> は重み行列、係数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、<span class="math notranslate nohighlight">\(r_i\)</span> は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。</p>
+<p>Sparse codingでは神経活動 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>を求めたい。</p>
 <div class="section" id="id1">
 <h3>確率的モデルの記述<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="margin sidebar">
@@ -402,28 +334,28 @@
 <p>以後の記述は(<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/9425546/">Olshausen &amp; Field, 1997</a>)に従ったものである。</p>
 </div>
 </div>
-<p>入力される画像パッチの真の分布を<span class="math notranslate nohighlight">\(q(\boldsymbol{I})\)</span>, 生成モデルの分布を<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\Phi)\)</span>とする。さらに潜在変数 <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の事前分布 (prior)を<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>, 画像パッチ <span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span>の尤度 (likelihood)を<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)\)</span>とする。このとき、</p>
+<p>入力される画像パッチの真の分布を<span class="math notranslate nohighlight">\(q(\mathbf{x})\)</span>, 生成モデルの分布を<span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span>とする。さらに潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の事前分布 (prior)を<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>, 画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の尤度 (likelihood)を<span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})\)</span>とする。このとき、</p>
 <div class="math notranslate nohighlight">
 \[
-p(\boldsymbol{I}|\Phi)=\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r} \quad \tag{2}
+p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r} \quad \tag{2}
 \]</div>
-<p>が成り立つ。<span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)\)</span>は、(1)式においてノイズ項を<span class="math notranslate nohighlight">\(\epsilon_j \sim\mathcal{N}(0, \sigma^2)\)</span>としたことから、</p>
+<p>が成り立つ。<span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})\)</span>は、(1)式においてノイズ項を<span class="math notranslate nohighlight">\(\epsilon_j \sim\mathcal{N}(0, \sigma^2)\)</span>としたことから、</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-p(\boldsymbol{I}|\ \boldsymbol{r}, \Phi)&amp;=\mathcal{N}\left(\boldsymbol{I}|\ \Phi \boldsymbol{r}, \sigma^2 \right)\\
-&amp;=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\boldsymbol{I} - \Phi \boldsymbol{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
+p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})&amp;=\mathcal{N}\left(\mathbf{x}|\ \mathbf{\Phi} \mathbf{r}, \sigma^2 \mathbf{I} \right)\\
+&amp;=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\mathbf{x} - \mathbf{\Phi} \mathbf{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
 \end{align}
 \end{split}\]</div>
 <p>と表せる。ただし、<span class="math notranslate nohighlight">\(Z_{\sigma}\)</span>は規格化定数である。</p>
 </div>
 <div class="section" id="id2">
 <h3>事前分布の設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>事前分布<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>としては、0においてピークがあり、裾の重い(heavy tail)を持つsparse distributionあるいは <strong>super-Gaussian distribution</strong> (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い。このような分布では、<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の各要素<span class="math notranslate nohighlight">\(r_i\)</span>はほとんど0に等しく、ある入力に対しては大きな値を取る。<span class="math notranslate nohighlight">\(p(\boldsymbol{r})\)</span>は一般化して式(4), (5)のように表記する。</p>
+<p>事前分布<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>としては、0においてピークがあり、裾の重い(heavy tail)を持つsparse distributionあるいは <strong>super-Gaussian distribution</strong> (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い。このような分布では、<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の各要素<span class="math notranslate nohighlight">\(r_i\)</span>はほとんど0に等しく、ある入力に対しては大きな値を取る。<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>は一般化して式(4), (5)のように表記する。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-p(\boldsymbol{r})&amp;=\prod_i p(r_i) \quad \tag{4}\\
+p(\mathbf{r})&amp;=\prod_i p(r_i) \quad \tag{4}\\
 p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
 \end{align}
 \end{split}\]</div>
@@ -494,75 +426,72 @@ p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
 </div>
 <div class="section" id="map">
 <h2>11.2.2 MAP推定と目的関数の設定<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
-<p>最適な生成モデルを得るために、入力される画像パッチの真の分布 <span class="math notranslate nohighlight">\(q(\boldsymbol{I})\)</span>と生成モデルの分布 <span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\Phi)\)</span>を近づける。すなわち、2つの分布のKullback-Leibler ダイバージェンス <span class="math notranslate nohighlight">\(D_{\text{KL}}\left(q(\boldsymbol{I}) \Vert\ p(\boldsymbol{I}|\Phi)\right)\)</span>を最小化する。ただし、</p>
+<p>最適な生成モデルを得るために、入力される画像パッチの真の分布 <span class="math notranslate nohighlight">\(q(\mathbf{x})\)</span>と生成モデルの分布 <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span>を近づける。すなわち、2つの分布のKullback-Leibler ダイバージェンス <span class="math notranslate nohighlight">\(D_{\text{KL}}\left(q(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)\)</span>を最小化する。ただし、</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))&amp;=\int q(\boldsymbol{I}) \log \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)} d\boldsymbol{I}\\
-&amp;=\mathbb{E}_q \left[\ln \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)}\right]\\
-&amp;=\mathbb{E}_q \left[\ln q(\boldsymbol{I})\right]-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right] \tag{6}
+D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&amp;=\int q(\mathbf{x}) \log \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+&amp;=\mathbb{E}_q \left[\ln \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
+&amp;=\mathbb{E}_q \left[\ln q(\mathbf{x})\right]-\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
 \end{align}
 \end{split}\]</div>
-<p>が成り立つ。(6)式の1番目の項は一定なので、<span class="math notranslate nohighlight">\(D_{\text{KL}}\)</span>を最小化するには<span class="math notranslate nohighlight">\(\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\)</span>を最大化すればよい。ここで、(2)式より、</p>
+<p>が成り立つ。(6)式の1番目の項は一定なので、<span class="math notranslate nohighlight">\(D_{\text{KL}}\)</span>を最小化するには<span class="math notranslate nohighlight">\(\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\)</span>を最大化すればよい。ここで、(2)式より、</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]=\mathbb{E}_q \left[\ln \int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\right]\tag{7}
+\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\mathbb{E}_q \left[\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\right]\tag{7}
 \]</div>
-<p>が成り立つ。ここで近似として <span class="math notranslate nohighlight">\(\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\)</span> を <span class="math notranslate nohighlight">\(p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r}) \left(=p(\boldsymbol{I}, \boldsymbol{r}| \Phi)\right)\)</span> の最大値で評価することにする。この近似の下、最適な<span class="math notranslate nohighlight">\(\Phi=\Phi^*\)</span>は次のようにして求められる。</p>
+<p>が成り立つ。ここで近似として <span class="math notranslate nohighlight">\(\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\)</span> を <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)\)</span> の最大値で評価することにする。この近似の下、最適な<span class="math notranslate nohighlight">\(\mathbf{\Phi}=\mathbf{\Phi}^*\)</span>は次のようにして求められる。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\Phi^*&amp;=\text{arg} \min_{\Phi} \min_{\boldsymbol{r}} D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))\\
-&amp;=\text{arg} \max_{\Phi} \max_{\boldsymbol{r}} \mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\\
-&amp;\approx \text{arg} \max_{\Phi}\max_{\boldsymbol{r}} \ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
-&amp;=\text{arg}\min_{\Phi} \min_{\boldsymbol{r}}\ E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\tag{8}
+\mathbf{\Phi}^*&amp;=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
+&amp;=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+&amp;\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
+&amp;=\text{arg}\min_{\mathbf{\Phi}} \min_{\mathbf{r}}\ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\tag{8}
 \end{align}
 \end{split}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>はコスト関数であり、次式のように表される。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span>はコスト関数であり、次式のように表される。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-E(\boldsymbol{I}, \boldsymbol{r}|\Phi):=&amp;-\ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
-=&amp;\underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&amp;-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
+=&amp;\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
 \end{align}
 \end{split}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\lambda=2\sigma^2\beta\)</span>は正則化係数<a class="footnote-reference brackets" href="#lam" id="id4">2</a>であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。勾配法により、<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>を最小化する。これには<span class="math notranslate nohighlight">\(\Phi\)</span>を固定した下で<span class="math notranslate nohighlight">\(E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\)</span>を最小化する<span class="math notranslate nohighlight">\(\boldsymbol{r}=\hat{\boldsymbol{r}}\)</span>を求める (<a class="reference external" href="#locally-competitive-algorithm-lca">11.1.3</a>)。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\lambda=2\sigma^2\beta\)</span>は正則化係数<a class="footnote-reference brackets" href="#lam" id="id4">2</a>であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。勾配法により、<span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span>を最小化する。これには<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を固定した下で<span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span>を最小化する<span class="math notranslate nohighlight">\(\mathbf{r}=\hat{\mathbf{r}}\)</span>を求める (<a class="reference external" href="#locally-competitive-algorithm-lca">11.1.3</a>)。</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{\boldsymbol{r}}=\text{arg}\min_{\boldsymbol{r}}E(\boldsymbol{I}, \boldsymbol{r}|\Phi)
+\hat{\mathbf{r}}=\text{arg}\min_{\mathbf{r}}E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})
 \]</div>
-<p>次に<span class="math notranslate nohighlight">\(\hat{\boldsymbol{r}}\)</span>を用いて</p>
+<p>次に<span class="math notranslate nohighlight">\(\hat{\mathbf{r}}\)</span>を用いて</p>
 <div class="math notranslate nohighlight">
 \[
-\Phi^*=\text{arg}\min_{\Phi}\langle E(\boldsymbol{I}, \hat{\boldsymbol{r}}|\Phi)\rangle
+\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}}\langle E(\mathbf{x}, \hat{\mathbf{r}}|\mathbf{\Phi})\rangle
 \]</div>
-<p>とすることにより、<span class="math notranslate nohighlight">\(\Phi\)</span>を最適化する (<a class="reference external" href="#id6">11.1.4</a>)。ただし、<span class="math notranslate nohighlight">\(\langle\cdot \rangle\)</span>は複数の画像に対する平均を取ることを意味する。</p>
+<p>とすることにより、<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を最適化する (<a class="reference external" href="#id6">11.1.4</a>)。ただし、<span class="math notranslate nohighlight">\(\langle\cdot \rangle\)</span>は複数の画像に対する平均を取ることを意味する。</p>
 </div>
 <div class="section" id="locally-competitive-algorithm-lca">
 <h2>11.2.3 Locally competitive algorithm (LCA)<a class="headerlink" href="#locally-competitive-algorithm-lca" title="Permalink to this headline">¶</a></h2>
-<p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>の勾配法による更新則は、<span class="math notranslate nohighlight">\(E\)</span>の微分により次のように得られる。</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の勾配法による更新則は、<span class="math notranslate nohighlight">\(E\)</span>の微分により次のように得られる。</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-\frac{d \boldsymbol{r}}{dt} &amp;= -\frac{\eta_\boldsymbol{r}}{2}\frac{\partial E}{\partial \boldsymbol{r}}\\
-&amp;=\eta_\boldsymbol{r} \cdot\left[\Phi^T (\boldsymbol{I}-\Phi\boldsymbol{r})- \frac{\lambda}{2}S'\left(r_i\right)\right]
-\end{align}
-\end{split}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\eta_{\boldsymbol{r}}\)</span>は学習率である。この式により<span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束するまで最適化するが、単なる勾配法ではなく、(Olshausen &amp; Field, 1996)では<strong>共役勾配法</strong> (conjugate gradient method)を用いている。しかし、共役勾配法は実装が煩雑で非効率であるため、より効率的かつ生理学的な妥当性の高い学習法として、<strong>LCA</strong>  (locally competitive algorithm)が提案されている (<a class="reference external" href="https://www.ece.rice.edu/~eld1/papers/Rozell08.pdf">Rozell et al., <em>Neural Comput</em>. 2008</a>)。LCAは<strong>側抑制</strong> (local competition, lateral inhibition)と<strong>閾値関数</strong> (thresholding function)を用いる更新則である。LCAによる更新を行うRNNは通常のRNNとは異なり、コスト関数(またはエネルギー関数)を最小化する動的システムである。このような機構はHopfield networkで用いられているために、Olshausenは<strong>Hopfield trick</strong>と呼んでいる。</p>
+\[
+\frac{d \mathbf{r}}{dt}= -\frac{\eta_\mathbf{r}}{2}\frac{\partial E}{\partial \mathbf{r}}=\eta_\mathbf{r} \cdot\left[\mathbf{\Phi}^T (\mathbf{x}-\mathbf{\Phi}\mathbf{r})- \frac{\lambda}{2}S'\left(\mathbf{r}\right)\right]
+\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\eta_{\mathbf{r}}\)</span>は学習率である。この式により<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>が収束するまで最適化するが、単なる勾配法ではなく、(Olshausen &amp; Field, 1996)では<strong>共役勾配法</strong> (conjugate gradient method)を用いている。しかし、共役勾配法は実装が煩雑で非効率であるため、より効率的かつ生理学的な妥当性の高い学習法として、<strong>LCA</strong>  (locally competitive algorithm)が提案されている (<a class="reference external" href="https://www.ece.rice.edu/~eld1/papers/Rozell08.pdf">Rozell et al., <em>Neural Comput</em>. 2008</a>)。LCAは<strong>側抑制</strong> (local competition, lateral inhibition)と<strong>閾値関数</strong> (thresholding function)を用いる更新則である。LCAによる更新を行うRNNは通常のRNNとは異なり、コスト関数(またはエネルギー関数)を最小化する動的システムである。このような機構はHopfield networkで用いられているために、Olshausenは<strong>Hopfield trick</strong>と呼んでいる。</p>
 <div class="section" id="ista">
 <h3>軟判定閾値関数を用いる場合 (ISTA)<a class="headerlink" href="#ista" title="Permalink to this headline">¶</a></h3>
 <p><span class="math notranslate nohighlight">\(S(x)=|x|\)</span>とした場合の閾値関数を用いる手法として<strong>ISTA</strong>(Iterative Shrinkage Thresholding Algorithm)がある。ISTAはL1-norm正則化項に対する近接勾配法で、要はLasso回帰に用いる勾配法である。</p>
 <p>解くべき問題は次式で表される。</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{r} = \mathop{\rm arg~min}\limits_{\boldsymbol{r}}\left\{\|\boldsymbol{I}-\Phi\boldsymbol{r}\|^2_2+\lambda\|\boldsymbol{r}\|_1\right\}
+\mathbf{r} = \mathop{\rm arg~min}\limits_{\mathbf{r}}\left\{\|\mathbf{x}-\mathbf{\Phi}\mathbf{r}\|^2_2+\lambda\|\mathbf{r}\|_1\right\}
 \]</div>
 <p>詳細は後述するが、次のように更新することで解が得られる。</p>
 <ol class="simple">
-<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}(0)\)</span>を要素が全て0のベクトルで初期化</p></li>
-<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}_*(t+1)=\boldsymbol{r}(t)+\eta_\boldsymbol{r}\cdot \Phi^T(\boldsymbol{I}-\Phi\boldsymbol{r}(t))\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}(t+1) = \Theta_\lambda(\boldsymbol{r}_*(t+1))\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束するまで2と3を繰り返す</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{r}(0)\)</span>を要素が全て0のベクトルで初期化：<span class="math notranslate nohighlight">\(\mathbf{r}(0)=\mathbf{0}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{r}_*(t+1)=\mathbf{r}(t)+\eta_\mathbf{r}\cdot \mathbf{\Phi}^T(\mathbf{x}-\mathbf{\Phi}\mathbf{r}(t))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{r}\)</span>が収束するまで2と3を繰り返す</p></li>
 </ol>
 <p>ここで<span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>は<strong>軟判定閾値関数</strong> (Soft thresholding function)と呼ばれ、次式で表される。</p>
 <div class="math notranslate nohighlight">
@@ -655,14 +584,11 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 </div>
 <div class="section" id="id6">
 <h2>11.2.4 重み行列の更新則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p><span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span>が収束したら勾配法により<span class="math notranslate nohighlight">\(\Phi\)</span>を更新する。</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{r}\)</span>が収束したら勾配法により<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を更新する。</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-\Delta \phi_i(\boldsymbol{x}) &amp;= -\eta \frac{\partial E}{\partial \Phi}\\
-&amp;=\eta\cdot\left[\left([\boldsymbol{I}-\Phi\boldsymbol{r}\right)\boldsymbol{r}^T\right]
-\end{aligned}
-\end{split}\]</div>
+\[
+\Delta \phi_i(\boldsymbol{x}) = -\eta \frac{\partial E}{\partial \mathbf{\Phi}}=\eta\cdot\left[\left([\mathbf{x}-\mathbf{\Phi}\mathbf{r}\right)\mathbf{r}^T\right]
+\]</div>
 </div>
 <div class="section" id="sparse-coding-network">
 <h2>11.2.5 Sparse coding networkの実装<a class="headerlink" href="#sparse-coding-network" title="Permalink to this headline">¶</a></h2>
@@ -927,7 +853,7 @@ end
 </div>
 <div class="section" id="id12">
 <h3>重み行列 (受容野)の描画<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>学習後の重み行列 <code class="docutils literal notranslate"><span class="pre">Phi</span></code> (<span class="math notranslate nohighlight">\(\Phi\)</span>)を可視化してみよう。</p>
+<p>学習後の重み行列 <code class="docutils literal notranslate"><span class="pre">Phi</span></code> (<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>)を可視化してみよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Receptive fields</span>
@@ -967,7 +893,7 @@ end
 <dd><p>この式から逆温度<span class="math notranslate nohighlight">\(\beta\)</span>が正則化の度合いを調整するパラメータであることがわかる。</p>
 </dd>
 <dt class="label" id="softthr"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
-<dd><p>なお、ReLU (ランプ関数)は<code class="docutils literal notranslate"><span class="pre">max(x,</span> <span class="pre">0)</span></code>で実装できる。この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる (<a class="reference external" href="https://ieeexplore.ieee.org/document/8398588">Papyan et al., 2018</a>)。</p>
+<dd><p>ReLU (ランプ関数)は<code class="docutils literal notranslate"><span class="pre">max(x,</span> <span class="pre">0)</span></code>で実装できる。この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる (<a class="reference external" href="https://ieeexplore.ieee.org/document/8398588">Papyan et al., 2018</a>)。</p>
 </dd>
 <dt class="label" id="datasets"><span class="brackets"><a class="fn-backref" href="#id8">4</a></span></dt>
 <dd><p>これはアメリカ北西部で撮影された自然画像であり、<a class="reference external" href="http://bethgelab.org/datasets/vanhateren/">van Hateren’s Natural Image Dataset</a>から取得されたものである。</p>
