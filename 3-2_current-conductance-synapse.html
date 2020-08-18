@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.1 Current-based vs Conductance-based シナプス &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.2 Current-based vs Conductance-based シナプス &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,10 +32,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/3-2_current-conductance-synapse.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3.2 指数関数型シナプスモデル" href="3-3_expo-synapse.html" />
+    <link rel="next" title="3.3 指数関数型シナプスモデル" href="3-3_expo-synapse.html" />
     <link rel="prev" title="3.1 シナプス伝達" href="3-1_synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,11 +52,11 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/3-2_current-conductance-synapse.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.1 Current-based vs Conductance-based シナプス" />
-<meta property="og:description" content="3.1 Current-based vs Conductance-based シナプス  3.1.1 化学シナプスの2つの記述形式  具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, Current-based シナプスとConductance-" />
+<meta property="og:title"       content="3.2 Current-based vs Conductance-based シナプス" />
+<meta property="og:description" content="3.2 Current-based vs Conductance-based シナプス  3.2.1 化学シナプスの2つの記述形式  具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, Current-based シナプスとConductance-" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -94,11 +102,45 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="3_intro.html">
@@ -112,12 +154,12 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     3.1 Current-based vs Conductance-based シナプス
+     3.2 Current-based vs Conductance-based シナプス
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-3_expo-synapse.html">
-     3.2 指数関数型シナプスモデル
+     3.3 指数関数型シナプスモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -127,20 +169,61 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.5 シナプス入力の重みづけ
+     3.6 シナプス入力の重みづけ
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -223,23 +306,23 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   3.1.1 化学シナプスの2つの記述形式
+   3.2.1 化学シナプスの2つの記述形式
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#current-based">
-   3.1.2 Current-based シナプス
+   3.2.2 Current-based シナプス
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#conductance-based">
-   3.1.3 Conductance-based シナプス
+   3.2.3 Conductance-based シナプス
   </a>
  </li>
 </ul>
@@ -253,9 +336,9 @@
               <div>
                 
   <div class="section" id="current-based-vs-conductance-based">
-<h1>3.1 Current-based vs Conductance-based シナプス<a class="headerlink" href="#current-based-vs-conductance-based" title="Permalink to this headline">¶</a></h1>
+<h1>3.2 Current-based vs Conductance-based シナプス<a class="headerlink" href="#current-based-vs-conductance-based" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>3.1.1 化学シナプスの2つの記述形式<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>3.2.1 化学シナプスの2つの記述形式<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, <strong>Current-based シナプス</strong>と<strong>Conductance-based シナプス</strong>について説明する。簡単に言うと、Current-based シナプスは入力電流が変化するというモデルで, Conductance-based シナプスはイオンチャネルのコンダクタンス (電気抵抗の逆数, 電流の流れやすさ)が変化するというモデルである (cf. <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3943173/">Cavallari et al., 2014</a>)。</p>
 <p>以下では例として, 次のLIFニューロンの方程式におけるシナプス入力を考える。</p>
 <div class="math notranslate nohighlight">
@@ -265,7 +348,7 @@
 <p>とする。ただし, <span class="math notranslate nohighlight">\(\tau_m\)</span>は膜電位の時定数, <span class="math notranslate nohighlight">\(V_m(t)\)</span>は膜電位, <span class="math notranslate nohighlight">\(V_\text{rest}\)</span>は静止膜電位, <span class="math notranslate nohighlight">\(R_m\)</span>は膜抵抗である。ここで、シナプス入力の電流<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>が<a class="footnote-reference brackets" href="#syn" id="id2">1</a>2つのモデルにおいて異なる部分となる。</p>
 </div>
 <div class="section" id="current-based">
-<h2>3.1.2 Current-based シナプス<a class="headerlink" href="#current-based" title="Permalink to this headline">¶</a></h2>
+<h2>3.2.2 Current-based シナプス<a class="headerlink" href="#current-based" title="Permalink to this headline">¶</a></h2>
 <p>Current-based シナプスは単純に<strong>入力電流が変化</strong>するというモデルで, 簡略化したい場合によく用いられる。シナプス入力<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>はシナプス効率(synaptic efficacy)<a class="footnote-reference brackets" href="#syneff" id="id3">2</a>を<span class="math notranslate nohighlight">\(J_{\text{syn}}\)</span> (単位はpA)とし , シナプスの動態(synaptic kinetics)を<span class="math notranslate nohighlight">\(s_{\text{syn}}(t)\)</span>とすると, 次式のようになる。ただし, シナプスの動態とは, 前細胞に注目すれば神経伝達物質の放出量, 後細胞に注目すれば神経伝達物質の結合量やイオンチャネルの開口率を表す。</p>
 <div class="math notranslate nohighlight">
 \[
@@ -283,7 +366,7 @@ s_{\text{syn}}(t)=\dfrac{t}{\tau_s} \exp \left(1-\dfrac{t}{\tau_s}\right)
 <p>のようになる。</p>
 </div>
 <div class="section" id="conductance-based">
-<h2>3.1.3 Conductance-based シナプス<a class="headerlink" href="#conductance-based" title="Permalink to this headline">¶</a></h2>
+<h2>3.2.3 Conductance-based シナプス<a class="headerlink" href="#conductance-based" title="Permalink to this headline">¶</a></h2>
 <p>Conductance-based シナプスはイオンチャネルの<strong>コンダクタンスが変化</strong>するというモデルである。関連して、例えば Hodgkin-Huxley モデルはConductance-based モデルの1つである。Current-basedよりもConductance-based の方が生理学的に妥当である。例えば抑制性シナプスは膜電位が平衡電位と比べて脱分極側にあるか, 過分極側にあるかで抑制的に働くか興奮的に働くかが逆転する。これはCurrent-based シナプスでは再現できない。</p>
 <p>Conductance-based モデルにおけるシナプス入力は<span class="math notranslate nohighlight">\(I_{\text{syn}}(t)\)</span>は次のようになる。</p>
 <div class="math notranslate nohighlight">
@@ -312,6 +395,25 @@ I_{\text{syn}}(t)=\underbrace{g_{\text{syn}}s_{\text{syn}}(t)}_{コンダクタ�
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -322,7 +424,7 @@ I_{\text{syn}}(t)=\underbrace{g_{\text{syn}}s_{\text{syn}}(t)}_{コンダクタ�
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="3-1_synapse.html" title="previous page">3.1 シナプス伝達</a>
-    <a class='right-next' id="next-link" href="3-3_expo-synapse.html" title="next page">3.2 指数関数型シナプスモデル</a>
+    <a class='right-next' id="next-link" href="3-3_expo-synapse.html" title="next page">3.3 指数関数型シナプスモデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

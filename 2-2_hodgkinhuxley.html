@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,10 +32,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/2-2_hodgkinhuxley.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2.4 Leaky integrate-and-fire モデル" href="2-4_lif.html" />
+    <link rel="next" title="2.3 FitzHugh-Nagumoモデル" href="2-3_fhn.html" />
     <link rel="prev" title="2. 神経細胞のモデル" href="2_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,10 +53,10 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/2-2_hodgkinhuxley.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2.2 Hodgkin-Huxleyモデル" />
-<meta property="og:description" content="2.2 Hodgkin-Huxleyモデル  2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル  Hodgkin-Huxleyモデル (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである (Hodgkin & H" />
+<meta property="og:description" content="2.2 Hodgkin-Huxleyモデル  2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル  Hodgkin-Huxleyモデル (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである (Hodgkin &amp; H" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -94,6 +102,13 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="2_intro.html">
@@ -103,6 +118,11 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -126,16 +146,84 @@
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
+     3.3 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -234,7 +322,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -430,7 +518,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.206651 seconds (1.36 M allocations: 46.979 MiB, 3.60% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.208524 seconds (1.36 M allocations: 46.979 MiB, 2.35% gc time)
 </pre></div>
 </div>
 </div>
@@ -442,13 +530,20 @@ end
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">┌ Info: Precompiling Plots [91a5bcdd-55d7-5caf-9e0b-520d859cae80]
+└ &#64; Base loading.jl:1278
+</pre>
+</div>
+</div>
 </div>
 <p>ニューロンの膜電位 <code class="docutils literal notranslate"><span class="pre">v</span></code>, ゲート変数 <code class="docutils literal notranslate"><span class="pre">m,</span> <span class="pre">h,</span> <span class="pre">n</span></code>, 刺激電流 <code class="docutils literal notranslate"><span class="pre">I</span></code>の描画をする。入力電流の単位は <span class="math notranslate nohighlight">\(\mu\text{A/cm}^2\)</span>である。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
     <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
     <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Gating Value&quot;</span> <span class="s2">&quot;Current&quot;</span><span class="p">],</span>
@@ -564,7 +659,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.072346 seconds (848.89 k allocations: 19.134 MiB)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.075402 seconds (848.89 k allocations: 19.134 MiB)
 </pre></div>
 </div>
 </div>
@@ -572,9 +667,9 @@ end
 <p>結果は次のようになる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">gatearr2</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;m&quot;</span> <span class="s2">&quot;h&quot;</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
     <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
     <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Gating Value&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current&quot;</span><span class="p">],</span>
@@ -594,6 +689,25 @@ end
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.5"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.5",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.5'</script>
 
               </div>
               
@@ -604,7 +718,7 @@ end
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="2_intro.html" title="previous page">2. 神経細胞のモデル</a>
-    <a class='right-next' id="next-link" href="2-4_lif.html" title="next page">2.4 Leaky integrate-and-fire モデル</a>
+    <a class='right-next' id="next-link" href="2-3_fhn.html" title="next page">2.3 FitzHugh-Nagumoモデル</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

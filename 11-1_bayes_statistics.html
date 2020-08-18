@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,11 +32,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/11-1_bayes_statistics.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル" href="11-2_sparse-coding.html" />
-    <link rel="prev" title="11. ベイズ脳理論と生成モデル" href="11_intro.html" />
+    <link rel="prev" title="11. ベイズ脳仮説" href="11_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -48,7 +56,7 @@
 <meta property="og:description" content="11.1 ベイズ統計の基礎  この節では本章で用いるベイズ統計の基礎的概念の説明を行う。  Note  悪いこと言わないので渡辺澄夫先生のHPの講義録、特にベイズ統計入門を読もう。" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -94,20 +102,81 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
+     3.3 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
   <ul class="current">
    <li class="toctree-l2 current active">
@@ -128,9 +197,33 @@
   </ul>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -213,7 +306,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             
@@ -234,6 +327,25 @@
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -243,7 +355,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="11_intro.html" title="previous page">11. ベイズ脳理論と生成モデル</a>
+    <a class='left-prev' id="prev-link" href="11_intro.html" title="previous page">11. ベイズ脳仮説</a>
     <a class='right-next' id="next-link" href="11-2_sparse-coding.html" title="next page">11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル</a>
 
     </div>

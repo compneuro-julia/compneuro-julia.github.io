@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,6 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/index.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,7 +55,7 @@
 <meta property="og:description" content="Juliaで学ぶ計算論的神経科学  このサイトは計算論的神経科学 (Computational Neuroscience) をプログラミング言語 Juliaを通して学習することを目標とします。  内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -106,7 +114,12 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
   </a>
  </li>
  <li class="toctree-l1">
@@ -195,7 +208,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -243,7 +256,7 @@
 <ol class="simple">
 <li><p>神経細胞の形態と膜電位変化</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-2_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
-<li><p>FitzHugh–Nagumoモデル</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/2-3_fhn.html">FitzHugh–Nagumoモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-4_lif.html">Leaky integrate-and-fire モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/2-5_iz.html">Izhikevich モデル</a></p></li>
 <li><p>ケーブル理論</p></li>
@@ -257,9 +270,9 @@
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/3_intro.html">シナプス伝達のモデル</a></p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/3-1_synapse.html">シナプス伝達</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-1_current-conductance-synapse.html">Current-based vs Conductance-based シナプス</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-2_expo-synapse.html">指数関数型シナプスモデル</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-3_kinetic-synapse.html">動力学モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-2_current-conductance-synapse.html">Current-based vs Conductance-based シナプス</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-3_expo-synapse.html">指数関数型シナプスモデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/3-4_kinetic-synapse.html">動力学モデル</a></p></li>
 <li><p>増強シナプスと減衰シナプス</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/3-6_synaptic-weighted.html">シナプス入力の重みづけ</a></p></li>
 <li><p>電気シナプス</p></li>
@@ -292,14 +305,19 @@
 </ol>
 </li>
 <li><p>情報理論と最適化原理</p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/11_intro.html">ベイズ脳理論と生成モデル</a></p>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/11_intro.html">ベイズ脳仮説</a></p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/11-1_bayes_statistics.html">ベイズ統計の基礎</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/11-2_sparse-coding.html">Sparse coding (Olshausen &amp; Field, 1996) モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/11-3_predictive-coding-rao.html">Predictive coding (Rao &amp; Ballard, 1999) モデル</a></p></li>
 </ol>
 </li>
-<li><p>強化学習</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/12_intro.html">強化学習</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/12-1_td_learning.html">TD学習</a></p></li>
+<li><p>分布型TD学習</p></li>
+</ol>
+</li>
 <li><p>運動制御</p></li>
 <li><p>時空間の符号化</p></li>
 <li><p>神経細胞の形態と数理モデル</p></li>
@@ -330,6 +348,25 @@
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.2 指数関数型シナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.3 指数関数型シナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,11 +32,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/3-3_expo-synapse.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3.3 動力学モデル" href="3-4_kinetic-synapse.html" />
-    <link rel="prev" title="3.1 Current-based vs Conductance-based シナプス" href="3-2_current-conductance-synapse.html" />
+    <link rel="prev" title="3.2 Current-based vs Conductance-based シナプス" href="3-2_current-conductance-synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -44,11 +52,11 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/3-3_expo-synapse.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.2 指数関数型シナプスモデル" />
-<meta property="og:description" content="3.2 指数関数型シナプスモデル  シナプスのモデルは複数あるが, 良く用いられるのが指数関数型シナプスモデル(exponential synapse model)である。このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう。指数関数型シナプスモデルには2つの種類, 単一指数関数型モデル (sing" />
+<meta property="og:title"       content="3.3 指数関数型シナプスモデル" />
+<meta property="og:description" content="3.3 指数関数型シナプスモデル  シナプスのモデルは複数あるが, 良く用いられるのが指数関数型シナプスモデル(exponential synapse model)である。このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう。指数関数型シナプスモデルには2つの種類, 単一指数関数型モデル (sing" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -112,12 +120,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-2_current-conductance-synapse.html">
-     3.1 Current-based vs Conductance-based シナプス
+     3.2 Current-based vs Conductance-based シナプス
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     3.2 指数関数型シナプスモデル
+     3.3 指数関数型シナプスモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -127,14 +135,19 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.5 シナプス入力の重みづけ
+     3.6 シナプス入力の重みづけ
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
   </a>
  </li>
  <li class="toctree-l1">
@@ -184,9 +197,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/3-3_expo-synapse.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/3-3_expo-synapse.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -204,7 +217,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-3_expo-synapse.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/3-3_expo-synapse.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -218,18 +231,34 @@
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/3-3_expo-synapse.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#single-exponential-model">
-   3.2.1 単一指数関数型モデル(Single exponential model)
+   3.3.1 単一指数関数型モデル(Single exponential model)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -241,7 +270,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#double-exponential-model">
-   3.2.2 二重指数関数型モデル(Double exponential model)
+   3.3.2 二重指数関数型モデル(Double exponential model)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -270,12 +299,58 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>3.2 指数関数型シナプスモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>3.3 指数関数型シナプスモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>シナプスのモデルは複数あるが, 良く用いられるのが<strong>指数関数型シナプスモデル</strong>(exponential synapse model)である。このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう。指数関数型シナプスモデルには2つの種類, <strong>単一指数関数型モデル</strong> (single exponential model)と<strong>二重指数関数型モデル</strong> (double exponential model)がある。</p>
-<p>数式の説明の前にモデルの挙動を示す。次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している。ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる。 シナプス強度については3.6で説明をする。</p>
-<p>2種類の指数関数型シナプスの動態. 点線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである。なおコードは数式の説明後に掲載する。</p>
+<p>数式の説明の前にモデルの挙動を示す。次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している。ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">PyPlot</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">5e-5</span> <span class="c1"># タイムステップ (sec)</span>
+<span class="n">td</span> <span class="o">=</span> <span class="mf">2e-2</span> <span class="c1"># synaptic decay time (sec)</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="mf">2e-3</span> <span class="c1"># synaptic rise time (sec)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># シミュレーション時間 (sec)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c1"># シミュレーションの総ステップ</span>
+
+<span class="c1"># 単一指数関数型シナプス</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">r1</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">r1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">td</span><span class="p">)</span> <span class="o">+</span> <span class="n">spike</span><span class="o">/</span><span class="n">td</span>
+    <span class="c1">#r1[t+1] = r1[t]*exp(-dt/td) + spike/td</span>
+<span class="n">end</span>
+
+<span class="c1"># 二重指数関数型シナプス</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span> 
+<span class="n">hr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">double_r</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
+    <span class="n">r2</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">r2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">td</span><span class="p">)</span> <span class="o">+</span> <span class="n">spike</span><span class="o">/</span><span class="p">(</span><span class="n">tr</span><span class="o">*</span><span class="n">td</span><span class="p">)</span>
+    <span class="c1">#r2[t+1] = r2[t]*exp(-dt/tr) + hr[t]*dt</span>
+    <span class="c1">#hr[t+1] = hr[t]*exp(-dt/td) + spike/(tr*td)</span>
+<span class="n">end</span>   
+
+<span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;single exponential&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;double exponential&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Post-synaptic current (pA)&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">()</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3-3_expo-synapse_1_0.png" src="_images/3-3_expo-synapse_1_0.png" />
+</div>
+</div>
+<p>2種類の指数関数型シナプスの動態。破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである。</p>
 <div class="section" id="single-exponential-model">
-<h2>3.2.1 単一指数関数型モデル(Single exponential model)<a class="headerlink" href="#single-exponential-model" title="Permalink to this headline">¶</a></h2>
+<h2>3.3.1 単一指数関数型モデル(Single exponential model)<a class="headerlink" href="#single-exponential-model" title="Permalink to this headline">¶</a></h2>
 <p>シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである <a class="footnote-reference brackets" href="#comp" id="id3">2</a>. 式は次のようになる。</p>
 <div class="math notranslate nohighlight">
 \[
@@ -312,7 +387,7 @@ r(t+\Delta t)=\left(1-\frac{\Delta t}{\tau_{s}}\right)r(t)+\frac{1}{\tau_{s}}\de
 </div>
 </div>
 <div class="section" id="double-exponential-model">
-<h2>3.2.2 二重指数関数型モデル(Double exponential model)<a class="headerlink" href="#double-exponential-model" title="Permalink to this headline">¶</a></h2>
+<h2>3.3.2 二重指数関数型モデル(Double exponential model)<a class="headerlink" href="#double-exponential-model" title="Permalink to this headline">¶</a></h2>
 <p>2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である<a class="footnote-reference brackets" href="#comp2" id="id5">3</a>。<span class="math notranslate nohighlight">\(t=0\)</span>にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる。</p>
 <div class="math notranslate nohighlight">
 \[
@@ -424,6 +499,25 @@ F_\alpha(s)&amp;=\frac{h(0)}{(s+1/\tau)^2}\\
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.5"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.5",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.5'</script>
 
               </div>
               
@@ -433,7 +527,7 @@ F_\alpha(s)&amp;=\frac{h(0)}{(s+1/\tau)^2}\\
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="3-2_current-conductance-synapse.html" title="previous page">3.1 Current-based vs Conductance-based シナプス</a>
+    <a class='left-prev' id="prev-link" href="3-2_current-conductance-synapse.html" title="previous page">3.2 Current-based vs Conductance-based シナプス</a>
     <a class='right-next' id="next-link" href="3-4_kinetic-synapse.html" title="next page">3.3 動力学モデル</a>
 
     </div>

@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,10 +32,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/11-3_predictive-coding-rao.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="付録" href="appendix_intro.html" />
+    <link rel="next" title="12. 強化学習" href="12_intro.html" />
     <link rel="prev" title="11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル" href="11-2_sparse-coding.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,11 +52,11 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/11-3_predictive-coding-rao.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="11.3 Predictive coding (Rao & Ballard, 1999) モデル" />
-<meta property="og:description" content="11.3 Predictive coding (Rao & Ballard, 1999) モデル  Predictive codingの初めの数理的モデルとなる (Rao & Ballard, Nat. Neurosci. 1999)を実装する。  11.3.1 観測世界の階層的予測  構築するネットワークは入力層を含" />
+<meta property="og:title"       content="11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル" />
+<meta property="og:description" content="11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル  Predictive codingの初めの数理的モデルとなる (Rao &amp; Ballard, Nat. Neurosci. 1999)を実装する。  11.3.1 観測世界の階層的予測  構築するネットワークは入力層を含" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -107,7 +115,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
   <ul class="current">
    <li class="toctree-l2">
@@ -126,6 +134,11 @@
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
@@ -229,7 +242,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -240,7 +253,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
-   損失関数と学習則
+   11.3.2 損失関数と学習則
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -306,7 +319,7 @@
 \[
 \boldsymbol{r} = \boldsymbol{r}^{td}+\boldsymbol{n}^{td}=f(U^h \boldsymbol{r}^h)+\boldsymbol{n}^{td} \tag{2}
 \]</div>
-<p>ただし、Top-downの予測信号を <span class="math notranslate nohighlight">\(\boldsymbol{r}^{td}:=f(U^h \boldsymbol{r}^h)\)</span>とした。また、$\boldsymbol{r}^{td} \in \mathbb{R}^{n_1}, \boldsymbol{r}^{h} \in \mathbb{R}^{n_2}, U^h \in \mathbb{R}^{n_1 \times n_2} <span class="math notranslate nohighlight">\(である。\)</span>\boldsymbol{n}^{td} \in \mathbb{R}^{n_1} $は平均0, 分散 <span class="math notranslate nohighlight">\(\sigma_{td}^2\)</span> のGaussian ノイズ項とする。</p>
+<p>ただし、Top-downの予測信号を <span class="math notranslate nohighlight">\(\boldsymbol{r}^{td}:=f(U^h \boldsymbol{r}^h)\)</span>とした。また、<span class="math notranslate nohighlight">\(\boldsymbol{r}^{td} \in \mathbb{R}^{n_1}\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{r}^{h} \in \mathbb{R}^{n_2}\)</span>, <span class="math notranslate nohighlight">\(U^h \in \mathbb{R}^{n_1 \times n_2}\)</span> である。 $\boldsymbol{n}^{td} \in \mathbb{R}^{n_1} $は平均0, 分散 <span class="math notranslate nohighlight">\(\sigma_{td}^2\)</span> のGaussian ノイズ項とする。</p>
 <p>話は飛ぶが、Predictive codingのネットワークの特徴は</p>
 <ul class="simple">
 <li><p>階層的な構造</p></li>
@@ -316,7 +329,7 @@
 <p>である。ここまでは高次表現による低次表現の予測、というFeedback信号について説明してきたが、この部分はSparse codingでも同じである。それではPredictive codingのもう一つの要となる、低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか。結論から言えば、これは<strong>復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる</strong>。</p>
 </div>
 <div class="section" id="id2">
-<h2>損失関数と学習則<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>11.3.2 損失関数と学習則<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
 <h3>損失関数の設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>前節では2層までのパラメータを最適化することを考えました、高次の活動も考慮して損失関数 <span class="math notranslate nohighlight">\(E\)</span>を次のように再定義する。</p>
@@ -689,6 +702,25 @@ end
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.5"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.5",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.5'</script>
 
               </div>
               
@@ -699,7 +731,7 @@ end
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="11-2_sparse-coding.html" title="previous page">11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル</a>
-    <a class='right-next' id="next-link" href="appendix_intro.html" title="next page">付録</a>
+    <a class='right-next' id="next-link" href="12_intro.html" title="next page">12. 強化学習</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

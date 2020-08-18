@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,6 +32,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/11-2_sparse-coding.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -44,11 +52,11 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/11-2_sparse-coding.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="11.2 Sparse coding (Olshausen & Field, 1996) モデル" />
-<meta property="og:description" content="11.2 Sparse coding (Olshausen & Field, 1996) モデル  11.2.1 Sparse codingと生成モデル  Sparse codingモデル(Olshausen & Field, Nature. 1996)はV1のニューロンの応答特性を説明する線形生成モデル (linea" />
+<meta property="og:title"       content="11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル" />
+<meta property="og:description" content="11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル  11.2.1 Sparse codingと生成モデル  Sparse codingモデル(Olshausen &amp; Field, Nature. 1996)はV1のニューロンの応答特性を説明する線形生成モデル (linea" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -94,20 +102,81 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
+     3.3 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
   <ul class="current">
    <li class="toctree-l2">
@@ -128,9 +197,33 @@
   </ul>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -229,7 +322,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -419,7 +512,12 @@ p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-2_sparse-coding_6_0.png" src="_images/11-2_sparse-coding_6_0.png" />
+<div class="stderr docutils container">
+<pre class="stderr literal-block">┌ Info: Precompiling PyPlot [d330b81b-6aea-500a-939a-2ce795aea3ee]
+└ &#64; Base loading.jl:1278
+</pre>
+</div>
+<img alt="_images/11-2_sparse-coding_6_1.png" src="_images/11-2_sparse-coding_6_1.png" />
 </div>
 </div>
 </div>
@@ -603,6 +701,13 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">┌ Info: Precompiling MAT [23992714-dd62-5051-b70f-ba57cb901cac]
+└ &#64; Base loading.jl:1278
+</pre>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -651,6 +756,13 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <span class="n">using</span> <span class="n">Statistics</span>
 <span class="n">using</span> <span class="n">ProgressMeter</span>
 </pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="stderr docutils container">
+<pre class="stderr literal-block">┌ Info: Precompiling Parameters [d96e819e-fc66-5662-9728-84c9c7592b0a]
+└ &#64; Base loading.jl:1278
+</pre>
 </div>
 </div>
 </div>
@@ -760,7 +872,6 @@ end
             idx = rand(1:num_images)
             img = imgs[:, :, idx]
             clop = img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1][:]
-            #clop = collect(flatten(img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1]))
             inputs[i, :] = clop .- mean(clop)
         end
 
@@ -777,7 +888,7 @@ end
 
             # Compute norm of r
             dr_norm = sqrt(sum(dr.^2)) / sqrt(sum(r_tm1.^2) + 1e-8)
-            r_tm1 = copy(model.r) # update r_tm1
+            r_tm1 .= model.r # update r_tm1
 
             # Check convergence of r, then update weights
             if dr_norm &lt; eps
@@ -793,13 +904,11 @@ end
                 break
             end
         end
-        &quot;&quot;&quot;
         # Print moving average error
         if iter % 100 == 0
             moving_average_error = mean(errorarr[iter-99:iter])
             println(&quot;iter: &quot;, iter, &quot;/&quot;, num_iter, &quot;, Moving average error:&quot;, moving_average_error)
         end
-        &quot;&quot;&quot;
     end
     return model, errorarr
 end
@@ -812,6 +921,7 @@ end
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">r_tm1</span> <span class="pre">.=</span> <span class="pre">model.r</span></code>の部分は、要素ごとのコピーを実行している。<code class="docutils literal notranslate"><span class="pre">r_tm1</span> <span class="pre">=</span> <span class="pre">copy(model.r)</span></code>でもよいが、新たなメモリ割り当てが生じるので避けている。<code class="docutils literal notranslate"><span class="pre">&#64;.</span> <span class="pre">r_tm1</span> <span class="pre">=</span> <span class="pre">model.r</span></code>としてもよい。</p>
 </div>
 <div class="section" id="id10">
 <h3>シミュレーションの実行<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
@@ -847,7 +957,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-2_sparse-coding_36_0.png" src="_images/11-2_sparse-coding_36_0.png" />
+<img alt="_images/11-2_sparse-coding_37_0.png" src="_images/11-2_sparse-coding_37_0.png" />
 </div>
 </div>
 </div>
@@ -870,7 +980,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11-2_sparse-coding_38_0.png" src="_images/11-2_sparse-coding_38_0.png" />
+<img alt="_images/11-2_sparse-coding_39_0.png" src="_images/11-2_sparse-coding_39_0.png" />
 </div>
 </div>
 <p>白色が<strong>ON領域</strong>(興奮)、黒色が<strong>OFF領域</strong>(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。</p>
@@ -903,6 +1013,25 @@ end
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.5"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.5",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.5'</script>
 
               </div>
               

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3.5 シナプス入力の重みづけ &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>3.6 シナプス入力の重みづけ &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -31,10 +32,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/3-6_synaptic-weighted.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="11. ベイズ脳理論と生成モデル" href="11_intro.html" />
+    <link rel="next" title="11. ベイズ脳仮説" href="11_intro.html" />
     <link rel="prev" title="3.3 動力学モデル" href="3-4_kinetic-synapse.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,11 +52,11 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/3-6_synaptic-weighted.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3.5 シナプス入力の重みづけ" />
-<meta property="og:description" content="3.5 シナプス入力の重みづけ  ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく" />
+<meta property="og:title"       content="3.6 シナプス入力の重みづけ" />
+<meta property="og:description" content="3.6 シナプス入力の重みづけ  ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary" />
 
 
   </head>
@@ -94,11 +102,45 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="3_intro.html">
@@ -112,12 +154,12 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-2_current-conductance-synapse.html">
-     3.1 Current-based vs Conductance-based シナプス
+     3.2 Current-based vs Conductance-based シナプス
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-3_expo-synapse.html">
-     3.2 指数関数型シナプスモデル
+     3.3 指数関数型シナプスモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -127,20 +169,61 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     3.5 シナプス入力の重みづけ
+     3.6 シナプス入力の重みづけ
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
-   11. ベイズ脳理論と生成モデル
+   11. ベイズ脳仮説
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12_intro.html">
+   12. 強化学習
+  </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -223,7 +306,7 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> On this page
+            <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
             
@@ -236,7 +319,7 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>3.5 シナプス入力の重みづけ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>3.6 シナプス入力の重みづけ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく。</p>
 <p>シナプス前細胞が<span class="math notranslate nohighlight">\(N_{\text{pre}}\)</span>個, シナプス後細胞が<span class="math notranslate nohighlight">\(N_{\text{post}}\)</span>個あるとする。このとき<strong>シナプス前過程に注目した</strong>シナプス動態を<span class="math notranslate nohighlight">\(\boldsymbol{s_{\text{syn}}}\in \mathbb{R}^{N_{\text{pre}}}\)</span>, シナプス後細胞の入力電流を<span class="math notranslate nohighlight">\(\boldsymbol{I_{\text{syn}}}\in \mathbb{R}^{N_{\text{post}}}\)</span>, シナプス結合強度の行列を<span class="math notranslate nohighlight">\(W\in \mathbb{R}^{N_{\text{post}} \times N_{\text{pre}}}\)</span>とすると, Current-basedの場合は</p>
 <div class="math notranslate nohighlight">
@@ -271,6 +354,25 @@
 <p>シナプス動態を前過程か後過程のどちらに注目したものとするかは, 実装によって様々である。シナプス入力の計算における中間の値を学習に用いるということもあるため, 単なる計算量の観点だけではどちらを選ぶかは決めることができない (計算量だけならシナプス変数に先に重み行列をかけた方がよい場合が多い)。実装の中で異なってくるのは計算順序と保持するベクトルの要素数である。 同じ実装の中で2つとも用いる場合もあるので注意してほしい。</p>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -281,7 +383,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="3-4_kinetic-synapse.html" title="previous page">3.3 動力学モデル</a>
-    <a class='right-next' id="next-link" href="11_intro.html" title="next page">11. ベイズ脳理論と生成モデル</a>
+    <a class='right-next' id="next-link" href="11_intro.html" title="next page">11. ベイズ脳仮説</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
