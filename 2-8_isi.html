@@ -164,7 +164,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="3-4_kinetic-synapse.html">
-     3.3 動力学モデル
+     3.4 動力学モデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -627,7 +627,7 @@ println(&quot;Firing rate : &quot;, sum(spikes)/(n_neurons*T)*1e3, &quot;Hz&quot
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.396351 seconds (1.60 M allocations: 77.271 MiB, 1.75% gc time)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.401003 seconds (1.60 M allocations: 77.271 MiB, 3.83% gc time)
 Num. of spikes : 267.0
 Firing rate : 26.700000000000003Hz
 </pre></div>
@@ -680,13 +680,6 @@ f(t;k,\theta) =  t^{k-1}\frac{e^{-t/\theta}}{\theta^k\Gamma(k)}
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Distributions</span> 
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="stderr docutils container">
-<pre class="stderr literal-block">┌ Info: Precompiling Distributions [31c24e10-a181-5473-b8eb-7969acd0382f]
-└ &#64; Base loading.jl:1278
-</pre>
 </div>
 </div>
 </div>
