@@ -102,111 +102,26 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notation.html">
-     1.2 記号の表記
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-2_hodgkinhuxley.html">
-     2.2 Hodgkin-Huxleyモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-3_fhn.html">
-     2.3 FitzHugh-Nagumoモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-4_lif.html">
-     2.4 Leaky integrate-and-fire モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-5_iz.html">
-     2.5 Izhikevich モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="2-8_isi.html">
-     2.8 Inter-spike interval モデル
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-1_synapse.html">
-     3.1 シナプス伝達
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-2_current-conductance-synapse.html">
-     3.2 Current-based vs Conductance-based シナプス
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-3_expo-synapse.html">
-     3.3 指数関数型シナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-4_kinetic-synapse.html">
-     3.4 動力学モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.6 シナプス入力の重みづけ
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="11_intro.html">
    11. ベイズ脳仮説
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="11-1_bayes_statistics.html">
-     11.1 ベイズ統計の基礎
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="11-2_sparse-coding.html">
-     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="11-3_predictive-coding-rao.html">
-     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="12_intro.html">
    12. 強化学習
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="12-1_td_learning.html">
-     12.1 TD学習
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="appendix_intro.html">
@@ -387,7 +302,7 @@
 <p>関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1の配列で置き換える、ということを目的として書かれた2つの関数がある。違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(A::Array)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(a::Array)
     a = ones(size(a))
 end
 
@@ -398,7 +313,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 2 methods)
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -408,25 +323,20 @@ end
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Random
 v = rand(2, 2)
-print(&quot;v : &quot;, v)
+println(&quot;v : &quot;, v)
 
 wrong!(v)
-print(&quot;\nwrong : &quot;, v)
+println(&quot;wrong : &quot;, v)
 
 right!(v)
-print(&quot;\nright : &quot;, v)
+println(&quot;right : &quot;, v)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.42692589476552056 0.34730711983824536; 0.9208034639794132 0.41699915079158134]
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: wrong! not defined
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span> <span class="n">at</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="mi">5</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(::</span><span class="n">Function</span><span class="p">,</span> <span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="p">::</span><span class="n">String</span><span class="p">)</span> <span class="n">at</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1091</span>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+wrong : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -509,9 +419,9 @@ print(&quot;\nright : &quot;, v)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.166781  0.0552745  0.973622
- 0.100336  0.753766   0.370005
- 0.378222  0.165159   0.471515
+ 0.947321  0.526878  0.464399
+ 0.290191  0.875268  0.279707
+ 0.319338  0.976441  0.375153
 </pre></div>
 </div>
 </div>
@@ -524,16 +434,16 @@ print(&quot;\nright : &quot;, v)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.258439  0.0567384  0.536389
- 0.155479  0.773729   0.203843
- 0.586082  0.169533   0.259767
+ 0.608486  0.221509  0.414916
+ 0.186396  0.367978  0.249904
+ 0.205118  0.410513  0.33518
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">Wnormed</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">Wnormed</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
