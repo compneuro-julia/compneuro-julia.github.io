@@ -53,7 +53,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/11-1_bayes_statistics.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="11.1 ベイズ統計の基礎" />
-<meta property="og:description" content="11.1 ベイズ統計の基礎  この節では本章で用いるベイズ統計の基礎的概念の説明を行う。  Note  悪いこと言わないので渡辺澄夫先生のHPの講義録、特にベイズ統計入門を読もう。" />
+<meta property="og:description" content="11.1 ベイズ統計の基礎  この節では本章で用いるベイズ統計の基礎的概念の説明を行う (予定)。  Note  悪いこと言わないので渡辺澄夫先生のHPの講義録、特にベイズ統計入門を読もう。" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -102,16 +102,77 @@
   <a class="reference internal" href="1_intro.html">
    1. はじめに
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-4_kinetic-synapse.html">
+     3.4 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="11_intro.html">
@@ -139,11 +200,30 @@
   <a class="reference internal" href="12_intro.html">
    12. 強化学習
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="appendix_intro.html">
    付録
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -240,7 +320,7 @@
                 
   <div class="section" id="id1">
 <h1>11.1 ベイズ統計の基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>この節では本章で用いるベイズ統計の基礎的概念の説明を行う。</p>
+<p>この節では本章で用いるベイズ統計の基礎的概念の説明を行う (予定)。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>悪いこと言わないので<a class="reference external" href="http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/index-j.html">渡辺澄夫先生のHP</a>の講義録、特に<a class="reference external" href="http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/joho-gakushu6.html">ベイズ統計入門</a>を読もう。</p>
