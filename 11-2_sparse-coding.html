@@ -416,12 +416,12 @@
 <h1>11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル<a class="headerlink" href="#sparse-coding-olshausen-field-1996" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="sparse-coding">
 <h2>11.2.1 Sparse codingと生成モデル<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">¶</a></h2>
-<p>Sparse codingモデル(<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である。まず、画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_i]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_i]\)</span> とする)。</p>
+<p>Sparse codingモデル(<a class="reference external" href="https://www.nature.com/articles/381607a0">Olshausen &amp; Field, <em>Nature</em>. 1996</a>)はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である。まず、画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_j]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_j]\)</span> とする)。</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{x} = \sum_i r_i \phi_i +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
+\mathbf{x} = \sum_j r_j \phi_j +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)</span> である。このモデルを神経ネットワークのモデルと考えると、 <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span> は重み行列、係数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、<span class="math notranslate nohighlight">\(r_i\)</span> は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)</span> である。このモデルを神経ネットワークのモデルと考えると、 <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span> は重み行列、係数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、<span class="math notranslate nohighlight">\(r_j\)</span> は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。</p>
 <p>Sparse codingでは神経活動 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>を求めたい。</p>
 <div class="section" id="id1">
 <h3>確率的モデルの記述<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
@@ -432,7 +432,7 @@
 <p>以後の記述は(<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/9425546/">Olshausen &amp; Field, 1997</a>; <a class="reference external" href="https://www.biorxiv.org/content/10.1101/399246v2.full">Barello et al., 2018</a>)を参考にした。</p>
 </div>
 </div>
-<p>入力される画像パッチの真の分布を<span class="math notranslate nohighlight">\(p^*(\mathbf{x})\)</span>, 重み<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>のモデルから生成される<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の分布を<span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span>とする。さらに潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の事前分布 (prior)を<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>, 画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の尤度 (likelihood)を<span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})\)</span>とする。このとき、</p>
+<p>入力される画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}_i\ (i=1, \cdots, N)\)</span> の真の分布を <span class="math notranslate nohighlight">\(p_{data}(\mathbf{x})\)</span> とする。また、<span class="math notranslate nohighlight">\(\mathbf{x}\)</span> の生成モデルを <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span> とする。さらに潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> の事前分布 (prior)を <span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>, 画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> の尤度 (likelihood)を <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})\)</span> とする。このとき、</p>
 <div class="math notranslate nohighlight">
 \[
 p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r} \quad \tag{2}
@@ -450,8 +450,8 @@ p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})=\mathcal{N}\left(\mathbf{x}|\ \mathbf{
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-p(\mathbf{r})&amp;=\prod_i p(r_i) \quad \tag{4}\\
-p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
+p(\mathbf{r})&amp;=\prod_j p(r_j) \quad \tag{4}\\
+p(r_j)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right] \quad \tag{5}
 \end{align}
 \end{split}\]</div>
 <p>ただし、<span class="math notranslate nohighlight">\(\beta\)</span>は逆温度(inverse temperature), <span class="math notranslate nohighlight">\(Z_{\beta}\)</span>は規格化定数 (分配関数) である<a class="footnote-reference brackets" href="#can" id="id3">1</a>。<span class="math notranslate nohighlight">\(S(x)\)</span>と分布の関係をまとめた表が以下となる (cf. <a class="reference external" href="https://pdfs.semanticscholar.org/be08/da912362bf40fe3ded78bdadc644f921b4e7.pdf">Harpur, 1997</a>)。</p>
@@ -521,49 +521,59 @@ p(r_i)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
 </div>
 <div class="section" id="id4">
 <h2>11.2.2 目的関数の設定と最適化<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>最適な生成モデルを得るために、入力される画像パッチの真の分布 <span class="math notranslate nohighlight">\(p^*(\mathbf{x})\)</span>と生成される<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の分布 <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span>を近づける。このために、2つの分布のKullback-Leibler ダイバージェンス <span class="math notranslate nohighlight">\(D_{\text{KL}}\left(p^*(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)\)</span>を最小化する。ただし、</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&amp;=\int p^*(\mathbf{x}) \log \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
-&amp;=\mathbb{E}_{p^*} \left[\ln \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
-&amp;=\mathbb{E}_{p^*} \left[\ln p^*(\mathbf{x})\right]-\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
-\end{align}
-\end{split}\]</div>
-<p>が成り立つ。(6)式の1番目の項は一定なので、<span class="math notranslate nohighlight">\(D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\)</span>を最小化するには<span class="math notranslate nohighlight">\(\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\)</span>を最大化すればよい。ここで、2つの近似を行う。まず、一番目の近似として <span class="math notranslate nohighlight">\(\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\)</span> の値を <span class="math notranslate nohighlight">\(\ln p(\mathbf{x}|\mathbf{\Phi})\)</span> で評価する。さらに(2)式より、</p>
+<p>最適な生成モデルを得るために、入力される画像パッチの真の分布 <span class="math notranslate nohighlight">\(p_{data}(\mathbf{x})\)</span>と<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の生成モデル <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{\Phi})\)</span>を近づける。このために、2つの分布のKullback-Leibler ダイバージェンス <span class="math notranslate nohighlight">\(D_{\text{KL}}\left(p_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)\)</span>を最小化したい。しかし、真の分布は得られないので、経験分布</p>
 <div class="math notranslate nohighlight">
 \[
-\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\tag{7}
+\hat{p}_{data}(\mathbf{x}):=\frac{1}{N}\sum_{i=1}^N \delta(\mathbf{x}-\mathbf{x}_i) \tag{6}
 \]</div>
-<p>が成り立つので、二番目の近似として <span class="math notranslate nohighlight">\(\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\)</span> を <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)\)</span> で評価する。これらの近似の下、最適な<span class="math notranslate nohighlight">\(\mathbf{\Phi}=\mathbf{\Phi}^*\)</span>は次のようにして求められる。</p>
+<p>を近似として用いる (<span class="math notranslate nohighlight">\(\delta(\cdot)\)</span> はDiracのデルタ関数である)。ゆえに<span class="math notranslate nohighlight">\(D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)\)</span>を最小化する。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\mathbf{\Phi}^*&amp;=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
-&amp;=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
-&amp;\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{\Phi})\\
-&amp;\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
-&amp;=\text{arg}\min_{\mathbf{\Phi}} \min_{\mathbf{r}}\ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\tag{8}
+D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)&amp;=\int \hat{p}_{data}(\mathbf{x}) \log \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+&amp;=\mathbb{E}_{\hat{p}_{data}} \left[\ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
+&amp;=\mathbb{E}_{\hat{p}_{data}} \left[\ln \hat{p}_{data}(\mathbf{x})\right]-\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{7}
 \end{align}
 \end{split}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span>はコスト関数であり、次式のように表される。</p>
+<p>が成り立つ。(7)式の1番目の項は一定なので、<span class="math notranslate nohighlight">\(D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)\)</span> を最小化するには<span class="math notranslate nohighlight">\(\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\)</span>を最大化すればよい。ここで、</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\sum_{i=1}^N \hat{p}_{data}(\mathbf{x}_i)\ln p(\mathbf{x}_i|\mathbf{\Phi})=\frac{1}{N}\sum_{i=1}^N \ln p(\mathbf{x}_i|\mathbf{\Phi}) \tag{8}
+\]</div>
+<p>が成り立つ。また、(2)式より</p>
+<div class="math notranslate nohighlight">
+\[
+\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}
+\]</div>
+<p>が成り立つので、近似として <span class="math notranslate nohighlight">\(\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\)</span> を <span class="math notranslate nohighlight">\(p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)\)</span> で評価する。これらの近似の下、最適な<span class="math notranslate nohighlight">\(\mathbf{\Phi}=\mathbf{\Phi}^*\)</span>は次のようにして求められる。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mathbf{\Phi}^*&amp;=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi})\right)\\
+&amp;=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+&amp;= \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{\Phi})\\
+&amp;\approx \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{r}_i, \mathbf{\Phi})p(\mathbf{r}_i)\\
+&amp;=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N \min_{\mathbf{r}_i}\ E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})\tag{9}
+\end{align}
+\end{split}\]</div>
+<p>ただし、<span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span>に対する神経活動を <span class="math notranslate nohighlight">\(\mathbf{r}_i\)</span>とした。また、<span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span>はコスト関数であり、次式のように表される。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
 E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&amp;-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
-=&amp;\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+=&amp;\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_j S\left(r_j\right)}_{\text{sparseness of}\ r_j}\tag{10}
 \end{align}
 \end{split}\]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(\lambda=2\sigma^2\beta\)</span>は正則化係数<a class="footnote-reference brackets" href="#lam" id="id5">2</a>であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。よって <span class="math notranslate nohighlight">\(E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\)</span> を最小化するような <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> と <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span> を求める。</p>
-<p>ここで、<span class="math notranslate nohighlight">\(n\)</span> 番目の画像パッチを<span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span>とし、学習データを <span class="math notranslate nohighlight">\(\mathbf{X}={\mathbf{x}_1, \cdots, \mathbf{x}_N}\)</span>とする。さらに<span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span>に対する神経活動を <span class="math notranslate nohighlight">\(\mathbf{r}_n\)</span>とする。まず、 <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を固定した下で<span class="math notranslate nohighlight">\(E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})\)</span>を最小化する<span class="math notranslate nohighlight">\(\mathbf{r}_n=\hat{\mathbf{r}}_n\)</span>を求める (<a class="reference external" href="#locally-competitive-algorithm-lca">11.1.3</a>)。</p>
+<p>ただし、<span class="math notranslate nohighlight">\(\lambda=2\sigma^2\beta\)</span>は正則化係数<a class="footnote-reference brackets" href="#lam" id="id5">2</a>であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。</p>
+<p>式(9)で表される最適化手順を最適な<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を求める過程に分割しよう。まず、 <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を固定した下で<span class="math notranslate nohighlight">\(E(\mathbf{x}_n, \mathbf{r}_i|\mathbf{\Phi})\)</span>を最小化する<span class="math notranslate nohighlight">\(\mathbf{r}_i=\hat{\mathbf{r}}_i\)</span>を求める (<a class="reference external" href="#locally-competitive-algorithm-lca">11.1.3</a>)。</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{\mathbf{r}}_n=\text{arg}\min_{\mathbf{r}_n}E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_n}p(\mathbf{r}_n|\mathbf{x}_n)\right)
+\hat{\mathbf{r}}_i=\text{arg}\min_{\mathbf{r}_i}E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_i}p(\mathbf{r}_i|\mathbf{x}_i)\right)
 \]</div>
 <p>これは <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> について <strong>MAP推定</strong> (maximum a posteriori estimation)を行うことに等しい。次に<span class="math notranslate nohighlight">\(\hat{\mathbf{r}}\)</span>を用いて</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \frac{1}{N}\sum_{n=1}^N E(\mathbf{x}_n, \hat{\mathbf{r}}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{n=1}^N p(\mathbf{x}_n|\mathbf{r}_n, \mathbf{\Phi})\right)
+\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N E(\mathbf{x}_i, \hat{\mathbf{r}}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{i=1}^N p(\mathbf{x}_i|\hat{\mathbf{r}}_i, \mathbf{\Phi})\right)
 \]</div>
 <p>とすることにより、<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>を最適化する (<a class="reference external" href="#id6">11.1.4</a>)。こちらは <span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span> について <strong>最尤推定</strong> (maximum likelihood estimation)を行うことに等しい。</p>
 </div>
@@ -1024,7 +1034,7 @@ end
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Float32[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.030897707, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.03477171, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.002616407, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.1551419, 0.044823844, 0.0, 0.0, -0.0015392075, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Float32[0.0, 0.0, 0.0, 0.0, 0.0, 0.08766317, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0362146, 0.0, 0.008710107, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.17126326, -0.004480202, 0.0, 0.0, 0.0, -0.191798, -0.08503144, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0544031, -0.09945807, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.12117307, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.123235635, -0.11029246, -0.22838397, 0.0, 0.0, 0.0, -0.10899817, 0.0, 0.0]
 </pre></div>
 </div>
 </div>
