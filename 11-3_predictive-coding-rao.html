@@ -25,13 +25,13 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -467,11 +467,11 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <p>11-2と同様にデータは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできるファイルを用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">MAT</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MAT</span>
 
-<span class="c1"># datasets from http://www.rctn.org/bruno/sparsenet/</span>
-<span class="n">mat_images</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s2">&quot;_static/datasets/IMAGES.mat&quot;</span><span class="p">)</span>
-<span class="n">imgs</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images</span><span class="p">,</span> <span class="s2">&quot;IMAGES&quot;</span><span class="p">)</span>
+<span class="c"># datasets from http://www.rctn.org/bruno/sparsenet/</span>
+<span class="n">mat_images</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;_static/datasets/IMAGES.mat&quot;</span><span class="p">)</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images</span><span class="p">,</span> <span class="s">&quot;IMAGES&quot;</span><span class="p">)</span>
 
 <span class="n">close</span><span class="p">(</span><span class="n">mat_images</span><span class="p">)</span>
 </pre></div>
@@ -484,13 +484,13 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <p>必要なパッケージを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
-<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
-<span class="n">using</span> <span class="n">LinearAlgebra</span>
-<span class="n">using</span> <span class="n">Random</span>
-<span class="n">using</span> <span class="n">Statistics</span>
-<span class="n">using</span> <span class="n">ProgressMeter</span>
-<span class="n">using</span> <span class="n">PyPlot</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span>
+<span class="k">using</span> <span class="n">Random</span>
+<span class="k">using</span> <span class="n">Statistics</span>
+<span class="k">using</span> <span class="n">ProgressMeter</span>
+<span class="k">using</span> <span class="n">PyPlot</span>
 </pre></div>
 </div>
 </div>
@@ -498,29 +498,29 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <p>モデルを定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">RBParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">α</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">αh</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.05</span>
-    <span class="n">var</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">vartd</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">inv_var</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">var</span>       
-    <span class="n">inv_vartd</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">vartd</span>
-    <span class="n">k1</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c1"># k_1: update rate</span>
-    <span class="n">λ</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># regularization parameter</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="n">RBParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">α</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">αh</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">var</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">vartd</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">inv_var</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">var</span>       
+    <span class="n">inv_vartd</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">vartd</span>
+    <span class="n">k1</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c"># k_1: update rate</span>
+    <span class="n">λ</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c"># regularization parameter</span>
+<span class="k">end</span>
 
-<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">RaoBallard1999Model</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">param</span><span class="p">::</span><span class="n">RBParameter</span> <span class="o">=</span> <span class="n">RBParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
-    <span class="n">num_units_lv0</span><span class="p">::</span><span class="n">UInt16</span> <span class="o">=</span> <span class="mi">256</span> <span class="c1"># number of units of level0</span>
-    <span class="n">num_units_lv1</span><span class="p">::</span><span class="n">UInt16</span> <span class="o">=</span> <span class="mi">32</span>
-    <span class="n">num_units_lv2</span><span class="p">::</span><span class="n">UInt16</span> <span class="o">=</span> <span class="mi">128</span>
-    <span class="n">num_lv1</span><span class="p">::</span><span class="n">UInt16</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">k2</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c1"># k_2: learning rate</span>
-    <span class="n">r</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_lv1</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="c1"># activity of neurons</span>
-    <span class="n">rh</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_units_lv2</span><span class="p">)</span> <span class="c1"># activity of neurons</span>
-    <span class="n">U</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_units_lv0</span><span class="o">+</span><span class="n">num_units_lv1</span><span class="p">))</span>
-    <span class="n">Uh</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="o">+</span><span class="n">num_units_lv2</span><span class="p">))</span>
-<span class="n">end</span>
+<span class="nd">@kwdef</span> <span class="k">mutable</span> <span class="k">struct</span> <span class="n">RaoBallard1999Model</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="n">RBParameter</span> <span class="o">=</span> <span class="n">RBParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">num_units_lv0</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">256</span> <span class="c"># number of units of level0</span>
+    <span class="n">num_units_lv1</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">num_units_lv2</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">128</span>
+    <span class="n">num_lv1</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">k2</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c"># k_2: learning rate</span>
+    <span class="n">r</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_lv1</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="c"># activity of neurons</span>
+    <span class="n">rh</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_units_lv2</span><span class="p">)</span> <span class="c"># activity of neurons</span>
+    <span class="n">U</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_units_lv0</span><span class="o">+</span><span class="n">num_units_lv1</span><span class="p">))</span>
+    <span class="n">Uh</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="o">+</span><span class="n">num_units_lv2</span><span class="p">))</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -528,42 +528,42 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <p>パラメータを更新する関数を定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update!(variable::RaoBallard1999Model, param::RBParameter, inputs::Array, training::Bool)
-    @unpack num_units_lv0, num_units_lv1, num_units_lv2, num_lv1, k2, r, rh, U, Uh = variable
-    @unpack α, αh, var, vartd, inv_var, inv_vartd, k1, λ = param
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="n">RaoBallard1999Model</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="n">RBParameter</span><span class="p">,</span> <span class="n">inputs</span><span class="o">::</span><span class="kt">Array</span><span class="p">,</span> <span class="n">training</span><span class="o">::</span><span class="kt">Bool</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">,</span> <span class="n">num_lv1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">Uh</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">αh</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">vartd</span><span class="p">,</span> <span class="n">inv_var</span><span class="p">,</span> <span class="n">inv_vartd</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">λ</span> <span class="o">=</span> <span class="n">param</span>
 
-    r_reshaped = r[:] # (96)
+    <span class="n">r_reshaped</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="c"># (96)</span>
 
-    fx = r * U&#39; # (3, 256)
-    fxh = Uh * rh # (96, )
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">U</span><span class="o">&#39;</span> <span class="c"># (3, 256)</span>
+    <span class="n">fxh</span> <span class="o">=</span> <span class="n">Uh</span> <span class="o">*</span> <span class="n">rh</span> <span class="c"># (96, )</span>
 
-    # Calculate errors
-    error = inputs - fx # (3, 256)
-    errorh = r_reshaped - fxh # (96, ) 
-    errorh_reshaped = reshape(errorh, (num_lv1, num_units_lv1)) # (3, 32)
+    <span class="c"># Calculate errors</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">-</span> <span class="n">fx</span> <span class="c"># (3, 256)</span>
+    <span class="n">errorh</span> <span class="o">=</span> <span class="n">r_reshaped</span> <span class="o">-</span> <span class="n">fxh</span> <span class="c"># (96, ) </span>
+    <span class="n">errorh_reshaped</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">errorh</span><span class="p">,</span> <span class="p">(</span><span class="n">num_lv1</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">))</span> <span class="c"># (3, 32)</span>
 
-    g_r = α * r ./ (1.0 .+ r .^ 2) # (3, 32)
-    g_rh = αh * rh ./ (1.0 .+ rh .^ 2) # (64, )
+    <span class="n">g_r</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">r</span> <span class="o">./</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.+</span> <span class="n">r</span> <span class="o">.^</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># (3, 32)</span>
+    <span class="n">g_rh</span> <span class="o">=</span> <span class="n">αh</span> <span class="o">*</span> <span class="n">rh</span> <span class="o">./</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.+</span> <span class="n">rh</span> <span class="o">.^</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># (64, )</span>
 
-    # Update r and rh
-    dr = k1 * (inv_var * error * U - inv_vartd * errorh_reshaped - g_r)
-    drh = k1 * (inv_vartd * Uh&#39; * errorh - g_rh)
+    <span class="c"># Update r and rh</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_var</span> <span class="o">*</span> <span class="n">error</span> <span class="o">*</span> <span class="n">U</span> <span class="o">-</span> <span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">errorh_reshaped</span> <span class="o">-</span> <span class="n">g_r</span><span class="p">)</span>
+    <span class="n">drh</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">Uh</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">errorh</span> <span class="o">-</span> <span class="n">g_rh</span><span class="p">)</span>
     
-    r[:, :] += dr
-    rh[:] += drh
+    <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dr</span>
+    <span class="n">rh</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">drh</span>
     
-    if training 
-        U[:, :] += k2 * (inv_var * error&#39; * r - num_lv1 * λ * U)
-        Uh[:, :] += k2 * (inv_vartd * errorh * rh&#39; - λ * Uh)
-    end
+    <span class="k">if</span> <span class="n">training</span> 
+        <span class="n">U</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_var</span> <span class="o">*</span> <span class="n">error</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">r</span> <span class="o">-</span> <span class="n">num_lv1</span> <span class="o">*</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">U</span><span class="p">)</span>
+        <span class="n">Uh</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">errorh</span> <span class="o">*</span> <span class="n">rh</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">Uh</span><span class="p">)</span>
+    <span class="k">end</span>
 
-    return error, errorh, dr, drh
-end
+    <span class="k">return</span> <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -571,32 +571,32 @@ end
 <p>入力に乗じるGaussianフィルタを定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gaussian mask for inputs</span>
-<span class="n">function</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="n">sizex</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sizey</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
-    <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">y</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gaussian mask for inputs</span>
+<span class="k">function</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="n">sizex</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sizey</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="n">x</span><span class="p">,</span> <span class="n">j</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">j</span> <span class="kp">in</span> <span class="n">y</span><span class="p">]</span>
     
     <span class="n">x0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span> <span class="o">.-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">.-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">sigma</span><span class="o">^</span><span class="mi">2</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">mask</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-<span class="n">end</span>
+    <span class="k">return</span> <span class="n">mask</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>GaussianMask (generic function with 4 methods)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GaussianMask (generic function with 4 methods)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gau</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gau</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">()</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gaussian mask&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Gaussian mask&quot;</span><span class="p">)</span>
 <span class="n">imshow</span><span class="p">(</span><span class="n">gau</span><span class="p">)</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
@@ -609,19 +609,19 @@ end
 <p>損失関数を定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">variable</span><span class="p">::</span><span class="n">RaoBallard1999Model</span><span class="p">,</span> <span class="n">param</span><span class="p">::</span><span class="n">RBParameter</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">variable</span><span class="o">::</span><span class="n">RaoBallard1999Model</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="n">RBParameter</span><span class="p">)</span>
     <span class="nd">@unpack</span> <span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">,</span> <span class="n">num_lv1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">Uh</span> <span class="o">=</span> <span class="n">variable</span>
     <span class="nd">@unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">αh</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">vartd</span><span class="p">,</span> <span class="n">inv_var</span><span class="p">,</span> <span class="n">inv_vartd</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">λ</span> <span class="o">=</span> <span class="n">param</span>
-    <span class="n">recon_error</span> <span class="o">=</span> <span class="n">inv_var</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">error</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">inv_vartd</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">errorh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">sparsity_r</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">αh</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">sparsity_U</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">*</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">U</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Uh</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">recon_error</span> <span class="o">=</span> <span class="n">inv_var</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">error</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">errorh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sparsity_r</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">αh</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">rh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sparsity_U</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">*</span> <span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">U</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">Uh</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">recon_error</span> <span class="o">+</span> <span class="n">sparsity_r</span> <span class="o">+</span> <span class="n">sparsity_U</span>
-<span class="n">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>calculate_total_error (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calculate_total_error (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -629,78 +629,78 @@ end
 <p>シミュレーションを実行する関数を定義する。外側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では画像パッチの作成と<code class="docutils literal notranslate"><span class="pre">r</span></code>の初期化を行う。内側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では<code class="docutils literal notranslate"><span class="pre">r</span></code>が収束するまで更新を行い、収束したときに重み行列<code class="docutils literal notranslate"><span class="pre">Phi</span></code>を更新する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function run_simulation(imgs, num_iter, nt_max, eps)
-    # Define model
-    model = RaoBallard1999Model{Float32}()
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="c"># Define model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">RaoBallard1999Model</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}()</span>
     
-    # Simulation constants
-    H, W, num_images = size(imgs)
-    input_scale = 40 # scale factor of inputs
-    gmask = GaussianMask() # Gaussian mask
-    errorarr = zeros(num_iter) # Vector to save errors    
+    <span class="c"># Simulation constants</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">num_images</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+    <span class="n">input_scale</span> <span class="o">=</span> <span class="mi">40</span> <span class="c"># scale factor of inputs</span>
+    <span class="n">gmask</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">()</span> <span class="c"># Gaussian mask</span>
+    <span class="n">errorarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_iter</span><span class="p">)</span> <span class="c"># Vector to save errors    </span>
     
-    # Run simulation
-    @showprogress &quot;Computing...&quot; for iter in 1:num_iter
-        # Get images randomly
-        idx = rand(1:num_images)
-        img = imgs[:, :, idx]
+    <span class="c"># Run simulation</span>
+    <span class="nd">@showprogress</span> <span class="s">&quot;Computing...&quot;</span> <span class="k">for</span> <span class="n">iter</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iter</span>
+        <span class="c"># Get images randomly</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">num_images</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span>
 
-        # Get the coordinates of the upper left corner of clopping image randomly.
-        beginx = rand(1:W-27)
-        beginy = rand(1:H-17)
-        img_clopped = img[beginy:beginy+15, beginx:beginx+25]
+        <span class="c"># Get the coordinates of the upper left corner of clopping image randomly.</span>
+        <span class="n">beginx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="o">-</span><span class="mi">27</span><span class="p">)</span>
+        <span class="n">beginy</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">H</span><span class="o">-</span><span class="mi">17</span><span class="p">)</span>
+        <span class="n">img_clopped</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">beginy</span><span class="o">:</span><span class="n">beginy</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">beginx</span><span class="o">:</span><span class="n">beginx</span><span class="o">+</span><span class="mi">25</span><span class="p">]</span>
 
-        # Clop three patches
-        inputs = hcat([(gmask .* img_clopped[:, 1+i*5:i*5+16])[:] for i = 0:2]...)&#39;
-        inputs = (inputs .- mean(inputs)) .* input_scale
+        <span class="c"># Clop three patches</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([(</span><span class="n">gmask</span> <span class="o">.*</span> <span class="n">img_clopped</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">:</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">16</span><span class="p">])[</span><span class="o">:</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputs</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span> <span class="o">.*</span> <span class="n">input_scale</span>
 
-        # Reset states
-        model.r = inputs * model.U 
-        model.rh = model.Uh&#39; * model.r[:]
+        <span class="c"># Reset states</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">U</span> 
+        <span class="n">model</span><span class="o">.</span><span class="n">rh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Uh</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">]</span>
 
-        # Input an image patch until latent variables are converged 
-        for i in 1:nt_max
-            # Update r and rh without update weights 
-            error, errorh, dr, drh = update!(model, model.param, inputs, false)
+        <span class="c"># Input an image patch until latent variables are converged </span>
+        <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt_max</span>
+            <span class="c"># Update r and rh without update weights </span>
+            <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
 
-            # Compute norm of r and rh
-            dr_norm = sqrt(sum(dr.^2))
-            drh_norm = sqrt(sum(drh.^2))
+            <span class="c"># Compute norm of r and rh</span>
+            <span class="n">dr_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">dr</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">drh_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">drh</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
 
-            # Check convergence of r and rh, then update weights
-            if dr_norm &lt; eps &amp;&amp; drh_norm &lt; eps
-                error, errorh, dr, drh = update!(model, model.param, inputs, true)
-                errorarr[iter] = calculate_total_error(error, errorh, model, model.param) # Append errors
-                break
-            end
+            <span class="c"># Check convergence of r and rh, then update weights</span>
+            <span class="k">if</span> <span class="n">dr_norm</span> <span class="o">&lt;</span> <span class="n">eps</span> <span class="o">&amp;&amp;</span> <span class="n">drh_norm</span> <span class="o">&lt;</span> <span class="n">eps</span>
+                <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+                <span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">)</span> <span class="c"># Append errors</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
 
-            # If failure to convergence, break and print error
-            if i &gt;= nt_max-2
-                println(&quot;Error at patch:&quot;, iter)
-                println(dr_norm, drh_norm)
-                break
-            end
-        end
+            <span class="c"># If failure to convergence, break and print error</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">nt_max</span><span class="o">-</span><span class="mi">2</span>
+                <span class="n">println</span><span class="p">(</span><span class="s">&quot;Error at patch:&quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">)</span>
+                <span class="n">println</span><span class="p">(</span><span class="n">dr_norm</span><span class="p">,</span> <span class="n">drh_norm</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
 
 
-        # Decay learning rate         
-        if iter % 40 == 39
-            model.k2 /= 1.015
-        end
+        <span class="c"># Decay learning rate         </span>
+        <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">40</span> <span class="o">==</span> <span class="mi">39</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">k2</span> <span class="o">/=</span> <span class="mf">1.015</span>
+        <span class="k">end</span>
 
-        # Print moving average error
-        if iter % 1000 == 0
-            moving_average_error = mean(errorarr[iter-999:iter])
-            println(&quot;iter: &quot;, iter, &quot;/&quot;, num_iter, &quot;, Moving average error:&quot;, moving_average_error)
-        end
-    end
-    return model, errorarr
-end
+        <span class="c"># Print moving average error</span>
+        <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">999</span><span class="o">:</span><span class="n">iter</span><span class="p">])</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;iter: &quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="s">&quot;, Moving average error:&quot;</span><span class="p">,</span> <span class="n">moving_average_error</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>run_simulation (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>run_simulation (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -710,10 +710,10 @@ end
 <h3>シミュレーションの実行<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulation constants</span>
-<span class="n">num_iter</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># number of iterations</span>
-<span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># Maximum number of simulation time</span>
-<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c1"># small value which determines convergence</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Simulation constants</span>
+<span class="n">num_iter</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c"># number of iterations</span>
+<span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># Maximum number of simulation time</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c"># small value which determines convergence</span>
 
 <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
 </pre></div>
@@ -726,18 +726,18 @@ end
 <p>訓練中の損失の変化を描画してみよう。損失が低下し、学習が進行したことが分かる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="p">:</span><span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="p">:</span><span class="n">end</span><span class="p">]</span> <span class="o">-</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">end</span><span class="o">-</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">end</span><span class="p">]</span> <span class="o">/</span> <span class="n">n</span>
-<span class="n">end</span>
+    <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="o">:</span><span class="k">end</span><span class="p">]</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="o">:</span><span class="k">end</span><span class="p">]</span> <span class="o">-</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="p">]</span> <span class="o">/</span> <span class="n">n</span>
+<span class="k">end</span>
 
-<span class="c1"># Plot error</span>
+<span class="c"># Plot error</span>
 <span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">errorarr</span><span class="p">)</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Moving error&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="n">moving_average_error</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">moving_average_error</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Moving error&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">moving_average_error</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">moving_average_error</span><span class="p">)</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -752,15 +752,15 @@ end
 <p>学習後の重み行列 (<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>)を可視化してみよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Receptive fields</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">32</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">32</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">end</span>
-<span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Receptive fields of level 1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields of level 1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -772,7 +772,7 @@ end
 <p>白色が<strong>ON領域</strong>(興奮)、黒色が<strong>OFF領域</strong>(抑制)を表す。Gaborフィルタ様の局所受容野が得られている。次に、Level2のニューロンの受容野は<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{U}^h\)</span>の積を計算することで描画できる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Receptive fields of level 2</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields of level 2</span>
 <span class="n">zero_padding</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">U0</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">]</span>
 <span class="n">U1</span> <span class="o">=</span> <span class="p">[</span><span class="n">zero_padding</span><span class="p">;</span> <span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">]</span>
@@ -782,13 +782,13 @@ end
 
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">24</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">24</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">Uh_</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">26</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">end</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">Uh_</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">26</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
 
-<span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Receptive fields of level 2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields of level 2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>

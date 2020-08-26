@@ -25,13 +25,13 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -379,8 +379,8 @@
 <p>以上を踏まえてLIFモデルを実装してみよう。まず必要なパッケージを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
-<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
 </pre></div>
 </div>
 </div>
@@ -388,24 +388,24 @@
 <p>HHモデルと同様に変更しない定数を保持する <code class="docutils literal notranslate"><span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">LIFParameter</span></code> と, 変数を保持する <code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">LIF</span></code> を作成する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">LIFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">tref</span><span class="p">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="mi">2</span> <span class="c1"># 不応期 (ms)</span>
-    <span class="n">tc_m</span><span class="p">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="mi">10</span> <span class="c1"># 膜時定数 (ms)</span>
-    <span class="n">vrest</span><span class="p">::</span><span class="n">FT</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c1"># 静止膜電位 (mV) </span>
-    <span class="n">vreset</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="c1"># リセット電位 (mV) </span>
-    <span class="n">vthr</span><span class="p">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c1"># 閾値電位 (mV)</span>
-    <span class="n">vpeak</span><span class="p">::</span><span class="n">FT</span>  <span class="o">=</span> <span class="mi">30</span> <span class="c1">#　ピーク電位 (mV)</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="n">LIFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">tref</span><span class="o">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="mi">2</span> <span class="c"># 不応期 (ms)</span>
+    <span class="n">tc_m</span><span class="o">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="mi">10</span> <span class="c"># 膜時定数 (ms)</span>
+    <span class="n">vrest</span><span class="o">::</span><span class="n">FT</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c"># 静止膜電位 (mV) </span>
+    <span class="n">vreset</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="c"># リセット電位 (mV) </span>
+    <span class="n">vthr</span><span class="o">::</span><span class="n">FT</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c"># 閾値電位 (mV)</span>
+    <span class="n">vpeak</span><span class="o">::</span><span class="n">FT</span>  <span class="o">=</span> <span class="mi">30</span> <span class="c">#　ピーク電位 (mV)</span>
+<span class="k">end</span>
 
-<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">LIF</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">param</span><span class="p">::</span><span class="n">LIFParameter</span> <span class="o">=</span> <span class="n">LIFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
-    <span class="n">N</span><span class="p">::</span><span class="n">UInt32</span> <span class="c1">#ニューロンの数</span>
-    <span class="n">v</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c1"># 膜電位 (mV)</span>
-    <span class="n">v_</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c1"># 発火電位も記録する変数</span>
-    <span class="n">fire</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c1"># 発火</span>
-    <span class="n">tlast</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="c1"># 最後の発火時刻 (ms)</span>
-    <span class="n">tcount</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># 時間カウント</span>
-<span class="n">end</span>
+<span class="nd">@kwdef</span> <span class="k">mutable</span> <span class="k">struct</span> <span class="n">LIF</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="n">LIFParameter</span> <span class="o">=</span> <span class="n">LIFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c">#ニューロンの数</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 膜電位 (mV)</span>
+    <span class="n">v_</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火電位も記録する変数</span>
+    <span class="n">fire</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火</span>
+    <span class="n">tlast</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="c"># 最後の発火時刻 (ms)</span>
+    <span class="n">tcount</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># 時間カウント</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -413,27 +413,27 @@
 <p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">update!</span></code>を書く。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update!(variable::LIF, param::LIFParameter, I::Vector, dt)
-    @unpack N, v, v_, fire, tlast, tcount = variable
-    @unpack tref, tc_m, vrest, vreset, vthr, vpeak = param
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="n">LIF</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="n">LIFParameter</span><span class="p">,</span> <span class="nb">I</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">v_</span><span class="p">,</span> <span class="n">fire</span><span class="p">,</span> <span class="n">tlast</span><span class="p">,</span> <span class="n">tcount</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">tref</span><span class="p">,</span> <span class="n">tc_m</span><span class="p">,</span> <span class="n">vrest</span><span class="p">,</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">vthr</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="n">param</span>
     
-    @inbounds for i = 1:N
-        #v[i] += dt * ((vrest - v[i] + I[i]) / tc_m) # 不応期を考慮しない場合の更新式
-        v[i] += dt * ((dt*tcount) &gt; (tlast[i] + tref))*((vrest - v[i] + I[i]) / tc_m)
-        #v[i] += dt * ifelse(dt*tcount[1] &gt; tlast[i] + tref, (vrest - v[i] + I[i]) / tc_m, 0)
-    end
-    @inbounds for i = 1:N
-        fire[i] = v[i] &gt;= vthr
-        v_[i] = ifelse(fire[i], vpeak, v[i]) #発火時の電位も含めて記録するための変数 (除いてもよい)
-        v[i] = ifelse(fire[i], vreset, v[i])        
-        tlast[i] = ifelse(fire[i], dt*tcount, tlast[i]) # 発火時刻の更新
-    end
-end
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="c">#v[i] += dt * ((vrest - v[i] + I[i]) / tc_m) # 不応期を考慮しない場合の更新式</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">((</span><span class="n">dt</span><span class="o">*</span><span class="n">tcount</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tref</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="n">vrest</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">tc_m</span><span class="p">)</span>
+        <span class="c">#v[i] += dt * ifelse(dt*tcount[1] &gt; tlast[i] + tref, (vrest - v[i] + I[i]) / tc_m, 0)</span>
+    <span class="k">end</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vthr</span>
+        <span class="n">v_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vpeak</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c">#発火時の電位も含めて記録するための変数 (除いてもよい)</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>        
+        <span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dt</span><span class="o">*</span><span class="n">tcount</span><span class="p">,</span> <span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c"># 発火時刻の更新</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -446,35 +446,32 @@ end
 <p>いくつかの定数を設定してシミュレーションを実行する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
-dt = 0.01f0 # ms
-nt = UInt32(T/dt) # number of timesteps
-N = 1 # ニューロンの数
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">450</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># ニューロンの数</span>
 
-# 入力刺激
-t = Array{Float32}(1:nt)*dt
-I = repeat(25f0 * ((t .&gt; 50) - (t .&gt; 200)) + 50f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+<span class="c"># 入力刺激</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="nb">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">25f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">50f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
 
-# 記録用
-varr = zeros(Float32, nt, N)
+<span class="c"># 記録用</span>
+<span class="n">varr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 
-# modelの定義
-neurons = LIF{Float32}(N=N)
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
 
-# simulation
-@time for i = 1:nt
-    update!(neurons, neurons.param, I[i, :], dt)
-    neurons.tcount += 1
-    varr[i, :] = neurons.v_
-end
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">neurons</span><span class="o">.</span><span class="n">tcount</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">varr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">v_</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.108938 seconds (803.64 k allocations: 24.919 MiB)
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.109454 seconds (803.64 k allocations: 24.919 MiB)
 </pre></div>
 </div>
 </div>
@@ -482,19 +479,19 @@ end
 <p><code class="docutils literal notranslate"><span class="pre">Plots</span></code>を読み込み、発火時電位を含む膜電位<code class="docutils literal notranslate"><span class="pre">v_</span></code>と入力電流<code class="docutils literal notranslate"><span class="pre">I</span></code>を描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Plots</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> 
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
-    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;V (mV)&quot;</span> <span class="s2">&quot;Current&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&quot;</span> <span class="s">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s">&quot;V (mV)&quot;</span> <span class="s">&quot;Current&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -509,35 +506,35 @@ end
 <p>この項目ではLIFモデルにおける入力電流に対する発火率の変化 (F-I curve)を描画する。方法はHHモデルの場合と同様だが、今回は発火したかどうかがモデル内の変数として明示的に記録されているので処理が少ない。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 1000 # ms
-dt = 0.01f0 # ms
-nt = UInt32(T/dt) # number of timesteps
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
 
-N = 100 # ニューロンの数
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># ニューロンの数</span>
 
-# 入力刺激
-mincurrent = 15
-maxcurrent = 40
-t = Array{Float32}(1:nt)*dt
-I = Array{Float32}(range(mincurrent,maxcurrent,length=N)) # injection current
+<span class="c"># 入力刺激</span>
+<span class="n">mincurrent</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">maxcurrent</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="nb">I</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">range</span><span class="p">(</span><span class="n">mincurrent</span><span class="p">,</span><span class="n">maxcurrent</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="n">N</span><span class="p">))</span> <span class="c"># injection current</span>
 
-# modelの定義
-neurons = LIF{Float32}(N=N)
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
 
-# 記録用
-firearr = zeros(Bool, nt, N)
+<span class="c"># 記録用</span>
+<span class="n">firearr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 
-# simulation
-@time for i = 1:nt
-    update!(neurons, neurons.param, I[:], dt)
-    neurons.tcount += 1
-    firearr[i, :] = neurons.fire
-end
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">neurons</span><span class="o">.</span><span class="n">tcount</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">firearr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">fire</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.123751 seconds (1.08 M allocations: 66.642 MiB, 4.62% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.123108 seconds (1.08 M allocations: 66.642 MiB, 4.62% gc time)
 </pre></div>
 </div>
 </div>
@@ -545,12 +542,12 @@ end
 <p>発火率を計算し、描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">firearr</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">firearr</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">rate</span> <span class="o">=</span> <span class="n">num_spikes</span><span class="o">/</span><span class="n">T</span><span class="o">*</span><span class="mf">1e3</span>
 
-<span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">[:],</span> <span class="n">rate</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span>
-    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Input current&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">rate</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Input current&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -601,22 +598,22 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
 <p>それではこの式に基づいてF-I curveを描画してみよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tc_m</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># 膜時定数 (ms)</span>
-<span class="n">tref</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># 不応期 (ms)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tc_m</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># 膜時定数 (ms)</span>
+<span class="n">tref</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># 不応期 (ms)</span>
 
-<span class="n">R</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1">#膜抵抗 </span>
-<span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mf">60.0</span> <span class="c1"># 静止膜電位 (mV) </span>
-<span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mf">40.0</span> <span class="c1"># 閾値電位 (mV)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c">#膜抵抗 </span>
+<span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mf">60.0</span> <span class="c"># 静止膜電位 (mV) </span>
+<span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mf">40.0</span> <span class="c"># 閾値電位 (mV)</span>
 <span class="n">rate</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">N</span>
-    <span class="n">z</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">vrest</span> <span class="o">-</span> <span class="n">vthr</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">vrest</span> <span class="o">-</span> <span class="n">vthr</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tref</span> <span class="o">+</span> <span class="n">tc_m</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e3</span>
     <span class="k">else</span>
         <span class="n">rate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">end</span>
-<span class="n">end</span> 
+    <span class="k">end</span>
+<span class="k">end</span> 
 </pre></div>
 </div>
 </div>
@@ -624,9 +621,9 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
 <p><code class="docutils literal notranslate"><span class="pre">log</span></code>の中身が0になるとErrorが生じるのでif文で場合分けをしている。なお、<code class="docutils literal notranslate"><span class="pre">1e3</span></code>を乗じているのは1/msからHzに変換するためである。結果は次のようになる。数値的な計算結果とほぼ一致していることがわかる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">[:],</span> <span class="n">rate</span><span class="p">[:],</span>
-    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Input current&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">rate</span><span class="p">[</span><span class="o">:</span><span class="p">],</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Input current&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

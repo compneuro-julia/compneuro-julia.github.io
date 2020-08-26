@@ -25,13 +25,13 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -387,18 +387,18 @@
 <p>関数内で配列を変更する場合には注意が必要である。以下に入力された配列を同じサイズの要素1の配列で置き換える、ということを目的として書かれた2つの関数がある。違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function wrong!(a::Array)
-    a = ones(size(a))
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">wrong!</span><span class="p">(</span><span class="n">a</span><span class="o">::</span><span class="kt">Array</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="k">end</span>
 
-function right!(a::Array)
-    a[:] = ones(size(a))
-end
+<span class="k">function</span> <span class="n">right!</span><span class="p">(</span><span class="n">a</span><span class="o">::</span><span class="kt">Array</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>right! (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>right! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -406,20 +406,20 @@ end
 <p>実行すると<code class="docutils literal notranslate"><span class="pre">wrong!</span></code>の場合には入力された配列が変更されていないことがわかる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Random
-v = rand(2, 2)
-println(&quot;v : &quot;, v)
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;v : &quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-wrong!(v)
-println(&quot;wrong : &quot;, v)
+<span class="n">wrong!</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;wrong : &quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-right!(v)
-println(&quot;right : &quot;, v)
+<span class="n">right!</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;right : &quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
 wrong : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
@@ -432,12 +432,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>配列を一次元化(flatten)する方法。まずは3次元配列を作成する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
 [:, :, 1] =
  0.997107  0.0827965
  0.394606  0.847174
@@ -452,13 +452,13 @@ right : [1.0 1.0; 1.0 1.0]
 <p>用意されている<code class="docutils literal notranslate"><span class="pre">flatten</span></code>を素直に用いると次のようになる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Base.Iterators</span><span class="p">:</span> <span class="n">flatten</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="n">Base</span><span class="o">.</span><span class="n">Iterators</span><span class="o">:</span> <span class="n">flatten</span>
 <span class="n">collect</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">B</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
  0.25323335359382226
  0.8475284309218816
  0.46170218524594486
@@ -474,12 +474,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>ただし、単に<code class="docutils literal notranslate"><span class="pre">B[:]</span></code>とするだけでもよい。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="p">[:]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="p">[</span><span class="o">:</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
  0.25323335359382226
  0.8475284309218816
  0.46170218524594486
@@ -498,12 +498,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>シミュレーションにおいてニューロン間の重み行列を行あるいは列ごとに正規化 (weight normalization)する場合がある。これは各ニューロンへの入力の大きさを同じにする働きや重みの発散を防ぐ役割がある。以下では行ごとの和を1にする。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
  0.947321  0.526878  0.464399
  0.290191  0.875268  0.279707
  0.319338  0.976441  0.375153
@@ -513,12 +513,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Wnormed</span> <span class="o">=</span> <span class="n">W</span> <span class="o">./</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Wnormed</span> <span class="o">=</span> <span class="n">W</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
  0.608486  0.221509  0.414916
  0.186396  0.367978  0.249904
  0.205118  0.410513  0.33518
@@ -528,12 +528,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">Wnormed</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">Wnormed</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -544,12 +544,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>行列の結合はMATLABに近い形式で行うことができる。まず、2つの行列A, Bを用意する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">;</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Array{Int64,2}:
  1  2
  3  4
 </pre></div>
@@ -558,12 +558,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">;</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">;</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×3 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Array{Int64,2}:
  4  5  6
  7  8  9
 </pre></div>
@@ -575,12 +575,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p><code class="docutils literal notranslate"><span class="pre">hcat</span></code>を使うやり方と、<code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>を使うやり方がある。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">H1</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">H1</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -589,12 +589,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">H2</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span> <span class="n">B</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">H2</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span> <span class="n">B</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -604,12 +604,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>なお、MATLABのように次のようにすると正しく結合はされない。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">H3</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">H3</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>2-element Array{Array{Int64,2},1}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Array{Array{Int64,2},1}:
  [1 2; 3 4]
  [4 5 6; 7 8 9]
 </pre></div>
@@ -621,12 +621,12 @@ right : [1.0 1.0; 1.0 1.0]
 <h3>4.2 垂直結合 (Vertical concatenation)<a class="headerlink" href="#vertical-concatenation" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V1</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="sa">B</span><span class="s1">&#39;)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">V1</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -638,12 +638,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V2</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="p">;</span> <span class="sa">B</span><span class="s1">&#39;]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">V2</span> <span class="o">=</span> <span class="p">[</span><span class="n">A</span><span class="p">;</span> <span class="n">B</span><span class="o">&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -655,12 +655,12 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">V2</span> <span class="p">[</span><span class="n">A</span><span class="p">;</span><span class="sa">B</span><span class="s1">&#39;]]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">V2</span> <span class="p">[</span><span class="n">A</span><span class="p">;</span><span class="n">B</span><span class="o">&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>5×4 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Array{Int64,2}:
  1  2  1  2
  3  4  3  4
  4  7  4  7
@@ -677,12 +677,12 @@ right : [1.0 1.0; 1.0 1.0]
 <p>要はnumpyでの<code class="docutils literal notranslate"><span class="pre">A[None,</span> <span class="pre">:]</span></code>や<code class="docutils literal notranslate"><span class="pre">A[np.newaxis,</span> <span class="pre">:]</span></code>のようなことがしたい場合。やや面倒だが、<code class="docutils literal notranslate"><span class="pre">reshape</span></code>を使うか、<code class="docutils literal notranslate"><span class="pre">[CartesianIndex()]</span></code>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
  0.3487808667518093
  0.717776723811032
  0.3369916406749496
@@ -692,13 +692,13 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">newaxis</span> <span class="o">=</span> <span class="p">[</span><span class="n">CartesianIndex</span><span class="p">()]</span>
-<span class="n">v1</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">newaxis</span> <span class="o">=</span> <span class="p">[</span><span class="kt">CartesianIndex</span><span class="p">()]</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">newaxis</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
  0.348781  0.717777  0.336992
 </pre></div>
 </div>
@@ -710,15 +710,15 @@ right : [1.0 1.0; 1.0 1.0]
 <p>numpyでは<code class="docutils literal notranslate"><span class="pre">array([matrix</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range()])</span></code>などを用いると、1次元配列のリストを2次元配列に変換できた。Juliaでも同様にする場合は<code class="docutils literal notranslate"><span class="pre">hcat(...)</span></code>や<code class="docutils literal notranslate"><span class="pre">cat(...)</span></code>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">]</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">A1</span><span class="p">))</span>
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">A1</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">A1</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">A1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,1},1}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,1},1}
 Size : (5,)
 </pre></div>
 </div>
@@ -726,15 +726,15 @@ Size : (5,)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A2</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">A1</span><span class="o">...</span><span class="p">)</span><span class="s1">&#39;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A2</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">A1</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">A2</span><span class="p">))</span>
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">A2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">A2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">A2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64,Array{Float64,2}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64,Array{Float64,2}}
 Size : (5, 3)
 </pre></div>
 </div>
@@ -743,15 +743,15 @@ Size : (5, 3)
 <p>以下は多次元配列の場合。<code class="docutils literal notranslate"><span class="pre">cat(...)</span></code>で配列を結合し、<code class="docutils literal notranslate"><span class="pre">permitedims</span></code>で転置する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">B1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,3},1}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,3},1}
 Size : (6,)
 </pre></div>
 </div>
@@ -759,15 +759,15 @@ Size : (6,)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B2</span> <span class="o">=</span> <span class="n">permutedims</span><span class="p">(</span><span class="n">cat</span><span class="p">(</span><span class="n">B1</span><span class="o">...</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B2</span> <span class="o">=</span> <span class="n">permutedims</span><span class="p">(</span><span class="n">cat</span><span class="p">(</span><span class="n">B1</span><span class="o">...</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">B2</span><span class="p">))</span>
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">B2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Type : &quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">B2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Size : &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">(</span><span class="n">B2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64,4}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64,4}
 Size : (6, 3, 4, 5)
 </pre></div>
 </div>

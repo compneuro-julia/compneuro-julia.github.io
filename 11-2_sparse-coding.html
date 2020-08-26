@@ -25,13 +25,13 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -488,26 +488,26 @@ p(r_j)&amp;=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right] \quad \tag{5}
 <p>分布<span class="math notranslate nohighlight">\(p(r)\)</span>や<span class="math notranslate nohighlight">\(S(r)\)</span>を描画すると次のようになる。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">PyPlot</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$p(x)$&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gaussian&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">./</span> <span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cauchy&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$p</span><span class="s">(x)$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="nb">pi</span><span class="p">)</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Gaussian&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Laplace&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">./</span> <span class="p">(</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Cauchy&quot;</span><span class="p">)</span>
 <span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> 
-<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">$&quot;</span><span class="p">)</span>
 <span class="n">legend</span><span class="p">()</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;S(x)&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gaussian&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">log</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Cauchy&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;S(x)&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Gaussian&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Laplace&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">log</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Cauchy&quot;</span><span class="p">)</span>
 <span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">$&quot;</span><span class="p">)</span>
 
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
@@ -613,15 +613,15 @@ y-\lambda &amp; (y&gt;\lambda)\\
 <p><span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を関数として定義すると次のようになる <a class="footnote-reference brackets" href="#softthr" id="id6">3</a>。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># thresholding function of S(x)=|x|</span>
-<span class="n">function</span> <span class="n">soft_thresholding_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmda</span><span class="p">)</span>
-    <span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">lmda</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="n">lmda</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># thresholding function of S(x)=|x|</span>
+<span class="k">function</span> <span class="n">soft_thresholding_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmda</span><span class="p">)</span>
+    <span class="n">max</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">lmda</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="n">lmda</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>soft_thresholding_func (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>soft_thresholding_func (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -629,43 +629,43 @@ y-\lambda &amp; (y&gt;\lambda)\\
 <p>次に<span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を描画すると次のようになる。</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
-<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">soft_thresholding_func</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.5</span><span class="p">))</span>
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$S(x)=|x|$&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$S</span><span class="s">(x)=|x|$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$</span><span class="se">\f</span><span class="s2">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;$</span><span class="se">\f</span><span class="s">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;k--&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
-<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$f_\lambda(x)=x+\lambda\cdot</span><span class="se">\f</span><span class="s2">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$f_</span><span class="s">\lambda(x)=x+\lambda\cdot</span><span class="se">\f</span><span class="s">rac{\partial S(x)}{\partial x}$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;k--&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="o">*</span><span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">$&quot;</span><span class="p">)</span>
 <span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$\Theta_\lambda(x)$&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;k--&quot;</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;$\Theta_\lambda(x)$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;k--&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">$&quot;</span><span class="p">)</span>
 <span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
@@ -705,20 +705,20 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <p>データは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできる <a class="footnote-reference brackets" href="#datasets" id="id9">4</a>。<code class="docutils literal notranslate"><span class="pre">IMAGES_RAW.mat</span></code>は10枚の自然画像で、<code class="docutils literal notranslate"><span class="pre">IMAGES.mat</span></code>はそれを白色化したものである。<code class="docutils literal notranslate"><span class="pre">mat</span></code>ファイルの読み込みには<a class="reference external" href="https://github.com/JuliaIO/MAT.jl">MAT.jl</a>を用いる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">MAT</span>
-<span class="c1">#using PyPlot</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MAT</span>
+<span class="c">#using PyPlot</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># datasets from http://www.rctn.org/bruno/sparsenet/</span>
-<span class="n">mat_images_raw</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s2">&quot;_static/datasets/IMAGES_RAW.mat&quot;</span><span class="p">)</span>
-<span class="n">imgs_raw</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images_raw</span><span class="p">,</span> <span class="s2">&quot;IMAGESr&quot;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># datasets from http://www.rctn.org/bruno/sparsenet/</span>
+<span class="n">mat_images_raw</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;_static/datasets/IMAGES_RAW.mat&quot;</span><span class="p">)</span>
+<span class="n">imgs_raw</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images_raw</span><span class="p">,</span> <span class="s">&quot;IMAGESr&quot;</span><span class="p">)</span>
 
-<span class="n">mat_images</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s2">&quot;_static/datasets/IMAGES.mat&quot;</span><span class="p">)</span>
-<span class="n">imgs</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images</span><span class="p">,</span> <span class="s2">&quot;IMAGES&quot;</span><span class="p">)</span>
+<span class="n">mat_images</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;_static/datasets/IMAGES.mat&quot;</span><span class="p">)</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images</span><span class="p">,</span> <span class="s">&quot;IMAGES&quot;</span><span class="p">)</span>
 
 <span class="n">close</span><span class="p">(</span><span class="n">mat_images_raw</span><span class="p">)</span>
 <span class="n">close</span><span class="p">(</span><span class="n">mat_images</span><span class="p">)</span>
@@ -729,14 +729,14 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <p>画像データを描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">imgs_raw</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">end</span>
-<span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Natural Images&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">imgs_raw</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Natural Images&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>  
 </pre></div>
 </div>
@@ -751,12 +751,12 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <p>必要なパッケージを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
-<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
-<span class="n">using</span> <span class="n">LinearAlgebra</span>
-<span class="n">using</span> <span class="n">Random</span>
-<span class="n">using</span> <span class="n">Statistics</span>
-<span class="n">using</span> <span class="n">ProgressMeter</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span>
+<span class="k">using</span> <span class="n">Random</span>
+<span class="k">using</span> <span class="n">Statistics</span>
+<span class="k">using</span> <span class="n">ProgressMeter</span>
 </pre></div>
 </div>
 </div>
@@ -764,20 +764,20 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <p>モデルを定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">OFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">lr_r</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c1"># learning rate of r</span>
-    <span class="n">lr_Phi</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c1"># learning rate of Phi</span>
-    <span class="n">lmda</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">5e-3</span> <span class="c1"># regularization parameter</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="n">OFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">lr_r</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c"># learning rate of r</span>
+    <span class="n">lr_Phi</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c"># learning rate of Phi</span>
+    <span class="n">lmda</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">5e-3</span> <span class="c"># regularization parameter</span>
+<span class="k">end</span>
 
-<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">OlshausenField1996Model</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">param</span><span class="p">::</span><span class="n">OFParameter</span> <span class="o">=</span> <span class="n">OFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
-    <span class="n">num_inputs</span><span class="p">::</span><span class="n">Int32</span>
-    <span class="n">num_units</span><span class="p">::</span><span class="n">Int32</span>
-    <span class="n">batch_size</span><span class="p">::</span><span class="n">Int32</span>
-    <span class="n">r</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="c1"># activity of neurons</span>
-    <span class="n">Phi</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">num_units</span><span class="p">)</span>
-<span class="n">end</span>
+<span class="nd">@kwdef</span> <span class="k">mutable</span> <span class="k">struct</span> <span class="n">OlshausenField1996Model</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="n">OFParameter</span> <span class="o">=</span> <span class="n">OFParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">num_inputs</span><span class="o">::</span><span class="kt">Int32</span>
+    <span class="n">num_units</span><span class="o">::</span><span class="kt">Int32</span>
+    <span class="n">batch_size</span><span class="o">::</span><span class="kt">Int32</span>
+    <span class="n">r</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="c"># activity of neurons</span>
+    <span class="n">Phi</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">num_units</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -785,29 +785,29 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <p>パラメータを更新する関数を定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function updateOF!(variable::OlshausenField1996Model, param::OFParameter, inputs::Array, training::Bool)
-    @unpack num_inputs, num_units, batch_size, r, Phi = variable
-    @unpack lr_r, lr_Phi, lmda = param
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">updateOF!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="n">OlshausenField1996Model</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="n">OFParameter</span><span class="p">,</span> <span class="n">inputs</span><span class="o">::</span><span class="kt">Array</span><span class="p">,</span> <span class="n">training</span><span class="o">::</span><span class="kt">Bool</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_units</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">Phi</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">lr_r</span><span class="p">,</span> <span class="n">lr_Phi</span><span class="p">,</span> <span class="n">lmda</span> <span class="o">=</span> <span class="n">param</span>
 
-    # Updates                
-    error = inputs .- r * Phi&#39;
-    r_ = r +lr_r .* error * Phi
+    <span class="c"># Updates                </span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">.-</span> <span class="n">r</span> <span class="o">*</span> <span class="n">Phi</span><span class="o">&#39;</span>
+    <span class="n">r_</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span><span class="n">lr_r</span> <span class="o">.*</span> <span class="n">error</span> <span class="o">*</span> <span class="n">Phi</span>
 
-    r[:, :] = soft_thresholding_func.(r_, lmda)
+    <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">soft_thresholding_func</span><span class="o">.</span><span class="p">(</span><span class="n">r_</span><span class="p">,</span> <span class="n">lmda</span><span class="p">)</span>
 
-    if training 
-        error = inputs - r * Phi&#39;
-        dPhi = error&#39; * r
-        Phi[:, :] += lr_Phi * dPhi
-    end
+    <span class="k">if</span> <span class="n">training</span> 
+        <span class="n">error</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">-</span> <span class="n">r</span> <span class="o">*</span> <span class="n">Phi</span><span class="o">&#39;</span>
+        <span class="n">dPhi</span> <span class="o">=</span> <span class="n">error</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">r</span>
+        <span class="n">Phi</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">lr_Phi</span> <span class="o">*</span> <span class="n">dPhi</span>
+    <span class="k">end</span>
     
-    return error
-end
+    <span class="k">return</span> <span class="n">error</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>updateOF! (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>updateOF! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -815,14 +815,14 @@ end
 <p>行ごとに正規化する関数を定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">normalize_rows</span><span class="p">(</span><span class="n">A</span><span class="p">::</span><span class="n">Array</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">A</span> <span class="o">./</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">A</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">.+</span> <span class="mf">1e-8</span><span class="p">)</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">normalize_rows</span><span class="p">(</span><span class="n">A</span><span class="o">::</span><span class="kt">Array</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">./</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">A</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">.+</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>normalize_rows (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>normalize_rows (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -830,16 +830,16 @@ end
 <p>損失関数を定義する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">lmda</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">lmda</span><span class="p">)</span>
     <span class="n">recon_error</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">error</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">sparsity_r</span> <span class="o">=</span> <span class="n">lmda</span><span class="o">*</span><span class="n">mean</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> 
+    <span class="n">sparsity_r</span> <span class="o">=</span> <span class="n">lmda</span><span class="o">*</span><span class="n">mean</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> 
     <span class="k">return</span> <span class="n">recon_error</span> <span class="o">+</span> <span class="n">sparsity_r</span>
-<span class="n">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>calculate_total_error (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calculate_total_error (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -847,71 +847,71 @@ end
 <p>シミュレーションを実行する関数を定義する。外側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では画像パッチの作成と<code class="docutils literal notranslate"><span class="pre">r</span></code>の初期化を行う。内側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では<code class="docutils literal notranslate"><span class="pre">r</span></code>が収束するまで更新を行い、収束したときに重み行列<code class="docutils literal notranslate"><span class="pre">Phi</span></code>を更新する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
-    H, W, num_images = size(imgs)
-    num_inputs = sz^2
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">num_units</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">num_images</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+    <span class="n">num_inputs</span> <span class="o">=</span> <span class="n">sz</span><span class="o">^</span><span class="mi">2</span>
 
-    model = OlshausenField1996Model{Float32}(num_inputs=num_inputs, num_units=num_units, batch_size=batch_size)
-    errorarr = zeros(num_iter) # Vector to save errors    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">OlshausenField1996Model</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">num_inputs</span><span class="o">=</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_units</span><span class="o">=</span><span class="n">num_units</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">errorarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_iter</span><span class="p">)</span> <span class="c"># Vector to save errors    </span>
     
-    # Run simulation
-    @showprogress &quot;Computing...&quot; for iter in 1:num_iter
-        # Get the coordinates of the upper left corner of clopping image randomly.
-        beginx = rand(1:W-sz, batch_size)
-        beginy = rand(1:H-sz, batch_size)
+    <span class="c"># Run simulation</span>
+    <span class="nd">@showprogress</span> <span class="s">&quot;Computing...&quot;</span> <span class="k">for</span> <span class="n">iter</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iter</span>
+        <span class="c"># Get the coordinates of the upper left corner of clopping image randomly.</span>
+        <span class="n">beginx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="o">-</span><span class="n">sz</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">beginy</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">H</span><span class="o">-</span><span class="n">sz</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
 
-        inputs = zeros(batch_size, num_inputs)  # Input image patches
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">)</span>  <span class="c"># Input image patches</span>
 
-        # Get images randomly
-        for i in 1:batch_size        
-            idx = rand(1:num_images)
-            img = imgs[:, :, idx]
-            clop = img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1][:]
-            inputs[i, :] = clop .- mean(clop)
-        end
+        <span class="c"># Get images randomly</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">batch_size</span>        
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">num_images</span><span class="p">)</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span>
+            <span class="n">clop</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">beginy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span><span class="n">beginy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">sz</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">beginx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span><span class="n">beginx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">sz</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">:</span><span class="p">]</span>
+            <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">clop</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">clop</span><span class="p">)</span>
+        <span class="k">end</span>
 
-        model.r = zeros(batch_size, num_units) # Reset r states
-        model.Phi = normalize_rows(model.Phi) # Normalize weights
-        # Input image patches until latent variables are converged 
-        r_tm1 = zeros(batch_size, num_units)  # set previous r (t minus 1)
+        <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="c"># Reset r states</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Phi</span> <span class="o">=</span> <span class="n">normalize_rows</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Phi</span><span class="p">)</span> <span class="c"># Normalize weights</span>
+        <span class="c"># Input image patches until latent variables are converged </span>
+        <span class="n">r_tm1</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span>  <span class="c"># set previous r (t minus 1)</span>
 
-        for t in 1:nt_max
-            # Update r without update weights 
-            error = updateOF!(model, model.param, inputs, false)
+        <span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt_max</span>
+            <span class="c"># Update r without update weights </span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">updateOF!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
 
-            dr = model.r - r_tm1 
+            <span class="n">dr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">r_tm1</span> 
 
-            # Compute norm of r
-            dr_norm = sqrt(sum(dr.^2)) / sqrt(sum(r_tm1.^2) + 1e-8)
-            r_tm1 .= model.r # update r_tm1
+            <span class="c"># Compute norm of r</span>
+            <span class="n">dr_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">dr</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">r_tm1</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+            <span class="n">r_tm1</span> <span class="o">.=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="c"># update r_tm1</span>
 
-            # Check convergence of r, then update weights
-            if dr_norm &lt; eps
-                error = updateOF!(model, model.param, inputs, true)
-                errorarr[iter] = calculate_total_error(error, model.r, model.param.lmda) # Append errors
-                break
-            end
+            <span class="c"># Check convergence of r, then update weights</span>
+            <span class="k">if</span> <span class="n">dr_norm</span> <span class="o">&lt;</span> <span class="n">eps</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">updateOF!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+                <span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">lmda</span><span class="p">)</span> <span class="c"># Append errors</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
 
-            # If failure to convergence, break and print error
-            if t &gt;= nt_max-1
-                print(&quot;Error at patch:&quot;, iter_, dr_norm)
-                errorarr[iter] = calculate_total_error(error, model.r, model.param.lmda) # Append errors
-                break
-            end
-        end
-        # Print moving average error
-        if iter % 100 == 0
-            moving_average_error = mean(errorarr[iter-99:iter])
-            println(&quot;iter: &quot;, iter, &quot;/&quot;, num_iter, &quot;, Moving average error:&quot;, moving_average_error)
-        end
-    end
-    return model, errorarr
-end
+            <span class="c"># If failure to convergence, break and print error</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="n">nt_max</span><span class="o">-</span><span class="mi">1</span>
+                <span class="n">print</span><span class="p">(</span><span class="s">&quot;Error at patch:&quot;</span><span class="p">,</span> <span class="n">iter_</span><span class="p">,</span> <span class="n">dr_norm</span><span class="p">)</span>
+                <span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">lmda</span><span class="p">)</span> <span class="c"># Append errors</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+        <span class="c"># Print moving average error</span>
+        <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">99</span><span class="o">:</span><span class="n">iter</span><span class="p">])</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;iter: &quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="s">&quot;, Moving average error:&quot;</span><span class="p">,</span> <span class="n">moving_average_error</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>run_simulation (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>run_simulation (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -922,14 +922,14 @@ end
 <h3>シミュレーションの実行<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulation constants</span>
-<span class="n">num_iter</span> <span class="o">=</span> <span class="mi">500</span> <span class="c1"># number of iterations</span>
-<span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># Maximum number of simulation time</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">250</span> <span class="c1"># Batch size</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Simulation constants</span>
+<span class="n">num_iter</span> <span class="o">=</span> <span class="mi">500</span> <span class="c"># number of iterations</span>
+<span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># Maximum number of simulation time</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">250</span> <span class="c"># Batch size</span>
 
-<span class="n">sz</span> <span class="o">=</span> <span class="mi">16</span> <span class="c1"># image patch size</span>
-<span class="n">num_units</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># number of neurons (units)</span>
-<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c1"># small value which determines convergence</span>
+<span class="n">sz</span> <span class="o">=</span> <span class="mi">16</span> <span class="c"># image patch size</span>
+<span class="n">num_units</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># number of neurons (units)</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c"># small value which determines convergence</span>
 
 <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">num_units</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
 </pre></div>
@@ -942,11 +942,11 @@ end
 <p>訓練中の損失の変化を描画してみよう。損失が低下し、学習が進行したことが分かる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot error</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot error</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_iter</span><span class="p">,</span> <span class="n">errorarr</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">num_iter</span><span class="p">,</span> <span class="n">errorarr</span><span class="p">)</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -961,15 +961,15 @@ end
 <p>学習後の重み行列 <code class="docutils literal notranslate"><span class="pre">Phi</span></code> (<span class="math notranslate nohighlight">\(\mathbf{\Phi}\)</span>)を可視化してみよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Receptive fields</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields</span>
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">num_units</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_units</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Phi</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
-    <span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">end</span>
-<span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Receptive fields&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Phi</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.925</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -985,43 +985,43 @@ end
 <p>学習したモデルを用いて入力画像が再構成されるか確認しよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>H, W, num_images = size(imgs)
-num_inputs = sz^2
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">num_images</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+<span class="n">num_inputs</span> <span class="o">=</span> <span class="n">sz</span><span class="o">^</span><span class="mi">2</span>
 
-# Get the coordinates of the upper left corner of clopping image randomly.
-beginx = rand(1:W-sz, batch_size)
-beginy = rand(1:H-sz, batch_size)
+<span class="c"># Get the coordinates of the upper left corner of clopping image randomly.</span>
+<span class="n">beginx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="o">-</span><span class="n">sz</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+<span class="n">beginy</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">H</span><span class="o">-</span><span class="n">sz</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
 
-inputs = zeros(batch_size, num_inputs)  # Input image patches
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">)</span>  <span class="c"># Input image patches</span>
 
-# Get images randomly
-for i in 1:batch_size        
-    idx = rand(1:num_images)
-    img = imgs[:, :, idx]
-    clop = img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1][:]
-    inputs[i, :] = clop .- mean(clop)
-end
+<span class="c"># Get images randomly</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">batch_size</span>        
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">num_images</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span>
+    <span class="n">clop</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">beginy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span><span class="n">beginy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">sz</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">beginx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">:</span><span class="n">beginx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">sz</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">:</span><span class="p">]</span>
+    <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">clop</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">clop</span><span class="p">)</span>
+<span class="k">end</span>
 
-model.r = zeros(batch_size, num_units) # Reset r states
+<span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span> <span class="c"># Reset r states</span>
 
-# Input image patches until latent variables are converged 
-r_tm1 = zeros(batch_size, num_units)  # set previous r (t minus 1)
+<span class="c"># Input image patches until latent variables are converged </span>
+<span class="n">r_tm1</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_units</span><span class="p">)</span>  <span class="c"># set previous r (t minus 1)</span>
 
-for t in 1:nt_max
-    # Update r without update weights 
-    error = updateOF!(model, model.param, inputs, false)
+<span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt_max</span>
+    <span class="c"># Update r without update weights </span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">updateOF!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
 
-    dr = model.r - r_tm1 
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">r_tm1</span> 
 
-    # Compute norm of r
-    dr_norm = sqrt(sum(dr.^2)) / sqrt(sum(r_tm1.^2) + 1e-8)
-    r_tm1 .= model.r # update r_tm1
+    <span class="c"># Compute norm of r</span>
+    <span class="n">dr_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">dr</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">r_tm1</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+    <span class="n">r_tm1</span> <span class="o">.=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="c"># update r_tm1</span>
 
-    # Check convergence of r, then update weights
-    if dr_norm &lt; eps
-        break
-    end
-end
+    <span class="c"># Check convergence of r, then update weights</span>
+    <span class="k">if</span> <span class="n">dr_norm</span> <span class="o">&lt;</span> <span class="n">eps</span>
+        <span class="k">break</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -1029,12 +1029,12 @@ end
 <p>神経活動 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>がスパースになっているか確認しよう。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Float32[0.0, 0.0, 0.0, 0.0, 0.0, 0.08766317, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0362146, 0.0, 0.008710107, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.17126326, -0.004480202, 0.0, 0.0, 0.0, -0.191798, -0.08503144, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0544031, -0.09945807, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.12117307, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.123235635, -0.11029246, -0.22838397, 0.0, 0.0, 0.0, -0.10899817, 0.0, 0.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Float32[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0014791712, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0015646241, 0.0, 0.0, 0.0, -0.04842779, -0.038637936, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.00083515485, 0.0, -0.32312298, 0.0, 0.0, 0.0]
 </pre></div>
 </div>
 </div>
@@ -1042,13 +1042,13 @@ end
 <p>要素がほとんど0のスパースなベクトルになっていることがわかる。次に画像を再構成する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reconst</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">Phi</span><span class="s1">&#39;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">reconst</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">Phi</span><span class="o">&#39;</span>
 <span class="n">println</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">reconst</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(250, 256)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(250, 256)
 </pre></div>
 </div>
 </div>
@@ -1056,24 +1056,24 @@ end
 <p>再構成した結果を描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="n">num_show</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">num_show</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_show</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_show</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">xticks</span><span class="p">([]);</span> <span class="n">yticks</span><span class="p">([]);</span> 
     <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Input</span><span class="se">\n</span><span class="s2"> images&quot;</span><span class="p">)</span>
-    <span class="n">end</span>
+        <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Input</span><span class="se">\n</span><span class="s"> images&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
 
     <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_show</span><span class="p">,</span> <span class="n">num_show</span><span class="o">+</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">reconst</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">reconst</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">xticks</span><span class="p">([]);</span> <span class="n">yticks</span><span class="p">([]);</span> 
     <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Reconstructed</span><span class="se">\n</span><span class="s2"> images&quot;</span><span class="p">)</span>
-    <span class="n">end</span>
-<span class="n">end</span>
+        <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Reconstructed</span><span class="se">\n</span><span class="s"> images&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>

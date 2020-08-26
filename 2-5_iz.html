@@ -25,13 +25,13 @@
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
     <script src="_static/custom.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -391,8 +391,8 @@ v&amp;\leftarrow v_{\text{reset}}
 <p>以上を踏まえて, シミュレーションを行う。まず、必要なパッケージを読み込む。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Base</span><span class="p">:</span> <span class="nd">@kwdef</span>
-<span class="n">using</span> <span class="n">Parameters</span><span class="p">:</span> <span class="nd">@unpack</span> <span class="c1"># or using UnPack</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
 </pre></div>
 </div>
 </div>
@@ -400,25 +400,25 @@ v&amp;\leftarrow v_{\text{reset}}
 <p>変更しない定数を保持する<code class="docutils literal notranslate"><span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZParameter</span></code>と、変数を保持する<code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZ</span></code>を作成する。2つの定式化でパラメータの値が異なるので注意すること。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="n">struct</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">C</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># 膜容量 (pF)</span>
-    <span class="n">a</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1"># 回復時定数の逆数 (1/ms)</span>
-    <span class="n">b</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="c1"># u の v に対する共鳴度合い (pA/mV)</span>
-    <span class="n">d</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># 発火で活性化される正味の外向き電流 (pA)</span>
-    <span class="n">k</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="c1"># ゲイン (pA/mV)</span>
-    <span class="n">vthr</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c1"># 閾値電位 (mV)</span>
-    <span class="n">vrest</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c1"># 静止膜電位 (mV)</span>
-    <span class="n">vreset</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="c1"># リセット電位 (mV)</span>
-    <span class="n">vpeak</span><span class="p">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">35</span> <span class="c1">#　ピーク電位 (mV)</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">C</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c"># 膜容量 (pF)</span>
+    <span class="n">a</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c"># 回復時定数の逆数 (1/ms)</span>
+    <span class="n">b</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="c"># u の v に対する共鳴度合い (pA/mV)</span>
+    <span class="n">d</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># 発火で活性化される正味の外向き電流 (pA)</span>
+    <span class="n">k</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="c"># ゲイン (pA/mV)</span>
+    <span class="n">vthr</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c"># 閾値電位 (mV)</span>
+    <span class="n">vrest</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c"># 静止膜電位 (mV)</span>
+    <span class="n">vreset</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="c"># リセット電位 (mV)</span>
+    <span class="n">vpeak</span><span class="o">::</span><span class="n">FT</span> <span class="o">=</span> <span class="mi">35</span> <span class="c">#　ピーク電位 (mV)</span>
+<span class="k">end</span>
 
-<span class="nd">@kwdef</span> <span class="n">mutable</span> <span class="n">struct</span> <span class="n">IZ</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
-    <span class="n">param</span><span class="p">::</span><span class="n">IZParameter</span> <span class="o">=</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
-    <span class="n">N</span><span class="p">::</span><span class="n">UInt32</span>
-    <span class="n">v</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">vrest</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">u</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">fire</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="n">end</span>
+<span class="nd">@kwdef</span> <span class="k">mutable</span> <span class="k">struct</span> <span class="n">IZ</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="n">IZParameter</span> <span class="o">=</span> <span class="n">IZParameter</span><span class="p">{</span><span class="n">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="o">::</span><span class="kt">UInt32</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">vrest</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">u</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">fire</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -426,24 +426,24 @@ v&amp;\leftarrow v_{\text{reset}}
 <p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">update!</span></code>を書く。LIFの場合と異なり、<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vpeak</span></code>であることに注意する (<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vthr</span></code>ではない)。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update!(variable::IZ, param::IZParameter, I::Vector, dt)
-    @unpack N, v, u, fire = variable
-    @unpack C, a, b, d, k, vthr, vrest, vreset, vpeak = param
-    @inbounds for i = 1:N
-        v[i] += dt/C * (k*(v[i]-vrest)*(v[i]-vthr) - u[i] + I[i])
-        u[i] += dt * (a * (b * (v[i]-vrest) - u[i]))
-    end
-    @inbounds for i = 1:N
-        fire[i] = v[i] &gt;= vpeak
-        v[i] = ifelse(fire[i], vreset, v[i])
-        u[i] += ifelse(fire[i], d, 0)
-    end
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="n">IZ</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="n">IZParameter</span><span class="p">,</span> <span class="nb">I</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">fire</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">vthr</span><span class="p">,</span> <span class="n">vrest</span><span class="p">,</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span><span class="o">/</span><span class="n">C</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vrest</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vthr</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vrest</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">end</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vpeak</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -454,33 +454,33 @@ end
 <p>いくつかの定数を設定してシミュレーションを実行する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 450 # ms
-dt = 0.01f0 # ms
-nt = UInt32(T/dt) # number of timesteps
-N = 1 # ニューロンの数
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">450</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># ニューロンの数</span>
 
-# 入力刺激
-t = Array{Float32}(1:nt)*dt
-I = repeat(150f0 * ((t .&gt; 50) - (t .&gt; 200)) + 300f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+<span class="c"># 入力刺激</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="nb">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">150f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">300f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
 
-# 記録用
-varr = zeros(Float32, nt, N)
-uarr = zeros(Float32, nt, N)
+<span class="c"># 記録用</span>
+<span class="n">varr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">uarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 
-# modelの定義
-neurons = IZ{Float32}(N=N)
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="n">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
 
-# simulation
-@time for i = 1:nt
-    update!(neurons, neurons.param, I[i, :], dt)
-    varr[i, :] = neurons.v
-    uarr[i, :] = neurons.u
-end
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">varr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">v</span>
+    <span class="n">uarr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">u</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.104657 seconds (797.86 k allocations: 24.585 MiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.104042 seconds (797.86 k allocations: 24.585 MiB)
 </pre></div>
 </div>
 </div>
@@ -488,21 +488,21 @@ end
 <p><code class="docutils literal notranslate"><span class="pre">Plots</span></code>を読み込み、膜電位<code class="docutils literal notranslate"><span class="pre">v</span></code>, 回復変数<code class="docutils literal notranslate"><span class="pre">u</span></code>, 入力電流<code class="docutils literal notranslate"><span class="pre">I</span></code>を描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Plots</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">uarr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">uarr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> 
-    <span class="n">title</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Regular Spiking (RS) Neurons&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
-    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;Recovery</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+    <span class="n">title</span><span class="o">=</span> <span class="p">[</span><span class="s">&quot;Regular Spiking (RS) Neurons&quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span><span class="p">],</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s">&quot;Membrane</span><span class="se">\n</span><span class="s"> potential (mV)&quot;</span> <span class="s">&quot;Recovery</span><span class="se">\n</span><span class="s"> current (pA)&quot;</span> <span class="s">&quot;Injection</span><span class="se">\n</span><span class="s"> current (pA)&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -519,32 +519,32 @@ end
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># 記録用
-varr_ib = zeros(Float32, nt, N)
-varr_ch = zeros(Float32, nt, N)
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># 記録用</span>
+<span class="n">varr_ib</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">varr_ch</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
 
-I = repeat(500f0 * ((t .&gt; 50) - (t .&gt; 200)) + 700f0 * ((t .&gt; 250) - (t .&gt; 400)), 1, N)  # injection current
+<span class="nb">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">500f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">700f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
 
-# IB neurons
-neurons_ib = IZ{Float32}(N=N, 
-    param=IZParameter{Float32}(C = 150, a = 0.01, b = 5, k =1.2, d = 130, vrest = -75, vreset = -56, vthr = -45, vpeak = 50))
+<span class="c"># IB neurons</span>
+<span class="n">neurons_ib</span> <span class="o">=</span> <span class="n">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> 
+    <span class="n">param</span><span class="o">=</span><span class="n">IZParameter</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">130</span><span class="p">,</span> <span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">75</span><span class="p">,</span> <span class="n">vreset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">56</span><span class="p">,</span> <span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="mi">50</span><span class="p">))</span>
 
-# CH neurons
-neurons_ch = IZ{Float32}(N=N, 
-    param=IZParameter{Float32}(C = 50, a = 0.03, b = 1, k =1.5, d = 150, vrest = -60, vreset = -40, vthr = -40, vpeak = 35))
+<span class="c"># CH neurons</span>
+<span class="n">neurons_ch</span> <span class="o">=</span> <span class="n">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> 
+    <span class="n">param</span><span class="o">=</span><span class="n">IZParameter</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="n">vreset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="mi">35</span><span class="p">))</span>
 
-# simulation
-@time for i = 1:nt
-    update!(neurons_ib, neurons_ib.param, I[i, :], dt)
-    update!(neurons_ch, neurons_ch.param, I[i, :], dt)
-    varr_ib[i, :] = neurons_ib.v
-    varr_ch[i, :] = neurons_ch.v
-end
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons_ib</span><span class="p">,</span> <span class="n">neurons_ib</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons_ch</span><span class="p">,</span> <span class="n">neurons_ch</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">varr_ib</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons_ib</span><span class="o">.</span><span class="n">v</span>
+    <span class="n">varr_ch</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons_ch</span><span class="o">.</span><span class="n">v</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>  0.053287 seconds (759.91 k allocations: 19.149 MiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.053224 seconds (759.91 k allocations: 19.149 MiB)
 </pre></div>
 </div>
 </div>
@@ -552,15 +552,15 @@ end
 <p>これまでと異なり、モデルの定義時に<code class="docutils literal notranslate"><span class="pre">param</span></code>を設定していることに注意しよう。最後に膜電位変化を描画する。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ib</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ch</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">p4</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ib</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ch</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;IB Neurons&quot;</span> <span class="s2">&quot;CH neurons&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span> <span class="s2">&quot;Times (ms)&quot;</span><span class="p">],</span> 
-    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Membrane</span><span class="se">\n</span><span class="s2"> potential (mV)&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;Injection</span><span class="se">\n</span><span class="s2"> current (pA)&quot;</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;IB Neurons&quot;</span> <span class="s">&quot;CH neurons&quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span><span class="p">],</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;Times (ms)&quot;</span> <span class="s">&quot;Times (ms)&quot;</span><span class="p">],</span> 
+    <span class="n">ylabel</span><span class="o">=</span> <span class="p">[</span><span class="s">&quot;Membrane</span><span class="se">\n</span><span class="s"> potential (mV)&quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;Injection</span><span class="se">\n</span><span class="s"> current (pA)&quot;</span> <span class="s">&quot;&quot;</span><span class="p">],</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -573,29 +573,29 @@ end
 <p>1000個のIzニューロン(興奮性800個, 抑制性200個)によるランダムネットワークのシミュレーションを行う。これは(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)においてMATLABコードが示されており、それをJuliaに移植したものである。このシミュレーションではRS(regular spiking)ニューロンを興奮性細胞、FS(fast spiking)ニューロンを抑制性細胞のモデルとして用いている。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Excitatory neurons    Inhibitory neurons
-Ne = 800;               Ni = 200
-re = rand(Ne,1);        ri = rand(Ni,1)
-a = [0.02*ones(Ne,1);   0.02 .+ 0.08*ri]
-b = [0.2*ones(Ne,1);    0.25 .- 0.05*ri]
-c = [-65 .+ 15*re.^2;   -65*ones(Ni,1)]
-d = [8 .- 6*re.^2;      2*ones(Ni,1)]
-S = [0.5*rand(Ne+Ni,Ne) -rand(Ne+Ni,Ni)] # synaptic weight
-v = -65*ones(Ne+Ni,1)   # Initial values of v
-u = b .* v              # Initial values of u
-firings = []            # spike timings
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Excitatory neurons    Inhibitory neurons</span>
+<span class="n">Ne</span> <span class="o">=</span> <span class="mi">800</span><span class="p">;</span>               <span class="n">Ni</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">re</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>        <span class="n">ri</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>   <span class="mf">0.02</span> <span class="o">.+</span> <span class="mf">0.08</span><span class="o">*</span><span class="n">ri</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>    <span class="mf">0.25</span> <span class="o">.-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">ri</span><span class="p">]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">65</span> <span class="o">.+</span> <span class="mi">15</span><span class="o">*</span><span class="n">re</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>   <span class="o">-</span><span class="mi">65</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span> <span class="o">.-</span> <span class="mi">6</span><span class="o">*</span><span class="n">re</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>      <span class="mi">2</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">S</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="n">Ne</span><span class="p">)</span> <span class="o">-</span><span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="n">Ni</span><span class="p">)]</span> <span class="c"># synaptic weight</span>
+<span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>   <span class="c"># Initial values of v</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">b</span> <span class="o">.*</span> <span class="n">v</span>              <span class="c"># Initial values of u</span>
+<span class="n">firings</span> <span class="o">=</span> <span class="p">[]</span>            <span class="c"># spike timings</span>
 
-for t=1:1000 # simulation of 1000 ms
-    I=[5*randn(Ne,1); 2*randn(Ni,1)] # thalamic input
-    fired = findall(v[:, 1] .&gt;= 30) # indices of spikes
-    firings = t==1 ? [t .+ 0*fired fired] : [firings; [t .+ 0*fired fired]]
-    v[fired]=c[fired]
-    u[fired]=u[fired]+d[fired]
-    I = I + sum(S[:,fired], dims=2)
-    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) # step 0.5 ms for numerical stability
-    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) 
-    u = u+a.*(b.*v-u)
-end
+<span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">1000</span> <span class="c"># simulation of 1000 ms</span>
+    <span class="nb">I</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="mi">2</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="c"># thalamic input</span>
+    <span class="n">fired</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">.&gt;=</span> <span class="mi">30</span><span class="p">)</span> <span class="c"># indices of spikes</span>
+    <span class="n">firings</span> <span class="o">=</span> <span class="n">t</span><span class="o">==</span><span class="mi">1</span> <span class="o">?</span> <span class="p">[</span><span class="n">t</span> <span class="o">.+</span> <span class="mi">0</span><span class="o">*</span><span class="n">fired</span> <span class="n">fired</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="n">firings</span><span class="p">;</span> <span class="p">[</span><span class="n">t</span> <span class="o">.+</span> <span class="mi">0</span><span class="o">*</span><span class="n">fired</span> <span class="n">fired</span><span class="p">]]</span>
+    <span class="n">v</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span>
+    <span class="n">u</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span><span class="o">+</span><span class="n">d</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span>
+    <span class="nb">I</span> <span class="o">=</span> <span class="nb">I</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">fired</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">.+</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">0.04</span><span class="o">*</span><span class="n">v</span><span class="o">.^</span><span class="mi">2</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="n">v</span> <span class="o">.+</span><span class="mi">140</span> <span class="o">-</span><span class="n">u</span><span class="o">+</span><span class="nb">I</span><span class="p">)</span> <span class="c"># step 0.5 ms for numerical stability</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">.+</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">0.04</span><span class="o">*</span><span class="n">v</span><span class="o">.^</span><span class="mi">2</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="n">v</span> <span class="o">.+</span><span class="mi">140</span> <span class="o">-</span><span class="n">u</span><span class="o">+</span><span class="nb">I</span><span class="p">)</span> 
+    <span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="o">+</span><span class="n">a</span><span class="o">.*</span><span class="p">(</span><span class="n">b</span><span class="o">.*</span><span class="n">v</span><span class="o">-</span><span class="n">u</span><span class="p">)</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -604,8 +604,8 @@ end
 <p>シミュレーションの実行後、ネットワークを構成するニューロンの発火を描画する。これを<strong>ラスタープロット</strong> (raster plot)という。この図は横軸が時間、縦軸がニューロンの番号となっており、各ニューロンが発火したことを点で表している。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">firings</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">firings</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">markercolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> 
-    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;# neuron&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="n">false</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">firings</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">firings</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">markercolor</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span> 
+    <span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;# neuron&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
