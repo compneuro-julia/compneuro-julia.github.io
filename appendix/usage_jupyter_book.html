@@ -301,6 +301,16 @@
    MyST Markdown形式について
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#syntax-highlighting">
+   Syntax highlightingについて
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#css">
+   カスタムCSSの追加
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -412,48 +422,45 @@ $ jupyter-book create mybookname
 <div class="section" id="myst-markdown">
 <h2>MyST Markdown形式について<a class="headerlink" href="#myst-markdown" title="Permalink to this headline">¶</a></h2>
 <p>Jupyter bookは通常のMarkdown記法に加え、<strong>MyST</strong> (Markedly Structured Text)と呼ばれる形式のMarkdown記法に対応している。例えば</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>​```{note}
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{note}
 これはノートです。
 ```
 </pre></div>
 </div>
 <p>と記述すれば次のように変換される。</p>
-<p>​```{note}
-これはノートです。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-これはMarkdownファイルにも、Jupyter notebookのMarkdown cellにも記述できる。詳細は[MyST Markdown Overview](https://jupyterbook.org/content/myst.html)や[MyST Cheat Sheet](https://jupyterbook.org/reference/cheatsheet.html)などを参照 (特に後者はMySTでどのようなことができるか一目でわかる)。
-
-
-## Syntax highlightingについて
-Sphinxはコードの構文解析を[Pygments](https://pygments.org/)によって行っている (cf. [sphinx/highlighting.py](https://github.com/sphinx-doc/sphinx/blob/3.x/sphinx/highlighting.py))。これまでは全てPythonLexerでsyntax highlightされていたが、Jupyter book v0.8.0でMyST-NBのv0.10に対応し、Jupyter notebookのカーネルの言語に応じてcode cellがsyntax highlightされるようになった。
--  [Change Log - Jupyter book v0.8.0 2020-09-01](https://jupyterbook.org/reference/_changelog.html#v0-8-0-2020-09-01)
-
-Syntax highlightの色などはカスタムCSSの追加して調整している (Qiitaの配色が見やすいので参考にした)。具体的な調整については&lt;https://compneuro-julia.github.io/_static/custom.css&gt;および次項を参照。
-
-## カスタムCSSの追加
-本の構成が
-
-</pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>これはノートです。</p>
 </div>
-<p>mybook/
+<p>これはMarkdownファイルにも、Jupyter notebookのMarkdown cellにも記述できる。詳細は<a class="reference external" href="https://jupyterbook.org/content/myst.html">MyST Markdown Overview</a>や<a class="reference external" href="https://jupyterbook.org/reference/cheatsheet.html">MyST Cheat Sheet</a>などを参照 (特に後者はMySTでどのようなことができるか一目でわかる)。</p>
+</div>
+<div class="section" id="syntax-highlighting">
+<h2>Syntax highlightingについて<a class="headerlink" href="#syntax-highlighting" title="Permalink to this headline">¶</a></h2>
+<p>Sphinxはコードの構文解析を<a class="reference external" href="https://pygments.org/">Pygments</a>によって行っている (cf. <a class="reference external" href="https://github.com/sphinx-doc/sphinx/blob/3.x/sphinx/highlighting.py">sphinx/highlighting.py</a>)。これまでは全てPythonLexerでsyntax highlightされていたが、Jupyter book v0.8.0でMyST-NBのv0.10に対応し、Jupyter notebookのカーネルの言語に応じてcode cellがsyntax highlightされるようになった。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://jupyterbook.org/reference/_changelog.html#v0-8-0-2020-09-01">Change Log - Jupyter book v0.8.0 2020-09-01</a></p></li>
+</ul>
+<p>Syntax highlightの色などはカスタムCSSの追加して調整している (Qiitaの配色が見やすいので参考にした)。具体的な調整については<a class="reference external" href="https://compneuro-julia.github.io/_static/custom.css">https://compneuro-julia.github.io/_static/custom.css</a>および次項を参照。</p>
+</div>
+<div class="section" id="css">
+<h2>カスタムCSSの追加<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h2>
+<p>本の構成が</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mybook/
 ├── _config.yml
 ├── _toc.yml
-└── page1.md</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-のようであった場合、
-
+└── page1.md
 </pre></div>
 </div>
-<p>mybook/
+<p>のようであった場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mybook/
 ├── _config.yml
 ├── _toc.yml
 ├── page1.md
 └── _static
-└── myfile.css</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-のように `_static`ディレクトリを作成し、その下にCSSやJavascriptなどのファイルを置いておけばbuildするときに自動で読み込まれる。` _static`ディレクトリには他に画像ファイルやpdfファイルなどを置くことも可能である。
+    └── myfile.css
 </pre></div>
 </div>
+<p>のように <code class="docutils literal notranslate"><span class="pre">_static</span></code>ディレクトリを作成し、その下にCSSやJavascriptなどのファイルを置いておけばbuildするときに自動で読み込まれる。<code class="docutils literal notranslate"> <span class="pre">_static</span></code>ディレクトリには他に画像ファイルやpdfファイルなどを置くことも可能である。</p>
 </div>
 </div>
 
