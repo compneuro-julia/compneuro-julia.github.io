@@ -303,7 +303,7 @@
 <p>HHモデルには等価な電気回路モデルがあり, <strong>膜の並列等価回路モデル</strong> (parallel conductance model)と呼ばれている。膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える。</p>
 <p><strong>イオンチャネル</strong> (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である。それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)。また, イオンチャネルにはイオンの種類に応じて異なる<strong>コンダクタンス</strong>(抵抗の逆数で電流の「流れやすさ」を意味する)と<strong>平衡電位</strong>(equilibrium potential)がある。HHモデルでは, ナトリウム(Na<span class="math notranslate nohighlight">\(^{+}\)</span>)チャネル, カリウム(K<span class="math notranslate nohighlight">\(^{+}\)</span>)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する。漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する。なお, 現在では漏れ電流の多くはCl<span class="math notranslate nohighlight">\(^{-}\)</span>イオン(chloride ion)によることが分かっている。</p>
 <div class="figure align-default" id="parallel-conductance-model">
-<a class="reference internal image-reference" href="chap2\./_static/images/chapter2/parallel_conductance_model.JPG"><img alt="chap2\./_static/images/chapter2/parallel_conductance_model.JPG" src="chap2\./_static/images/chapter2/parallel_conductance_model.JPG" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/parallel_conductance_model.JPG"><img alt="../_images/parallel_conductance_model.JPG" src="../_images/parallel_conductance_model.JPG" style="width: 300px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Hodgkin-Huxleyモデルの膜の等価回路モデル</span><a class="headerlink" href="#parallel-conductance-model" title="Permalink to this image">¶</a></p>
 </div>
 <p>それでは, 等価回路モデルを用いて電位変化の式を立ててみよう。上図において, <span class="math notranslate nohighlight">\(C_m\)</span>は細胞膜のキャパシタンス(膜容量), <span class="math notranslate nohighlight">\(I_{m}(t)\)</span>は細胞膜を流れる電流(外部からの入力電流), <span class="math notranslate nohighlight">\(I_\text{Cap}(t)\)</span>は膜のコンデンサを流れる電流, <span class="math notranslate nohighlight">\(I_\text{Na}(t)\)</span>及び <span class="math notranslate nohighlight">\(I_K(t)\)</span>はそれぞれナトリウムチャネルとカリウムチャネルを通って膜から流出する電流, <span class="math notranslate nohighlight">\(I_\text{L}(t)\)</span>は漏れ電流である。このとき,</p>
@@ -452,7 +452,7 @@ E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.201927 seconds (1.36 M allocations: 46.979 MiB, 2.32% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.201575 seconds (1.36 M allocations: 46.979 MiB, 2.33% gc time)
 </pre></div>
 </div>
 </div>
@@ -586,7 +586,7 @@ E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.133711 seconds (848.89 k allocations: 19.134 MiB, 47.39% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.134782 seconds (848.89 k allocations: 19.134 MiB, 47.88% gc time)
 </pre></div>
 </div>
 </div>

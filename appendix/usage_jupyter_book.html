@@ -291,7 +291,7 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#github-pages">
-     8. GitHub pagesでサイトを公開する
+     9. GitHub pagesでサイトを公開する
     </a>
    </li>
   </ul>
@@ -300,6 +300,18 @@
   <a class="reference internal nav-link" href="#myst-markdown">
    MyST Markdown形式について
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     数式について
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     入力・出力を隠す
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#syntax-highlighting">
@@ -392,7 +404,7 @@ $ jupyter-book create mybookname
 </pre></div>
 </div>
 <p>このうち、Markdownファイル (.md)とJupyter notebookファイル (.ipynb)および参考文献を記述するためのBiBTeXファイル(.bib)が実際のサイトの元ファイルとなる。<code class="docutils literal notranslate"><span class="pre">_config.yml</span></code>はサイトの情報を指定するファイルであり、<code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>はサイトの構成を指定するファイルである。また、ディレクトリとファイルの構成例として<code class="docutils literal notranslate"><span class="pre">quantecon-mini-example</span></code> (<a class="reference external" href="https://executablebooks.github.io/quantecon-mini-example/docs/index.html">Github pages</a>, <a class="reference external" href="https://github.com/executablebooks/quantecon-mini-example">Github</a>) が用意されている。</p>
-<p>Jupyter bookの機能を確認する場合は先に “8. サイトのbuild” を参照。</p>
+<p>Jupyter bookの機能を確認する場合は先に <a class="reference external" href="#build">8. サイトのbuild</a>を参照。</p>
 </div>
 <div class="section" id="config-yml">
 <h3>6. <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code>にサイトの情報を記述<a class="headerlink" href="#config-yml" title="Permalink to this headline">¶</a></h3>
@@ -411,7 +423,7 @@ $ jupyter-book create mybookname
 <p>によりbuildする。このとき、Jupyter notebookはbuild時に実行される。Ijulia.jlが入っていなかったり、実行不可能であればエラーが生じる。build完了後、<code class="docutils literal notranslate"><span class="pre">./build/html</span></code>というディレクトリの下に他の依存ファイルを含めたサイトのHTMLが生成される。</p>
 </div>
 <div class="section" id="github-pages">
-<h3>8. GitHub pagesでサイトを公開する<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
+<h3>9. GitHub pagesでサイトを公開する<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">./build/html</span></code>の中身を同じリポジトリの<code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>ブランチにcommitするか、別のリポジトリを用意してcommitする。本サイトの場合はコンテンツの管理は<a class="reference external" href="https://github.com/compneuro-julia/compneuro-julia-management">https://github.com/compneuro-julia/compneuro-julia-management</a>で、サイトのホスティングは<a class="reference external" href="https://github.com/compneuro-julia/compneuro-julia.github.io">https://github.com/compneuro-julia/compneuro-julia.github.io</a>で行っている。</p>
 <p>なお、GitHub pagesはデフォルトではJekyllで処理されるので、<code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code>という名前の空ファイルを作成しておく (空ファイルだとuploadされない場合もあるので注意)。</p>
 <ul class="simple">
@@ -433,6 +445,24 @@ $ jupyter-book create mybookname
 <p>これはノートです。</p>
 </div>
 <p>これはMarkdownファイルにも、Jupyter notebookのMarkdown cellにも記述できる。詳細は<a class="reference external" href="https://jupyterbook.org/content/myst.html">MyST Markdown Overview</a>や<a class="reference external" href="https://jupyterbook.org/reference/cheatsheet.html">MyST Cheat Sheet</a>などを参照 (特に後者はMySTでどのようなことができるか一目でわかる)。</p>
+<div class="section" id="id2">
+<h3>数式について<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>通常のMarkdownやJupyter notebookと同様に行える。次のように入力すれば</p>
+<div class="highlight-tex notranslate"><div class="highlight"><pre><span></span><span class="sb">$$</span><span class="nb"></span>
+<span class="nb">F</span><span class="o">(</span><span class="nv">\omega</span><span class="o">)</span><span class="nb"> </span><span class="o">=</span><span class="nb"> </span><span class="nv">\cfrac</span><span class="nb">{</span><span class="m">1</span><span class="nb">}{</span><span class="nv">\sqrt</span><span class="nb">{</span><span class="m">2</span><span class="nv">\pi</span><span class="nb">}}</span><span class="nv">\int</span><span class="nb">_{</span><span class="o">-</span><span class="nv">\infty</span><span class="nb">}^{</span><span class="o">+</span><span class="nv">\infty</span><span class="nb">}f</span><span class="o">(</span><span class="nb">t</span><span class="o">)</span><span class="nb">e^{i</span><span class="nv">\omega</span><span class="nb"> t}dt</span>
+<span class="s">$$</span>
+</pre></div>
+</div>
+<p>以下のように出力される。</p>
+<div class="math notranslate nohighlight">
+\[
+F(\omega) = \cfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}f(t)e^{i\omega t}dt
+\]</div>
+</div>
+<div class="section" id="id3">
+<h3>入力・出力を隠す<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Jupyter notebookのcellのtagを変更してcellの入力や出力を隠すことができる。詳細は<a class="reference external" href="https://myst-nb.readthedocs.io/en/latest/use/hiding.html">Hiding cell contents</a>。</p>
+</div>
 </div>
 <div class="section" id="syntax-highlighting">
 <h2>Syntax highlightingについて<a class="headerlink" href="#syntax-highlighting" title="Permalink to this headline">¶</a></h2>
