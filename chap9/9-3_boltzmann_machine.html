@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="11. ベイズ脳仮説と生成モデル" href="../chap11/11_intro.html" />
-    <link rel="prev" title="9. 連想記憶モデルとエネルギーベースモデル" href="9_intro.html" />
+    <link rel="prev" title="9. 連想記憶モデル" href="9_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -113,7 +113,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="reference internal" href="9_intro.html">
-   9. 連想記憶モデルとエネルギーベースモデル
+   9. 連想記憶モデル
   </a>
   <ul class="current">
    <li class="toctree-l2 current active">
@@ -333,11 +333,13 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
     <span class="n">imshow</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
 <span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -482,11 +484,13 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testdata</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">num_testdata</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">noise_scale</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_testdata</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)</span>
 <span class="n">testdata</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">num_see</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="n">num_v</span><span class="p">]</span> <span class="o">.=</span> <span class="mf">0.5</span>
 
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
     <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">testdata</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
 <span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -511,6 +515,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Results of Test data</span>
 <span class="n">energy_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_testdata</span><span class="p">,</span> <span class="n">num_draws_test</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_testdata</span>
     <span class="n">v</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># init state</span>
@@ -518,8 +523,8 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
     <span class="n">sum_v</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">j</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_draws_test</span>
         <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">num_see</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">testdata</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_see</span><span class="p">]</span><span class="o">&#39;</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="n">hbias</span><span class="p">)</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="n">vbias</span><span class="p">)</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="mf">1.0f0</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="n">hbias</span><span class="p">)</span> <span class="o">.≥</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="mf">1.0f0</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="n">vbias</span><span class="p">)</span> <span class="o">.≥</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">sum_v</span> <span class="o">+=</span> <span class="n">v</span>
         <span class="n">energy_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">end</span>
@@ -530,6 +535,8 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
     <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">sum_v</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
 <span class="k">end</span>
+
+<span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -607,7 +614,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="9_intro.html" title="previous page">9. 連想記憶モデルとエネルギーベースモデル</a>
+    <a class='left-prev' id="prev-link" href="9_intro.html" title="previous page">9. 連想記憶モデル</a>
     <a class='right-next' id="next-link" href="../chap11/11_intro.html" title="next page">11. ベイズ脳仮説と生成モデル</a>
 
     </div>
