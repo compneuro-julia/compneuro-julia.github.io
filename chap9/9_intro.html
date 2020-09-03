@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>1.2 記号の表記 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>9. 連想記憶モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -37,21 +37,21 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/chap1/notation.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap9/9_intro.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2. 神経細胞のモデル" href="../chap2/2_intro.html" />
-    <link rel="prev" title="1. はじめに" href="1_intro.html" />
+    <link rel="next" title="9.3 ボルツマンマシン" href="9-3_boltzmann_machine.html" />
+    <link rel="prev" title="3.6 シナプス入力の重みづけ" href="../chap3/3-6_synaptic-weighted.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/chap1/notation.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/chap9/9_intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="1.2 記号の表記" />
-<meta property="og:description" content="1.2 記号の表記  このサイトは次のような記号表記を用いている。  実数全体を\mathbb{R}, 複素数全体は\mathbb{C}と表記する。  スカラーは小文字・斜体で x のように表記する。  ベクトルは小文字・立体・太字で \mathbf{x} のように表記し、列ベクトル (縦ベクトル) として扱う。  行" />
+<meta property="og:title"       content="9. 連想記憶モデル" />
+<meta property="og:description" content="9. 連想記憶モデル  9.3 ボルツマンマシン  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -96,17 +96,10 @@
    まえがき
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="reference internal" href="1_intro.html">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap1/1_intro.html">
    1. はじめに
   </a>
-  <ul class="current">
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     1.2 記号の表記
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../chap2/2_intro.html">
@@ -118,10 +111,17 @@
    3. シナプス伝達のモデル
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../chap9/9_intro.html">
-   9. 連想記憶モデルとエネルギーベースモデル
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   9. 連想記憶モデル
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="9-3_boltzmann_machine.html">
+     9.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../chap11/11_intro.html">
@@ -180,7 +180,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/chap1/notation.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/chap9/9_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -200,7 +200,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap1/notation.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap9/9_intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -232,20 +232,14 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>1.2 記号の表記<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>このサイトは次のような記号表記を用いている。</p>
-<ul class="simple">
-<li><p>実数全体を<span class="math notranslate nohighlight">\(\mathbb{R}\)</span>, 複素数全体は<span class="math notranslate nohighlight">\(\mathbb{C}\)</span>と表記する。</p></li>
-<li><p>スカラーは小文字・斜体で <span class="math notranslate nohighlight">\(x\)</span> のように表記する。</p></li>
-<li><p>ベクトルは小文字・立体・太字で <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> のように表記し、列ベクトル (縦ベクトル) として扱う。</p></li>
-<li><p>行列やテンソルは大文字・立体・太字で <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> のように表記する。</p></li>
-<li><p><span class="math notranslate nohighlight">\(n\times 1\)</span>の実ベクトルの集合を <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(n\times m\)</span> の実行列の集合を <span class="math notranslate nohighlight">\(\mathbb{R}^{n\times m}\)</span>と表記する。</p></li>
-<li><p>行列 <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> の置換は <span class="math notranslate nohighlight">\(\mathbf{X}^T\)</span>と表記する。ベクトルの要素を表す場合は <span class="math notranslate nohighlight">\(\mathbf{x} = (x_1, x_2,\cdots, x_n)^T\)</span>のように表記する。</p></li>
-<li><p>単位行列を <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> と表記する。</p></li>
-<li><p>ゼロベクトルは <span class="math notranslate nohighlight">\(\mathbf{0}\)</span> , 要素が全て1のベクトルは <span class="math notranslate nohighlight">\(\mathbf{1}\)</span> と表記する。</p></li>
-<li><p><span class="math notranslate nohighlight">\(e\)</span>を自然対数の底とし、指数関数を <span class="math notranslate nohighlight">\(e^x=\exp(x)\)</span>と表記する。また、自然対数を <span class="math notranslate nohighlight">\(\ln(x)\)</span>と表記する。</p></li>
-<li><p>平均 <span class="math notranslate nohighlight">\(\mu\)</span>, 標準偏差 <span class="math notranslate nohighlight">\(\sigma\)</span> の正規分布を <span class="math notranslate nohighlight">\(\mathcal{N}(\mu, \sigma^2)\)</span> と表記する。</p></li>
+<h1>9. 連想記憶モデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="tableofcontents-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="9-3_boltzmann_machine.html">9.3 ボルツマンマシン</a></li>
 </ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -261,7 +255,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./chap1"
+            path: "./chap9"
         },
         predefinedOutput: true
     }
@@ -276,8 +270,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="1_intro.html" title="previous page">1. はじめに</a>
-    <a class='right-next' id="next-link" href="../chap2/2_intro.html" title="next page">2. 神経細胞のモデル</a>
+    <a class='left-prev' id="prev-link" href="../chap3/3-6_synaptic-weighted.html" title="previous page">3.6 シナプス入力の重みづけ</a>
+    <a class='right-next' id="next-link" href="9-3_boltzmann_machine.html" title="next page">9.3 ボルツマンマシン</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

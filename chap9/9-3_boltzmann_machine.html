@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>9.3 ボルツマンマシン &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="11. ベイズ脳仮説と生成モデル" href="../chap11/11_intro.html" />
+    <link rel="prev" title="9. 連想記憶モデルとエネルギーベースモデル" href="9_intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="9.3 ボルツマンマシン" />
+<meta property="og:description" content="9.3 ボルツマンマシン  9.3.1 エネルギーベースモデル (Energy-based model)  入力 \mathbf{x}\in \mathbb{R}^d, エネルギー関数 E_\theta: \mathbb{R}^d\to \mathbb{R}を考える。   \begin{align} p_\theta(" />
+<meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.svg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap1/1_intro.html">
+   1. はじめに
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap2/2_intro.html">
+   2. 神経細胞のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap3/3_intro.html">
+   3. シナプス伝達のモデル
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="reference internal" href="9_intro.html">
+   9. 連想記憶モデルとエネルギーベースモデル
+  </a>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     9.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap11/11_intro.html">
+   11. ベイズ脳仮説と生成モデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap12/12_intro.html">
+   12. 強化学習
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/appendix_intro.html">
+   付録
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chap9/9-3_boltzmann_machine.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap9/9-3_boltzmann_machine.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap9/9-3_boltzmann_machine.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap9/9-3_boltzmann_machine.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#energy-based-model">
+   9.3.1 エネルギーベースモデル (Energy-based model)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#boltzmann-machine">
+   9.3.2 ボルツマンマシン (Boltzmann machine)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#restricted-boltzmann-machine">
+   9.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     訓練データで学習
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     テストデータで確認
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     受容野の可視化
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="id1">
+<h1>9.3 ボルツマンマシン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="energy-based-model">
+<h2>9.3.1 エネルギーベースモデル (Energy-based model)<a class="headerlink" href="#energy-based-model" title="Permalink to this headline">¶</a></h2>
+<p>入力 <span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d\)</span>, エネルギー関数 <span class="math notranslate nohighlight">\(E_\theta: \mathbb{R}^d\to \mathbb{R}\)</span>を考える。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p_\theta(\mathbf{x})&amp;=\frac{\exp(-E_\theta(\mathbf{x})}{Z_\theta}\\
+Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
+\end{align}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(Z_\theta\)</span>は分配関数。</p>
+</div>
+<div class="section" id="boltzmann-machine">
+<h2>9.3.2 ボルツマンマシン (Boltzmann machine)<a class="headerlink" href="#boltzmann-machine" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="restricted-boltzmann-machine">
+<h2>9.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)<a class="headerlink" href="#restricted-boltzmann-machine" title="Permalink to this headline">¶</a></h2>
+<p>(cf.) <a class="reference external" href="http://deeplearning.net/tutorial/rbm.html">http://deeplearning.net/tutorial/rbm.html</a></p>
+<p>データの読み込み</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MLDatasets</span>
+<span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">Random</span>
+<span class="k">using</span> <span class="n">ProgressMeter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">train_x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">MNIST</span><span class="o">.</span><span class="n">traindata</span><span class="p">()</span>
+<span class="n">size</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(28, 28, 60000)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-3_boltzmann_machine_7_0.png" src="../_images/9-3_boltzmann_machine_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_data</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">input_size</span> <span class="o">=</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_data</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">num_data</span><span class="p">))</span><span class="o">&#39;</span>
+
+<span class="n">println</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 784)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">width</span> <span class="o">=</span> <span class="mi">28</span>   <span class="c"># MNIST dataの幅</span>
+<span class="n">num_v</span> <span class="o">=</span> <span class="n">input_size</span> <span class="c"># visible variables</span>
+<span class="n">num_h</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># hidden variables</span>
+<span class="n">num_units</span> <span class="o">=</span> <span class="n">num_v</span> <span class="o">+</span> <span class="n">num_h</span> <span class="c"># all units</span>
+<span class="n">η</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c"># Coefficient of learning </span>
+<span class="n">num_epoch</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># cycle of learning </span>
+<span class="n">num_draws</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c"># The number of samples to draw 1 5 20 50 100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20
+</pre></div>
+</div>
+</div>
+</div>
+<p>離散の観測変数(visible variable) <span class="math notranslate nohighlight">\(\mathbf{v}\)</span>, 潜在変数(hidden variable) <span class="math notranslate nohighlight">\(\mathbf{h}\)</span>とする。各ユニットの値は<span class="math notranslate nohighlight">\(\{0, 1\}\)</span>の2値 (binary)である。</p>
+<p>エネルギー関数を</p>
+<div class="math notranslate nohighlight">
+\[
+E_\theta(\mathbf{v}, \mathbf{h})=-\mathbf{b}^T \mathbf{v} - \mathbf{c}^T \mathbf{h} + \mathbf{v}^T \mathbf{W} \mathbf{h}
+\]</div>
+<p>とする。ただし、<span class="math notranslate nohighlight">\(\theta=\{\mathbf{W}, \mathbf{b}, \mathbf{c}\}\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sigmoid function </span>
+<span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c"># Initial parameters</span>
+<span class="n">W</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="n">num_v</span><span class="p">)</span>
+<span class="n">hbias</span> <span class="o">=</span> <span class="mf">0.2</span><span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">vbias</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">println</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">hbias</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">vbias</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(100, 784)(100, 1)(784, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>シグモイド関数を</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(x) = \frac{1}{1+\exp(-x)}
+\]</div>
+<p>とする。</p>
+<div class="section" id="id2">
+<h3>訓練データで学習<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p_\theta(\mathbf{h}|\mathbf{v})&amp;=\prod_i p_\theta(h_i=1|\mathbf{v})=\prod_i \sigma(c_i + W_i \mathbf{v})\\
+p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j \sigma(b_j + W_j^T \mathbf{h})
+\end{align}
+\end{split}\]</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@showprogress</span> <span class="s">&quot;Computing...&quot;</span> <span class="k">for</span> <span class="n">epoch</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_epoch</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_data</span>
+        <span class="n">input</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+        <span class="n">h_given_v</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">input</span> <span class="o">+</span> <span class="n">hbias</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># init state</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># init state</span>
+        <span class="n">sum_v</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">sum_h</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">outerprod</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="n">num_v</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_draws</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="mf">1.0f0</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="n">hbias</span><span class="p">)</span> <span class="o">.≥</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c"># hidden </span>
+            <span class="n">v</span> <span class="o">=</span> <span class="mf">1.0f0</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="n">vbias</span><span class="p">)</span> <span class="o">.≥</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c"># visible</span>
+            <span class="c">#h = floor.(sigmoid.(W * v + hbias) + rand(num_h, 1)) # hidden </span>
+            <span class="c">#v = floor.(sigmoid.(W&#39; * h + vbias) + rand(num_v, 1)) # visible</span>
+            <span class="n">sum_h</span> <span class="o">+=</span> <span class="n">h</span>
+            <span class="n">sum_v</span> <span class="o">+=</span> <span class="n">v</span>
+            <span class="n">outerprod</span> <span class="o">+=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">v</span><span class="o">&#39;</span>
+        <span class="k">end</span>
+            
+        <span class="n">sum_h</span> <span class="o">/=</span> <span class="n">num_draws</span>
+        <span class="n">sum_v</span> <span class="o">/=</span> <span class="n">num_draws</span>
+        <span class="n">outerprod</span> <span class="o">/=</span> <span class="n">num_draws</span>
+        
+        <span class="c"># update parameters</span>
+        <span class="n">W</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">h_given_v</span> <span class="o">*</span> <span class="n">input</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">outerprod</span><span class="p">)</span>
+        <span class="n">hbias</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">h_given_v</span> <span class="o">-</span> <span class="n">sum_h</span><span class="p">)</span>
+        <span class="n">vbias</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">input</span> <span class="o">-</span> <span class="n">sum_v</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>二項分布 (bernoulli distribution)のサンプリングには2通りある。<code class="docutils literal notranslate"><span class="pre">1.0f0</span></code>を乗じているのはBool変数からFloatへの変換のため。詳細はtips.</p>
+</div>
+<div class="section" id="id3">
+<h3>テストデータで確認<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_draws_test</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># MCMC for TEST</span>
+<span class="n">num_see</span> <span class="o">=</span> <span class="mi">392</span>  <span class="c"># Visible units in testy 5 10 15 20 25 </span>
+<span class="n">noise_scale</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c"># テスト時のノイズレベル</span>
+<span class="n">num_testdata</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testdata</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">num_testdata</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">noise_scale</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_testdata</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)</span>
+<span class="n">testdata</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">num_see</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="n">num_v</span><span class="p">]</span> <span class="o">.=</span> <span class="mf">0.5</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">testdata</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-3_boltzmann_machine_19_0.png" src="../_images/9-3_boltzmann_machine_19_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">v</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">vbias</span> <span class="o">-</span> <span class="n">h</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">hbias</span> <span class="o">-</span> <span class="n">h</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">W</span> <span class="o">*</span> <span class="n">v</span>
+<span class="c"># free_energy(v) = -v&#39; * vbias .- sum(log.(1 .+ exp.(W * v + hbias)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>energy (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Results of Test data</span>
+<span class="n">energy_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_testdata</span><span class="p">,</span> <span class="n">num_draws_test</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_testdata</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># init state</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># init state</span>
+    <span class="n">sum_v</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_draws_test</span>
+        <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">num_see</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">testdata</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_see</span><span class="p">]</span><span class="o">&#39;</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="n">hbias</span><span class="p">)</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">W</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">h</span> <span class="o">+</span> <span class="n">vbias</span><span class="p">)</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">sum_v</span> <span class="o">+=</span> <span class="n">v</span>
+        <span class="n">energy_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">end</span>
+    <span class="n">sum_v</span> <span class="o">/=</span> <span class="n">num_draws_test</span>
+    
+    <span class="c"># show</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">sum_v</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-3_boltzmann_machine_21_0.png" src="../_images/9-3_boltzmann_machine_21_0.png" />
+</div>
+</div>
+<p>エネルギーの変化を見る</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;energy&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;num. of sampling&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">energy_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-3_boltzmann_machine_23_0.png" src="../_images/9-3_boltzmann_machine_23_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>受容野の可視化<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_h</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9-3_boltzmann_machine_25_0.png" src="../_images/9-3_boltzmann_machine_25_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.5"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.5",
+            path: "./chap9"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.5'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="9_intro.html" title="previous page">9. 連想記憶モデルとエネルギーベースモデル</a>
+    <a class='right-next' id="next-link" href="../chap11/11_intro.html" title="next page">11. ベイズ脳仮説と生成モデル</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
