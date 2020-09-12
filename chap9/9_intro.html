@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>9. 連想記憶モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>9. 情報理論と最適化原理 &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -40,7 +40,7 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/chap9/9_intro.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9.3 ボルツマンマシン" href="9-3_boltzmann_machine.html" />
+    <link rel="next" title="9.1 統計と情報理論の基礎" href="9-1_statistics_and_information.html" />
     <link rel="prev" title="3.6 シナプス入力の重みづけ" href="../chap3/3-6_synaptic-weighted.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,8 +50,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap9/9_intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="9. 連想記憶モデル" />
-<meta property="og:description" content="9. 連想記憶モデル  9.3 ボルツマンマシン  " />
+<meta property="og:title"       content="9. 情報理論と最適化原理" />
+<meta property="og:description" content="9. 情報理論と最適化原理  9.1 統計と情報理論の基礎  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -113,15 +113,20 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   9. 連想記憶モデル
+   9. 情報理論と最適化原理
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="9-3_boltzmann_machine.html">
-     9.3 ボルツマンマシン
+    <a class="reference internal" href="9-1_statistics_and_information.html">
+     9.1 統計と情報理論の基礎
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap10/10_intro.html">
+   10. 連想記憶モデル
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../chap11/11_intro.html">
@@ -131,6 +136,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../chap12/12_intro.html">
    12. 強化学習
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap14/14_intro.html">
+   14. 時空間の符号化
   </a>
  </li>
  <li class="toctree-l1">
@@ -232,10 +242,10 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>9. 連想記憶モデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>9. 情報理論と最適化原理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="tableofcontents-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="9-3_boltzmann_machine.html">9.3 ボルツマンマシン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-1_statistics_and_information.html">9.1 統計と情報理論の基礎</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -271,7 +281,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="../chap3/3-6_synaptic-weighted.html" title="previous page">3.6 シナプス入力の重みづけ</a>
-    <a class='right-next' id="next-link" href="9-3_boltzmann_machine.html" title="next page">9.3 ボルツマンマシン</a>
+    <a class='right-next' id="next-link" href="9-1_statistics_and_information.html" title="next page">9.1 統計と情報理論の基礎</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

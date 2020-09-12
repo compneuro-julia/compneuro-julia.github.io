@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>9.3 ボルツマンマシン &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>10.3 ボルツマンマシン &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -37,21 +37,21 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap10/10-3_boltzmann_machine.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="11. ベイズ脳仮説と生成モデル" href="../chap11/11_intro.html" />
-    <link rel="prev" title="9. 連想記憶モデル" href="9_intro.html" />
+    <link rel="prev" title="10. 連想記憶モデル" href="10_intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/chap10/10-3_boltzmann_machine.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="9.3 ボルツマンマシン" />
-<meta property="og:description" content="9.3 ボルツマンマシン  9.3.1 エネルギーベースモデル (Energy-based model)  入力 \mathbf{x}\in \mathbb{R}^d, エネルギー関数 E_\theta: \mathbb{R}^d\to \mathbb{R}を考える。   \begin{align} p_\theta(" />
+<meta property="og:title"       content="10.3 ボルツマンマシン" />
+<meta property="og:description" content="10.3 ボルツマンマシン  10.3.1 エネルギーベースモデル (Energy-based model)  入力 \mathbf{x}\in \mathbb{R}^d, エネルギー関数 E_\theta: \mathbb{R}^d\to \mathbb{R}を考える。   \begin{align} p_\thet" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -111,14 +111,19 @@
    3. シナプス伝達のモデル
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap9/9_intro.html">
+   9. 情報理論と最適化原理
+  </a>
+ </li>
  <li class="toctree-l1 current active">
-  <a class="reference internal" href="9_intro.html">
-   9. 連想記憶モデル
+  <a class="reference internal" href="10_intro.html">
+   10. 連想記憶モデル
   </a>
   <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     9.3 ボルツマンマシン
+     10.3 ボルツマンマシン
     </a>
    </li>
   </ul>
@@ -131,6 +136,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../chap12/12_intro.html">
    12. 強化学習
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap14/14_intro.html">
+   14. 時空間の符号化
   </a>
  </li>
  <li class="toctree-l1">
@@ -180,7 +190,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/chap9/9-3_boltzmann_machine.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/chap10/10-3_boltzmann_machine.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -200,7 +210,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap9/9-3_boltzmann_machine.ipynb"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap10/10-3_boltzmann_machine.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -219,7 +229,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap9/9-3_boltzmann_machine.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap10/10-3_boltzmann_machine.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -227,7 +237,7 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap9/9-3_boltzmann_machine.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap10/10-3_boltzmann_machine.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     alt="Interact on Colab">Colab</button></a>
@@ -247,17 +257,17 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#energy-based-model">
-   9.3.1 エネルギーベースモデル (Energy-based model)
+   10.3.1 エネルギーベースモデル (Energy-based model)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#boltzmann-machine">
-   9.3.2 ボルツマンマシン (Boltzmann machine)
+   10.3.2 ボルツマンマシン (Boltzmann machine)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#restricted-boltzmann-machine">
-   9.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)
+   10.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -288,9 +298,9 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>9.3 ボルツマンマシン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>10.3 ボルツマンマシン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="energy-based-model">
-<h2>9.3.1 エネルギーベースモデル (Energy-based model)<a class="headerlink" href="#energy-based-model" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.1 エネルギーベースモデル (Energy-based model)<a class="headerlink" href="#energy-based-model" title="Permalink to this headline">¶</a></h2>
 <p>入力 <span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d\)</span>, エネルギー関数 <span class="math notranslate nohighlight">\(E_\theta: \mathbb{R}^d\to \mathbb{R}\)</span>を考える。</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -302,10 +312,10 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 <p><span class="math notranslate nohighlight">\(Z_\theta\)</span>は分配関数。</p>
 </div>
 <div class="section" id="boltzmann-machine">
-<h2>9.3.2 ボルツマンマシン (Boltzmann machine)<a class="headerlink" href="#boltzmann-machine" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.2 ボルツマンマシン (Boltzmann machine)<a class="headerlink" href="#boltzmann-machine" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="restricted-boltzmann-machine">
-<h2>9.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)<a class="headerlink" href="#restricted-boltzmann-machine" title="Permalink to this headline">¶</a></h2>
+<h2>10.3.3 制限ボルツマンマシン (Restricted Boltzmann machine)<a class="headerlink" href="#restricted-boltzmann-machine" title="Permalink to this headline">¶</a></h2>
 <p>(cf.) <a class="reference external" href="http://deeplearning.net/tutorial/rbm.html">http://deeplearning.net/tutorial/rbm.html</a></p>
 <p>データの読み込み</p>
 <div class="cell docutils container">
@@ -344,7 +354,7 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-3_boltzmann_machine_7_0.png" src="../_images/9-3_boltzmann_machine_7_0.png" />
+<img alt="../_images/10-3_boltzmann_machine_7_0.png" src="../_images/10-3_boltzmann_machine_7_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -370,9 +380,9 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 <span class="n">num_v</span> <span class="o">=</span> <span class="n">input_size</span> <span class="c"># visible variables</span>
 <span class="n">num_h</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># hidden variables</span>
 <span class="n">num_units</span> <span class="o">=</span> <span class="n">num_v</span> <span class="o">+</span> <span class="n">num_h</span> <span class="c"># all units</span>
-<span class="n">η</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c"># Coefficient of learning </span>
-<span class="n">num_epoch</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># cycle of learning </span>
-<span class="n">num_draws</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c"># The number of samples to draw 1 5 20 50 100</span>
+<span class="n">η</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c"># learning rate</span>
+<span class="n">num_epoch</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># epoch of learning </span>
+<span class="n">num_draws</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c"># The number of samples to draw</span>
 </pre></div>
 </div>
 </div>
@@ -466,8 +476,8 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 <h3>テストデータで確認<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_draws_test</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># MCMC for TEST</span>
-<span class="n">num_see</span> <span class="o">=</span> <span class="mi">392</span>  <span class="c"># Visible units in testy 5 10 15 20 25 </span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_draws_test</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># draws for in test</span>
+<span class="n">num_see</span> <span class="o">=</span> <span class="mi">392</span>  <span class="c"># Visible units in test</span>
 <span class="n">noise_scale</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c"># テスト時のノイズレベル</span>
 <span class="n">num_testdata</span> <span class="o">=</span> <span class="mi">4</span>
 </pre></div>
@@ -495,7 +505,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-3_boltzmann_machine_19_0.png" src="../_images/9-3_boltzmann_machine_19_0.png" />
+<img alt="../_images/10-3_boltzmann_machine_19_0.png" src="../_images/10-3_boltzmann_machine_19_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -541,7 +551,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-3_boltzmann_machine_21_0.png" src="../_images/9-3_boltzmann_machine_21_0.png" />
+<img alt="../_images/10-3_boltzmann_machine_21_0.png" src="../_images/10-3_boltzmann_machine_21_0.png" />
 </div>
 </div>
 <p>エネルギーの変化を見る</p>
@@ -557,7 +567,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-3_boltzmann_machine_23_0.png" src="../_images/9-3_boltzmann_machine_23_0.png" />
+<img alt="../_images/10-3_boltzmann_machine_23_0.png" src="../_images/10-3_boltzmann_machine_23_0.png" />
 </div>
 </div>
 </div>
@@ -579,7 +589,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9-3_boltzmann_machine_25_0.png" src="../_images/9-3_boltzmann_machine_25_0.png" />
+<img alt="../_images/10-3_boltzmann_machine_25_0.png" src="../_images/10-3_boltzmann_machine_25_0.png" />
 </div>
 </div>
 </div>
@@ -599,7 +609,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
         },
         kernelOptions: {
             kernelName: "julia-1.5",
-            path: "./chap9"
+            path: "./chap10"
         },
         predefinedOutput: true
     }
@@ -614,7 +624,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="9_intro.html" title="previous page">9. 連想記憶モデル</a>
+    <a class='left-prev' id="prev-link" href="10_intro.html" title="previous page">10. 連想記憶モデル</a>
     <a class='right-next' id="next-link" href="../chap11/11_intro.html" title="next page">11. ベイズ脳仮説と生成モデル</a>
 
     </div>
