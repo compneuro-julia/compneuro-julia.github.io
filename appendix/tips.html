@@ -112,6 +112,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../chap7/7_intro.html">
+   7. 神経回路網の学習則
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../chap9/9_intro.html">
    9. 情報理論と最適化原理
   </a>
@@ -366,8 +371,8 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.08699620754484672 0.599109466149061; 0.7935831281561114 0.8896450323983651]
-wrong : [0.08699620754484672 0.599109466149061; 0.7935831281561114 0.8896450323983651]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.3090368990432588 0.28505372035635523; 0.36039892643656835 0.678223689591329]
+wrong : [0.3090368990432588 0.28505372035635523; 0.36039892643656835 0.678223689591329]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -386,12 +391,12 @@ right : [1.0 1.0; 1.0 1.0]
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
 [:, :, 1] =
- 0.599549  0.575219
- 0.496076  0.744891
+ 0.00534986  0.4856
+ 0.438555    0.744457
 
 [:, :, 2] =
- 0.945644  0.386479
- 0.397664  0.646122
+ 0.810031  0.162148
+ 0.753313  0.0655913
 </pre></div>
 </div>
 </div>
@@ -406,14 +411,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.5995487515157407
- 0.496075571050669
- 0.5752186375516588
- 0.7448913290065666
- 0.9456435632378011
- 0.39766412803395124
- 0.38647885693554507
- 0.6461223682381116
+ 0.005349859924772105
+ 0.43855482864877393
+ 0.48559963845290754
+ 0.7444570141514844
+ 0.8100312582206968
+ 0.7533126121452021
+ 0.1621477669172322
+ 0.06559133429633146
 </pre></div>
 </div>
 </div>
@@ -427,14 +432,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.5995487515157407
- 0.496075571050669
- 0.5752186375516588
- 0.7448913290065666
- 0.9456435632378011
- 0.39766412803395124
- 0.38647885693554507
- 0.6461223682381116
+ 0.005349859924772105
+ 0.43855482864877393
+ 0.48559963845290754
+ 0.7444570141514844
+ 0.8100312582206968
+ 0.7533126121452021
+ 0.1621477669172322
+ 0.06559133429633146
 </pre></div>
 </div>
 </div>
@@ -451,9 +456,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.0668048  0.819198  0.282635
- 0.26788    0.922048  0.893413
- 0.915081   0.236627  0.504487
+ 0.149263  0.842437   0.690403
+ 0.497057  0.41185    0.638995
+ 0.757788  0.0330631  4.52843e-5
 </pre></div>
 </div>
 </div>
@@ -466,9 +471,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.0534539  0.414181  0.168182
- 0.214344   0.466182  0.531624
- 0.732202   0.119637  0.300194
+ 0.106305  0.654396   0.519318
+ 0.354002  0.319921   0.480648
+ 0.539693  0.0256831  3.40626e-5
 </pre></div>
 </div>
 </div>
@@ -480,7 +485,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 0.9999999999999999]
 </pre></div>
 </div>
 </div>
@@ -630,9 +635,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
- 0.9114564128678779
- 0.6697792544417573
- 0.3765595653381668
+ 0.9700309221959584
+ 0.9191627169218128
+ 0.8465877425923181
 </pre></div>
 </div>
 </div>
@@ -646,7 +651,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
- 0.911456  0.669779  0.37656
+ 0.970031  0.919163  0.846588
 </pre></div>
 </div>
 </div>
@@ -754,13 +759,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     711.034 ns (0.00% GC)
-  median time:      744.834 ns (0.00% GC)
-  mean time:        787.268 ns (3.00% GC)
-  maximum time:     5.211 μs (76.52% GC)
+  minimum time:     686.099 ns (0.00% GC)
+  median time:      715.894 ns (0.00% GC)
+  mean time:        760.233 ns (3.12% GC)
+  maximum time:     5.828 μs (84.17% GC)
   --------------
   samples:          10000
-  evals/sample:     145
+  evals/sample:     151
 </pre></div>
 </div>
 </div>
@@ -772,7 +777,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.74
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.61
 </pre></div>
 </div>
 </div>
@@ -788,13 +793,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     867.391 ns (0.00% GC)
-  median time:      902.196 ns (0.00% GC)
-  mean time:        961.891 ns (2.64% GC)
-  maximum time:     18.907 μs (94.24% GC)
+  minimum time:     868.983 ns (0.00% GC)
+  median time:      922.414 ns (0.00% GC)
+  mean time:        976.752 ns (2.83% GC)
+  maximum time:     16.453 μs (87.74% GC)
   --------------
   samples:          10000
-  evals/sample:     46
+  evals/sample:     58
 </pre></div>
 </div>
 </div>
@@ -806,7 +811,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.72
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.73
 </pre></div>
 </div>
 </div>

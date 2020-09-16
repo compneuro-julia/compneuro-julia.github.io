@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3. シナプス伝達のモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>7. 神経回路網の学習則 &#8212; Juliaで学ぶ計算論的神経科学</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -37,21 +37,21 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/chap3/3_intro.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap7/7_intro.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3.1 シナプス伝達" href="3-1_synapse.html" />
-    <link rel="prev" title="2.8 Inter-spike interval モデル" href="../chap2/2-8_isi.html" />
+    <link rel="next" title="7.9 BPTT (backpropagation through time)" href="7-9_bptt.html" />
+    <link rel="prev" title="3.6 シナプス入力の重みづけ" href="../chap3/3-6_synaptic-weighted.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/chap3/3_intro.html" />
+<meta property="og:url"         content="https://compneuro-julia.github.io/chap7/7_intro.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="3. シナプス伝達のモデル" />
-<meta property="og:description" content="3. シナプス伝達のモデル  3.1 シナプス伝達  3.2 Current-based vs Conductance-based シナプス  3.3 指数関数型シナプスモデル  3.4 動力学モデル  3.6 シナプス入力の重みづけ  " />
+<meta property="og:title"       content="7. 神経回路網の学習則" />
+<meta property="og:description" content="7. 神経回路網の学習則  7.9 BPTT (backpropagation through time)  " />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -106,42 +106,22 @@
    2. 神経細胞のモデル
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../chap3/3_intro.html">
+   3. シナプス伝達のモデル
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   3. シナプス伝達のモデル
+   7. 神経回路網の学習則
   </a>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="3-1_synapse.html">
-     3.1 シナプス伝達
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-2_current-conductance-synapse.html">
-     3.2 Current-based vs Conductance-based シナプス
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-3_expo-synapse.html">
-     3.3 指数関数型シナプスモデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-4_kinetic-synapse.html">
-     3.4 動力学モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="3-6_synaptic-weighted.html">
-     3.6 シナプス入力の重みづけ
+    <a class="reference internal" href="7-9_bptt.html">
+     7.9 BPTT (backpropagation through time)
     </a>
    </li>
   </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../chap7/7_intro.html">
-   7. 神経回路網の学習則
-  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../chap9/9_intro.html">
@@ -215,7 +195,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/chap3/3_intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/chap7/7_intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -235,7 +215,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap3/3_intro.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap7/7_intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -267,14 +247,10 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>3. シナプス伝達のモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>7. 神経回路網の学習則<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="tableofcontents-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="3-1_synapse.html">3.1 シナプス伝達</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3-2_current-conductance-synapse.html">3.2 Current-based vs Conductance-based シナプス</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3-3_expo-synapse.html">3.3 指数関数型シナプスモデル</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3-4_kinetic-synapse.html">3.4 動力学モデル</a></li>
-<li class="toctree-l1"><a class="reference internal" href="3-6_synaptic-weighted.html">3.6 シナプス入力の重みづけ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-9_bptt.html">7.9 BPTT (backpropagation through time)</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -294,7 +270,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./chap3"
+            path: "./chap7"
         },
         predefinedOutput: true
     }
@@ -309,8 +285,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../chap2/2-8_isi.html" title="previous page">2.8 Inter-spike interval モデル</a>
-    <a class='right-next' id="next-link" href="3-1_synapse.html" title="next page">3.1 シナプス伝達</a>
+    <a class='left-prev' id="prev-link" href="../chap3/3-6_synaptic-weighted.html" title="previous page">3.6 シナプス入力の重みづけ</a>
+    <a class='right-next' id="next-link" href="7-9_bptt.html" title="next page">7.9 BPTT (backpropagation through time)</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
