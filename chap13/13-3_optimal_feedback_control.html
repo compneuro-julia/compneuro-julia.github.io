@@ -70,7 +70,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)" />
-<meta property="og:description" content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)  13.3.1 最適フィードバック制御モデルの構造  最適フィードバック制御モデル(optimal feedback control; OFC) の特徴として目標軌道を必要としないことが挙げられる．Kalman フィ" />
+<meta property="og:description" content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)  13.3.1 最適フィードバック制御モデルの構造  Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to t" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -437,19 +437,63 @@
   <a class="reference internal nav-link" href="#id1">
    13.3.1 最適フィードバック制御モデルの構造
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
-   13.3.2 最適フィードバック制御モデルの実装
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     系の状態変化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-quadratic-regulator">
+     運動制御 (Linear-Quadratic Regulator)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#kalman-filter">
+     状態推定 (Kalman Filter)
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id3">
+   13.3.2 最適フィードバック制御モデルの実装
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     前処理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#glqg">
+     gLQG
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     理想的な軌跡の計算
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     ノイズを含む軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     メイン関数
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
    13.3.3 シミュレーションの実行
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
+  <a class="reference internal nav-link" href="#id9">
    13.3.4 結果の描画
   </a>
  </li>
@@ -468,11 +512,13 @@
 <h1>13.3 最適フィードバック制御モデル (optimal feedback control; OFC)<a class="headerlink" href="#optimal-feedback-control-ofc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>13.3.1 最適フィードバック制御モデルの構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p><strong>最適フィードバック制御モデル(optimal feedback control; OFC)</strong> の特徴として目標軌道を必要としないことが挙げられる．<strong>Kalman フィルタ</strong>による状態推定と<strong>線形2次レギュレーター(LQR: linear-quadratic regurator)</strong> により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．このモデルは<strong>線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御</strong>と呼ばれる．</p>
 <blockquote>
-<div><p>Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. Neural Computation 17(5): 1084-1108</p>
+<div><p>Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. <em>Neural Computation</em> 17(5): 1084-1108</p>
 </div></blockquote>
-<p>本記事はTodorovの<a class="reference external" href="https://homes.cs.washington.edu/~todorov/software/gLQG.zip">MATLABコード</a>を元にして記述されている (現状ほぼJuliaへの単なる移植であることを明言しておく)．</p>
+<p>本節はTodorovの<a class="reference external" href="https://homes.cs.washington.edu/~todorov/software/gLQG.zip">MATLABコード</a>を元にしている (現状ほぼJuliaへの単なる移植であることを明言しておく)．</p>
+<p><strong>最適フィードバック制御モデル(optimal feedback control; OFC)</strong> の特徴として目標軌道を必要としないことが挙げられる．<strong>Kalman フィルタ</strong>による状態推定と<strong>線形2次レギュレーター(LQR: linear-quadratic regurator)</strong> により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．ここで考える制御問題は<strong>線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御</strong>と呼ばれる．</p>
+<div class="section" id="id2">
+<h3>系の状態変化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -481,26 +527,33 @@
 &amp;\text{Cost per step}\quad \mathbf{x}_{t}^{T} Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^{T} R \mathbf{u}_{t}
 \end{aligned}
 \end{split}\]</div>
-<p>Linear-Quadratic Regulator
-$<span class="math notranslate nohighlight">\(
+</div>
+<div class="section" id="linear-quadratic-regulator">
+<h3>運動制御 (Linear-Quadratic Regulator)<a class="headerlink" href="#linear-quadratic-regulator" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{align}
 \mathbf{u}_{t}&amp;=-L_{t} \widehat{\mathbf{x}}_{t}\\
 L_{t}&amp;=\left(R+B^{\top} S_{t+1} B\right)^{-1} B^{\top} S_{t+1} A\\
 S_{t}&amp;=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
 \end{align}
-\)</span>$</p>
-<p>Kalman Filter
-$<span class="math notranslate nohighlight">\(
+\end{split}\]</div>
+</div>
+<div class="section" id="kalman-filter">
+<h3>状態推定 (Kalman Filter)<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{align}
 \widehat{\mathbf{x}}_{t+1}&amp;=A \widehat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \widehat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
 K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{-1} \\ 
 \Sigma_{t+1}&amp;=\Omega^{\xi}+\left(A-K_{t} H\right) \Sigma_{t} A^{\top}
 \end{align}
-\)</span>$</p>
-<p><span class="math notranslate nohighlight">\(K\)</span>はFilter gains，<span class="math notranslate nohighlight">\(L\)</span>はControl gainsである．実装上は<span class="math notranslate nohighlight">\(\boldsymbol{\xi}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">C0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\omega_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">D0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\boldsymbol{\eta}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">E0</span> <span class="pre">*</span> <span class="pre">randn</span></code></p>
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(K\)</span>はカルマンゲイン(Kalman gains)，<span class="math notranslate nohighlight">\(L\)</span>はフィードバックゲイン(feedback gains)である．<span class="math notranslate nohighlight">\(K, L\)</span>は時間に依存する行列であることに注意しよう．実装上は<span class="math notranslate nohighlight">\(\boldsymbol{\xi}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">C0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\omega_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">D0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\boldsymbol{\eta}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">E0</span> <span class="pre">*</span> <span class="pre">randn</span></code></p>
 </div>
-<div class="section" id="id2">
-<h2>13.3.2 最適フィードバック制御モデルの実装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id3">
+<h2>13.3.2 最適フィードバック制御モデルの実装<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>ライブラリの読み込み．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -519,6 +572,9 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
+<div class="section" id="id4">
+<h3>前処理<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>一部のスカラーをベクトルに変換する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">convertScalar2Vec!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">)</span>
@@ -563,6 +619,10 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="glqg">
+<h3>gLQG<a class="headerlink" href="#glqg" title="Permalink to this headline">¶</a></h3>
+<p>メインとなるgeneralized LQGの関数．カルマンゲイン<span class="math notranslate nohighlight">\(K\)</span>とフィードバックゲイン<span class="math notranslate nohighlight">\(L\)</span>を学習する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">;</span> <span class="n">Init</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Niter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">MaxIter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">Eps</span><span class="o">=</span><span class="mi">10</span><span class="o">^-</span><span class="mi">8</span><span class="p">)</span>
@@ -685,13 +745,13 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
         <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">X1</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">X1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">((</span><span class="n">Se</span> <span class="o">+</span> <span class="n">Sx</span><span class="p">)</span> <span class="o">*</span> <span class="n">S1</span><span class="p">)</span>
         <span class="c"># check convergence of Cost</span>
         <span class="k">if</span> <span class="n">iter</span> <span class="o">&gt;</span> <span class="mi">1</span>
-            <span class="n">CostError</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">])</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">Niter</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">iter</span><span class="o">&gt;=</span><span class="n">Niter</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">Niter</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">CostError</span> <span class="o">&lt;</span> <span class="n">Eps</span><span class="p">)</span>
+            <span class="n">ΔCost</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Niter</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">iter</span><span class="o">&gt;=</span><span class="n">Niter</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">Niter</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">ΔCost</span> <span class="o">&lt;</span> <span class="n">Eps</span><span class="p">)</span>
                 <span class="c"># print result</span>
                 <span class="k">if</span> <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span>
-                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;Log10DeltaCost = &quot;</span><span class="p">,</span> <span class="n">log10</span><span class="p">(</span><span class="n">CostError</span><span class="p">))</span>
+                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;Log10ΔCost = &quot;</span><span class="p">,</span> <span class="n">log10</span><span class="p">(</span><span class="n">ΔCost</span><span class="p">))</span>
                 <span class="k">else</span>
-                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;DeltaCost = 0&quot;</span><span class="p">)</span>
+                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;ΔCost = 0&quot;</span><span class="p">)</span>
                 <span class="k">end</span>
 
                 <span class="k">break</span>
@@ -709,7 +769,10 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Xa</span></code> : Expected trajectory．ノイズが無い場合の軌跡</p>
+</div>
+<div class="section" id="id5">
+<h3>理想的な軌跡の計算<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>学習したフィードバックゲインを用い，系の状態の予測が実際の状態と一致している場合の軌跡<code class="docutils literal notranslate"><span class="pre">Xa</span></code>を計算する．この場合，系の内部状態の正解が得られているのと同じなので，カルマンゲインは用いない．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
@@ -732,6 +795,10 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="id6">
+<h3>ノイズを含む軌跡のシミュレーション<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">NSim</span></code>回のシミュレーションを並列で計算する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># simulate noisy trajectories</span>
@@ -805,6 +872,10 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="id7">
+<h3>メイン関数<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>上記の関数をまとめた関数を記述する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">kalman_lqg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
@@ -824,14 +895,16 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>13.3.3 シミュレーションの実行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id8">
+<h2>13.3.3 シミュレーションの実行<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">N</span></code>で到達時刻，<code class="docutils literal notranslate"><span class="pre">T</span></code>で目標位置を設定する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>        <span class="c"># time step (sec)</span>
 <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>            <span class="c"># mass (kg)</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>            <span class="c"># damping (N/sec)</span>
-<span class="n">tau</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>         <span class="c"># time constant (msec)</span>
+<span class="n">τ</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>          <span class="c"># time constant (msec)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>          <span class="c"># control-dependent noise</span>
 <span class="n">r</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">;</span>      <span class="c"># control signal penalty</span>
 <span class="n">v</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>          <span class="c"># endpoint velocity penalty</span>
@@ -840,14 +913,15 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 <span class="n">vel</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">0.2</span><span class="p">;</span>    <span class="c"># velocity noise</span>
 <span class="n">frc</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">1.0</span><span class="p">;</span>    <span class="c"># force noise</span>
 
-<span class="n">N</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>               <span class="c"># duration in number of time steps</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>              <span class="c"># target distance</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>               <span class="c"># duration in number of time steps</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>              <span class="c"># target distance</span>
 
-<span class="n">dtt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">/</span><span class="p">(</span><span class="n">tau</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
+<span class="n">dtt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">/</span><span class="p">(</span><span class="n">τ</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>系の状態を決定する定数，定行列を定義する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
@@ -892,6 +966,7 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
+<p>シミュレーションを実行する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Xa</span><span class="p">,</span> <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span> <span class="o">=</span> <span class="n">kalman_lqg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">);</span>
@@ -899,10 +974,10 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Log10DeltaCost = 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Log10ΔCost = 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-8.164315196559146
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-10.020441444268883
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -911,36 +986,29 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>13.3.4 結果の描画<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>13.3.4 結果の描画<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;position&quot;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tarray</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="n">L</span><span class="s">&quot;Position (</span><span class="si">$m</span><span class="s">$)&quot;</span><span class="p">,</span> <span class="n">L</span><span class="s">&quot;Velocity (</span><span class="si">$m</span><span class="s">/s$)&quot;</span><span class="p">,</span> <span class="n">L</span><span class="s">&quot;Acceleration (</span><span class="si">$m</span><span class="s">/s^2$)&quot;</span><span class="p">,</span> <span class="n">L</span><span class="s">&quot;Jerk (</span><span class="si">$m</span><span class="s">/s^3$)&quot;</span><span class="p">]</span>
 
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;velocity&quot;</span><span class="p">)</span>
-
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;time step&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;acceleration &quot;</span><span class="p">)</span>
-
-<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;time step&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;jerk&quot;</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XSim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xa</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">grid</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+        <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$ms</span><span class="s">$)&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/13-3_optimal_feedback_control_19_0.png" src="../_images/13-3_optimal_feedback_control_19_0.png" />
+<img alt="../_images/13-3_optimal_feedback_control_24_0.png" src="../_images/13-3_optimal_feedback_control_24_0.png" />
 </div>
 </div>
 </div>
