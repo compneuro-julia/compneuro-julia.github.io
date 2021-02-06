@@ -1,23 +1,42 @@
 
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <title>12.1 TD学習 &#8212; Juliaで学ぶ計算論的神経科学</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="../_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -26,8 +45,8 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -40,18 +59,18 @@
     <link rel="canonical" href="https://compneuro-julia.github.io/chap12/12-1_td_learning.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="14. 時空間の符号化" href="../chap14/14_intro.html" />
+    <link rel="next" title="13. 運動制御" href="../chap13/13_intro.html" />
     <link rel="prev" title="12. 強化学習" href="12_intro.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap12/12-1_td_learning.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="12.1 TD学習" />
-<meta property="og:description" content="12.1 TD学習  TD (Temporal difference) learningにおいて、報酬予測誤差(reward prediction error, RPE) \delta_{i}は次のように計算される。 $ \delta_{i}=r+\gamma V_{j}\left(x^{\prime}\right)-" />
+<meta property="og:description" content="12.1 TD学習  TD (Temporal difference) learningにおいて，報酬予測誤差(reward prediction error, RPE) \delta_{i}は次のように計算される．    \delta_{i}=r+\gamma V_{j}\left(x^{\prime}\right)" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -75,15 +94,12 @@
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
   
 </a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
-
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+    <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../index.html">
    Juliaで学ぶ計算論的神経科学
@@ -96,68 +112,223 @@
    まえがき
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap1/1_intro.html">
    1. はじめに
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap2/2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap3/3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-4_kinetic-synapse.html">
+     3.4 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap7/7_intro.html">
    7. 神経回路網の学習則
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/7-9_bptt.html">
+     7.9 BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap9/9_intro.html">
    9. 情報理論と最適化原理
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
+     9.1 統計と情報理論の基礎
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap10/10_intro.html">
    10. 連想記憶モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/10-3_boltzmann_machine.html">
+     10.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap11/11_intro.html">
    11. ベイズ脳仮説と生成モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1 current active collapsible-parent">
   <a class="reference internal" href="12_intro.html">
    12. 強化学習
   </a>
-  <ul class="current">
+  <ul class="current collapse-ul">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      12.1 TD学習
     </a>
    </li>
   </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../chap13/13_intro.html">
+   13. 運動制御
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/13-3_optimal_feedback_control.html">
+     13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap14/14_intro.html">
    14. 時空間の符号化
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/14-1_grid_cells.html">
+     14.1 格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../appendix/appendix_intro.html">
    付録
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage_jupyter_book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
-</nav>
-
- <!-- To handle the deprecated key -->
+</nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
   Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
@@ -186,11 +357,11 @@
             <i class="fas fa-arrow-up"></i>
         </button>
         
-        <div class="dropdown-buttons-trigger">
+        
+<div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
 
-    
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         
@@ -202,8 +373,8 @@
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
-    
 </div>
+
         <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -224,7 +395,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -255,12 +427,7 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            
-        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -270,15 +437,23 @@
                 
   <div class="section" id="td">
 <h1>12.1 TD学習<a class="headerlink" href="#td" title="Permalink to this headline">¶</a></h1>
-<p>TD (Temporal difference) learningにおいて、<strong>報酬予測誤差</strong>(reward prediction error, <strong>RPE</strong>) <span class="math notranslate nohighlight">\(\delta_{i}\)</span>は次のように計算される。 $<span class="math notranslate nohighlight">\( \delta_{i}=r+\gamma
-V_{j}\left(x^{\prime}\right)-V_{i}(x) \)</span><span class="math notranslate nohighlight">\( ただし、現在の状態を\)</span>x<span class="math notranslate nohighlight">\(, 次の状態を\)</span>x’<span class="math notranslate nohighlight">\(, 予測価値分布を\)</span>V(x)<span class="math notranslate nohighlight">\(, 報酬信号を\)</span>r<span class="math notranslate nohighlight">\(, 時間割引率(time discount)を\)</span>\gamma<span class="math notranslate nohighlight">\(としました。
-また、\)</span>V_{j}\left(x^{\prime}\right)<span class="math notranslate nohighlight">\(は予測価値分布\)</span>V\left(x^{\prime}\right)$からのサンプルです。 このRPEは脳内において主に中脳の<strong>VTA</strong>(腹側被蓋野)や<strong>SNc</strong>(黒質緻密部)における<strong>ドパミン(dopamine)ニューロン</strong>の発火率として表現されています。</p>
-<p>ただし、VTAとSNcのドパミンニューロンの役割は同一ではありません。ドパミンニューロンへの入力が異なっています <a class="reference external" href="https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4">(Watabe-Uchida et al., <em>Neuron.</em> 2012)</a>。 また、細かいですがドパミンニューロンの発火は報酬量に対して線形ではなく、やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます(<a class="reference external" href="https://www.nature.com/articles/nn.4239">Eshel et al., <em>Nat. Neurosci.</em> 2016</a>)。このため著者実装では報酬 <span class="math notranslate nohighlight">\(r\)</span>に非線形関数がかかっているものもあります。</p>
-<p>先ほどRPEはドパミンニューロンの発火率で表現されている、といいました。RPEが正の場合はドパミンニューロンの発火で表現できますが、単純に考えると負の発火率というものはないため、負のRPEは表現できないように思います。ではどうしているかというと、RPEが0（予想通りの報酬が得られた場合）でもドパミンニューロンは発火しており、RPEが正の場合にはベースラインよりも発火率が上がるようになっています。逆にRPEが負の場合にはベースラインよりも発火率が減少する(抑制される)ようになっています
-(<a class="reference external" href="https://science.sciencemag.org/content/275/5306/1593.long">Schultz et al., <span style="font-style: italic;">Science.</span> 1997</a>; <a class="reference external" href="https://www.nature.com/articles/nn.4191">Chang et al., <span style="font-style: italic;">Nat Neurosci</span>. 2016</a>)。発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます (<a class="reference external" href="https://www.physiology.org/doi/full/10.1152/jn.01140.2006">Bayer et al., <span style="font-style: italic;">J.
-Neurophysiol</span>. 2007</a>)。</p>
-<p>予測価値(分布) <span class="math notranslate nohighlight">\(V(x)\)</span>ですが、これは線条体(striatum)のパッチ (SNcに抑制性の投射をする)やVTAのGABAニューロン (VTAのドパミンニューロンに投射して減算抑制をする, (<a class="reference external" href="https://www.nature.com/articles/nature14855">Eshel, et al., <em>Nature</em>. 2015</a>))などにおいて表現されています。 この予測価値は通常のTD learningでは次式により更新されます。 $<span class="math notranslate nohighlight">\( V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}
-f\left(\delta_{i}\right) \)</span><span class="math notranslate nohighlight">\( ただし、\)</span>\alpha_{i}<span class="math notranslate nohighlight">\(は学習率(learning rate), \)</span>f(\cdot)<span class="math notranslate nohighlight">\(はRPEに対する応答関数です。生理学的には\)</span>f(\delta)=\delta$を使うのが妥当である。</p>
+<p>TD (Temporal difference) learningにおいて，<strong>報酬予測誤差</strong>(reward prediction error, <strong>RPE</strong>) <span class="math notranslate nohighlight">\(\delta_{i}\)</span>は次のように計算される．</p>
+<div class="math notranslate nohighlight">
+\[ 
+\delta_{i}=r+\gamma V_{j}\left(x^{\prime}\right)-V_{i}(x) 
+\]</div>
+<p>ただし，現在の状態を<span class="math notranslate nohighlight">\(x\)</span>, 次の状態を<span class="math notranslate nohighlight">\(x'\)</span>, 予測価値分布を<span class="math notranslate nohighlight">\(V(x)\)</span>, 報酬信号を<span class="math notranslate nohighlight">\(r\)</span>, 時間割引率(time discount)を<span class="math notranslate nohighlight">\(\gamma\)</span>としました．
+また，<span class="math notranslate nohighlight">\(V_{j}\left(x^{\prime}\right)\)</span>は予測価値分布<span class="math notranslate nohighlight">\(V\left(x^{\prime}\right)\)</span>からのサンプルです． このRPEは脳内において主に中脳の<strong>VTA</strong>(腹側被蓋野)や<strong>SNc</strong>(黒質緻密部)における<strong>ドパミン(dopamine)ニューロン</strong>の発火率として表現されています．</p>
+<p>ただし，VTAとSNcのドパミンニューロンの役割は同一ではありません．ドパミンニューロンへの入力が異なっています <a class="reference external" href="https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4">(Watabe-Uchida et al., <em>Neuron.</em> 2012)</a>． また，細かいですがドパミンニューロンの発火は報酬量に対して線形ではなく，やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます(<a class="reference external" href="https://www.nature.com/articles/nn.4239">Eshel et al., <em>Nat. Neurosci.</em> 2016</a>)．このため著者実装では報酬 <span class="math notranslate nohighlight">\(r\)</span>に非線形関数がかかっているものもあります．</p>
+<p>先ほどRPEはドパミンニューロンの発火率で表現されている，といいました．RPEが正の場合はドパミンニューロンの発火で表現できますが，単純に考えると負の発火率というものはないため，負のRPEは表現できないように思います．ではどうしているかというと，RPEが0（予想通りの報酬が得られた場合）でもドパミンニューロンは発火しており，RPEが正の場合にはベースラインよりも発火率が上がるようになっています．逆にRPEが負の場合にはベースラインよりも発火率が減少する(抑制される)ようになっています
+(<a class="reference external" href="https://science.sciencemag.org/content/275/5306/1593.long">Schultz et al., <span style="font-style: italic;">Science.</span> 1997</a>; <a class="reference external" href="https://www.nature.com/articles/nn.4191">Chang et al., <span style="font-style: italic;">Nat Neurosci</span>. 2016</a>)．発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます (<a class="reference external" href="https://www.physiology.org/doi/full/10.1152/jn.01140.2006">Bayer et al., <span style="font-style: italic;">J.
+Neurophysiol</span>. 2007</a>)．</p>
+<p>予測価値(分布) <span class="math notranslate nohighlight">\(V(x)\)</span>ですが，これは線条体(striatum)のパッチ (SNcに抑制性の投射をする)やVTAのGABAニューロン (VTAのドパミンニューロンに投射して減算抑制をする, (<a class="reference external" href="https://www.nature.com/articles/nature14855">Eshel, et al., <em>Nature</em>. 2015</a>))などにおいて表現されている． この予測価値は通常のTD learningでは次式により更新されます．</p>
+<div class="math notranslate nohighlight">
+\[ 
+V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i} f\left(\delta_{i}\right) 
+\]</div>
+<p>ただし，<span class="math notranslate nohighlight">\(\alpha_{i}\)</span>は学習率(learning rate), <span class="math notranslate nohighlight">\(f(\cdot)\)</span>はRPEに対する応答関数である．生理学的には<span class="math notranslate nohighlight">\(f(\delta)=\delta\)</span>を使うのが妥当である．</p>
 <p>TD誤差</p>
 <div class="math notranslate nohighlight">
 \[
@@ -293,7 +468,7 @@ f\left(\delta_{i}\right) \)</span><span class="math notranslate nohighlight">\( 
 V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
 \end{align}
 \]</div>
-<p>(<a class="reference external" href="https://science.sciencemag.org/content/275/5306/1593">Schultz, Dayan &amp; Montague, Science, 1997</a>)を参考にシミュレーションを行う。60試行する。0秒の時に条件刺激(光刺激)が入る。また、6試行目から40試行目まで条件刺激があってから1.2秒後に報酬が与えられるとする。</p>
+<p>(<a class="reference external" href="https://science.sciencemag.org/content/275/5306/1593">Schultz, Dayan &amp; Montague, Science, 1997</a>)を参考にシミュレーションを行う．60試行する．0秒の時に条件刺激(光刺激)が入る．また，6試行目から40試行目まで条件刺激があってから1.2秒後に報酬が与えられるとする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
@@ -332,7 +507,7 @@ V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
 </div>
 </div>
 </div>
-<p>結果を描画する。</p>
+<p>結果を描画する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
@@ -362,7 +537,7 @@ V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
 <img alt="../_images/12-1_td_learning_7_0.png" src="../_images/12-1_td_learning_7_0.png" />
 </div>
 </div>
-<p>CSは条件刺激(conditioned stimulus), Rは報酬(reward)を意味する。</p>
+<p>CSは条件刺激(conditioned stimulus), Rは報酬(reward)を意味する．</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -374,16 +549,16 @@ V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.5"
+            mode: "julia-1.6"
         },
         kernelOptions: {
-            kernelName: "julia-1.5",
+            kernelName: "julia-1.6",
             path: "./chap12"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.5'</script>
+    <script>kernelName = 'julia-1.6'</script>
 
               </div>
               
@@ -394,7 +569,7 @@ V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="12_intro.html" title="previous page">12. 強化学習</a>
-    <a class='right-next' id="next-link" href="../chap14/14_intro.html" title="next page">14. 時空間の符号化</a>
+    <a class='right-next' id="next-link" href="../chap13/13_intro.html" title="next page">13. 運動制御</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
@@ -426,7 +601,10 @@ async>
       </div>
     </div>
 
-    <script src="../_static/js/index.js"></script>
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
     
     <!-- Google Analytics -->
     <script>

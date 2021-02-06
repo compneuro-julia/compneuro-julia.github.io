@@ -1,0 +1,69 @@
+Traceback (most recent call last):
+  File "c:\users\yamta\miniconda3\lib\site-packages\jupyter_cache\executors\utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 1077, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "c:\users\yamta\miniconda3\lib\asyncio\base_events.py", line 583, in run_until_complete
+    return future.result()
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 527, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 822, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 730, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+using PyPlot
+
+dt = 5e-5 # タイムステップ (sec)
+td = 2e-2 # synaptic decay time (sec)
+tr = 2e-3 # synaptic rise time (sec)
+T = 0.1 # シミュレーション時間 (sec)
+nt = Int(T/dt) # シミュレーションの総ステップ
+
+# 単一指数関数型シナプス
+r1 = zeros(nt)
+
+for t in 1:nt-1
+    spike = ifelse(t == 1, 1, 0)
+    r1[t+1] = r1[t]*(1-dt/td) + spike/td
+    #r1[t+1] = r1[t]*exp(-dt/td) + spike/td
+end
+
+# 二重指数関数型シナプス
+r2 = zeros(nt) 
+hr = zeros(nt)
+
+for t in 1:nt-1
+    spike = ifelse(t == 1, 1, 0)
+    double_r[t] = r
+    r2[t+1] = r2[t]*(1-dt/tr) + hr[t]*dt
+    hr[t+1] = hr[t]*(1-dt/td) + spike/(tr*td)
+    #r2[t+1] = r2[t]*exp(-dt/tr) + hr[t]*dt
+    #hr[t+1] = hr[t]*exp(-dt/td) + spike/(tr*td)
+end   
+
+time = (1:nt)*dt
+figure(figsize=(4, 3))
+plot(time, r1, linestyle="dashed", label="single exponential")
+plot(time, r2, label="double exponential")
+xlabel("Time (s)"); ylabel("Post-synaptic current (pA)")
+legend()
+tight_layout()
+------------------
+
+UndefVarError: double_r not defined
+
+Stacktrace:
+ [1] top-level scope
+   @ .\In[1]:24
+ [2] eval
+   @ .\boot.jl:360 [inlined]
+ [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+   @ Base .\loading.jl:1090
+LoadError: UndefVarError: double_r not defined
+

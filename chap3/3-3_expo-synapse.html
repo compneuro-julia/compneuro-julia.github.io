@@ -1,23 +1,42 @@
 
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <title>3.3 指数関数型シナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="../_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -26,8 +45,8 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -43,15 +62,15 @@
     <link rel="next" title="3.4 動力学モデル" href="3-4_kinetic-synapse.html" />
     <link rel="prev" title="3.2 Current-based vs Conductance-based シナプス" href="3-2_current-conductance-synapse.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap3/3-3_expo-synapse.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="3.3 指数関数型シナプスモデル" />
-<meta property="og:description" content="3.3 指数関数型シナプスモデル  シナプスのモデルは複数あるが, 良く用いられるのが指数関数型シナプスモデル(exponential synapse model)である。このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう。指数関数型シナプスモデルには2つの種類, 単一指数関数型モデル (sing" />
+<meta property="og:description" content="3.3 指数関数型シナプスモデル  シナプスのモデルは複数あるが, 良く用いられるのが指数関数型シナプスモデル(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, 単一指数関数型モデル (sing" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -75,15 +94,12 @@
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
   
 </a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
-
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+    <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../index.html">
    Juliaで学ぶ計算論的神経科学
@@ -96,21 +112,59 @@
    まえがき
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap1/1_intro.html">
    1. はじめに
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap2/2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1 current active collapsible-parent">
   <a class="reference internal" href="3_intro.html">
    3. シナプス伝達のモデル
   </a>
-  <ul class="current">
+  <ul class="current collapse-ul">
    <li class="toctree-l2">
     <a class="reference internal" href="3-1_synapse.html">
      3.1 シナプス伝達
@@ -137,47 +191,144 @@
     </a>
    </li>
   </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap7/7_intro.html">
    7. 神経回路網の学習則
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/7-9_bptt.html">
+     7.9 BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap9/9_intro.html">
    9. 情報理論と最適化原理
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
+     9.1 統計と情報理論の基礎
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap10/10_intro.html">
    10. 連想記憶モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/10-3_boltzmann_machine.html">
+     10.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap11/11_intro.html">
    11. ベイズ脳仮説と生成モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap12/12_intro.html">
    12. 強化学習
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../chap13/13_intro.html">
+   13. 運動制御
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/13-3_optimal_feedback_control.html">
+     13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap14/14_intro.html">
    14. 時空間の符号化
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/14-1_grid_cells.html">
+     14.1 格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../appendix/appendix_intro.html">
    付録
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage_jupyter_book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
-</nav>
-
- <!-- To handle the deprecated key -->
+</nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
   Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
@@ -206,11 +357,11 @@
             <i class="fas fa-arrow-up"></i>
         </button>
         
-        <div class="dropdown-buttons-trigger">
+        
+<div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
 
-    
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         
@@ -222,8 +373,8 @@
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
-    
 </div>
+
         <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -244,7 +395,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -275,6 +427,7 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
         <div class="tocsection onthispage pt-5 pb-3">
             <i class="fas fa-list"></i> Contents
         </div>
@@ -315,6 +468,7 @@
 </ul>
 
         </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -324,8 +478,8 @@
                 
   <div class="section" id="id1">
 <h1>3.3 指数関数型シナプスモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>シナプスのモデルは複数あるが, 良く用いられるのが<strong>指数関数型シナプスモデル</strong>(exponential synapse model)である。このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう。指数関数型シナプスモデルには2つの種類, <strong>単一指数関数型モデル</strong> (single exponential model)と<strong>二重指数関数型モデル</strong> (double exponential model)がある。</p>
-<p>数式の説明の前にモデルの挙動を示す。次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している。ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる。</p>
+<p>シナプスのモデルは複数あるが, 良く用いられるのが<strong>指数関数型シナプスモデル</strong>(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, <strong>単一指数関数型モデル</strong> (single exponential model)と<strong>二重指数関数型モデル</strong> (double exponential model)がある．</p>
+<p>数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
@@ -372,75 +526,75 @@
 <img alt="../_images/3-3_expo-synapse_1_0.png" src="../_images/3-3_expo-synapse_1_0.png" />
 </div>
 </div>
-<p>2種類の指数関数型シナプスの動態。破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである。</p>
+<p>2種類の指数関数型シナプスの動態．破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである．</p>
 <div class="section" id="single-exponential-model">
 <h2>3.3.1 単一指数関数型モデル(Single exponential model)<a class="headerlink" href="#single-exponential-model" title="Permalink to this headline">¶</a></h2>
-<p>シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである <a class="footnote-reference brackets" href="#comp" id="id3">2</a>. 式は次のようになる。</p>
+<p>シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである <a class="footnote-reference brackets" href="#comp" id="id3">2</a>. 式は次のようになる．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 f(t)=\frac{1}{\tau_{s}}\exp\left(-\frac{t}{\tau_s}\right)    
 \end{equation}
 \]</div>
-<p>この関数を時間的なフィルターとして, 過去の全てのスパイクについての総和を取る。</p>
+<p>この関数を時間的なフィルターとして, 過去の全てのスパイクについての総和を取る．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 r(t)=\sum_{t_{k}&lt; t} f\left(t-t_{k}\right)
 \end{equation}
 \]</div>
-<p>ここで<span class="math notranslate nohighlight">\({r(t)}\)</span>は前節におけるシナプス動態(<span class="math notranslate nohighlight">\(s_{\text{syn}}\)</span>)で, <span class="math notranslate nohighlight">\(t_{k}\)</span>はあるニューロンの<span class="math notranslate nohighlight">\(k\)</span>番目のスパイクの発生時刻である。<span class="math notranslate nohighlight">\({t_{k}&lt;t}\)</span>の意味は現在の時刻<span class="math notranslate nohighlight">\(t\)</span>までに発生したスパイクについての和を取るという意味である。なお、スパイクが生じてから, ある程度の時間が経過した後はそのスパイクの影響はないと見なせるので, 一定の時間までの総和を取るのがよい。</p>
-<p>別の表記法としてスパイク列に対する畳み込みを行うというものもある。畳み込み演算子を<span class="math notranslate nohighlight">\(*\)</span>とし, シナプス前細胞のスパイク列を<span class="math notranslate nohighlight">\(S(t)=\sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right)\)</span>とする (ただし, <span class="math notranslate nohighlight">\(\delta\)</span>はDiracのdelta関数において<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>とした関数)。このとき, <span class="math notranslate nohighlight">\(r(t)=f*S(t)\)</span>と表すことができる。畳み込み演算子を用いると簡略な表記ができるが、実装上は他と同じ手法を用いる。</p>
+<p>ここで<span class="math notranslate nohighlight">\({r(t)}\)</span>は前節におけるシナプス動態(<span class="math notranslate nohighlight">\(s_{\text{syn}}\)</span>)で, <span class="math notranslate nohighlight">\(t_{k}\)</span>はあるニューロンの<span class="math notranslate nohighlight">\(k\)</span>番目のスパイクの発生時刻である．<span class="math notranslate nohighlight">\({t_{k}&lt;t}\)</span>の意味は現在の時刻<span class="math notranslate nohighlight">\(t\)</span>までに発生したスパイクについての和を取るという意味である．なお，スパイクが生じてから, ある程度の時間が経過した後はそのスパイクの影響はないと見なせるので, 一定の時間までの総和を取るのがよい．</p>
+<p>別の表記法としてスパイク列に対する畳み込みを行うというものもある．畳み込み演算子を<span class="math notranslate nohighlight">\(*\)</span>とし, シナプス前細胞のスパイク列を<span class="math notranslate nohighlight">\(S(t)=\sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right)\)</span>とする (ただし, <span class="math notranslate nohighlight">\(\delta\)</span>はDiracのdelta関数において<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>とした関数)．このとき, <span class="math notranslate nohighlight">\(r(t)=f*S(t)\)</span>と表すことができる．畳み込み演算子を用いると簡略な表記ができるが，実装上は他と同じ手法を用いる．</p>
 <div class="section" id="id4">
 <h3>微分方程式による表現<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p>上の手法ではニューロンの発火時刻を記憶し, 時間毎に全てのスパイクについての和を取る必要がある。そこで, 実装する場合は次の等価な微分方程式を用いる。</p>
+<p>上の手法ではニューロンの発火時刻を記憶し, 時間毎に全てのスパイクについての和を取る必要がある．そこで, 実装する場合は次の等価な微分方程式を用いる．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 \frac{dr}{dt}=-\frac{r}{\tau_{s}}+\frac{1}{\tau_{s}} \sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right)   
 \end{equation}
 \]</div>
-<p>ここで<span class="math notranslate nohighlight">\(\tau_s\)</span>はシナプスの時定数(synaptic time constant)である。 また, <span class="math notranslate nohighlight">\(\delta(\cdot)\)</span>はDiracのdelta関数です(ただし<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>です). これをEuler法で差分化すると</p>
+<p>ここで<span class="math notranslate nohighlight">\(\tau_s\)</span>はシナプスの時定数(synaptic time constant)である． また, <span class="math notranslate nohighlight">\(\delta(\cdot)\)</span>はDiracのdelta関数です(ただし<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>です). これをEuler法で差分化すると</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 r(t+\Delta t)=\left(1-\frac{\Delta t}{\tau_{s}}\right)r(t)+\frac{1}{\tau_{s}}\delta_{t,t_{k}} 
 \end{equation}
 \]</div>
-<p>となる。ここで<span class="math notranslate nohighlight">\(\delta_{t,t_{k}}\)</span>はKroneckerのdelta関数で, <span class="math notranslate nohighlight">\(t=t_{k}\)</span>のときに1, それ以外は0となる。また減衰度として<span class="math notranslate nohighlight">\(\left(1-\Delta  t/\tau_{d}\right)\)</span>の代わりに<span class="math notranslate nohighlight">\(\exp\left(-\Delta t/\tau_{d}\right)\)</span>を用いる場合もある。</p>
+<p>となる．ここで<span class="math notranslate nohighlight">\(\delta_{t,t_{k}}\)</span>はKroneckerのdelta関数で, <span class="math notranslate nohighlight">\(t=t_{k}\)</span>のときに1, それ以外は0となる．また減衰度として<span class="math notranslate nohighlight">\(\left(1-\Delta  t/\tau_{d}\right)\)</span>の代わりに<span class="math notranslate nohighlight">\(\exp\left(-\Delta t/\tau_{d}\right)\)</span>を用いる場合もある．</p>
 </div>
 </div>
 <div class="section" id="double-exponential-model">
 <h2>3.3.2 二重指数関数型モデル(Double exponential model)<a class="headerlink" href="#double-exponential-model" title="Permalink to this headline">¶</a></h2>
-<p>2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である<a class="footnote-reference brackets" href="#comp2" id="id5">3</a>。<span class="math notranslate nohighlight">\(t=0\)</span>にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる。</p>
+<p>2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である<a class="footnote-reference brackets" href="#comp2" id="id5">3</a>．<span class="math notranslate nohighlight">\(t=0\)</span>にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 f(t)=A\left[\exp\left(-\frac{t}{\tau_d}\right)-\exp\left(-\frac{t}{\tau_r}\right)\right]    
 \end{equation}
 \]</div>
-<p>ただし, <span class="math notranslate nohighlight">\({\tau_r}\)</span>は立ち上がり時定数(synaptic rise time constant), <span class="math notranslate nohighlight">\({\tau_d}\)</span>は減衰時定数(synaptic decay time constant)である。<span class="math notranslate nohighlight">\(\tau_{d}\)</span>は<span class="math notranslate nohighlight">\(\tau_{s}\)</span>と同じく神経伝達物質の減少速度を決定している。<span class="math notranslate nohighlight">\(A\)</span>は規格化定数で次のように表される。</p>
+<p>ただし, <span class="math notranslate nohighlight">\({\tau_r}\)</span>は立ち上がり時定数(synaptic rise time constant), <span class="math notranslate nohighlight">\({\tau_d}\)</span>は減衰時定数(synaptic decay time constant)である．<span class="math notranslate nohighlight">\(\tau_{d}\)</span>は<span class="math notranslate nohighlight">\(\tau_{s}\)</span>と同じく神経伝達物質の減少速度を決定している．<span class="math notranslate nohighlight">\(A\)</span>は規格化定数で次のように表される．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 A=\frac{\tau_d}{\tau_d-\tau_r}\cdot \left(\frac{\tau_r}{\tau_d}\right)^\frac{\tau_r}{\tau_r-\tau_d}    
 \end{equation}
 \]</div>
-<p>規格化定数<span class="math notranslate nohighlight">\(A\)</span>を乗じることで最大値が1となる。ただし, シミュレーションをする上で実際に規格化をする場合は少ない。</p>
+<p>規格化定数<span class="math notranslate nohighlight">\(A\)</span>を乗じることで最大値が1となる．ただし, シミュレーションをする上で実際に規格化をする場合は少ない．</p>
 <div class="section" id="alpha">
 <h3><span class="math notranslate nohighlight">\(\alpha\)</span>関数<a class="headerlink" href="#alpha" title="Permalink to this headline">¶</a></h3>
-<p>上記の式において, <span class="math notranslate nohighlight">\(\tau=\tau_{r}=\tau_{d}\)</span>の場合は <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span> <strong>関数</strong> (alpha function, alpha synapse)と呼ぶ (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/6055351/">Rall, 1967</a>)。式としては次のようになる。</p>
+<p>上記の式において, <span class="math notranslate nohighlight">\(\tau=\tau_{r}=\tau_{d}\)</span>の場合は <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span> <strong>関数</strong> (alpha function, alpha synapse)と呼ぶ (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/6055351/">Rall, 1967</a>)．式としては次のようになる．</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 \alpha(t)=\frac{t}{\tau}\exp\left(1-\frac{t}{\tau}\right)    
 \end{equation}
 \]</div>
-<p>この式は二重指数関数型シナプスの式に単に代入するだけでは導出できない。これらの式の対応については後述する。</p>
+<p>この式は二重指数関数型シナプスの式に単に代入するだけでは導出できない．これらの式の対応については後述する．</p>
 </div>
 <div class="section" id="id6">
 <h3>微分方程式による表現<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>ここで, 二重指数関数型シナプスの式に対応する, 補助変数<span class="math notranslate nohighlight">\(h\)</span>を用いた微分方程式を導入する。</p>
+<p>ここで, 二重指数関数型シナプスの式に対応する, 補助変数<span class="math notranslate nohighlight">\(h\)</span>を用いた微分方程式を導入する．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align} 
@@ -456,8 +610,8 @@ r(t+\Delta t)&amp;=\left(1-\frac{\Delta t}{\tau_{d}}\right)r(t)+h(t)\cdot \Delta
 h(t+\Delta t)&amp;=\left(1-\frac{\Delta t}{\tau_{r}}\right)h(t)+\frac{1}{\tau_{r}\tau_{d}} \delta_{t,t_{j k}}
 \end{align}
 \end{split}\]</div>
-<p>となる。</p>
-<p>念のため, 微分方程式と元の式が一致することを確認しておこう。<span class="math notranslate nohighlight">\(t=0\)</span>のときにシナプス前細胞が発火したとし, それ以降の発火はないとする。このとき, <span class="math notranslate nohighlight">\(h(0)=1/\tau_{r}\tau_{d}, r(0)=0\)</span> である。<span class="math notranslate nohighlight">\(h\)</span>についての微分方程式の解は</p>
+<p>となる．</p>
+<p>念のため, 微分方程式と元の式が一致することを確認しておこう．<span class="math notranslate nohighlight">\(t=0\)</span>のときにシナプス前細胞が発火したとし, それ以降の発火はないとする．このとき, <span class="math notranslate nohighlight">\(h(0)=1/\tau_{r}\tau_{d}, r(0)=0\)</span> である．<span class="math notranslate nohighlight">\(h\)</span>についての微分方程式の解は</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
@@ -471,7 +625,7 @@ h(t)=h(0)\cdot \exp\left(-\frac{t}{\tau_r}\right)
 \frac{dr}{dt}=-\frac{r}{\tau_{d}}+h(0)\cdot \exp\left(-\frac{t}{\tau_r}\right) 
 \end{equation}
 \]</div>
-<p>となる。これを解くには両辺に積分因子<span class="math notranslate nohighlight">\(\exp({t}/{\tau_d})\)</span>をかけてから積分をするかLaplace変換をするかである。今回はLaplace変換を用いる。右辺一項目を移行した後に両辺をLaplace変換すると以下のようになる。</p>
+<p>となる．これを解くには両辺に積分因子<span class="math notranslate nohighlight">\(\exp({t}/{\tau_d})\)</span>をかけてから積分をするかLaplace変換をするかである．今回はLaplace変換を用いる．右辺一項目を移行した後に両辺をLaplace変換すると以下のようになる．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -480,7 +634,7 @@ sF(s)-r(0)+\frac{1}{\tau_{d}}F(s)&amp;=\frac{h(0)}{s+1/\tau_r}\\
 F(s)&amp;=\frac{h(0)}{(s+1/\tau_r)(s+1/\tau_d)}
 \end{align}
 \end{split}\]</div>
-<p>ただし<span class="math notranslate nohighlight">\(r(t)\)</span>のLaplace変換を<span class="math notranslate nohighlight">\(F(s)\)</span>とした. ここで逆Laplace変換を行うと次のようになる。</p>
+<p>ただし<span class="math notranslate nohighlight">\(r(t)\)</span>のLaplace変換を<span class="math notranslate nohighlight">\(F(s)\)</span>とした. ここで逆Laplace変換を行うと次のようになる．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -490,14 +644,14 @@ r(t)&amp;=\mathcal{L}^{-1}(F(s))\\
 &amp;=\frac{1}{\tau_d-\tau_r}\left[\exp(-t/\tau_d)-\exp(-t/\tau_r)\right]
 \end{align}
 \end{split}\]</div>
-<p>この式の最大値<span class="math notranslate nohighlight">\(r_{\max}\)</span>を求めておこう。 <span class="math notranslate nohighlight">\(r(t)\)</span>を微分して0と置いた式の解<span class="math notranslate nohighlight">\(t_{\max}\)</span>を代入すれば求められる。計算すると,</p>
+<p>この式の最大値<span class="math notranslate nohighlight">\(r_{\max}\)</span>を求めておこう． <span class="math notranslate nohighlight">\(r(t)\)</span>を微分して0と置いた式の解<span class="math notranslate nohighlight">\(t_{\max}\)</span>を代入すれば求められる．計算すると,</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
 t_{\max}=\dfrac{\ln(\tau_d/\tau_r)}{1/\tau_r-1/\tau_d},\ \ r_{\max}=\dfrac{1}{\tau_{d}}\cdot \left(\dfrac{\tau_{r}}{\tau_{d}}\right)^{\frac{\tau_{r}}{\tau_d-\tau_{r}}}    
 \end{equation}
 \]</div>
-<p>となる。</p>
+<p>となる．</p>
 <p>なお, <span class="math notranslate nohighlight">\(\alpha\)</span>関数の導出は逆Laplace変換をする前に<span class="math notranslate nohighlight">\(\tau=\tau_d=\tau_r\)</span>とすればよく,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -506,17 +660,17 @@ F_\alpha(s)&amp;=\frac{h(0)}{(s+1/\tau)^2}\\
 \alpha(t)&amp;=\frac{t}{\tau^2}\exp\left(-\frac{t}{\tau}\right)
 \end{align}
 \end{split}\]</div>
-<p>となる。若干の係数の違いはあるが, 同じ形の関数が導出された。</p>
-<hr class="docutils" />
+<p>となる．若干の係数の違いはあるが, 同じ形の関数が導出された．</p>
+<hr class="footnotes docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="synstr"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
-<dd><p>シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある。これはどちらかと言えば機械学習の表現に引っ張られたものである。このため, このサイトでは重みという語も使う。</p>
+<dd><p>シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある．これはどちらかと言えば機械学習の表現に引っ張られたものである．このため, このサイトでは重みという語も使う．</p>
 </dd>
 <dt class="label" id="comp"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
-<dd><p>薬学動態の静注1コンパートメントモデルと同じ式である。</p>
+<dd><p>薬学動態の静注1コンパートメントモデルと同じ式である．</p>
 </dd>
 <dt class="label" id="comp2"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
-<dd><p>薬学動態の内服1コンパートメントモデルと同じ式である。</p>
+<dd><p>薬学動態の内服1コンパートメントモデルと同じ式である．</p>
 </dd>
 </dl>
 </div>
@@ -532,16 +686,16 @@ F_\alpha(s)&amp;=\frac{h(0)}{(s+1/\tau)^2}\\
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.5"
+            mode: "julia-1.6"
         },
         kernelOptions: {
-            kernelName: "julia-1.5",
+            kernelName: "julia-1.6",
             path: "./chap3"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.5'</script>
+    <script>kernelName = 'julia-1.6'</script>
 
               </div>
               
@@ -584,7 +738,10 @@ async>
       </div>
     </div>
 
-    <script src="../_static/js/index.js"></script>
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
     
     <!-- Google Analytics -->
     <script>

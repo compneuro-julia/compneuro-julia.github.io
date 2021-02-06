@@ -1,23 +1,42 @@
 
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <title>7.9 BPTT (backpropagation through time) &#8212; Juliaで学ぶ計算論的神経科学</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="../_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -26,8 +45,8 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -43,15 +62,15 @@
     <link rel="next" title="9. 情報理論と最適化原理" href="../chap9/9_intro.html" />
     <link rel="prev" title="7. 神経回路網の学習則" href="7_intro.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap7/7-9_bptt.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="7.9 BPTT (backpropagation through time)" />
-<meta property="og:description" content="7.9 BPTT (backpropagation through time)  7.9.1 モデルの定義  ライブラリの読み込み。  using Base: @kwdef using Parameters: @unpack # or using UnPack using Random using ProgressMe" />
+<meta property="og:description" content="7.9 BPTT (backpropagation through time)  7.9.1 モデルの定義  ライブラリの読み込み．  using Base: @kwdef using Parameters: @unpack # or using UnPack using Random using ProgressMe" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -75,15 +94,12 @@
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
   
 </a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
-
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+    <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../index.html">
    Juliaで学ぶ計算論的神経科学
@@ -96,68 +112,223 @@
    まえがき
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap1/1_intro.html">
    1. はじめに
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap2/2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap3/3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-4_kinetic-synapse.html">
+     3.4 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1 current active collapsible-parent">
   <a class="reference internal" href="7_intro.html">
    7. 神経回路網の学習則
   </a>
-  <ul class="current">
+  <ul class="current collapse-ul">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      7.9 BPTT (backpropagation through time)
     </a>
    </li>
   </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap9/9_intro.html">
    9. 情報理論と最適化原理
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
+     9.1 統計と情報理論の基礎
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap10/10_intro.html">
    10. 連想記憶モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/10-3_boltzmann_machine.html">
+     10.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap11/11_intro.html">
    11. ベイズ脳仮説と生成モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap12/12_intro.html">
    12. 強化学習
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../chap13/13_intro.html">
+   13. 運動制御
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/13-3_optimal_feedback_control.html">
+     13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap14/14_intro.html">
    14. 時空間の符号化
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/14-1_grid_cells.html">
+     14.1 格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../appendix/appendix_intro.html">
    付録
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage_jupyter_book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
-</nav>
-
- <!-- To handle the deprecated key -->
+</nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
   Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
@@ -186,11 +357,11 @@
             <i class="fas fa-arrow-up"></i>
         </button>
         
-        <div class="dropdown-buttons-trigger">
+        
+<div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
 
-    
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         
@@ -202,8 +373,8 @@
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
-    
 </div>
+
         <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -224,7 +395,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -255,6 +427,7 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
         <div class="tocsection onthispage pt-5 pb-3">
             <i class="fas fa-list"></i> Contents
         </div>
@@ -283,6 +456,7 @@
 </ul>
 
         </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -294,7 +468,7 @@
 <h1>7.9 BPTT (backpropagation through time)<a class="headerlink" href="#bptt-backpropagation-through-time" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>7.9.1 モデルの定義<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>ライブラリの読み込み。</p>
+<p>ライブラリの読み込み．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
@@ -331,7 +505,7 @@
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">w_in</span></code>は入力層から再帰層への重み、<code class="docutils literal notranslate"><span class="pre">w_rec</span></code>は再帰重み、<code class="docutils literal notranslate"><span class="pre">w_out</span></code>は出力重みである。</p>
+<p><code class="docutils literal notranslate"><span class="pre">w_in</span></code>は入力層から再帰層への重み，<code class="docutils literal notranslate"><span class="pre">w_rec</span></code>は再帰重み，<code class="docutils literal notranslate"><span class="pre">w_out</span></code>は出力重みである．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">mutable</span> <span class="k">struct</span> <span class="n">RNN</span><span class="p">{</span><span class="n">FT</span><span class="p">}</span>
@@ -391,22 +565,24 @@
         <span class="n">z</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
         <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">error</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">w_out</span><span class="o">&#39;</span> 
 
-        <span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">t_max</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="n">t_max</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span>
             <span class="n">zu</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.*</span> <span class="n">df</span><span class="o">.</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
-            <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">α</span><span class="p">)</span> <span class="o">+</span> <span class="n">error</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">w_out</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">zu</span> <span class="o">*</span> <span class="n">w_rec</span> <span class="o">*</span> <span class="n">α</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">≥</span> <span class="mi">2</span>
+                <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">α</span><span class="p">)</span> <span class="o">+</span> <span class="n">error</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">w_out</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">zu</span> <span class="o">*</span> <span class="n">w_rec</span> <span class="o">*</span> <span class="n">α</span>
+                <span class="n">dw_rec</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">zu</span>
+            <span class="k">end</span>
 
             <span class="c"># Updates  Δweights:</span>
             <span class="n">dw_out</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">error</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
-            <span class="n">dw_rec</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">zu</span>
             <span class="n">dw_in</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">zu</span>
             <span class="n">dbias</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.+=</span> <span class="n">sum</span><span class="p">(</span><span class="n">zu</span><span class="p">)</span>
         <span class="k">end</span>
         
         <span class="c"># update weights</span>
-        <span class="n">w_out</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span><span class="o">/</span><span class="n">t_max</span> <span class="o">*</span> <span class="n">dw_out</span>
-        <span class="n">w_rec</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span><span class="o">/</span><span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dw_rec</span>
-        <span class="n">w_in</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">η</span><span class="o">/</span><span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dw_in</span>
-        <span class="n">bias</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">η</span><span class="o">/</span><span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dbias</span>
+        <span class="n">w_out</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">/</span> <span class="n">t_max</span> <span class="o">*</span> <span class="n">dw_out</span>
+        <span class="n">w_rec</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">/</span> <span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dw_rec</span>
+        <span class="n">w_in</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">η</span> <span class="o">/</span> <span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dw_in</span>
+        <span class="n">bias</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">+=</span> <span class="n">η</span> <span class="o">/</span> <span class="n">t_max</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="n">dbias</span>
         
         <span class="c"># reset</span>
         <span class="n">dw_in</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>  <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">w_in</span><span class="p">)</span>
@@ -429,8 +605,8 @@
 </div>
 <div class="section" id="id3">
 <h2>7.9.3 正弦波の学習<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>例として正弦波を出力するRNNを考える。入力1,中間64, 出力2のRNNである。</p>
-<div class="cell tag_remove-output docutils container">
+<p>例として正弦波を出力するRNNを考える．入力1,中間64, 出力2のRNNである．</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">nt</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c"># number of timesteps in one period</span>
 <span class="n">n_batch</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># batch size</span>
@@ -448,12 +624,12 @@
 <span class="n">y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">begin_input</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">tsteps</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="n">begin_input</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)</span>
 
 <span class="n">n_epoch</span> <span class="o">=</span> <span class="mi">25000</span> <span class="c"># number of epoch</span>
-<span class="n">error_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">n_epoch</span><span class="p">)</span> <span class="c"># memory array of each epoch error</span>
+<span class="n">error_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">n_epoch</span><span class="p">);</span> <span class="c"># memory array of each epoch error</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>入力と訓練データの確認をする。</p>
+<p>入力と訓練データの確認をする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -474,20 +650,15 @@
 <img alt="../_images/7-9_bptt_13_0.png" src="../_images/7-9_bptt_13_0.png" />
 </div>
 </div>
-<p>モデルの定義をする。</p>
+<p>モデルの定義をする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rnn</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">n_batch</span><span class="o">=</span><span class="n">n_batch</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="n">n_in</span><span class="p">,</span> <span class="n">n_rec</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RNN{Float32}(RNNParameter{Float32}(1.0f0, 10.0f0, 0.1f0, 0.01f0), 0x00000001, 0x00000001, 0x00000040, 0x00000002, Float32[0.0 0.0 … 0.0 0.0], Float32[-0.04923044 -0.06656407 … -0.025577612 -0.0029375788], Float32[0.084224895 0.093384326 … -0.2176049 0.23227139; -0.1323849 -0.21364115 … -0.41588265 0.16747575; … ; -0.1416116 0.13477224 … -0.2561927 0.09233387; 0.14413567 0.068330534 … 0.26821157 0.024752714], Float32[-0.0009035437 0.0042508184; -0.008125684 0.0042239577; … ; 0.0038740681 -0.005102804; 0.0036259983 0.01168301], Float32[0.0 0.0 … 0.0 0.0], Float32[0.0 0.0 … 0.0 0.0], Float32[0.0 0.0 … 0.0 0.0; 0.0 0.0 … 0.0 0.0; … ; 0.0 0.0 … 0.0 0.0; 0.0 0.0 … 0.0 0.0], Float32[0.0 0.0; 0.0 0.0; … ; 0.0 0.0; 0.0 0.0], Float32[0.0 0.0 … 0.0 0.0])
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rnn</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">n_batch</span><span class="o">=</span><span class="n">n_batch</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="n">n_in</span><span class="p">,</span> <span class="n">n_rec</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>学習を実行する。</p>
+<p>学習を実行する．</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@showprogress</span> <span class="s">&quot;Training...&quot;</span> <span class="k">for</span> <span class="nb">e</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_epoch</span>
@@ -498,7 +669,7 @@
 </div>
 </div>
 </div>
-<p>損失の推移を確認する。</p>
+<p>損失の推移を確認する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -523,24 +694,24 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error : 0.06094371562786723
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error : 0.234959363555495
 </pre></div>
 </div>
 </div>
 </div>
-<p>見やすいように出力のピークに応じて中間層のユニットをソートする。</p>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">max_idx</span> <span class="o">=</span> <span class="kt">Tuple</span><span class="o">.</span><span class="p">(</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">h_</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">sortperm</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">max_idx</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>出力層、中間層の出力を描画する。</p>
+<p>見やすいように出力のピークに応じて中間層のユニットをソートする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">max_idx</span> <span class="o">=</span> <span class="kt">Tuple</span><span class="o">.</span><span class="p">(</span><span class="n">argmax</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">h_</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">sortperm</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">max_idx</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>出力層，中間層の出力を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">tsteps</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">&quot;--k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Target1&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">tsteps</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;-.k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Target2&quot;</span><span class="p">)</span>
@@ -550,7 +721,7 @@
 <span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">imshow</span><span class="p">(</span><span class="n">h_</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;jet&quot;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">h_</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;jet&quot;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
 <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time steps&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;# hidden units&quot;</span><span class="p">)</span>
 
 <span class="n">tight_layout</span><span class="p">()</span>
@@ -573,16 +744,16 @@
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.5"
+            mode: "julia-1.6"
         },
         kernelOptions: {
-            kernelName: "julia-1.5",
+            kernelName: "julia-1.6",
             path: "./chap7"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.5'</script>
+    <script>kernelName = 'julia-1.6'</script>
 
               </div>
               
@@ -625,7 +796,10 @@ async>
       </div>
     </div>
 
-    <script src="../_static/js/index.js"></script>
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
     
     <!-- Google Analytics -->
     <script>

@@ -1,23 +1,42 @@
 
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
     <title>14.1 格子細胞のデコーディング &#8212; Juliaで学ぶ計算論的神経科学</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="../_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -26,8 +45,8 @@
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
-    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -43,15 +62,15 @@
     <link rel="next" title="付録" href="../appendix/appendix_intro.html" />
     <link rel="prev" title="14. 時空間の符号化" href="14_intro.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="docsearch:language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap14/14-1_grid_cells.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="14.1 格子細胞のデコーディング" />
-<meta property="og:description" content="14.1 格子細胞のデコーディング  14.1.1 グリッド細胞(Grid Cells)  空間基底としてのグリッド細胞  海馬には場所特異的に発火する場所細胞(place cell)があり、これはO’keefeによって発見された。次にMay-Britt MoserとEdvard Moserが六角形格子状の場所受容野を" />
+<meta property="og:description" content="14.1 格子細胞のデコーディング  14.1.1 グリッド細胞(Grid Cells)  空間基底としてのグリッド細胞  海馬には場所特異的に発火する場所細胞(place cell)があり，これはO’keefeによって発見された．次にMay-Britt MoserとEdvard Moserが六角形格子状の場所受容野を" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -75,15 +94,12 @@
   <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
   
 </a>
-</div>
-
-<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
-
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+    <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../index.html">
    Juliaで学ぶ計算論的神経科学
@@ -96,68 +112,223 @@
    まえがき
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap1/1_intro.html">
    1. はじめに
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     1.2 記号の表記
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap2/2_intro.html">
    2. 神経細胞のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-2_hodgkinhuxley.html">
+     2.2 Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-3_fhn.html">
+     2.3 FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-4_lif.html">
+     2.4 Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-5_iz.html">
+     2.5 Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/2-8_isi.html">
+     2.8 Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap3/3_intro.html">
    3. シナプス伝達のモデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-1_synapse.html">
+     3.1 シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-2_current-conductance-synapse.html">
+     3.2 Current-based vs Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-3_expo-synapse.html">
+     3.3 指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-4_kinetic-synapse.html">
+     3.4 動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/3-6_synaptic-weighted.html">
+     3.6 シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap7/7_intro.html">
    7. 神経回路網の学習則
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/7-9_bptt.html">
+     7.9 BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap9/9_intro.html">
    9. 情報理論と最適化原理
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
+     9.1 統計と情報理論の基礎
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap10/10_intro.html">
    10. 連想記憶モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/10-3_boltzmann_machine.html">
+     10.3 ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap11/11_intro.html">
    11. ベイズ脳仮説と生成モデル
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-1_bayes_statistics.html">
+     11.1 ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-2_sparse-coding.html">
+     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/11-3_predictive-coding-rao.html">
+     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../chap12/12_intro.html">
    12. 強化学習
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/12-1_td_learning.html">
+     12.1 TD学習
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1 current active">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../chap13/13_intro.html">
+   13. 運動制御
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/13-3_optimal_feedback_control.html">
+     13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
   <a class="reference internal" href="14_intro.html">
    14. 時空間の符号化
   </a>
-  <ul class="current">
+  <ul class="current collapse-ul">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      14.1 格子細胞のデコーディング
     </a>
    </li>
   </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../appendix/appendix_intro.html">
    付録
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful_links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage_jupyter_book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
 </ul>
 
-</nav>
-
- <!-- To handle the deprecated key -->
+</nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
   Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
@@ -186,11 +357,11 @@
             <i class="fas fa-arrow-up"></i>
         </button>
         
-        <div class="dropdown-buttons-trigger">
+        
+<div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
 
-    
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         
@@ -202,8 +373,8 @@
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
-    
 </div>
+
         <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -224,7 +395,8 @@
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
                     class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
@@ -255,6 +427,7 @@
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
+        
         <div class="tocsection onthispage pt-5 pb-3">
             <i class="fas fa-list"></i> Contents
         </div>
@@ -300,6 +473,7 @@
 </ul>
 
         </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -313,23 +487,23 @@
 <h2>14.1.1 グリッド細胞(Grid Cells)<a class="headerlink" href="#grid-cells" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>空間基底としてのグリッド細胞<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>海馬には場所特異的に発火する<strong>場所細胞</strong>(place cell)があり、これはO’keefeによって発見された。次にMay-Britt MoserとEdvard Moserが六角形格子状の場所受容野を持つ<strong>グリッド細胞</strong>(格子細胞, grid cell)を内側嗅内皮質(medial entorhinal cortex; MEC)で発見した。この3人は2014年のノーベル生理学・医学賞を受賞している。</p>
+<p>海馬には場所特異的に発火する<strong>場所細胞</strong>(place cell)があり，これはO’keefeによって発見された．次にMay-Britt MoserとEdvard Moserが六角形格子状の場所受容野を持つ<strong>グリッド細胞</strong>(格子細胞, grid cell)を内側嗅内皮質(medial entorhinal cortex; MEC)で発見した．この3人は2014年のノーベル生理学・医学賞を受賞している．</p>
 </div>
 <div class="section" id="id3">
 <h3>データについて<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>格子細胞の活動データはMoser研が公開しており、<a class="reference external" href="https://www.ntnu.edu/kavli/research/grid-cell-data">https://www.ntnu.edu/kavli/research/grid-cell-data</a>からダウンロードできる。公開されているデータはMATLABのmatファイル形式である。</p>
-<p>使用するデータは以下の通り。</p>
+<p>格子細胞の活動データはMoser研が公開しており，<a class="reference external" href="https://www.ntnu.edu/kavli/research/grid-cell-data">https://www.ntnu.edu/kavli/research/grid-cell-data</a>からダウンロードできる．公開されているデータはMATLABのmatファイル形式である．</p>
+<p>使用するデータは以下の通り．</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/Salad-bowl-of-knowledge/hp/blob/master/_notebooks/data/grid_cells_data/10704-07070407_POS.mat">10704-07070407_POS.mat</a></p></li>
 <li><p><a class="reference external" href="https://github.com/Salad-bowl-of-knowledge/hp/blob/master/_notebooks/data/grid_cells_data/10704-07070407_T2C3.mat">10704-07070407_T2C3.mat</a></p></li>
 </ul>
-<p>これらのファイルは<a class="reference external" href="https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7">https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7</a>からダウンロードできるファイルの一部である。以下では<code class="docutils literal notranslate"><span class="pre">./data/grid_cells_data/</span></code>ディレクトリの下にファイルを置いている。</p>
-<p>データの末尾の”POS”と”T2C3”の意味について説明しておく。まず、”POS”はpost, posx, posyを含む構造体でそれぞれ試行の経過時間、x座標, y座標である。座標は<span class="math notranslate nohighlight">\([-50, 50]\)</span>で記録されている。1m四方の正方形の部屋で、原点を部屋の中心としている。”T2C3”はtがtetrode（テトロード電極）でcがcell（細胞）を意味する。後ろの数字は番号付けである。</p>
+<p>これらのファイルは<a class="reference external" href="https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7">https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7</a>からダウンロードできるファイルの一部である．以下では<code class="docutils literal notranslate"><span class="pre">./data/grid_cells_data/</span></code>ディレクトリの下にファイルを置いている．</p>
+<p>データの末尾の”POS”と”T2C3”の意味について説明しておく．まず，”POS”はpost, posx, posyを含む構造体でそれぞれ試行の経過時間，x座標, y座標である．座標は<span class="math notranslate nohighlight">\([-50, 50]\)</span>で記録されている．1m四方の正方形の部屋で，原点を部屋の中心としている．”T2C3”はtがtetrode（テトロード電極）でcがcell（細胞）を意味する．後ろの数字は番号付けである．</p>
 </div>
 </div>
 <div class="section" id="id4">
 <h2>14.1.2 ラットの行動軌跡と発火の描画<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>データを読み込む。</p>
+<p>データを読み込む．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MAT</span>
@@ -358,7 +532,7 @@
 </div>
 </div>
 </div>
-<p>posファイル内の構造は次のようになっている。</p>
+<p>posファイル内の構造は次のようになっている．</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pos[&quot;post&quot;]</span></code>: times at which positions were recorded</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pos[&quot;posx&quot;]</span></code>: x positions</p></li>
@@ -382,7 +556,7 @@
 </div>
 </div>
 </div>
-<p>行動軌跡を描画する。</p>
+<p>行動軌跡を描画する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -396,7 +570,7 @@
 <img alt="../_images/14-1_grid_cells_12_0.png" src="../_images/14-1_grid_cells_12_0.png" />
 </div>
 </div>
-<p>発火を描画するために発火時刻 <code class="docutils literal notranslate"><span class="pre">spkt</span></code> のそれぞれの要素と最も近い <code class="docutils literal notranslate"><span class="pre">post</span></code> のインデックスを求める関数を実装する。</p>
+<p>発火を描画するために発火時刻 <code class="docutils literal notranslate"><span class="pre">spkt</span></code> のそれぞれの要素と最も近い <code class="docutils literal notranslate"><span class="pre">post</span></code> のインデックスを求める関数を実装する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">nearest_pos</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -443,16 +617,16 @@
 </div>
 <div class="section" id="id5">
 <h2>14.1.3 発火率マップ<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>発火率<span class="math notranslate nohighlight">\(\lambda(\boldsymbol{x})\)</span>は、場所<span class="math notranslate nohighlight">\(\boldsymbol{x}=(x,y)\)</span>で記録されたスパイクの回数を、場所<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>における滞在時間(s)で割ることで得られる。</p>
+<p>発火率<span class="math notranslate nohighlight">\(\lambda(\boldsymbol{x})\)</span>は，場所<span class="math notranslate nohighlight">\(\boldsymbol{x}=(x,y)\)</span>で記録されたスパイクの回数を，場所<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>における滞在時間(s)で割ることで得られる．</p>
 <div class="math notranslate nohighlight">
 \[ 
 \lambda(\boldsymbol{x})=\frac{\displaystyle \sum_{i=1}^n
 g\left(\frac{\boldsymbol{s}_i-\boldsymbol{x}}{h}\right)}{\displaystyle \int_0^T g\left(\frac{\boldsymbol{y}(t)-\boldsymbol{x}}{h}\right)dt} 
 \]</div>
-<p>ただし、<span class="math notranslate nohighlight">\(n\)</span>はスパイクの回数、<span class="math notranslate nohighlight">\(T\)</span>は計測時間、<span class="math notranslate nohighlight">\(g(\cdot)\)</span>はGaussain
-Kernel（中身の分子が平均、分母が標準偏差）、<span class="math notranslate nohighlight">\(\boldsymbol{s}_i\)</span>は<span class="math notranslate nohighlight">\(i\)</span>番目のスパイクの発生した位置、<span class="math notranslate nohighlight">\(\boldsymbol{y}(t)\)</span>は時刻<span class="math notranslate nohighlight">\(t\)</span>でのラットの位置である。分母は積分になっているが、実際には離散的に記録をするので、累積和に変更し、<span class="math notranslate nohighlight">\(dt\)</span>を時間のステップ幅(今回は0.02s)とする。</p>
-<p>この式の分母はマウスの位置、分子はニューロンが発火したときのマウスの位置についてそれぞれカーネル密度推定 (kernel density estimation)を行うことを意味する。今回はヒストグラムを求め、描画の際にGaussianで平滑化することで計算量を下げることとする。</p>
-<p>発火数のヒストグラムを描画する。PyPlotで<code class="docutils literal notranslate"><span class="pre">hist2D(posx[idx],</span> <span class="pre">posy[idx],</span> <span class="pre">bins=10,</span> <span class="pre">cmap=&quot;jet&quot;)</span></code>などとする方が簡便だが、今回はhistgramの各binの値を用いるために<code class="docutils literal notranslate"><span class="pre">StatsBase.jl</span></code>を用いる。</p>
+<p>ただし，<span class="math notranslate nohighlight">\(n\)</span>はスパイクの回数，<span class="math notranslate nohighlight">\(T\)</span>は計測時間，<span class="math notranslate nohighlight">\(g(\cdot)\)</span>はGaussain
+Kernel（中身の分子が平均，分母が標準偏差），<span class="math notranslate nohighlight">\(\boldsymbol{s}_i\)</span>は<span class="math notranslate nohighlight">\(i\)</span>番目のスパイクの発生した位置，<span class="math notranslate nohighlight">\(\boldsymbol{y}(t)\)</span>は時刻<span class="math notranslate nohighlight">\(t\)</span>でのラットの位置である．分母は積分になっているが，実際には離散的に記録をするので，累積和に変更し，<span class="math notranslate nohighlight">\(dt\)</span>を時間のステップ幅(今回は0.02s)とする．</p>
+<p>この式の分母はマウスの位置，分子はニューロンが発火したときのマウスの位置についてそれぞれカーネル密度推定 (kernel density estimation)を行うことを意味する．今回はヒストグラムを求め，描画の際にGaussianで平滑化することで計算量を下げることとする．</p>
+<p>発火数のヒストグラムを描画する．PyPlotで<code class="docutils literal notranslate"><span class="pre">hist2D(posx[idx],</span> <span class="pre">posy[idx],</span> <span class="pre">bins=10,</span> <span class="pre">cmap=&quot;jet&quot;)</span></code>などとする方が簡便だが，今回はhistgramの各binの値を用いるために<code class="docutils literal notranslate"><span class="pre">StatsBase.jl</span></code>を用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">StatsBase</span>
@@ -509,7 +683,7 @@ Kernel（中身の分子が平均、分母が標準偏差）、<span class="math
 </div>
 <div class="section" id="autocorrelation-map">
 <h2>14.1.4 Autocorrelation Map<a class="headerlink" href="#autocorrelation-map" title="Permalink to this headline">¶</a></h2>
-<p>2次元の自己相関マップ (autocorrelation map)を描画する。これにはPythonのライブラリ <code class="docutils literal notranslate"><span class="pre">scipy.signal</span></code> を用いると簡便である。</p>
+<p>2次元の自己相関マップ (autocorrelation map)を描画する．これにはPythonのライブラリ <code class="docutils literal notranslate"><span class="pre">scipy.signal</span></code> を用いると簡便である．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyCall</span>
@@ -574,16 +748,16 @@ Kernel（中身の分子が平均、分母が標準偏差）、<span class="math
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.5"
+            mode: "julia-1.6"
         },
         kernelOptions: {
-            kernelName: "julia-1.5",
+            kernelName: "julia-1.6",
             path: "./chap14"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.5'</script>
+    <script>kernelName = 'julia-1.6'</script>
 
               </div>
               
@@ -626,7 +800,10 @@ async>
       </div>
     </div>
 
-    <script src="../_static/js/index.js"></script>
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
     
     <!-- Google Analytics -->
     <script>
