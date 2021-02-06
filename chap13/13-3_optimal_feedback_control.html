@@ -70,7 +70,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)" />
-<meta property="og:description" content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)  13.3.1 最適フィードバック制御モデルの構造  Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to t" />
+<meta property="og:description" content="13.3 最適フィードバック制御モデル (optimal feedback control; OFC)  13.3.1 最適フィードバック制御モデルの構造  最適フィードバック制御モデル(optimal feedback control; OFC) の特徴として目標軌道を必要としないことが挙げられる．Kalman フィ" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -468,25 +468,36 @@
 <h1>13.3 最適フィードバック制御モデル (optimal feedback control; OFC)<a class="headerlink" href="#optimal-feedback-control-ofc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>13.3.1 最適フィードバック制御モデルの構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>最適フィードバック制御モデル(optimal feedback control; OFC)</strong> の特徴として目標軌道を必要としないことが挙げられる．<strong>Kalman フィルタ</strong>による状態推定と<strong>線形2次レギュレーター(LQR: linear-quadratic regurator)</strong> により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．このモデルは<strong>線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御</strong>と呼ばれる．</p>
 <blockquote>
 <div><p>Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. Neural Computation 17(5): 1084-1108</p>
 </div></blockquote>
-<p>目標軌道を必要としない．Kalman filterによる状態推定と推定された状態に基づいて運動指令を生成</p>
-<p>Compute optimal controller and estimator for generalized LQG</p>
+<p>本記事はTodorovの<a class="reference external" href="https://homes.cs.washington.edu/~todorov/software/gLQG.zip">MATLABコード</a>を元にして記述されている (現状ほぼJuliaへの単なる移植であることを明言しておく)．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\begin{align}
-u(t) &amp;= -L(t) x(t)\\
-x(t+1) &amp;= A x(t) + B (I + \sum(C(i) rnd_1)) u(t) + C0 rnd_n\\
-y(t) &amp;= H x(t) + \sum (D(i) rnd_1) x(t) + D0 rnd_n\\
-\hat{x}(t+1) &amp;= A \hat{x}(t) + B u(t) + K(t) (y(t) - H \hat{x}(t)) + E0 rnd_n\\
-x(1) &amp;\sim mean X1, covariance S1\\
-\end{align}
+\begin{aligned}
+&amp;\text {Dynamics} \quad \mathbf{x}_{t+1}=A \mathbf{x}_{t}+B \mathbf{u}_{t}+\boldsymbol{\xi}_{t}+\sum_{i=1}^{c} \varepsilon_{t}^{i} C_{i} \mathbf{u}_{t}\\
+&amp;\text {Feedback} \quad \mathbf{y}_{t}=H \mathbf{x}_{t}+\omega_{t}+\sum_{i=1}^{d} \epsilon_{t}^{i} D_{i} \mathbf{x}_{t}\\
+&amp;\text{Cost per step}\quad \mathbf{x}_{t}^{T} Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^{T} R \mathbf{u}_{t}
+\end{aligned}
 \end{split}\]</div>
-<div class="math notranslate nohighlight">
-\[
-cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
-\]</div>
+<p>Linear-Quadratic Regulator
+$<span class="math notranslate nohighlight">\(
+\begin{align}
+\mathbf{u}_{t}&amp;=-L_{t} \widehat{\mathbf{x}}_{t}\\
+L_{t}&amp;=\left(R+B^{\top} S_{t+1} B\right)^{-1} B^{\top} S_{t+1} A\\
+S_{t}&amp;=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
+\end{align}
+\)</span>$</p>
+<p>Kalman Filter
+$<span class="math notranslate nohighlight">\(
+\begin{align}
+\widehat{\mathbf{x}}_{t+1}&amp;=A \widehat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \widehat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
+K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{-1} \\ 
+\Sigma_{t+1}&amp;=\Omega^{\xi}+\left(A-K_{t} H\right) \Sigma_{t} A^{\top}
+\end{align}
+\)</span>$</p>
+<p><span class="math notranslate nohighlight">\(K\)</span>はFilter gains，<span class="math notranslate nohighlight">\(L\)</span>はControl gainsである．実装上は<span class="math notranslate nohighlight">\(\boldsymbol{\xi}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">C0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\omega_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">D0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\boldsymbol{\eta}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">E0</span> <span class="pre">*</span> <span class="pre">randn</span></code></p>
 </div>
 <div class="section" id="id2">
 <h2>13.3.2 最適フィードバック制御モデルの実装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -552,20 +563,17 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 </div>
 </div>
 </div>
-<ul class="simple">
-<li><p>NSim : number of simulated trajectories (default 0)  (optional)</p></li>
-<li><p>Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)</p></li>
-<li><p>Niter : iterations; 0 (default) - until convergence   (optional)</p></li>
-<li><p>K : Filter gains</p></li>
-<li><p>L : Control gains</p></li>
-<li><p>Cost : Expected cost (per iteration)</p></li>
-<li><p>Xa : Expected trajectory</p></li>
-<li><p>XSim : Simulated trajectories</p></li>
-<li><p>CostSim : Empirical cost</p></li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">;</span> <span class="n">Init</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Niter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">MaxIter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">Eps</span><span class="o">=</span><span class="mi">10</span><span class="o">^-</span><span class="mi">8</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    - Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)</span>
+<span class="s">    - Niter : iterations; 0 (default) - until convergence   (optional)</span>
+
+<span class="s">    - K : Filter gains</span>
+<span class="s">    - L : Control gains</span>
+<span class="s">    - Cost : Expected cost (per iteration)</span>
+<span class="s">    &quot;&quot;&quot;</span>
     <span class="c"># determine sizes</span>
     <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">szU</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
@@ -676,7 +684,6 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
         <span class="c"># adjust cost</span>
         <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">X1</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">X1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">((</span><span class="n">Se</span> <span class="o">+</span> <span class="n">Sx</span><span class="p">)</span> <span class="o">*</span> <span class="n">S1</span><span class="p">)</span>
         <span class="c"># check convergence of Cost</span>
-
         <span class="k">if</span> <span class="n">iter</span> <span class="o">&gt;</span> <span class="mi">1</span>
             <span class="n">CostError</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">])</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">Niter</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">iter</span><span class="o">&gt;=</span><span class="n">Niter</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">Niter</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">CostError</span> <span class="o">&lt;</span> <span class="n">Eps</span><span class="p">)</span>
@@ -702,10 +709,10 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">Xa</span></code> : Expected trajectory．ノイズが無い場合の軌跡</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># 軌跡の平均を計算</span>
-<span class="k">function</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
     <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">Xa</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
     <span class="n">Xa</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X1</span>
@@ -729,6 +736,11 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># simulate noisy trajectories</span>
 <span class="k">function</span> <span class="n">simulateNoisyTrajectories</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span><span class="n">S1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    - NSim : number of simulated trajectories (default 0)  (optional)</span>
+<span class="s">    - XSim : Simulated trajectories</span>
+<span class="s">    - CostSim : Empirical cost</span>
+<span class="s">    &quot;&quot;&quot;</span>
     <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
     <span class="n">szU</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
     <span class="n">szY</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
@@ -767,7 +779,7 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
         <span class="c"># compute noisy observation</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">D0</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szD0</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-            <span class="n">y</span> <span class="o">+=</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span> <span class="o">.*</span> <span class="n">repeat</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span> <span class="o">.*</span> <span class="n">repeat</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
         <span class="k">else</span>
             <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szD</span>
                 <span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">])</span><span class="o">.*</span><span class="n">repeat</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NSim</span><span class="p">),</span> <span class="n">szY</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -796,10 +808,10 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">kalman_lqg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-    <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span> <span class="o">=</span> <span class="n">convertScalar2Vec!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">);</span>
-    <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span> <span class="o">=</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">);</span>
-    <span class="n">Xa</span> <span class="o">=</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
-    <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span> <span class="o">=</span> <span class="n">simulateNoisyTrajectories</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span><span class="n">S1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">NSim</span><span class="p">);</span>
+    <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span> <span class="o">=</span> <span class="n">convertScalar2Vec!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">)</span>
+    <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span> <span class="o">=</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">)</span>
+    <span class="n">Xa</span> <span class="o">=</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span> <span class="o">=</span> <span class="n">simulateNoisyTrajectories</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span><span class="n">S1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Xa</span><span class="p">,</span> <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span>
 <span class="k">end</span>
 </pre></div>
@@ -907,12 +919,12 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;time step&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;position&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;position&quot;</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">Xa</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;time step&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;velocity&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;velocity&quot;</span><span class="p">)</span>
 
 <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
@@ -928,7 +940,7 @@ cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/13-3_optimal_feedback_control_17_0.png" src="../_images/13-3_optimal_feedback_control_17_0.png" />
+<img alt="../_images/13-3_optimal_feedback_control_19_0.png" src="../_images/13-3_optimal_feedback_control_19_0.png" />
 </div>
 </div>
 </div>
