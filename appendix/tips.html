@@ -284,6 +284,11 @@
      13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/13-4_infinite_horizon_ofc.html">
+     13.4 無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -480,6 +485,11 @@
    7. 二項分布 (bernoulli distribution)のサンプリング
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#roth-s-column-lemma">
+   8. Roth’s column lemma
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -535,8 +545,8 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.8151886759340627 0.12223274551874708; 0.24913419841648077 0.38480789913659885]
-wrong : [0.8151886759340627 0.12223274551874708; 0.24913419841648077 0.38480789913659885]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.005267290785053502 0.43379396626954914; 0.1696259987499149 0.6084087875201685]
+wrong : [0.005267290785053502 0.43379396626954914; 0.1696259987499149 0.6084087875201685]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -555,12 +565,12 @@ right : [1.0 1.0; 1.0 1.0]
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
 [:, :, 1] =
- 0.179436  0.657939
- 0.753243  0.897187
+ 0.243269  0.932779
+ 0.520383  0.0242472
 
 [:, :, 2] =
- 0.878666  0.25904
- 0.126811  0.362235
+ 0.119226  0.531315
+ 0.79391   0.893931
 </pre></div>
 </div>
 </div>
@@ -575,14 +585,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.17943580226620193
- 0.7532431329637357
- 0.6579394666468243
- 0.8971868179666216
- 0.8786664348993651
- 0.12681084982514057
- 0.25904019442817283
- 0.3622345396720148
+ 0.2432690778540889
+ 0.5203832392202838
+ 0.9327785412153073
+ 0.024247193093797303
+ 0.11922647240783002
+ 0.7939096911754226
+ 0.5313148268279924
+ 0.8939305428143489
 </pre></div>
 </div>
 </div>
@@ -596,14 +606,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.17943580226620193
- 0.7532431329637357
- 0.6579394666468243
- 0.8971868179666216
- 0.8786664348993651
- 0.12681084982514057
- 0.25904019442817283
- 0.3622345396720148
+ 0.2432690778540889
+ 0.5203832392202838
+ 0.9327785412153073
+ 0.024247193093797303
+ 0.11922647240783002
+ 0.7939096911754226
+ 0.5313148268279924
+ 0.8939305428143489
 </pre></div>
 </div>
 </div>
@@ -620,9 +630,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.492264  0.566839   0.254865
- 0.436766  0.0974801  0.124991
- 0.953775  0.707431   0.578255
+ 0.128056  0.432833  0.613254
+ 0.294777  0.962931  0.553476
+ 0.67827   0.87947   0.854013
 </pre></div>
 </div>
 </div>
@@ -635,9 +645,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.261452  0.413223   0.266008
- 0.231976  0.0710625  0.130456
- 0.506572  0.515714   0.603536
+ 0.116298  0.190237  0.303479
+ 0.267711  0.423223  0.273897
+ 0.615991  0.386541  0.422623
 </pre></div>
 </div>
 </div>
@@ -649,7 +659,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 0.9999999999999998 1.0]
 </pre></div>
 </div>
 </div>
@@ -799,9 +809,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.5639587438508948
- 0.9483737965772752
- 0.014513877145525766
+ 0.7595133636159019
+ 0.68392254312918
+ 0.28155316035514866
 </pre></div>
 </div>
 </div>
@@ -815,7 +825,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.563959  0.948374  0.0145139
+ 0.759513  0.683923  0.281553
 </pre></div>
 </div>
 </div>
@@ -834,10 +844,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vector
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
@@ -929,13 +936,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     856.716 ns (0.00% GC)
-  median time:      885.075 ns (0.00% GC)
-  mean time:        944.270 ns (2.54% GC)
-  maximum time:     11.234 μs (90.16% GC)
+  minimum time:     862.667 ns (0.00% GC)
+  median time:      893.333 ns (0.00% GC)
+  mean time:        941.192 ns (2.78% GC)
+  maximum time:     13.239 μs (92.12% GC)
   --------------
   samples:          10000
-  evals/sample:     67
+  evals/sample:     75
 </pre></div>
 </div>
 </div>
@@ -947,7 +954,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.76
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.59
 </pre></div>
 </div>
 </div>
@@ -963,13 +970,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     907.143 ns (0.00% GC)
-  median time:      957.143 ns (0.00% GC)
-  mean time:        1.033 μs (2.35% GC)
-  maximum time:     31.418 μs (95.28% GC)
+  minimum time:     914.815 ns (0.00% GC)
+  median time:      966.667 ns (0.00% GC)
+  mean time:        1.043 μs (2.91% GC)
+  maximum time:     38.878 μs (96.46% GC)
   --------------
   samples:          10000
-  evals/sample:     28
+  evals/sample:     27
 </pre></div>
 </div>
 </div>
@@ -981,7 +988,99 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.74
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.66
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="roth-s-column-lemma">
+<h2>8. Roth’s column lemma<a class="headerlink" href="#roth-s-column-lemma" title="Permalink to this headline">¶</a></h2>
+<p>Roth’s column lemmaは，例えば，<span class="math notranslate nohighlight">\(A, B, C\)</span>が与えられていて，<span class="math notranslate nohighlight">\(X\)</span>を未知とするときの方程式 <span class="math notranslate nohighlight">\(AXB = C\)</span>を考えると，この方程式は</p>
+<div class="math notranslate nohighlight">
+\[
+(B^\top \otimes A)\text{vec}(X) = \text{vec}(AXB)=\text{vec}(C)
+\]</div>
+<p>の形に書き下すことができる，というものである．<span class="math notranslate nohighlight">\(\text{vec}(\cdot)\)</span>はvec作用素（行列を列ベクトル化する作用素）である．<code class="docutils literal notranslate"><span class="pre">vec(X)</span> <span class="pre">=</span> <span class="pre">vcat(X...)</span></code>で実現できる．Roth’s column lemmaを用いれば，<span class="math notranslate nohighlight">\(AXB = C\)</span>の解は</p>
+<div class="math notranslate nohighlight">
+\[
+X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
+\]</div>
+<p>として得られる．ただし，<span class="math notranslate nohighlight">\(\text{vec}(\cdot)^{-1}\)</span>は列ベクトルを行列に戻す作用素(inverse of the vectorization operator)である．<code class="docutils literal notranslate"><span class="pre">reshape()</span></code>で実現できる．2つの作用素をまとめると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{vec} &amp;: R^{m\times n}\to R^{mn}\\
+\text{vec}^{−1} &amp;: R^{mn}\to R^{m×n}
+\end{align}
+\end{split}\]</div>
+<p>であり，<span class="math notranslate nohighlight">\(\text{vec}^{−1}\left(\text{vec}(X)\right)=X\ (\text{for all}\ X\in R^{m\times n})，\text{vec}\left(\text{vec}^{−1}(x)\right)=x\ (\text{for all}\ x \in R^{mn})\)</span>となる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Kronecker</span><span class="p">,</span> <span class="n">Random</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">16</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
+ 1.0  5.0   9.0  13.0
+ 2.0  6.0  10.0  14.0
+ 3.0  7.0  11.0  15.0
+ 4.0  8.0  12.0  16.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vec</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">X</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>vec (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">&#39;</span> <span class="n">⊗</span> <span class="n">A</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
+ -0.0437291  -3.80727     6.2288   -2.79825
+ -0.96497    -5.3306      9.40564  -4.49945
+  2.69899    14.1014    -24.9922   11.9968
+  0.280477   -0.944033    1.32377  -0.50637
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">*</span> <span class="n">X</span> <span class="o">*</span> <span class="n">B</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
+ 1.0  5.0   9.0  13.0
+ 2.0  6.0  10.0  14.0
+ 3.0  7.0  11.0  15.0
+ 4.0  8.0  12.0  16.0
 </pre></div>
 </div>
 </div>

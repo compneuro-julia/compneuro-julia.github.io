@@ -1,0 +1,70 @@
+Traceback (most recent call last):
+  File "c:\users\yamta\miniconda3\lib\site-packages\jupyter_cache\executors\utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 1077, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "c:\users\yamta\miniconda3\lib\asyncio\base_events.py", line 583, in run_until_complete
+    return future.result()
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 527, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 822, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "c:\users\yamta\miniconda3\lib\site-packages\nbclient\client.py", line 730, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+for i in 1:maxiter
+    Ā = [A-B*L B*L; zeros(size(A)) (A-K*C)]
+    Ȳ = [-ones(2) ones(2)] ⊗ (Y*L) 
+    Ḡ = [G zeros(size(K)); G (-K*D)]
+    V = BlockDiagonal([Q, U]) + [1 -1; -1 1] ⊗ (L'* R * L)
+    
+    # update S, P
+    S = -reshape((I2n' ⊗ Ā' +  Ā' ⊗ I2n + Ȳ' ⊗  Ȳ')^-1 * vec(V), (2n, 2n))
+    P = -reshape((I2n' ⊗ Ā +  Ā ⊗ I2n + Ȳ ⊗  Ȳ)^-1 * vec(Ḡ * Ḡ'), (2n, 2n))
+
+    # update K, L
+    P22 = P[n+1:2n, n+1:2n]
+    S11 = S[1:n, 1:n]
+    S22 = S[n+1:2n, n+1:2n]
+
+    Ktm1 = copy(K)
+    Ltm1 = copy(L)
+
+    K = P22 * C' * (D * D')^-1
+    L = (R + Y' * (S11 + S22) * Y)^-1 * B' * S11
+    if sum(abs.(K - Ktm1)) < eps && sum(abs.(L - Ltm1)) < eps
+        break
+    end
+end
+------------------
+
+SingularException(64)
+
+Stacktrace:
+  [1] checknonsingular
+    @ C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\factorization.jl:19 [inlined]
+  [2] checknonsingular
+    @ C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\factorization.jl:21 [inlined]
+  [3] #lu!#132
+    @ C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\lu.jl:85 [inlined]
+  [4] #lu#136
+    @ C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\lu.jl:273 [inlined]
+  [5] lu
+    @ C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\lu.jl:272 [inlined]
+  [6] inv(A::Matrix{Float64})
+    @ LinearAlgebra C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\dense.jl:812
+  [7] literal_pow(#unused#::typeof(^), A::Matrix{Float64}, #unused#::Val{-1})
+    @ LinearAlgebra C:\buildbot\worker\package_win64\build\usr\share\julia\stdlib\v1.6\LinearAlgebra\src\generic.jl:1091
+  [8] top-level scope
+    @ .\In[13]:8
+  [9] eval
+    @ .\boot.jl:360 [inlined]
+ [10] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+    @ Base .\loading.jl:1090
+LoadError: SingularException(64)
+
