@@ -480,6 +480,11 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#target-jump">
+   13.4.3 Target jump
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -497,9 +502,6 @@
 <h2>13.4.1 モデルの構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>Qian N, Jiang Y, Jiang ZP, Mazzoni P. Movement duration, Fitts’s law, and an infinite-horizon optimal feedback control model for biological motor systems. Neural Comput. 2013.</p>
-</div></blockquote>
-<blockquote>
-<div><p>Li Z, Mazzoni P, Song S, Qian N. A Single, Continuously Applied Control Policy for Modeling Reaching Movements with and without Perturbation. Neural Comput. 2018.</p>
 </div></blockquote>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -741,16 +743,15 @@ P &amp;= -\text{vec}^{-1}\left(\left(I^\top \otimes \bar{A} + \bar{A} \otimes I 
 <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XSimAll</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xa</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">grid</span><span class="p">()</span>
-    <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XSimAll</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xa</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
 <span class="k">end</span>
 <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">uSimAll</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Control signal (</span><span class="si">$N</span><span class="s">\cdot m$)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">uSimAll</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Control signal (</span><span class="si">$N</span><span class="s">\cdot m$)&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
+
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -758,6 +759,104 @@ P &amp;= -\text{vec}^{-1}\left(\left(I^\top \otimes \bar{A} + \bar{A} \otimes I 
 <div class="cell_output docutils container">
 <img alt="../_images/13-4_infinite_horizon_ofc_17_0.png" src="../_images/13-4_infinite_horizon_ofc_17_0.png" />
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="target-jump">
+<h2>13.4.3 Target jump<a class="headerlink" href="#target-jump" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Li Z, Mazzoni P, Song S, Qian N. A Single, Continuously Applied Control Policy for Modeling Reaching Movements with and without Perturbation. Neural Comput. 2018.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mf">1.0</span>   <span class="c"># sec</span>
+<span class="n">Ttj</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="c"># target jumping timing (sec)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">ntj</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">Ttj</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">tj_dist</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span> <span class="c"># target jump distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Xtj</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+<span class="n">utj</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+<span class="n">Xtj</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="c"># m; initial position (target position is zero)</span>
+
+<span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">ntj</span>
+        <span class="n">Xtj</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tj_dist</span> <span class="c"># When k == ntj, target jumpさせる（実際には現在の位置をずらす）</span>
+    <span class="k">end</span>
+    <span class="n">utj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span> <span class="o">*</span> <span class="n">Xtj</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+    <span class="n">Xtj</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Xtj</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">Xtj</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">utj</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="k">end</span>
+
+<span class="n">Xtj</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">ntj</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">.-=</span> <span class="n">tj_dist</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">XtjAll</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nsim</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+<span class="n">utjAll</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nsim</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nsim</span>
+    <span class="n">XSim</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+    <span class="n">Xhat</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+    <span class="n">XSim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="c"># m; initial position (target position is zero)</span>
+    <span class="n">Xhat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">XSim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">ntj</span>
+            <span class="n">XSim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tj_dist</span>
+            <span class="n">Xhat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tj_dist</span>
+        <span class="k">end</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span> <span class="o">*</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+        <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">sqrtdt</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">randn</span><span class="p">()</span> <span class="o">+</span> <span class="n">G</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">D</span> <span class="o">*</span> <span class="n">sqrtdt</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="n">dy</span> <span class="o">-</span> <span class="n">C</span> <span class="o">*</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">XtjAll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">XSim</span>
+    <span class="n">utjAll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+<span class="k">end</span>
+
+<span class="n">XtjAll</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">ntj</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">.-=</span> <span class="n">tj_dist</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tarray</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="n">target_pos</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+<span class="n">target_pos</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">ntj</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">.-=</span> <span class="n">tj_dist</span><span class="p">;</span> 
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">target_pos</span><span class="p">,</span> <span class="s">&quot;tab:green&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XtjAll</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xtj</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+    <span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ttj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
+     
+<span class="k">end</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">utjAll</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">utj</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+<span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ttj</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Control signal (</span><span class="si">$N</span><span class="s">\cdot m$)&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
+
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/13-4_infinite_horizon_ofc_22_0.png" src="../_images/13-4_infinite_horizon_ofc_22_0.png" />
 </div>
 </div>
 </div>
