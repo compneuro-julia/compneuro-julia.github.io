@@ -70,7 +70,7 @@
 <meta property="og:url"         content="https://compneuro-julia.github.io/chap13/13-2_minimum_variance.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="13.2 終点誤差分散最小モデル (minimum-variance model)" />
-<meta property="og:description" content="13.2 終点誤差分散最小モデル (minimum-variance model)  終点誤差分散最小モデル (minimum-variance model; Harris &amp; Wolpert, 1998)を実装する．  13.2.1 終点誤差分散最小モデルの実装  以下では田中先生のhttps://motorcont" />
+<meta property="og:description" content="13.2 終点誤差分散最小モデル (minimum-variance model)  終点誤差分散最小モデル (minimum-variance model; Harris &amp; Wolpert, 1998)を実装する．   \mathbf{x}_{t+1} = A \mathbf{x}_t + B(u_t + w_t)" />
 <meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
 
 <meta name="twitter:card" content="summary" />
@@ -216,6 +216,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
      9.1 統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-4_slow_feature_analysis.html">
+     9.4 Slow Feature Analysis (SFA)
     </a>
    </li>
   </ul>
@@ -467,6 +472,21 @@
   <div class="section" id="minimum-variance-model">
 <h1>13.2 終点誤差分散最小モデル (minimum-variance model)<a class="headerlink" href="#minimum-variance-model" title="Permalink to this headline">¶</a></h1>
 <p><strong>終点誤差分散最小モデル</strong> (minimum-variance model; Harris &amp; Wolpert, 1998)を実装する．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}_{t+1} = A \mathbf{x}_t + B(u_t + w_t)
+\]</div>
+<p><span class="math notranslate nohighlight">\(A\in \mathbb{R}^{n\times n}\)</span>, <span class="math notranslate nohighlight">\(B\in \mathbb{R}^{n}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span>の平均は</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{E}\left[\mathbf{x}_{t}\right]=A^{t} \mathbf{x}_{0}+\sum_{i=0}^{t-1} A^{t-1-i} \boldsymbol{B} u_{i}
+\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span>の分散は</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Cov}\left[\mathbf{x}_{t}\right]=k \sum_{i=0}^{t-1}\left(A^{t-1-i} \boldsymbol{B}\right)\left(A^{t-1-i} \boldsymbol{B}\right)^{\mathrm{T}} u_{i}^{2}
+\]</div>
 <div class="section" id="id1">
 <h2>13.2.1 終点誤差分散最小モデルの実装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>以下では田中先生の<a class="reference external" href="https://motorcontrol.jp/mc13/MC2019_2_OptimalControlStochastic.pdf">https://motorcontrol.jp/mc13/MC2019_2_OptimalControlStochastic.pdf</a>のコードを参考に作成した．</p>
@@ -521,9 +541,10 @@
 <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span>     <span class="c"># simulation time step (s)</span>
 <span class="n">tf</span> <span class="o">=</span> <span class="mi">50</span><span class="o">*</span><span class="mf">1e-3</span>  <span class="c"># movement duration (s)</span>
 <span class="n">tp</span> <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="mf">1e-3</span>  <span class="c"># post-movement duration (s)</span>
-<span class="n">K</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tf</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
-<span class="n">L</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
-<span class="n">trange</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">1e3</span> <span class="c"># ms</span>
+<span class="n">ntf</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tf</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">ntp</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="n">ntf</span> <span class="o">+</span> <span class="n">ntp</span> <span class="c"># total time steps</span>
+<span class="n">trange</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">1e3</span> <span class="c"># ms</span>
 
 <span class="n">x0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="c"># initial state (pos=0, vel=0, acc=0)</span>
 <span class="n">xf</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">;</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="c"># final state (pos=10, vel=0, acc=0)</span>
@@ -541,12 +562,12 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of Q</span>
-<span class="n">diagQ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="p">);</span>
-<span class="k">for</span> <span class="n">ell</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>
-    <span class="k">if</span> <span class="n">ell</span> <span class="o">&lt;</span> <span class="n">K</span>
-        <span class="n">diagQ</span><span class="p">[</span><span class="n">ell</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">ell</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">ell</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="n">K</span><span class="o">:</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">diagQ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ntf</span>
+        <span class="n">diagQ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="n">ntf</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">else</span>
-        <span class="n">diagQ</span><span class="p">[</span><span class="n">ell</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagQ</span><span class="p">[</span><span class="n">ell</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="o">-</span><span class="n">ell</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="o">-</span><span class="n">ell</span><span class="o">-</span><span class="mi">2</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">diagQ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagQ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">end</span>
 <span class="k">end</span>
 <span class="n">diagQ</span> <span class="o">*=</span> <span class="mi">10</span><span class="o">^</span><span class="mi">13</span> <span class="c"># for numerical stability</span>
@@ -559,24 +580,13 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of C</span>
-<span class="n">C</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span>
-    <span class="n">Ctmp</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">K</span><span class="o">+</span><span class="n">L</span>
-        <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="mi">1</span>
-            <span class="n">Ctmp</span> <span class="o">=</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">B</span>
-        <span class="k">else</span>
-            <span class="k">if</span> <span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
-                <span class="n">Ctmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ctmp</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">B</span><span class="p">];</span> <span class="c"># if K-1-(q-1)+(p-1) == 0; A^(K-1-(q-1)+(p-1))*B equal to B</span>
-            <span class="k">else</span>
-                <span class="n">Ctmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">Ctmp</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)];</span>
-            <span class="k">end</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">nt</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+        <span class="k">if</span> <span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="o">*</span><span class="n">p</span>
+            <span class="n">C</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">B</span> <span class="c"># if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B</span>
         <span class="k">end</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="n">Ctmp</span>
-    <span class="k">else</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="n">C</span><span class="p">;</span> <span class="n">Ctmp</span><span class="p">]</span>
     <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
@@ -586,7 +596,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of d</span>
-<span class="n">d</span> <span class="o">=</span> <span class="n">vec</span><span class="p">([</span><span class="n">xf</span> <span class="o">-</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="n">ell</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="k">for</span> <span class="n">ell</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">L</span><span class="p">]);</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">vec</span><span class="p">([</span><span class="n">xf</span> <span class="o">-</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">+</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">ntp</span><span class="p">]);</span>
 </pre></div>
 </div>
 </div>
@@ -595,7 +605,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># solution by quadratic programming</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">solveEqualityConstrainedQuadProg</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">solveEqualityConstrainedQuadProg</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -604,9 +614,9 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># forward solution</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="p">);</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nt</span><span class="p">);</span>
 <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span>
-<span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">K</span><span class="o">+</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>
+<span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
     <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 <span class="k">end</span>
 </pre></div>
@@ -631,7 +641,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/13-2_minimum_variance_16_0.png" src="../_images/13-2_minimum_variance_16_0.png" />
+<img alt="../_images/13-2_minimum_variance_17_0.png" src="../_images/13-2_minimum_variance_17_0.png" />
 </div>
 </div>
 </div>

@@ -218,6 +218,11 @@
      9.1 統計と情報理論の基礎
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-4_slow_feature_analysis.html">
+     9.4 Slow Feature Analysis (SFA)
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -555,8 +560,8 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.005267290785053502 0.43379396626954914; 0.1696259987499149 0.6084087875201685]
-wrong : [0.005267290785053502 0.43379396626954914; 0.1696259987499149 0.6084087875201685]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.005576574001808554 0.8557056006265202; 0.9264780791310023 0.7987745277209479]
+wrong : [0.005576574001808554 0.8557056006265202; 0.9264780791310023 0.7987745277209479]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -575,12 +580,12 @@ right : [1.0 1.0; 1.0 1.0]
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
 [:, :, 1] =
- 0.243269  0.932779
- 0.520383  0.0242472
+ 0.775124  0.849931
+ 0.725282  0.71391
 
 [:, :, 2] =
- 0.119226  0.531315
- 0.79391   0.893931
+ 0.493965  0.812393
+ 0.774293  0.526379
 </pre></div>
 </div>
 </div>
@@ -595,14 +600,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.2432690778540889
- 0.5203832392202838
- 0.9327785412153073
- 0.024247193093797303
- 0.11922647240783002
- 0.7939096911754226
- 0.5313148268279924
- 0.8939305428143489
+ 0.7751237088001743
+ 0.7252819087711331
+ 0.849931003989089
+ 0.7139096721994873
+ 0.49396508548652096
+ 0.7742929909810052
+ 0.8123932209148093
+ 0.526379424652242
 </pre></div>
 </div>
 </div>
@@ -616,14 +621,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.2432690778540889
- 0.5203832392202838
- 0.9327785412153073
- 0.024247193093797303
- 0.11922647240783002
- 0.7939096911754226
- 0.5313148268279924
- 0.8939305428143489
+ 0.7751237088001743
+ 0.7252819087711331
+ 0.849931003989089
+ 0.7139096721994873
+ 0.49396508548652096
+ 0.7742929909810052
+ 0.8123932209148093
+ 0.526379424652242
 </pre></div>
 </div>
 </div>
@@ -640,9 +645,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.128056  0.432833  0.613254
- 0.294777  0.962931  0.553476
- 0.67827   0.87947   0.854013
+ 0.991477  0.621815   0.87384
+ 0.469206  0.0498323  0.542353
+ 0.382387  0.884882   0.818279
 </pre></div>
 </div>
 </div>
@@ -655,9 +660,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.116298  0.190237  0.303479
- 0.267711  0.423223  0.273897
- 0.615991  0.386541  0.422623
+ 0.537949  0.399488  0.391072
+ 0.254579  0.032015  0.242721
+ 0.207473  0.568497  0.366207
 </pre></div>
 </div>
 </div>
@@ -669,7 +674,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 0.9999999999999998 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -819,9 +824,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.7595133636159019
- 0.68392254312918
- 0.28155316035514866
+ 0.7248384376463681
+ 0.9353658446779063
+ 0.380279503045418
 </pre></div>
 </div>
 </div>
@@ -835,7 +840,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.759513  0.683923  0.281553
+ 0.724838  0.935366  0.38028
 </pre></div>
 </div>
 </div>
@@ -854,7 +859,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vector
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
@@ -946,10 +954,10 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     862.667 ns (0.00% GC)
-  median time:      893.333 ns (0.00% GC)
-  mean time:        941.192 ns (2.78% GC)
-  maximum time:     13.239 μs (92.12% GC)
+  minimum time:     856.000 ns (0.00% GC)
+  median time:      888.000 ns (0.00% GC)
+  mean time:        960.202 ns (2.42% GC)
+  maximum time:     9.373 μs (89.46% GC)
   --------------
   samples:          10000
   evals/sample:     75
@@ -964,7 +972,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.59
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.76
 </pre></div>
 </div>
 </div>
@@ -980,13 +988,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     914.815 ns (0.00% GC)
-  median time:      966.667 ns (0.00% GC)
-  mean time:        1.043 μs (2.91% GC)
-  maximum time:     38.878 μs (96.46% GC)
+  minimum time:     923.684 ns (0.00% GC)
+  median time:      968.421 ns (0.00% GC)
+  mean time:        1.040 μs (2.44% GC)
+  maximum time:     23.334 μs (95.39% GC)
   --------------
   samples:          10000
-  evals/sample:     27
+  evals/sample:     38
 </pre></div>
 </div>
 </div>
@@ -998,7 +1006,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.66
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.67
 </pre></div>
 </div>
 </div>
@@ -1071,10 +1079,10 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
- -0.0437291  -3.80727     6.2288   -2.79825
- -0.96497    -5.3306      9.40564  -4.49945
-  2.69899    14.1014    -24.9922   11.9968
-  0.280477   -0.944033    1.32377  -0.50637
+  -48.1315   -1.8168    -17.4929    25.8434
+  274.362    38.0334    164.524   -149.846
+  -35.6901   -4.34955   -20.0016    19.4379
+ -435.658   -51.513    -240.453    237.128
 </pre></div>
 </div>
 </div>

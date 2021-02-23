@@ -218,6 +218,11 @@
      9.1 統計と情報理論の基礎
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/9-4_slow_feature_analysis.html">
+     9.4 Slow Feature Analysis (SFA)
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -609,11 +614,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
 <span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
-<span class="k">using</span> <span class="n">LinearAlgebra</span>
-<span class="k">using</span> <span class="n">Random</span>
-<span class="k">using</span> <span class="n">Statistics</span>
-<span class="k">using</span> <span class="n">ProgressMeter</span>
-<span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Statistics</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span>
 </pre></div>
 </div>
 </div>
@@ -814,7 +815,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
         <span class="c"># Print moving average error</span>
         <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">999</span><span class="o">:</span><span class="n">iter</span><span class="p">])</span>
-            <span class="n">println</span><span class="p">(</span><span class="s">&quot;iter: &quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="s">&quot;, Moving average error:&quot;</span><span class="p">,</span> <span class="n">moving_average_error</span><span class="p">)</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="s">&quot;] Moving average error:&quot;</span><span class="p">,</span> <span class="n">moving_average_error</span><span class="p">)</span>
         <span class="k">end</span>
     <span class="k">end</span>
     <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span>
@@ -838,7 +839,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 <span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># Maximum number of simulation time</span>
 <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c"># small value which determines convergence</span>
 
-<span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
