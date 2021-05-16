@@ -1,12 +1,14 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JuliaのTips集 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
-  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -18,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -34,21 +32,18 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -56,28 +51,21 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://compneuro-julia.github.io/appendix/tips.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="有用なリンク集" href="useful_links.html" />
-    <link rel="prev" title="付録" href="appendix_intro.html" />
-
+    <link rel="next" title="有用なリンク集" href="useful-links.html" />
+    <link rel="prev" title="ラット自由行動下の軌跡のシミュレーション" href="rat-trajectory.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
-
-
-<!-- Opengraph tags -->
-<meta property="og:url"         content="https://compneuro-julia.github.io/appendix/tips.html" />
-<meta property="og:type"        content="article" />
-<meta property="og:title"       content="JuliaのTips集" />
-<meta property="og:description" content="JuliaのTips集  このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである．体系的にまとまってはいない．  1. 関数名の!記号  単なる慣習として関数への入力を変更する場合に!を付ける．  関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの" />
-<meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
-
-<meta name="twitter:card" content="summary" />
-
-
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -86,273 +74,322 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../index.html">
-  
-  <img src="../_static/logo.svg" class="logo" alt="logo">
-  
-  
-  <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../index.html">
    Juliaで学ぶ計算論的神経科学
   </a>
  </li>
 </ul>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../preface.html">
    まえがき
   </a>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap1/1_intro.html">
-   1. はじめに
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../chap1/notation.html">
-     1.2 記号の表記
+     記号の表記
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap2/2_intro.html">
-   2. 神経細胞のモデル
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap2/intro_ch2.html">
+   神経細胞のモデル
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap2/2-2_hodgkinhuxley.html">
-     2.2 Hodgkin-Huxleyモデル
+    <a class="reference internal" href="../chap2/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap2/2-3_fhn.html">
-     2.3 FitzHugh-Nagumoモデル
+    <a class="reference internal" href="../chap2/fhn.html">
+     FitzHugh-Nagumoモデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap2/2-4_lif.html">
-     2.4 Leaky integrate-and-fire モデル
+    <a class="reference internal" href="../chap2/lif.html">
+     Leaky integrate-and-fire モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap2/2-5_iz.html">
-     2.5 Izhikevich モデル
+    <a class="reference internal" href="../chap2/izhikevich.html">
+     Izhikevich モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap2/2-8_isi.html">
-     2.8 Inter-spike interval モデル
+    <a class="reference internal" href="../chap2/isi.html">
+     Inter-spike interval モデル
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap3/3_intro.html">
-   3. シナプス伝達のモデル
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap3/3-1_synapse.html">
-     3.1 シナプス伝達
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap3/3-2_current-conductance-synapse.html">
-     3.2 Current-based vs Conductance-based シナプス
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap3/3-3_expo-synapse.html">
-     3.3 指数関数型シナプスモデル
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap3/3-4_kinetic-synapse.html">
-     3.4 動力学モデル
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap3/3-6_synaptic-weighted.html">
-     3.6 シナプス入力の重みづけ
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap7/7_intro.html">
-   7. 神経回路網の学習則
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap7/7-6_backpropagation_Zipser-Andersen.html">
-     7.6 勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap7/7-9_bptt.html">
-     7.9 BPTT (backpropagation through time)
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap9/9_intro.html">
-   9. 情報理論と最適化原理
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap9/9-1_statistics_and_information.html">
-     9.1 統計と情報理論の基礎
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap9/9-4_slow_feature_analysis.html">
-     9.4 Slow Feature Analysis (SFA)
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap10/10_intro.html">
-   10. 連想記憶モデル
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap10/10-3_boltzmann_machine.html">
-     10.3 ボルツマンマシン
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap11/11_intro.html">
-   11. ベイズ脳仮説と生成モデル
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap11/11-1_bayes_statistics.html">
-     11.1 ベイズ統計の基礎
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap11/11-2_sparse-coding.html">
-     11.2 Sparse coding (Olshausen &amp; Field, 1996) モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../chap11/11-3_predictive-coding-rao.html">
-     11.3 Predictive coding (Rao &amp; Ballard, 1999) モデル
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap12/12_intro.html">
-   12. 強化学習
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap12/12-1_td_learning.html">
-     12.1 TD学習
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap13/13_intro.html">
-   13. 運動制御
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap13/13-1_minimum_jerk.html">
-     13.1 躍度最小モデル
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap13/13-2_minimum_variance.html">
-     13.2 終点誤差分散最小モデル (minimum-variance model)
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap13/13-3_optimal_feedback_control.html">
-     13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap13/13-4_infinite_horizon_ofc.html">
-     13.4 無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../chap14/14_intro.html">
-   14. 時空間の符号化
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
   </a>
-  <ul class="collapse-ul">
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../chap14/14-1_grid_cells.html">
-     14.1 格子細胞のデコーディング
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
- <li class="toctree-l1 current active collapsible-parent">
-  <a class="reference internal" href="appendix_intro.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_appendix.html">
    付録
   </a>
-  <ul class="current collapse-ul">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      JuliaのTips集
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="useful_links.html">
+    <a class="reference internal" href="useful-links.html">
      有用なリンク集
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="usage_jupyter_book.html">
+    <a class="reference internal" href="usage-jupyter-book.html">
      Jupyter bookの使い方 (Julia言語版)
     </a>
    </li>
   </ul>
-  <i class="fas fa-chevron-down">
-  </i>
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -368,21 +405,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -400,7 +437,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -417,14 +454,14 @@
     </div>
 </div>
 
+            <!-- Full screen (wrap in <a> to have style consistency -->
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -448,16 +485,16 @@
     </div>
 </div>
 
-    </div>
-
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
         </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
    1. 関数名の!記号
@@ -515,12 +552,28 @@
      9. “splat” operator …
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#broadcasting">
+     10. broadcastingの回避
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#var">
+     11.
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       var
+      </span>
+     </code>
+     の使用
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -572,8 +625,8 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.005576574001808554 0.8557056006265202; 0.9264780791310023 0.7987745277209479]
-wrong : [0.005576574001808554 0.8557056006265202; 0.9264780791310023 0.7987745277209479]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.9260629725247853 0.03603047943915172; 0.4257272042455853 0.3276915437718575]
+wrong : [0.9260629725247853 0.03603047943915172; 0.4257272042455853 0.3276915437718575]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -592,12 +645,12 @@ right : [1.0 1.0; 1.0 1.0]
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
 [:, :, 1] =
- 0.775124  0.849931
- 0.725282  0.71391
+ 0.979104  0.957247
+ 0.130638  0.747744
 
 [:, :, 2] =
- 0.493965  0.812393
- 0.774293  0.526379
+ 0.601915  0.230052
+ 0.264066  0.210893
 </pre></div>
 </div>
 </div>
@@ -612,14 +665,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.7751237088001743
- 0.7252819087711331
- 0.849931003989089
- 0.7139096721994873
- 0.49396508548652096
- 0.7742929909810052
- 0.8123932209148093
- 0.526379424652242
+ 0.9791037472597044
+ 0.130638212083938
+ 0.9572469034641975
+ 0.7477443173968323
+ 0.6019150914630806
+ 0.2640658794403452
+ 0.230052259097423
+ 0.21089287814851665
 </pre></div>
 </div>
 </div>
@@ -633,14 +686,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.7751237088001743
- 0.7252819087711331
- 0.849931003989089
- 0.7139096721994873
- 0.49396508548652096
- 0.7742929909810052
- 0.8123932209148093
- 0.526379424652242
+ 0.9791037472597044
+ 0.130638212083938
+ 0.9572469034641975
+ 0.7477443173968323
+ 0.6019150914630806
+ 0.2640658794403452
+ 0.230052259097423
+ 0.21089287814851665
 </pre></div>
 </div>
 </div>
@@ -657,9 +710,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.991477  0.621815   0.87384
- 0.469206  0.0498323  0.542353
- 0.382387  0.884882   0.818279
+ 0.603262  0.688243   0.729117
+ 0.764048  0.975049   0.585761
+ 0.258784  0.0572537  0.0725289
 </pre></div>
 </div>
 </div>
@@ -672,9 +725,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.537949  0.399488  0.391072
- 0.254579  0.032015  0.242721
- 0.207473  0.568497  0.366207
+ 0.370989  0.400014   0.525525
+ 0.469867  0.566709   0.422198
+ 0.159144  0.0332765  0.0522766
 </pre></div>
 </div>
 </div>
@@ -836,9 +889,9 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.7248384376463681
- 0.9353658446779063
- 0.380279503045418
+ 0.26191750042117445
+ 0.7680331216652516
+ 0.40519272523745187
 </pre></div>
 </div>
 </div>
@@ -852,7 +905,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.724838  0.935366  0.38028
+ 0.261918  0.768033  0.405193
 </pre></div>
 </div>
 </div>
@@ -871,10 +924,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vector
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
@@ -966,13 +1016,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     856.000 ns (0.00% GC)
-  median time:      888.000 ns (0.00% GC)
-  mean time:        960.202 ns (2.42% GC)
-  maximum time:     9.373 μs (89.46% GC)
+  minimum time:     852.941 ns (0.00% GC)
+  median time:      881.176 ns (0.00% GC)
+  mean time:        944.774 ns (2.63% GC)
+  maximum time:     8.999 μs (87.37% GC)
   --------------
   samples:          10000
-  evals/sample:     75
+  evals/sample:     85
 </pre></div>
 </div>
 </div>
@@ -984,7 +1034,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.76
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.71
 </pre></div>
 </div>
 </div>
@@ -1000,13 +1050,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     923.684 ns (0.00% GC)
-  median time:      968.421 ns (0.00% GC)
-  mean time:        1.040 μs (2.44% GC)
-  maximum time:     23.334 μs (95.39% GC)
+  minimum time:     944.186 ns (0.00% GC)
+  median time:      983.721 ns (0.00% GC)
+  mean time:        1.047 μs (2.42% GC)
+  maximum time:     20.321 μs (92.94% GC)
   --------------
   samples:          10000
-  evals/sample:     38
+  evals/sample:     43
 </pre></div>
 </div>
 </div>
@@ -1018,7 +1068,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.67
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.72
 </pre></div>
 </div>
 </div>
@@ -1085,16 +1135,16 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">&#39;</span> <span class="n">⊗</span> <span class="n">A</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">A</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
-  -48.1315   -1.8168    -17.4929    25.8434
-  274.362    38.0334    164.524   -149.846
-  -35.6901   -4.34955   -20.0016    19.4379
- -435.658   -51.513    -240.453    237.128
+  13.6197    27.2844   2.045    -17.8671
+ -10.5188   -22.7872  -3.08732   14.8822
+  28.8625    59.1315   5.48664  -38.6917
+   4.69645   10.4046   1.58114   -6.7902
 </pre></div>
 </div>
 </div>
@@ -1118,6 +1168,54 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 <div class="section" id="splat-operator">
 <h3>9. “splat” operator …<a class="headerlink" href="#splat-operator" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docs.julialang.org/en/v1/base/base/">https://docs.julialang.org/en/v1/base/base/</a>…</p>
+</div>
+<div class="section" id="broadcasting">
+<h3>10. broadcastingの回避<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>foo (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">println</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="p">(</span><span class="kt">Ref</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]),[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span>
+<span class="n">println</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="p">(([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],),</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span>
+<span class="n">println</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
+[6, 7, 8]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="var">
+<h3>11. <code class="docutils literal notranslate"><span class="pre">var</span></code>の使用<a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="sa">var</span><span class="s">&quot;log(θ+μ)&quot;</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1144,15 +1242,15 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="appendix_intro.html" title="previous page">付録</a>
-    <a class='right-next' id="next-link" href="useful_links.html" title="next page">有用なリンク集</a>
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="rat-trajectory.html" title="previous page">ラット自由行動下の軌跡のシミュレーション</a>
+    <a class='right-next' id="next-link" href="useful-links.html" title="next page">有用なリンク集</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">
@@ -1182,21 +1280,19 @@ async>
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
 
-
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-172979897-1', 'auto');
-      ga('set', 'anonymizeIp', true);
-      ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-    
   </body>
 </html>
