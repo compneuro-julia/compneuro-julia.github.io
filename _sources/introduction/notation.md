@@ -12,3 +12,8 @@
 - $e$を自然対数の底とし、指数関数を $e^x=\exp(x)$と表記する。また、自然対数を $\ln(x)$と表記する。
 - 平均 $\mu$, 標準偏差 $\sigma$ の正規分布を $\mathcal{N}(\mu, \sigma^2)$ と表記する。
 
+
+
+## 変数の命名規則
+
+- `tp1, tm1` : time plus one (t+1), time minus one (t-1)

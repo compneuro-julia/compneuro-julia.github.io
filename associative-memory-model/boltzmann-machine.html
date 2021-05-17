@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ボルツマンマシン &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>Boltzmann マシン &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -57,7 +57,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ベイズ脳仮説と生成モデル" href="../bayesian-brain/intro.html" />
-    <link rel="prev" title="連想記憶モデル" href="intro.html" />
+    <link rel="prev" title="Amari-Hopfield モデル" href="amari-hopfield-model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -212,8 +212,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/semantic-development-dnn.html">
-     深層線形ニューラルネットの学習ダイナミクス
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
     </a>
    </li>
   </ul>
@@ -250,9 +250,19 @@
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     ボルツマンマシン
+     Boltzmann マシン
     </a>
    </li>
   </ul>
@@ -501,32 +511,27 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#energy-based-model">
-   エネルギーベースモデル (Energy-based model)
+  <a class="reference internal nav-link" href="#id1">
+   Boltzmann マシン
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#boltzmann-machine">
-   ボルツマンマシン (Boltzmann machine)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#restricted-boltzmann-machine">
-   制限ボルツマンマシン (Restricted Boltzmann machine)
+  <a class="reference internal nav-link" href="#id2">
+   制限 Boltzmann マシン
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      訓練データで学習
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id4">
      テストデータで確認
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      受容野の可視化
     </a>
    </li>
@@ -543,26 +548,16 @@
         
               <div>
                 
-  <div class="section" id="id1">
-<h1>ボルツマンマシン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="energy-based-model">
-<h2>エネルギーベースモデル (Energy-based model)<a class="headerlink" href="#energy-based-model" title="Permalink to this headline">¶</a></h2>
-<p>入力 <span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d\)</span>, エネルギー関数 <span class="math notranslate nohighlight">\(E_\theta: \mathbb{R}^d\to \mathbb{R}\)</span>を考える．</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-p_\theta(\mathbf{x})&amp;=\frac{\exp(-E_\theta(\mathbf{x})}{Z_\theta}\\
-Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
-\end{align}
-\end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(Z_\theta\)</span>は分配関数．</p>
+  <div class="section" id="boltzmann">
+<h1>Boltzmann マシン<a class="headerlink" href="#boltzmann" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Boltzmann マシン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>(Boltzmann machine)</p>
 </div>
-<div class="section" id="boltzmann-machine">
-<h2>ボルツマンマシン (Boltzmann machine)<a class="headerlink" href="#boltzmann-machine" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="restricted-boltzmann-machine">
-<h2>制限ボルツマンマシン (Restricted Boltzmann machine)<a class="headerlink" href="#restricted-boltzmann-machine" title="Permalink to this headline">¶</a></h2>
-<p>(cf.) <a class="reference external" href="http://deeplearning.net/tutorial/rbm.html">http://deeplearning.net/tutorial/rbm.html</a></p>
+<div class="section" id="id2">
+<h2>制限 Boltzmann マシン<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>(Restricted Boltzmann machine)
+(cf.) <a class="reference external" href="http://deeplearning.net/tutorial/rbm.html">http://deeplearning.net/tutorial/rbm.html</a></p>
 <p>データの読み込み</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -600,7 +595,7 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/boltzmann-machine_7_0.png" src="../_images/boltzmann-machine_7_0.png" />
+<img alt="../_images/boltzmann-machine_6_0.png" src="../_images/boltzmann-machine_6_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -671,8 +666,8 @@ E_\theta(\mathbf{v}, \mathbf{h})=-\mathbf{b}^T \mathbf{v} - \mathbf{c}^T \mathbf
 \sigma(x) = \frac{1}{1+\exp(-x)}
 \]</div>
 <p>とする．</p>
-<div class="section" id="id2">
-<h3>訓練データで学習<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>訓練データで学習<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -718,8 +713,8 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 <p>二項分布 (bernoulli distribution)のサンプリングには2通りある．<code class="docutils literal notranslate"><span class="pre">1.0f0</span></code>を乗じているのはBool変数からFloatへの変換のため．詳細はtips.</p>
 </div>
-<div class="section" id="id3">
-<h3>テストデータで確認<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>テストデータで確認<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_draws_test</span> <span class="o">=</span> <span class="mi">50</span> <span class="c"># draws for in test</span>
@@ -751,7 +746,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/boltzmann-machine_19_0.png" src="../_images/boltzmann-machine_19_0.png" />
+<img alt="../_images/boltzmann-machine_18_0.png" src="../_images/boltzmann-machine_18_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -797,7 +792,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/boltzmann-machine_21_0.png" src="../_images/boltzmann-machine_21_0.png" />
+<img alt="../_images/boltzmann-machine_20_0.png" src="../_images/boltzmann-machine_20_0.png" />
 </div>
 </div>
 <p>エネルギーの変化を見る</p>
@@ -813,12 +808,12 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/boltzmann-machine_23_0.png" src="../_images/boltzmann-machine_23_0.png" />
+<img alt="../_images/boltzmann-machine_22_0.png" src="../_images/boltzmann-machine_22_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>受容野の可視化<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>受容野の可視化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields</span>
@@ -835,7 +830,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/boltzmann-machine_25_0.png" src="../_images/boltzmann-machine_25_0.png" />
+<img alt="../_images/boltzmann-machine_24_0.png" src="../_images/boltzmann-machine_24_0.png" />
 </div>
 </div>
 </div>
@@ -867,7 +862,7 @@ p_\theta(\mathbf{v}|\mathbf{h})&amp;=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j 
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">連想記憶モデル</a>
+    <a class='left-prev' id="prev-link" href="amari-hopfield-model.html" title="previous page">Amari-Hopfield モデル</a>
     <a class='right-next' id="next-link" href="../bayesian-brain/intro.html" title="next page">ベイズ脳仮説と生成モデル</a>
 
         </div>

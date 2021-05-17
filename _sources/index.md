@@ -9,7 +9,7 @@ Julia 1.6.0
 ```
 
 ### 依存ライブラリ
-`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick`
+`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
 
 ※ PyCallに関してはPythonライブラリ `scipy`を使用．
 
@@ -33,12 +33,14 @@ Julia 1.6.0
 1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
 	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
-	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/semantic-development-dnn.html)
+	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
 1. [情報理論と最適化原理](https://compneuro-julia.github.io/information-theory/intro.html)
 	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/information-theory/statistics-information.html)
 	1. [Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
 1. [連想記憶モデル](https://compneuro-julia.github.io/associative-memory-model/intro.html)
-	1. [ボルツマンマシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html)
+	1. [エネルギーベースモデル (Energy-based model)](https://compneuro-julia.github.io/associative-memory-model/energy-based-model.html) 
+	1. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
+	1. [Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
 1. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/bayesian-brain/intro.html)
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
     1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)

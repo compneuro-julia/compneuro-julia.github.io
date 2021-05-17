@@ -212,8 +212,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/semantic-development-dnn.html">
-     深層線形ニューラルネットの学習ダイナミクス
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
     </a>
    </li>
   </ul>
@@ -251,8 +251,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
-     ボルツマンマシン
+     Boltzmann マシン
     </a>
    </li>
   </ul>
@@ -576,8 +586,7 @@ d \hat{x}=(A \hat{x}+B u) d t+K(d y-C \hat{x} d t)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eye</span><span class="p">(</span><span class="n">T</span><span class="o">::</span><span class="kt">Type</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">Diagonal</span><span class="p">{</span><span class="kt">T</span><span class="p">}(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 <span class="n">vec</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">X</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -715,8 +724,8 @@ P &amp;= -\text{vec}^{-1}\left(\left(I^\top \otimes \bar{A} + \bar{A} \otimes I 
     <span class="n">V</span> <span class="o">=</span> <span class="n">BlockDiagonal</span><span class="p">([</span><span class="n">Q</span><span class="p">,</span> <span class="n">U</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]</span> <span class="o">⊗</span> <span class="p">(</span><span class="n">L</span><span class="o">&#39;*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">L</span><span class="p">)</span>
     
     <span class="c"># update S, P</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="o">-</span><span class="n">reshape</span><span class="p">((</span><span class="n">I2n</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="p">(</span><span class="n">Ā</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">+</span>  <span class="p">(</span><span class="n">Ā</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">I2n</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ȳ</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="p">(</span><span class="n">Ȳ</span><span class="p">)</span><span class="o">&#39;</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="n">n</span><span class="p">))</span>
-    <span class="n">P</span> <span class="o">=</span> <span class="o">-</span><span class="n">reshape</span><span class="p">((</span><span class="n">I2n</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">Ā</span> <span class="o">+</span>  <span class="n">Ā</span> <span class="o">⊗</span> <span class="n">I2n</span> <span class="o">+</span> <span class="n">Ȳ</span> <span class="o">⊗</span>  <span class="n">Ȳ</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">Ḡ</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ḡ</span><span class="p">)</span><span class="o">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="o">-</span><span class="n">reshape</span><span class="p">((</span><span class="n">I2n</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="p">(</span><span class="n">Ā</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">+</span>  <span class="p">(</span><span class="n">Ā</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">I2n</span> <span class="o">+</span> <span class="p">(</span><span class="n">Ȳ</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="p">(</span><span class="n">Ȳ</span><span class="p">)</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">\</span> <span class="n">vec</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="o">-</span><span class="n">reshape</span><span class="p">((</span><span class="n">I2n</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">Ā</span> <span class="o">+</span>  <span class="n">Ā</span> <span class="o">⊗</span> <span class="n">I2n</span> <span class="o">+</span> <span class="n">Ȳ</span> <span class="o">⊗</span>  <span class="n">Ȳ</span><span class="p">)</span> <span class="o">\</span> <span class="n">vec</span><span class="p">(</span><span class="n">Ḡ</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ḡ</span><span class="p">)</span><span class="o">&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="n">n</span><span class="p">))</span>
 
     <span class="c"># update K, L</span>
     <span class="n">P22</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="n">n</span><span class="p">]</span>
@@ -726,8 +735,8 @@ P &amp;= -\text{vec}^{-1}\left(\left(I^\top \otimes \bar{A} + \bar{A} \otimes I 
     <span class="n">Ktm1</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
     <span class="n">Ltm1</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
 
-    <span class="n">K</span> <span class="o">=</span> <span class="n">P22</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">D</span><span class="o">&#39;</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">+</span> <span class="n">Y</span><span class="o">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">S11</span> <span class="o">+</span> <span class="n">S22</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S11</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">P22</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">/</span> <span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">D</span><span class="o">&#39;</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">+</span> <span class="n">Y</span><span class="o">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">S11</span> <span class="o">+</span> <span class="n">S22</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span> <span class="o">\</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S11</span>
     <span class="k">if</span> <span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">Ktm1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">eps</span> <span class="o">&amp;&amp;</span> <span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="n">Ltm1</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">eps</span>
         <span class="k">break</span>
     <span class="k">end</span>

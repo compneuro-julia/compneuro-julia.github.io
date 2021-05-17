@@ -212,8 +212,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/semantic-development-dnn.html">
-     深層線形ニューラルネットの学習ダイナミクス
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
     </a>
    </li>
   </ul>
@@ -251,8 +251,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
-     ボルツマンマシン
+     Boltzmann マシン
     </a>
    </li>
   </ul>
@@ -502,78 +512,80 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   1. 関数名の!記号
+   関数名の!記号
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
-   2. 配列の1次元化
+   配列の1次元化
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id3">
-   3. 行列の行・列ごとの正規化
+   行列の行・列ごとの正規化
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#concatenate">
-   4. 行列の結合 (concatenate)
+   行列の結合 (concatenate)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#horizontal-concatenation">
-     4.1 水平結合 (Horizontal concatenation)
+     水平結合 (Horizontal concatenation)
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#vertical-concatenation">
-     4.2 垂直結合 (Vertical concatenation)
+     垂直結合 (Vertical concatenation)
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id4">
-   5. 配列に新しい軸を追加
+   配列に新しい軸を追加
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#array-array-float64-x-1-array-float64-x-1">
-   6. Array{Array{Float64, x},1}をArray{Float64, x+1}に変換
+   Array{Array{Float64, x},1}をArray{Float64, x+1}に変換
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bernoulli-distribution">
-   7. 二項分布 (bernoulli distribution)のサンプリング
+   二項分布 (bernoulli distribution)のサンプリング
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#roth-s-column-lemma">
-   8. Roth’s column lemma
+   Roth’s column lemma
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#splat-operator">
-     9. “splat” operator …
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#broadcasting">
-     10. broadcastingの回避
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#var">
-     11.
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       var
-      </span>
-     </code>
-     の使用
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#splat-operator">
+   “splat” operator …
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#broadcasting">
+   broadcastingの回避
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#var">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     var
+    </span>
+   </code>
+   の使用
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reshape">
+   reshapeにおける残りの次元の指定
+  </a>
  </li>
 </ul>
 
@@ -590,7 +602,7 @@
 <h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
 <p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである．体系的にまとまってはいない．</p>
 <div class="section" id="id1">
-<h2>1. 関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>単なる<strong>慣習</strong>として関数への入力を変更する場合に!を付ける．</p>
 <p>関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの要素1の配列で置き換える，ということを目的として書かれた2つの関数がある．違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである．</p>
 <div class="cell docutils container">
@@ -627,11 +639,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.8570112530790073 0.02668493226734414; 0.9313480702897132 0.6429393770493825]
-wrong : [0.8570112530790073 0.02668493226734414; 0.9313480702897132 0.6429393770493825]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+wrong : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -639,7 +648,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="id2">
-<h2>2. 配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>配列を一次元化(flatten)する方法．まずは3次元配列を作成する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -648,14 +657,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
 [:, :, 1] =
- 0.792723  0.943819
- 0.841571  0.89125
+ 0.997107  0.0827965
+ 0.394606  0.847174
 
 [:, :, 2] =
- 0.759811  0.117631
- 0.213332  0.592785
+ 0.0305417  0.448929
+ 0.270553   0.601419
 </pre></div>
 </div>
 </div>
@@ -669,15 +678,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.7927231846852263
- 0.8415712405750733
- 0.9438191507875473
- 0.8912504551993605
- 0.7598108442633569
- 0.2133322545050702
- 0.1176313938149589
- 0.5927851654353755
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
 </pre></div>
 </div>
 </div>
@@ -690,22 +699,22 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.7927231846852263
- 0.8415712405750733
- 0.9438191507875473
- 0.8912504551993605
- 0.7598108442633569
- 0.2133322545050702
- 0.1176313938149589
- 0.5927851654353755
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="id3">
-<h2>3. 行列の行・列ごとの正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>行列の行・列ごとの正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>シミュレーションにおいてニューロン間の重み行列を行あるいは列ごとに正規化 (weight normalization)する場合がある．これは各ニューロンへの入力の大きさを同じにする働きや重みの発散を防ぐ役割がある．以下では行ごとの和を1にする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -714,10 +723,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.58935   0.537614  0.495848
- 0.284481  0.555958  0.913234
- 0.418111  0.550877  0.911656
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+ 0.947321  0.526878  0.464399
+ 0.290191  0.875268  0.279707
+ 0.319338  0.976441  0.375153
 </pre></div>
 </div>
 </div>
@@ -729,10 +738,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.456174  0.326927  0.213659
- 0.220197  0.338082  0.39351
- 0.32363   0.334992  0.39283
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+ 0.608486  0.221509  0.414916
+ 0.186396  0.367978  0.249904
+ 0.205118  0.410513  0.33518
 </pre></div>
 </div>
 </div>
@@ -744,14 +753,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 0.9999999999999998]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="concatenate">
-<h2>4. 行列の結合 (concatenate)<a class="headerlink" href="#concatenate" title="Permalink to this headline">¶</a></h2>
+<h2>行列の結合 (concatenate)<a class="headerlink" href="#concatenate" title="Permalink to this headline">¶</a></h2>
 <p>行列の結合はMATLABに近い形式で行うことができる．まず，2つの行列A, Bを用意する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -760,7 +769,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Array{Int64,2}:
  1  2
  3  4
 </pre></div>
@@ -774,7 +783,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Array{Int64,2}:
  4  5  6
  7  8  9
 </pre></div>
@@ -782,7 +791,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="horizontal-concatenation">
-<h3>4.1 水平結合 (Horizontal concatenation)<a class="headerlink" href="#horizontal-concatenation" title="Permalink to this headline">¶</a></h3>
+<h3>水平結合 (Horizontal concatenation)<a class="headerlink" href="#horizontal-concatenation" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">hcat</span></code>を使うやり方と，<code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>を使うやり方がある．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -791,7 +800,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -805,7 +814,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -820,7 +829,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Matrix{Int64}}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Array{Array{Int64,2},1}:
  [1 2; 3 4]
  [4 5 6; 7 8 9]
 </pre></div>
@@ -829,7 +838,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="vertical-concatenation">
-<h3>4.2 垂直結合 (Vertical concatenation)<a class="headerlink" href="#vertical-concatenation" title="Permalink to this headline">¶</a></h3>
+<h3>垂直結合 (Vertical concatenation)<a class="headerlink" href="#vertical-concatenation" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">V1</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">&#39;</span><span class="p">)</span>
@@ -837,7 +846,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -854,7 +863,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -871,7 +880,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Array{Int64,2}:
  1  2  1  2
  3  4  3  4
  4  7  4  7
@@ -884,7 +893,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="id4">
-<h2>5. 配列に新しい軸を追加<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>配列に新しい軸を追加<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>要はnumpyでの<code class="docutils literal notranslate"><span class="pre">A[None,</span> <span class="pre">:]</span></code>や<code class="docutils literal notranslate"><span class="pre">A[np.newaxis,</span> <span class="pre">:]</span></code>のようなことがしたい場合．やや面倒だが，<code class="docutils literal notranslate"><span class="pre">reshape</span></code>を使うか，<code class="docutils literal notranslate"><span class="pre">[CartesianIndex()]</span></code>を用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -893,10 +902,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.15981857331292515
- 0.34086080859766343
- 0.18791058808128658
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
+ 0.3487808667518093
+ 0.717776723811032
+ 0.3369916406749496
 </pre></div>
 </div>
 </div>
@@ -909,15 +918,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.159819  0.340861  0.187911
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
+ 0.348781  0.717777  0.336992
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="array-array-float64-x-1-array-float64-x-1">
-<h2>6. Array{Array{Float64, x},1}をArray{Float64, x+1}に変換<a class="headerlink" href="#array-array-float64-x-1-array-float64-x-1" title="Permalink to this headline">¶</a></h2>
+<h2>Array{Array{Float64, x},1}をArray{Float64, x+1}に変換<a class="headerlink" href="#array-array-float64-x-1-array-float64-x-1" title="Permalink to this headline">¶</a></h2>
 <p>numpyでは<code class="docutils literal notranslate"><span class="pre">array([matrix</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range()])</span></code>などを用いると，1次元配列のリストを2次元配列に変換できた．Juliaでも同様にする場合は<code class="docutils literal notranslate"><span class="pre">hcat(...)</span></code>や<code class="docutils literal notranslate"><span class="pre">cat(...)</span></code>を用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -929,10 +938,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,1},1}
 Size : (5,)
 </pre></div>
 </div>
@@ -948,7 +954,7 @@ Size : (5,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64, Matrix{Float64}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64,Array{Float64,2}}
 Size : (5, 3)
 </pre></div>
 </div>
@@ -965,7 +971,7 @@ Size : (5, 3)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector{Array{Float64, 3}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,3},1}
 Size : (6,)
 </pre></div>
 </div>
@@ -981,7 +987,7 @@ Size : (6,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64, 4}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64,4}
 Size : (6, 3, 4, 5)
 </pre></div>
 </div>
@@ -989,7 +995,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="section" id="bernoulli-distribution">
-<h2>7. 二項分布 (bernoulli distribution)のサンプリング<a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">¶</a></h2>
+<h2>二項分布 (bernoulli distribution)のサンプリング<a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.7</span>
@@ -1021,13 +1027,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     871.739 ns (0.00% GC)
-  median time:      904.348 ns (0.00% GC)
-  mean time:        974.225 ns (2.56% GC)
-  maximum time:     17.083 μs (89.20% GC)
+  minimum time:     676.823 ns (0.00% GC)
+  median time:      692.073 ns (0.00% GC)
+  mean time:        727.852 ns (2.96% GC)
+  maximum time:     4.498 μs (81.11% GC)
   --------------
   samples:          10000
-  evals/sample:     46
+  evals/sample:     164
 </pre></div>
 </div>
 </div>
@@ -1039,7 +1045,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.64
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7
 </pre></div>
 </div>
 </div>
@@ -1055,13 +1061,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     926.923 ns (0.00% GC)
-  median time:      984.615 ns (0.00% GC)
-  mean time:        1.073 μs (2.68% GC)
-  maximum time:     34.273 μs (94.74% GC)
+  minimum time:     853.704 ns (0.00% GC)
+  median time:      885.185 ns (0.00% GC)
+  mean time:        942.825 ns (2.37% GC)
+  maximum time:     14.357 μs (92.66% GC)
   --------------
   samples:          10000
-  evals/sample:     26
+  evals/sample:     54
 </pre></div>
 </div>
 </div>
@@ -1073,14 +1079,14 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.73
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.75
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="roth-s-column-lemma">
-<h2>8. Roth’s column lemma<a class="headerlink" href="#roth-s-column-lemma" title="Permalink to this headline">¶</a></h2>
+<h2>Roth’s column lemma<a class="headerlink" href="#roth-s-column-lemma" title="Permalink to this headline">¶</a></h2>
 <p>Roth’s column lemmaは，例えば，<span class="math notranslate nohighlight">\(A, B, C\)</span>が与えられていて，<span class="math notranslate nohighlight">\(X\)</span>を未知とするときの方程式 <span class="math notranslate nohighlight">\(AXB = C\)</span>を考えると，この方程式は</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1140,16 +1146,16 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">A</span><span class="p">)</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vec</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">((</span><span class="n">B</span><span class="o">&#39;</span> <span class="o">⊗</span> <span class="n">A</span><span class="p">)</span> <span class="o">\</span> <span class="n">vec</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
-  1.38465     0.268013    7.1421     5.77661
- -0.287663   -1.16915    -5.12843   -4.21355
- -0.346694    0.424721   -0.178399  -0.115307
- -0.0775896   0.0606874  -0.152408  -0.118808
+  7.48615    9.41654   -20.793     19.7621
+  3.06062    3.92791    -8.25035    7.83341
+ -0.381216  -0.584791    0.720943  -0.674582
+ 10.862     13.4379    -30.8914    29.3825
 </pre></div>
 </div>
 </div>
@@ -1170,12 +1176,13 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="splat-operator">
-<h3>9. “splat” operator …<a class="headerlink" href="#splat-operator" title="Permalink to this headline">¶</a></h3>
+<h2>“splat” operator …<a class="headerlink" href="#splat-operator" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://docs.julialang.org/en/v1/base/base/">https://docs.julialang.org/en/v1/base/base/</a>…</p>
 </div>
 <div class="section" id="broadcasting">
-<h3>10. broadcastingの回避<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h3>
+<h2>broadcastingの回避<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
@@ -1199,16 +1206,14 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
 [6, 7, 8]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
+[6, 7, 8]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="var">
-<h3>11. <code class="docutils literal notranslate"><span class="pre">var</span></code>の使用<a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h3>
+<h2><code class="docutils literal notranslate"><span class="pre">var</span></code>の使用<a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="sa">var</span><span class="s">&quot;log(θ+μ)&quot;</span> <span class="o">=</span> <span class="mi">10</span>
@@ -1219,6 +1224,28 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="reshape">
+<h2>reshapeにおける残りの次元の指定<a class="headerlink" href="#reshape" title="Permalink to this headline">¶</a></h2>
+<p>numpyにおいては(2, 3, 5)次元の配列に対し，reshape(-1, 5)を行うと(6, 5)次元の配列となった．これと同様なことは，Juliaでは:を使うことで実装できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6×5 Matrix{Float64}:
+ 0.739487  0.8304     0.286207  0.947494   0.0630385
+ 0.356352  0.0060772  0.934196  0.209395   0.811516
+ 0.937235  0.472855   0.612326  0.0594509  0.102762
+ 0.87721   0.620689   0.357544  0.015024   0.16569
+ 0.300086  0.62311    0.240329  0.194447   0.052495
+ 0.250987  0.390994   0.697225  0.305612   0.125621
+</pre></div>
 </div>
 </div>
 </div>
