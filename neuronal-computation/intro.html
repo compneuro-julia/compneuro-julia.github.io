@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>統計と情報理論の基礎 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>神経回路網の演算処理 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,13 +51,11 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/information-theory/statistics-information.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/neuronal-computation/intro.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Slow Feature Analysis (SFA)" href="slow-feature-analysis.html" />
-    <link rel="prev" title="情報理論と最適化原理" href="intro.html" />
+    <link rel="next" title="ゲイン調節と四則演算" href="neuronal-arithmetic.html" />
+    <link rel="prev" title="シナプス入力の重みづけ" href="../synapse-model/synaptic-weighted.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -191,18 +189,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../neuronal-computation/intro.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
    神経回路網の演算処理
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+    <a class="reference internal" href="neuronal-arithmetic.html">
      ゲイン調節と四則演算
     </a>
    </li>
@@ -235,23 +233,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="intro.html">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
    情報理論と最適化原理
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
      統計と情報理論の基礎
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="slow-feature-analysis.html">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
      Slow Feature Analysis (SFA)
     </a>
    </li>
@@ -460,7 +458,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/information-theory/statistics-information.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/neuronal-computation/intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -480,7 +478,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/information-theory/statistics-information.md"><button
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/neuronal-computation/intro.md"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -500,39 +498,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#expectation">
-   期待値 (Expectation)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#information">
-   情報量 (Information)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#entropy">
-   平均情報量 (エントロピー, entropy)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#kullback-leibler">
-   Kullback-Leibler 情報量
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mutual-information">
-   相互情報量 (Mutual information)
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -542,49 +507,13 @@
               <div>
                 
   <div class="section" id="id1">
-<h1>統計と情報理論の基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="expectation">
-<h2>期待値 (Expectation)<a class="headerlink" href="#expectation" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right]:=\int f(x)p(x)dx
-\]</div>
-<p><span class="math notranslate nohighlight">\(x\sim p(x)\)</span> が明示的な場合は <span class="math notranslate nohighlight">\(\mathbb{E}_{p(x)}\left[f(x)\right]\)</span> や <span class="math notranslate nohighlight">\(\mathbb{E}\left[f(x)\right]\)</span> と表す。</p>
+<h1>神経回路網の演算処理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="tableofcontents-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="neuronal-arithmetic.html">ゲイン調節と四則演算</a></li>
+</ul>
 </div>
-<div class="section" id="information">
-<h2>情報量 (Information)<a class="headerlink" href="#information" title="Permalink to this headline">¶</a></h2>
-<p>出現頻度が低い事象は多くの情報量を持つ (Shannon, 1948)。</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbb{I}(x):=\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
-\]</div>
-<p><span class="math notranslate nohighlight">\(\mathbf{I}\)</span>は単位行列なので注意。</p>
-</div>
-<div class="section" id="entropy">
-<h2>平均情報量 (エントロピー, entropy)<a class="headerlink" href="#entropy" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-\mathbb{H}(x)&amp;:=\mathbb{E}[-\ln p(x)]\\
-\mathbb{H}(x\vert y)&amp;:=\mathbb{E}[-\ln p(x\vert y)]
-\end{align}
-\end{split}\]</div>
-</div>
-<div class="section" id="kullback-leibler">
-<h2>Kullback-Leibler 情報量<a class="headerlink" href="#kullback-leibler" title="Permalink to this headline">¶</a></h2>
-<p>Kullback-Leibler (KL) divergence (Kullback and Leibler, 1951)</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&amp;:=\int p(x) \ln \frac{p(x)}{q(x)} dx\\
-&amp;=\int p(x) \ln p(x) dx-\int p(x) \ln q(x) dx\\
-&amp;=\mathbb{E}_{x\sim p(x)}[\ln p(x)]-\mathbb{E}_{x\sim p(x)}[\ln q(x)]\\
-&amp;=-\mathbb{H}(x)-\mathbb{E}_{x\sim p(x)}[\ln q(x)]
-\end{align}
-\end{split}\]</div>
-</div>
-<div class="section" id="mutual-information">
-<h2>相互情報量 (Mutual information)<a class="headerlink" href="#mutual-information" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -601,7 +530,7 @@ D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&amp;:=\int p(x) \ln \frac{p(x)}{q(x)}
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./information-theory"
+            path: "./neuronal-computation"
         },
         predefinedOutput: true
     }
@@ -613,8 +542,8 @@ D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&amp;:=\int p(x) \ln \frac{p(x)}{q(x)}
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">情報理論と最適化原理</a>
-    <a class='right-next' id="next-link" href="slow-feature-analysis.html" title="next page">Slow Feature Analysis (SFA)</a>
+    <a class='left-prev' id="prev-link" href="../synapse-model/synaptic-weighted.html" title="previous page">シナプス入力の重みづけ</a>
+    <a class='right-next' id="next-link" href="neuronal-arithmetic.html" title="next page">ゲイン調節と四則演算</a>
 
         </div>
         
