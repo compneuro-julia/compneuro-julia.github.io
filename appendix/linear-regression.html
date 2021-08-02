@@ -398,6 +398,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="rat-trajectory.html">
      ラット自由行動下の軌跡のシミュレーション
     </a>
@@ -617,11 +622,17 @@ L(\theta)=\sum_{i=1}^n \delta_i^2 = \|\mathbf{\delta}\|^2=\mathbf{\delta}^\top \
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Generate Toy datas</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">500</span> <span class="c"># sample size</span>
-<span class="n">dims</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># dimensions</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
-<span class="n">y</span> <span class="o">=</span>  <span class="n">x</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="n">x</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
-<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="n">x</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">];</span> <span class="c"># design matrix</span>
+<span class="n">num_train</span><span class="p">,</span> <span class="n">num_test</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span> <span class="c"># sample size</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="mi">4</span> <span class="c"># dimensions</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span> <span class="c">#range(0.1, 0.9, length=num_train)</span>
+<span class="n">y</span> <span class="o">=</span>  <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="nb">π</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.3</span><span class="n">randn</span><span class="p">(</span><span class="n">num_train</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">x</span> <span class="o">.^</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="n">dims</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">...</span><span class="p">);</span> <span class="c"># design matrix</span>
+
+<span class="n">xtest</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">num_test</span><span class="p">)</span>
+<span class="n">ytest</span> <span class="o">=</span>  <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="nb">π</span><span class="o">*</span><span class="n">xtest</span><span class="p">)</span>
+<span class="n">Xtest</span> <span class="o">=</span><span class="n">hcat</span><span class="p">([</span><span class="n">xtest</span> <span class="o">.^</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="n">dims</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">...</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -630,21 +641,26 @@ L(\theta)=\sum_{i=1}^n \delta_i^2 = \|\mathbf{\delta}\|^2=\mathbf{\delta}^\top \
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gradient descent</span>
 <span class="n">initθ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="c"># init variables</span>
-<span class="n">θgd</span> <span class="o">=</span> <span class="n">OLSRegGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">)</span>
-<span class="n">ŷgd</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θgd</span> <span class="c"># predictions</span>
-
-<span class="c"># Results plot</span>
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">θgd</span> <span class="o">=</span> <span class="n">OLSRegGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mf">1e5</span><span class="p">)</span>
+<span class="n">ŷgd</span> <span class="o">=</span> <span class="n">Xtest</span> <span class="o">*</span> <span class="n">θgd</span><span class="p">;</span> <span class="c"># predictions</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
 <span class="n">title</span><span class="p">(</span><span class="s">&quot;Linear Regression with Gradient descent&quot;</span><span class="p">)</span>
-<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ŷgd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">ytest</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;actual&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">ŷgd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;predicted&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/linear-regression_7_0.png" src="../_images/linear-regression_7_0.png" />
+<img alt="../_images/linear-regression_8_0.png" src="../_images/linear-regression_8_0.png" />
 </div>
 </div>
 </div>
@@ -659,24 +675,25 @@ L(\theta)=\sum_{i=1}^n \delta_i^2 = \|\mathbf{\delta}\|^2=\mathbf{\delta}^\top \
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">θne</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">\</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">y</span>
-<span class="n">ŷne</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θne</span><span class="p">;</span> <span class="c"># predictions</span>
+<span class="n">ŷne</span> <span class="o">=</span> <span class="n">Xtest</span> <span class="o">*</span> <span class="n">θne</span><span class="p">;</span> <span class="c"># predictions</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
 <span class="n">title</span><span class="p">(</span><span class="s">&quot;Linear Regression with Normal equation&quot;</span><span class="p">)</span>
-<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ŷne</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">ytest</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;actual&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">ŷne</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;predicted&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/linear-regression_10_0.png" src="../_images/linear-regression_10_0.png" />
+<img alt="../_images/linear-regression_11_0.png" src="../_images/linear-regression_11_0.png" />
 </div>
 </div>
 </div>

@@ -398,6 +398,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../appendix/rat-trajectory.html">
      ラット自由行動下の軌跡のシミュレーション
     </a>
@@ -528,28 +533,33 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id4">
    モデルの定義
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id5">
    データセットの作成
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id6">
    モデルの定義と訓練
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
+  <a class="reference internal nav-link" href="#id7">
    画像の復元
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dense-associative-memory">
    稠密連想記憶 (dense associative memory) モデル
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   参考文献
   </a>
  </li>
 </ul>
@@ -565,9 +575,11 @@
                 
   <div class="section" id="amari-hopfield">
 <h1>Amari-Hopfield モデル<a class="headerlink" href="#amari-hopfield" title="Permalink to this headline">¶</a></h1>
-<p>Hopfieldモデルと呼ばれることが多いが，Amari-Hopfieldモデルと呼称することについては<a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.107.3582&amp;rep=rep1&amp;type=pdf">Hopfield Neural Networks—A Survey</a>を参照．</p>
-<div class="section" id="id1">
-<h2>モデルの定義<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Amariの先駆的研究<span id="id1">[<a class="reference internal" href="#id33">Amari, 1972</a>]</span></p>
+<p><span id="id2">[<a class="reference internal" href="#id46">Hopfield, 1982</a>]</span>で提案．始めは1と0の状態を取った．</p>
+<p>Hopfieldモデルと呼ばれることが多いが，Amari-Hopfieldモデルと呼称することについては<span id="id3">[<a class="reference internal" href="#id39">Sulehria and Zhang, 2007</a>]</span>を参照．</p>
+<div class="section" id="id4">
+<h2>モデルの定義<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
@@ -614,8 +626,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>データセットの作成<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>データセットの作成<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testimagelist</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;cameraman&quot;</span><span class="p">,</span> <span class="s">&quot;jetplane&quot;</span><span class="p">,</span> <span class="s">&quot;house&quot;</span><span class="p">,</span> <span class="s">&quot;mandril_gray&quot;</span><span class="p">,</span> <span class="s">&quot;lake_gray&quot;</span><span class="p">];</span> <span class="c"># gray &amp; size(512 x 512)</span>
@@ -649,8 +661,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>モデルの定義と訓練<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>モデルの定義と訓練<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AmariHopfieldModel</span><span class="p">(</span><span class="n">input_train</span><span class="p">);</span>
@@ -671,8 +683,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>画像の復元<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>画像の復元<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>エネルギー関数</p>
 <div class="math notranslate nohighlight">
 \[
@@ -743,6 +755,21 @@ E=-{\frac 12}\sum _{{i,j}}{w_{{ij}}{s_{i}}{s_{j}}}+\sum _{i}{\theta _{i}}{s_{i}}
 <li><p>Krotov, Dmitry, and John J. Hopfield. 2020. “Large Associative Memory Problem in Neurobiology and Machine Learning.” <a class="reference external" href="https://openreview.net">https://openreview.net</a> › Forumhttps://openreview.net › Forum. <a class="reference external" href="https://openreview.net/pdf?id=X4y_10OX-hX">https://openreview.net/pdf?id=X4y_10OX-hX</a>.</p></li>
 </ul>
 <p>“Hopfield Networks Is All You Need.”の論文における非生理学的3ニューロン相互作用の緩和．</p>
+</div>
+<div class="section" id="id8">
+<h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p id="id9"><dl class="citation">
+<dt class="label" id="id33"><span class="brackets"><a class="fn-backref" href="#id1">Ama72</a></span></dt>
+<dd><p>S-I Amari. Learning patterns and pattern sequences by Self-Organizing nets of threshold elements. <em>IEEE Trans. Comput.</em>, C-21(11):1197–1206, November 1972.</p>
+</dd>
+<dt class="label" id="id46"><span class="brackets"><a class="fn-backref" href="#id2">Hop82</a></span></dt>
+<dd><p>J J Hopfield. Neural networks and physical systems with emergent collective computational abilities. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 79(8):2554–2558, April 1982.</p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id3">SZ07</a></span></dt>
+<dd><p>Humayun Karim Sulehria and Ye Zhang. Hopfield neural networks: a survey. In <em>Proceedings of the 6th Conference on 6th WSEAS Int. Conf. on Artificial Intelligence, Knowledge Engineering and Data Bases</em>, volume 6, 125–130. 2007.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 
