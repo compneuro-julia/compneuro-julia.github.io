@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.5f77b4aec8189eecf79907ce328c390d.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -377,12 +377,34 @@
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neural-development/intro.html">
+   神経回路の形態・発生の数理モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/self-organizing-map.html">
+     自己組織化マップ (self organizing map) と視覚野の構造
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/graph-theory-network-model.html">
+     Erdos Renyi
+    </a>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="intro.html">
    付録
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-  <label for="toctree-checkbox-12">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label for="toctree-checkbox-13">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -395,6 +417,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="quantile-expectile-regression.html">
      分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
     </a>
    </li>
    <li class="toctree-l2">
@@ -656,15 +683,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.5186591134015561 0.6048708090823378; 0.238331348187236 0.20953434348009425]
-wrong : [0.5186591134015561 0.6048708090823378; 0.238331348187236 0.20953434348009425]
-right : [1.0 1.0; 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.5832535214226895 0.9863239196768177; 0.9385627748273042 0.6036749327061697]
+wrong : [0.5832535214226895 0.9863239196768177; 0.9385627748273042 0.6036749327061697]
+right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -682,12 +703,12 @@ right : [1.0 1.0;
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
 [:, :, 1] =
- 0.611728  0.633953
- 0.473456  0.830435
+ 0.171359  0.970301
+ 0.368827  0.400136
 
 [:, :, 2] =
- 0.776682  0.854543
- 0.969433  0.858047
+ 0.415898  0.193467
+ 0.39925   0.588116
 </pre></div>
 </div>
 </div>
@@ -702,14 +723,14 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.6117275510785916
- 0.4734555760000845
- 0.6339529180095502
- 0.830435097104653
- 0.7766823530347728
- 0.9694329613133161
- 0.854543242553403
- 0.8580472759841979
+ 0.17135901366980444
+ 0.3688271762434565
+ 0.9703008447114903
+ 0.4001358330916738
+ 0.41589764263469364
+ 0.39925026276573816
+ 0.19346717296946458
+ 0.5881157611777139
 </pre></div>
 </div>
 </div>
@@ -723,14 +744,14 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.6117275510785916
- 0.4734555760000845
- 0.6339529180095502
- 0.830435097104653
- 0.7766823530347728
- 0.9694329613133161
- 0.854543242553403
- 0.8580472759841979
+ 0.17135901366980444
+ 0.3688271762434565
+ 0.9703008447114903
+ 0.4001358330916738
+ 0.41589764263469364
+ 0.39925026276573816
+ 0.19346717296946458
+ 0.5881157611777139
 </pre></div>
 </div>
 </div>
@@ -747,9 +768,9 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.588594  0.834252    0.673208
- 0.515165  0.529187    0.337989
- 0.829118  0.00561079  0.0630225
+ 0.89766   0.251363  0.621109
+ 0.584915  0.156382  0.985538
+ 0.288508  0.387411  0.0143406
 </pre></div>
 </div>
 </div>
@@ -762,9 +783,9 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.304517  0.609366    0.626695
- 0.266528  0.386536    0.314637
- 0.428955  0.00409831  0.0586682
+ 0.506842  0.316118  0.383167
+ 0.330259  0.196668  0.607986
+ 0.162899  0.487214  0.00884685
 </pre></div>
 </div>
 </div>
@@ -776,7 +797,7 @@ right : [1.0 1.0;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.9999999999999999 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -926,9 +947,9 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.4619052621569364
- 0.35539244823238003
- 0.2569157728848581
+ 0.29868483872953977
+ 0.9074295824314997
+ 0.7142987103485341
 </pre></div>
 </div>
 </div>
@@ -942,7 +963,7 @@ right : [1.0 1.0;
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.461905  0.355392  0.256916
+ 0.298685  0.90743  0.714299
 </pre></div>
 </div>
 </div>
@@ -961,10 +982,7 @@ right : [1.0 1.0;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vector
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
@@ -1056,13 +1074,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     849.254 ns (0.00% GC)
-  median time:      880.597 ns (0.00% GC)
-  mean time:        951.132 ns (2.69% GC)
-  maximum time:     10.875 μs (90.12% GC)
+  minimum time:     866.038 ns (0.00% GC)
+  median time:      896.226 ns (0.00% GC)
+  mean time:        967.730 ns (2.68% GC)
+  maximum time:     14.879 μs (87.81% GC)
   --------------
   samples:          10000
-  evals/sample:     67
+  evals/sample:     53
 </pre></div>
 </div>
 </div>
@@ -1074,7 +1092,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.68
 </pre></div>
 </div>
 </div>
@@ -1090,13 +1108,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     961.905 ns (0.00% GC)
-  median time:      1.000 μs (0.00% GC)
-  mean time:        1.103 μs (2.45% GC)
-  maximum time:     41.590 μs (96.76% GC)
+  minimum time:     935.714 ns (0.00% GC)
+  median time:      985.714 ns (0.00% GC)
+  mean time:        1.068 μs (2.48% GC)
+  maximum time:     33.625 μs (96.30% GC)
   --------------
   samples:          10000
-  evals/sample:     21
+  evals/sample:     28
 </pre></div>
 </div>
 </div>
@@ -1108,7 +1126,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.68
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.73
 </pre></div>
 </div>
 </div>
@@ -1181,10 +1199,10 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
-   2.5579      52.5465     63.0954     76.0301
-  -0.530953     4.60702     7.83321     8.76188
-   4.05557     73.8125     87.2212    105.516
- -11.5792    -216.524    -256.825    -310.406
+  -6.36945   -12.1054    -11.5015   -37.2391
+  -7.43169   -13.7294    -12.4696   -37.2072
+ -10.8617    -20.535     -19.3533   -61.7945
+   0.569664    0.213792   -1.06218  -10.4073
 </pre></div>
 </div>
 </div>
@@ -1270,12 +1288,12 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6×5 Matrix{Float64}:
- 0.0518554  0.180986     0.272303   0.762115  0.267639
- 0.821883   0.000636878  0.534754   0.11266   0.487096
- 0.708157   0.599136     0.860235   0.372236  0.49659
- 0.748441   0.900505     0.0707445  0.278289  0.596447
- 0.678209   0.644506     0.13227    0.163999  0.545261
- 0.456953   0.0634696    0.233659   0.586786  0.739676
+ 0.833379   0.506352  0.587947   0.784246  0.0260247
+ 0.506091   0.826972  0.279171   0.86387   0.0400987
+ 0.0645915  0.594297  0.126421   0.181552  0.688678
+ 0.287908   0.554669  0.265179   0.229792  0.311631
+ 0.948209   0.736961  0.0463345  0.39206   0.84656
+ 0.254488   0.999719  0.771749   0.868979  0.192396
 </pre></div>
 </div>
 </div>
@@ -1321,7 +1339,7 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
         
           By Takuto Yamamoto<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2020-2021.<br/>
           <div class="extra_footer">
             <div>
 <script src="https://utteranc.es/client.js"
