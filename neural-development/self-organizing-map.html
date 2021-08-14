@@ -51,6 +51,8 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://compneuro-julia.github.io/neural-development/self-organizing-map.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -553,13 +555,18 @@
             <nav id="bd-toc-nav">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id18">
    単純なデータセット
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id20">
    視覚野マップ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id22">
+   参考文献
   </a>
  </li>
 </ul>
@@ -575,7 +582,36 @@
                 
   <div class="section" id="id1">
 <h1>自己組織化マップと視覚野の構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>self-organizing map</p>
+<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id65">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id66">Kohonen, 2013</a>]</span>を取り上げる．</p>
+<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id71">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id80">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id78">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id82">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id83">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id64">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id70">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id76">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id63">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id73">田中, 2002</a>]</span>が詳しい．</p>
+<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id83">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id62">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id77">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id61">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
+<div class="section" id="id18">
+<h2>単純なデータセット<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id66">Kohonen, 2013</a>]</span>．</p>
+<p>n番目の入力 <span class="math notranslate nohighlight">\(\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)\)</span>に対して，m番目のニューロン<span class="math notranslate nohighlight">\(（m=1, \ldots, M）\)</span>の活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\in \mathbb{R}^{D}\)</span>を以下のように更新する (重みではなく活動自体を更新するということに注意)．</p>
+<p>まず，<span class="math notranslate nohighlight">\(\mathbf{v}(t)\)</span>と活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\)</span>が最も近いニューロンを見つける．距離はユークリッド距離を用いるのが標準である．</p>
+<div class="math notranslate nohighlight">
+\[
+c = \underset{m}{\operatorname{argmin}}\{||\mathbf{v}(t)-\mathbf{w}_m(t)||\}
+\]</div>
+<p>この，<span class="math notranslate nohighlight">\(c\)</span>番目のニューロンを勝者ユニット(best matching unit; BMU)と呼ぶ．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}_m(t+1)=\mathbf{w}_m(t)+h_{cm}(t)[\mathbf{v}(t)-\mathbf{w}_m(t)]
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(h_{cm}(t)\)</span>は近傍関数 (neighborhood function) と呼ばれ，<span class="math notranslate nohighlight">\(c\)</span>番目と<span class="math notranslate nohighlight">\(m\)</span>番目のニューロンの距離が近いほど大きな値を取る．ガウス関数を用いるのが一般的である．</p>
+<div class="math notranslate nohighlight">
+\[
+h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t)}\right)
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>はニューロンの位置を表すベクトルである．また，<span class="math notranslate nohighlight">\(\alpha(t), \sigma(t)\)</span>は単調に減少するように設定する．</p>
+<p>ここまではオンライン学習の手法であった．一方でデータセット全体について更新を行う場合は以下のような式を用いる．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^*_m = \frac{\sum_t h_{cm}(t) \mathbf{v}(t)}{\sum_t h_{cm}(t)}
+\]</div>
+<p>今回は省略する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span>
@@ -583,8 +619,6 @@
 </div>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>単純なデータセット<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># inputs </span>
@@ -603,14 +637,15 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">plot_som</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
-    <span class="n">scatter</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">scatter</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># w[i, j, 1]とw[i, j, 2]の点をプロット</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
+    <span class="n">scatter</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">scatter</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c"># w[i, j, 1]とw[i, j, 2]の点をプロット</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>近傍関数 (neighborhood function)のための二次元ガウス関数を実装する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gaussian mask for inputs</span>
@@ -621,40 +656,35 @@
     <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span> <span class="o">.-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">.-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">(</span><span class="n">σ</span><span class="o">^</span><span class="mi">2</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">mask</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GaussianMask (generic function with 3 methods)
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>自己組織化マップのメインとなる関数を書く．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span> <span class="n">η0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-    <span class="c"># η0: update rate, σ0 : width, T : training steps</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="c"># α0: update rate, σ0 : width, T : training steps</span>
     <span class="n">map_width</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">w</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">N</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">w_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)]</span>
+    <span class="n">w_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)]</span> <span class="c"># history of w</span>
     <span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">T</span>
-        <span class="n">η</span> <span class="o">=</span> <span class="n">η0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">/</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">;</span> <span class="c"># update rate</span>
+        <span class="n">α</span> <span class="o">=</span> <span class="n">α0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">/</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">;</span> <span class="c"># update rate</span>
         <span class="n">σ</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="p">(</span><span class="n">σ0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">/</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span> <span class="c"># decay from large to small</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="mi">2</span><span class="n">σ</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="n">σ</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">);</span>
-        
+        <span class="n">h</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="mi">2</span><span class="n">σ</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="n">σ</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">);</span>
         <span class="c"># loop for the N inputs</span>
         <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
             <span class="n">dist</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">.-</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span><span class="o">.^</span><span class="mi">2</span> <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">dims</span><span class="p">])</span> <span class="c"># distance between input and neurons</span>
             <span class="n">win_idx</span> <span class="o">=</span> <span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="c"># winner index</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">win_idx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">σ</span><span class="p">)</span><span class="o">:</span><span class="n">min</span><span class="p">(</span><span class="n">map_width</span><span class="p">,</span> <span class="n">win_idx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">σ</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span> <span class="c"># neighbor indices</span>
             <span class="c"># update the winner &amp; neighbor neuron</span>
-            <span class="n">α</span> <span class="o">=</span> <span class="n">η</span> <span class="o">*</span> <span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+            <span class="n">η</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
             <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">dims</span>
-                <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">α</span> <span class="o">.*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">.-</span> <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">.*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">.-</span> <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
             <span class="k">end</span>
         <span class="k">end</span>
-        <span class="n">append!</span><span class="p">(</span><span class="n">w_history</span><span class="p">,</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)])</span>
+        <span class="n">append!</span><span class="p">(</span><span class="n">w_history</span><span class="p">,</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)])</span> <span class="c"># save w</span>
     <span class="k">end</span>
     <span class="k">return</span> <span class="n">w_history</span>
 <span class="k">end</span><span class="p">;</span>
@@ -664,15 +694,16 @@
 </div>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">w_history</span> <span class="o">=</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">η0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">w_history</span> <span class="o">=</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>青点が<span class="math notranslate nohighlight">\(\mathbf{v}\)</span>，オレンジの点が<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>である．黒線はニューロン間の位置関係を表す．下段のヒートマップは<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>の一番目の次元を表す．学習が進むとともに近傍のニューロンが近い活動ベクトルを持つことがわかる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> 
-<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
     <span class="n">wh</span> <span class="o">=</span> <span class="n">w_history</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="n">i</span><span class="p">)</span>
@@ -686,12 +717,13 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/self-organizing-map_8_0.png" src="../_images/self-organizing-map_8_0.png" />
+<img alt="../_images/self-organizing-map_12_0.png" src="../_images/self-organizing-map_12_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>視覚野マップ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>視覚野マップ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<p>集合の直積を配列として返す関数 <code class="docutils literal notranslate"><span class="pre">product</span></code>と極座標を直交座標に変換する関数 <code class="docutils literal notranslate"><span class="pre">pol2cart</span></code>を用意する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">product</span><span class="p">(</span><span class="n">sets</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">collect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">Iterators</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sets</span><span class="o">...</span><span class="p">)]</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span> <span class="c"># Array of Cartesian product of sets </span>
@@ -700,6 +732,7 @@
 </div>
 </div>
 </div>
+<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id83">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># generate stimulus</span>
@@ -717,13 +750,8 @@
 <span class="n">rORxy</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">pol2cart</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span><span class="o">...</span><span class="p">)</span>
 <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">rORxy</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">rORxy</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">];</span>
 <span class="n">v</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">...</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-5</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># initial neurons</span>
+
+<span class="c"># initial neurons</span>
 <span class="n">map_width</span> <span class="o">=</span> <span class="mi">64</span>
 <span class="n">M</span> <span class="o">=</span> <span class="n">map_width</span><span class="o">^</span><span class="mi">2</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">map_width</span><span class="p">),</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">map_width</span><span class="p">))</span>
@@ -734,6 +762,14 @@
 </div>
 </div>
 </div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>描画用関数を実装する． <code class="docutils literal notranslate"><span class="pre">w_history</span></code>を用いてアニメーションを作成すると発達の過程が可視化されるが，これは読者への課題とする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">plot_visual_maps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -760,13 +796,6 @@
 </div>
 </div>
 </div>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">η0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_visual_maps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
@@ -774,9 +803,60 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/self-organizing-map_15_0.png" src="../_images/self-organizing-map_15_0.png" />
+<img alt="../_images/self-organizing-map_21_0.png" src="../_images/self-organizing-map_21_0.png" />
 </div>
 </div>
+</div>
+<div class="section" id="id22">
+<h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<p id="id23"><dl class="citation">
+<dt class="label" id="id83"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
+<dd><p>Miguel A Carreira-Perpiñán, Richard J Lister, and Geoffrey J Goodhill. A computational model for the development of multiple maps in primary visual cortex. <em>Cereb. Cortex</em>, 15(8):1222–1233, August 2005.</p>
+</dd>
+<dt class="label" id="id76"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
+<dd><p>Aniruddha Das. Cortical maps: where theory meets experiments. <em>Neuron</em>, 47(2):168–171, July 2005.</p>
+</dd>
+<dt class="label" id="id78"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
+<dd><p>R Durbin and D Willshaw. An analogue approach to the travelling salesman problem using an elastic net method. <em>Nature</em>, 326(6114):689–691, 1987.</p>
+</dd>
+<dt class="label" id="id82"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
+<dd><p>Richard Durbin and Graeme Mitchison. A dimension reduction framework for understanding cortical maps. <em>Nature</em>, 343(6259):644–647, February 1990.</p>
+</dd>
+<dt class="label" id="id63"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
+<dd><p>Geoffrey J Goodhill. Contributions of theoretical modeling to the understanding of neural map development. <em>Neuron</em>, 56(2):301–311, October 2007.</p>
+</dd>
+<dt class="label" id="id65"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
+<dd><p>Teuvo Kohonen. Self-organized formation of topologically correct feature maps. <em>Biol. Cybern.</em>, 43(1):59–69, January 1982.</p>
+</dd>
+<dt class="label" id="id66"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
+<dd><p>Teuvo Kohonen. Essentials of the self-organizing map. <em>Neural Netw.</em>, 37:52–65, January 2013.</p>
+</dd>
+<dt class="label" id="id80"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
+<dd><p>H-U Bauer N. V. Swindale. Application of kohonen's self-organizing feature map algorithm to cortical maps of orientation and direction preference. <em>Proceedings of the Royal Society B: Biological Sciences</em>, 265(1398):827, May 1998.</p>
+</dd>
+<dt class="label" id="id71"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
+<dd><p>K Obermayer, H Ritter, and K Schulten. A principle for the formation of the spatial structure of cortical feature maps. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 87(21):8345–8349, November 1990.</p>
+</dd>
+<dt class="label" id="id70"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
+<dd><p>Dario L Ringach. On the origin of the functional architecture of the cortex. <em>PLoS One</em>, 2(2):e251, February 2007.</p>
+</dd>
+<dt class="label" id="id61"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
+<dd><p>A Takeuchi and S Amari. Formation of topographic maps and columnar microstructures in nerve fields. <em>Biol. Cybern.</em>, 35(2):63–72, November 1979.</p>
+</dd>
+<dt class="label" id="id64"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
+<dd><p>Shigeru Tanaka, Masanobu Miyashita, and Jérôme Ribot. Roles of visual experience and intrinsic mechanism in the activity-dependent self-organization of orientation maps: theory and experiment. <em>Neural Netw.</em>, 17(8-9):1363–1375, October 2004.</p>
+</dd>
+<dt class="label" id="id62"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
+<dd><p>C von der Malsburg. Self-organization of orientation sensitive cells in the striate cortex. <em>Kybernetik</em>, 14(2):85–100, December 1973.</p>
+</dd>
+<dt class="label" id="id77"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
+<dd><p>D J Willshaw, C Von Der Malsburg, and Hugh Christopher Longuet-Higgins. How patterned neural connections can be set up by self-organization. <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em>, 194(1117):431–445, November 1976.</p>
+</dd>
+<dt class="label" id="id73"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
+<dd><p>繁 田中. 神経情報科学サマースクールNISS2001講義録 視覚野神経回路の自己組織化. <em>日本神経回路学会誌</em>, 9(1):41–48, 2002.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 
