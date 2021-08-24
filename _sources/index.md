@@ -5,10 +5,10 @@
 （2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が**講談社サイエンティフィク**で承認されました．出版予定は**2025年春**です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.6.0
+Julia 1.6.2
 ```
 
-### 依存ライブラリ
+## 依存ライブラリ
 `IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
 
 ※ PyCallに関してはPythonライブラリ `scipy`を使用．

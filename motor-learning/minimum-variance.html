@@ -600,9 +600,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eye</span><span class="p">(</span><span class="n">T</span><span class="o">::</span><span class="kt">Type</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">Diagonal</span><span class="p">{</span><span class="kt">T</span><span class="p">}(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">vec</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">X</span><span class="o">...</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vec</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">X</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -647,14 +645,17 @@
 <span class="n">trange</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">1e3</span> <span class="c"># ms</span>
 
 <span class="n">x0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="c"># initial state (pos=0, vel=0, acc=0)</span>
-<span class="n">xf</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">;</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="c"># final state (pos=10, vel=0, acc=0)</span>
+<span class="n">xf</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c"># final state (pos=10, vel=0, acc=0)</span>
 <span class="n">α1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span>
 <span class="n">α2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span>
 <span class="n">α3</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t2</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">tm</span>
+<span class="n">β</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tm</span>
 <span class="n">Ac</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">;</span> <span class="n">α1</span> <span class="n">α2</span> <span class="n">α3</span><span class="p">];</span>
-<span class="n">Bc</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">Ac</span><span class="o">*</span><span class="n">dt</span><span class="p">);</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Ac</span><span class="o">^-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">A</span><span class="p">)</span> <span class="o">*</span><span class="n">Bc</span><span class="p">;</span> <span class="c"># Bを適切な実装に変更する．</span>
+<span class="n">Bc</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">β</span><span class="p">]</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">LinearAlgebra</span><span class="o">.</span><span class="n">I</span> <span class="o">+</span> <span class="n">Ac</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Bc</span><span class="o">*</span><span class="n">dt</span>
+<span class="c">#A = exp(Ac*dt);</span>
+<span class="c">#B = Ac^-1 * (eye(3) - A) *Bc; </span>
 </pre></div>
 </div>
 </div>
