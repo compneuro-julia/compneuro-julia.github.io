@@ -573,12 +573,20 @@
   <div class="section" id="minimum-variance-model">
 <h1>終点誤差分散最小モデル (minimum-variance model)<a class="headerlink" href="#minimum-variance-model" title="Permalink to this headline">¶</a></h1>
 <p><strong>終点誤差分散最小モデル</strong> (minimum-variance model; Harris &amp; Wolpert, 1998)を実装する．</p>
-<div class="math notranslate nohighlight">
-\[
-\mathbf{x}_{t+1} = A \mathbf{x}_t + B(u_t + w_t)
-\]</div>
 <p><span class="math notranslate nohighlight">\(A\in \mathbb{R}^{n\times n}\)</span>, <span class="math notranslate nohighlight">\(B\in \mathbb{R}^{n}\)</span></p>
-<p><span class="math notranslate nohighlight">\(\mathbf{x}_t\)</span>の平均は</p>
+<p><span class="math notranslate nohighlight">\(\dot{x}=A_{c}\mathbf{x}+B_{c}(u + w)\)</span>について，
+$<span class="math notranslate nohighlight">\(
+\begin{align}
+\mathbf{x}(t+dt)&amp;=\mathbf{x}(t)+\dot{\mathbf{x}}dt\\
+\mathbf{x}_{t+1}&amp;=I\mathbf{x}_t+(A_{c}dt)\mathbf{x}_t+(B_{c}dt)(u + w)
+\end{align}
+\)</span><span class="math notranslate nohighlight">\(
+となる(ここで\)</span>I<span class="math notranslate nohighlight">\(は単位行列)ので，\)</span>A=I+A_{c}dt, B=B_cdt<span class="math notranslate nohighlight">\(として
+\)</span><span class="math notranslate nohighlight">\(
+\mathbf{x}_{t+1} = A \mathbf{x}_t + B(u_t + w_t)
+\)</span><span class="math notranslate nohighlight">\(
+と表せる．
+\)</span>\mathbf{x}_t$の平均は</p>
 <div class="math notranslate nohighlight">
 \[
 \mathrm{E}\left[\mathbf{x}_{t}\right]=A^{t} \mathbf{x}_{0}+\sum_{i=0}^{t-1} A^{t-1-i} \boldsymbol{B} u_{i}
@@ -621,12 +629,72 @@
     <span class="n">K</span> <span class="o">=</span> <span class="p">[</span><span class="n">P</span> <span class="n">A</span><span class="o">&#39;</span><span class="p">;</span> <span class="n">A</span> <span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span> <span class="c"># KKT matrix</span>
     <span class="n">sol</span> <span class="o">=</span> <span class="n">K</span> <span class="o">\</span> <span class="p">[</span><span class="o">-</span><span class="n">q</span><span class="p">;</span> <span class="n">b</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">2</span><span class="p">]]</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">minimum_variance_model</span><span class="p">(</span><span class="n">Ac</span><span class="p">,</span> <span class="n">Bc</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">xf</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">x0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ntf</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tf</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">ntp</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="n">ntf</span> <span class="o">+</span> <span class="n">ntp</span> <span class="c"># total time steps    </span>
+    
+    <span class="n">A</span> <span class="o">=</span> <span class="n">LinearAlgebra</span><span class="o">.</span><span class="n">I</span> <span class="o">+</span> <span class="n">Ac</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">Bc</span><span class="o">*</span><span class="n">dt</span>
+    <span class="c">#A = exp(Ac*dt);</span>
+    <span class="c">#B = Ac^-1 * (eye(3) - A) *Bc; </span>
+    
+    <span class="c"># calculation of V</span>
+    <span class="n">diagV</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">ntf</span>
+            <span class="n">diagV</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="n">ntf</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span>
+            <span class="n">diagV</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagV</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="mi">2</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">diagV</span> <span class="o">/=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">diagV</span><span class="p">)</span> <span class="c"># for numerical stability</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">diagV</span><span class="p">);</span> 
+    
+    <span class="c"># 制約条件における行列Cとベクトルdの計算</span>
+    <span class="c"># calculation of C</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="o">*</span><span class="p">(</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">nt</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+            <span class="k">if</span> <span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">dims</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="n">dims</span><span class="o">*</span><span class="n">p</span>
+                <span class="n">C</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">B</span> <span class="c"># if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    
+    <span class="c"># calculation of d</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">vec</span><span class="p">([</span><span class="n">xf</span> <span class="o">-</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">+</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">ntp</span><span class="p">]);</span>
+    
+    <span class="c"># 制御信号を二次計画法で計算．</span>
+    <span class="c"># solution by quadratic programming</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">solveEqualityConstrainedQuadProg</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+    
+    <span class="c"># 制御信号を二次計画法で計算．</span>
+    <span class="c"># forward solution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">nt</span><span class="p">);</span>
+    <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">nt</span><span class="p">);</span>
+    <span class="n">Σ</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span>
+    <span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="c"># update</span>
+        <span class="n">Σ</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">Σ</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="c"># variance</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">Σ</span>
 <span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>solveEqualityConstrainedQuadProg (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>minimum_variance_model (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -638,88 +706,29 @@
 <span class="n">tm</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="mf">1e-3</span>
 <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-3</span>     <span class="c"># simulation time step (s)</span>
 <span class="n">tf</span> <span class="o">=</span> <span class="mi">50</span><span class="o">*</span><span class="mf">1e-3</span>  <span class="c"># movement duration (s)</span>
-<span class="n">tp</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="mf">1e-3</span>  <span class="c"># post-movement duration (s)</span>
-<span class="n">ntf</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tf</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
-<span class="n">ntp</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tp</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
-<span class="n">nt</span> <span class="o">=</span> <span class="n">ntf</span> <span class="o">+</span> <span class="n">ntp</span> <span class="c"># total time steps</span>
+<span class="n">tp</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="mf">1e-3</span>  <span class="c"># post-movement duration (s)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">+</span><span class="n">tp</span><span class="p">)</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># total time steps</span>
 <span class="n">trange</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">1e3</span> <span class="c"># ms</span>
 
-<span class="n">x0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="c"># initial state (pos=0, vel=0, acc=0)</span>
-<span class="n">xf</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c"># final state (pos=10, vel=0, acc=0)</span>
-<span class="n">α1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span>
-<span class="n">α2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span>
-<span class="n">α3</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t2</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">tm</span>
-<span class="n">β</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tm</span>
-<span class="n">Ac</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">;</span> <span class="n">α1</span> <span class="n">α2</span> <span class="n">α3</span><span class="p">];</span>
-<span class="n">Bc</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">β</span><span class="p">]</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">LinearAlgebra</span><span class="o">.</span><span class="n">I</span> <span class="o">+</span> <span class="n">Ac</span> <span class="o">*</span> <span class="n">dt</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Bc</span><span class="o">*</span><span class="n">dt</span>
-<span class="c">#A = exp(Ac*dt);</span>
-<span class="c">#B = Ac^-1 * (eye(3) - A) *Bc; </span>
+<span class="c"># 2nd order</span>
+<span class="n">x0₂</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c"># initial state (pos=0, vel=0)</span>
+<span class="n">xf₂</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c"># final state (pos=10, vel=0)</span>
+<span class="n">Ac₂</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">;</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t2</span><span class="p">];</span>
+<span class="n">Bc₂</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># 3rd order</span>
+<span class="n">x0₃</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>   <span class="c"># initial state (pos=0, vel=0, acc=0)</span>
+<span class="n">xf₃</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c"># final state (pos=10, vel=0, acc=0)</span>
+<span class="n">Ac₃</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">;</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">t2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">t2</span><span class="o">*</span><span class="n">tm</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">t2</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">tm</span><span class="p">];</span>
+<span class="n">Bc₃</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">tm</span><span class="p">];</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of V</span>
-<span class="n">diagV</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">);</span>
-<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ntf</span>
-        <span class="n">diagV</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="n">ntf</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">else</span>
-        <span class="n">diagV</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">diagV</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;^</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">))[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-<span class="n">diagV</span> <span class="o">/=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">diagV</span><span class="p">)</span> <span class="c"># for numerical stability</span>
-<span class="n">V</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">diagV</span><span class="p">);</span> 
-</pre></div>
-</div>
-</div>
-</div>
-<p>制約条件における行列Cとベクトルdの計算．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of C</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">(</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">nt</span><span class="p">);</span>
-<span class="k">for</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">ntp</span><span class="o">+</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
-        <span class="k">if</span> <span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="mi">3</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="n">p</span>
-            <span class="n">C</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">B</span> <span class="c"># if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># calculation of d</span>
-<span class="n">d</span> <span class="o">=</span> <span class="n">vec</span><span class="p">([</span><span class="n">xf</span> <span class="o">-</span> <span class="n">A</span><span class="o">^</span><span class="p">(</span><span class="n">ntf</span><span class="o">+</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">:</span><span class="n">ntp</span><span class="p">]);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>制御信号を二次計画法で計算．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># solution by quadratic programming</span>
-<span class="n">u</span> <span class="o">=</span> <span class="n">solveEqualityConstrainedQuadProg</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">),</span> <span class="n">C</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>シミュレーションの実行．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># forward solution</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nt</span><span class="p">);</span>
-<span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x0</span><span class="p">;</span>
-<span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
-    <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-<span class="k">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x₂</span><span class="p">,</span> <span class="n">u₂</span><span class="p">,</span> <span class="n">Σ₂</span> <span class="o">=</span> <span class="n">minimum_variance_model</span><span class="p">(</span><span class="n">Ac₂</span><span class="p">,</span> <span class="n">Bc₂</span><span class="p">,</span> <span class="n">x0₂</span><span class="p">,</span> <span class="n">xf₂</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">dt</span><span class="p">);</span>
+<span class="n">x₃</span><span class="p">,</span> <span class="n">u₃</span><span class="p">,</span> <span class="n">Σ₃</span> <span class="o">=</span> <span class="n">minimum_variance_model</span><span class="p">(</span><span class="n">Ac₃</span><span class="p">,</span> <span class="n">Bc₃</span><span class="p">,</span> <span class="n">x0₃</span><span class="p">,</span> <span class="n">xf₃</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">tp</span><span class="p">,</span> <span class="n">dt</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -727,22 +736,22 @@
 <p>結果の描画．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eye position (deg)&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eye velocity (deg/s)&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
-<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Control signal&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x₂</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;2nd order&quot;</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x₃</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;3rd order&quot;</span><span class="p">);</span> 
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eye position (deg)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">();</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x₂</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">]);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">x₃</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="s">&quot;--&quot;</span><span class="p">);</span> 
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eye velocity (deg/s)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">();</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">u₂</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">u₃</span><span class="p">,</span> <span class="s">&quot;--&quot;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Control signal&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">();</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">gca</span><span class="p">();</span> <span class="n">ax</span><span class="p">[</span><span class="ss">:ticklabel_format</span><span class="p">](</span><span class="n">style</span><span class="o">=</span><span class="s">&quot;sci&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">Σ₂</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">]);</span> <span class="n">plot</span><span class="p">(</span><span class="n">trange</span><span class="p">,</span> <span class="n">Σ₃</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;--&quot;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Positional Variance&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">grid</span><span class="p">()</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/minimum-variance_16_0.png" src="../_images/minimum-variance_16_0.png" />
+<img alt="../_images/minimum-variance_10_0.png" src="../_images/minimum-variance_10_0.png" />
 </div>
 </div>
 </div>
