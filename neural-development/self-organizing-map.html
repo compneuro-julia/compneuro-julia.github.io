@@ -1,0 +1,959 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自己組織化マップと視覚野の構造 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/neural-development/self-organizing-map.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="グラフ理論とネットワークモデル" href="graph-theory-network-model.html" />
+    <link rel="prev" title="神経回路の形態・発生の数理モデル" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuronal-computation/intro.html">
+   神経回路網の演算処理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../learning-rule/intro.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と教師なし・自己教師あり学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   神経回路の形態・発生の数理モデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label for="toctree-checkbox-13">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/neural-development/self-organizing-map.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/neural-development/self-organizing-map.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/neural-development/self-organizing-map.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/neural-development/self-organizing-map.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id18">
+   単純なデータセット
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id20">
+   視覚野マップ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id22">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>自己組織化マップと視覚野の構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id72">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id73">Kohonen, 2013</a>]</span>を取り上げる．</p>
+<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id78">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id87">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id85">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id89">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id90">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id71">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id77">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id83">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id70">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id80">田中, 2002</a>]</span>が詳しい．</p>
+<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id90">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id69">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id84">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id68">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
+<div class="section" id="id18">
+<h2>単純なデータセット<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id73">Kohonen, 2013</a>]</span>．</p>
+<p>n番目の入力 <span class="math notranslate nohighlight">\(\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)\)</span>に対して，m番目のニューロン<span class="math notranslate nohighlight">\(（m=1, \ldots, M）\)</span>の活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\in \mathbb{R}^{D}\)</span>を以下のように更新する (重みではなく活動自体を更新するということに注意)．</p>
+<p>まず，<span class="math notranslate nohighlight">\(\mathbf{v}(t)\)</span>と活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\)</span>が最も近いニューロンを見つける．距離はユークリッド距離を用いるのが標準である．</p>
+<div class="math notranslate nohighlight">
+\[
+c = \underset{m}{\operatorname{argmin}}\{||\mathbf{v}(t)-\mathbf{w}_m(t)||\}
+\]</div>
+<p>この，<span class="math notranslate nohighlight">\(c\)</span>番目のニューロンを勝者ユニット(best matching unit; BMU)と呼ぶ．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}_m(t+1)=\mathbf{w}_m(t)+h_{cm}(t)[\mathbf{v}(t)-\mathbf{w}_m(t)]
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(h_{cm}(t)\)</span>は近傍関数 (neighborhood function) と呼ばれ，<span class="math notranslate nohighlight">\(c\)</span>番目と<span class="math notranslate nohighlight">\(m\)</span>番目のニューロンの距離が近いほど大きな値を取る．ガウス関数を用いるのが一般的である．</p>
+<div class="math notranslate nohighlight">
+\[
+h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t)}\right)
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>はニューロンの位置を表すベクトルである．また，<span class="math notranslate nohighlight">\(\alpha(t), \sigma(t)\)</span>は単調に減少するように設定する．</p>
+<p>ここまではオンライン学習の手法であった．一方でデータセット全体について更新を行う場合は以下のような式を用いる．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^*_m = \frac{\sum_t h_{cm}(t) \mathbf{v}(t)}{\sum_t h_{cm}(t)}
+\]</div>
+<p>今回は省略する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># inputs </span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">400</span> <span class="c"># num of inputs</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c"># dims of inputs </span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">σv</span><span class="p">,</span> <span class="n">σw</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.05</span>
+<span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">σv</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="kt">Int</span><span class="p">(</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="p">);</span>  <span class="mf">1.0</span> <span class="o">.+</span> <span class="n">σv</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="kt">Int</span><span class="p">(</span><span class="n">N</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="p">)]</span>
+<span class="n">map_width</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">σw</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">map_width</span><span class="p">,</span> <span class="n">map_width</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span> <span class="o">.+</span> <span class="mf">0.5</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">plot_som</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="n">scatter</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">scatter</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="c"># w[i, j, 1]とw[i, j, 2]の点をプロット</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>近傍関数 (neighborhood function)のための二次元ガウス関数を実装する．Winnerニューロンからの距離に応じて値が減弱する関数である．ここでは一つの入力に対して全てのニューロンの活動ベクトルを更新するということはせず，winner neuronの近傍のニューロンのみ更新を行う．つまり，更新においてはglobalではなくlocalな処理のみを行うということである （Winner neuronの決定にはWTAによるglobalな評価が必要ではあるが）．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gaussian mask for inputs</span>
+<span class="k">function</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="n">sizex</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">sizey</span><span class="o">=</span><span class="mi">9</span><span class="p">;</span> <span class="n">σ</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">sizey</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">sizex</span><span class="p">)</span><span class="o">&#39;</span> 
+    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span> <span class="o">.-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">.-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">(</span><span class="n">σ</span><span class="o">^</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">mask</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>自己組織化マップのメインとなる関数を書く．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="c"># α0: update rate, σ0 : width, T : training steps</span>
+    <span class="n">map_width</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">w</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">w_history</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)]</span> <span class="c"># history of w</span>
+    <span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">T</span>
+        <span class="n">α</span> <span class="o">=</span> <span class="n">α0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">/</span><span class="n">T</span><span class="p">);</span> <span class="c"># update rate</span>
+        <span class="n">σ</span> <span class="o">=</span> <span class="p">(</span><span class="n">σ0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">/</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="c"># decay from large to small</span>
+        <span class="n">wm</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="mi">2</span><span class="n">wm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="n">wm</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="n">σ</span><span class="p">);</span>
+        <span class="c"># loop for the N inputs</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">sum</span><span class="p">([(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">.-</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span><span class="o">.^</span><span class="mi">2</span> <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">dims</span><span class="p">])</span> <span class="c"># distance between input and neurons</span>
+            <span class="n">win_idx</span> <span class="o">=</span> <span class="n">argmin</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="c"># winner index</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">win_idx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">wm</span><span class="p">)</span><span class="o">:</span><span class="n">min</span><span class="p">(</span><span class="n">map_width</span><span class="p">,</span> <span class="n">win_idx</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">wm</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span> <span class="c"># neighbor indices</span>
+            <span class="c"># update the winner &amp; neighbor neuron</span>
+            <span class="n">η</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">dims</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">.*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">.-</span> <span class="n">w</span><span class="p">[</span><span class="n">idx</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+        <span class="n">append!</span><span class="p">(</span><span class="n">w_history</span><span class="p">,</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)])</span> <span class="c"># save w</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">w_history</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">w_history</span> <span class="o">=</span> <span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>青点が<span class="math notranslate nohighlight">\(\mathbf{v}\)</span>，オレンジの点が<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>である．黒線はニューロン間の位置関係を表す．下段のヒートマップは<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>の一番目の次元を表す．学習が進むとともに近傍のニューロンが近い活動ベクトルを持つことがわかる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> 
+<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">wh</span> <span class="o">=</span> <span class="n">w_history</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&quot;Epoch : &quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">plot_som</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">wh</span><span class="p">);</span> <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="n">length</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">wh</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/self-organizing-map_12_0.png" src="../_images/self-organizing-map_12_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id20">
+<h2>視覚野マップ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<p>集合の直積を配列として返す関数 <code class="docutils literal notranslate"><span class="pre">product</span></code>と極座標を直交座標に変換する関数 <code class="docutils literal notranslate"><span class="pre">pol2cart</span></code>を用意する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">product</span><span class="p">(</span><span class="n">sets</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">collect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">Iterators</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sets</span><span class="o">...</span><span class="p">)]</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span> <span class="c"># Array of Cartesian product of sets </span>
+<span class="n">pol2cart</span><span class="p">(</span><span class="n">θ</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">),</span> <span class="n">r</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">)];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id90">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># generate stimulus</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">NOD</span><span class="p">,</span> <span class="n">NOR</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c"># dims of inputs </span>
+<span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.2</span>
+
+<span class="n">rx</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">Nx</span><span class="p">),</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">Ny</span><span class="p">)</span>
+<span class="n">rOD</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">l</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">NOD</span><span class="p">)</span>
+<span class="n">rORθ</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="nb">π</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">NOR</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># stimuli</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">rOD</span><span class="p">,</span> <span class="n">rORθ</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+<span class="n">rORxy</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">pol2cart</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span><span class="o">...</span><span class="p">)</span>
+<span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">rORxy</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">rORxy</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">];</span>
+<span class="n">v</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">...</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-5</span><span class="p">;</span>
+
+<span class="c"># initial neurons</span>
+<span class="n">map_width</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">map_width</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">product</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">map_width</span><span class="p">),</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">map_width</span><span class="p">))</span>
+<span class="n">w</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">...</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">;</span>
+<span class="n">w</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="mi">2</span><span class="n">l</span><span class="o">*</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="n">hcat</span><span class="p">(</span><span class="n">pol2cart</span><span class="o">.</span><span class="p">(</span><span class="mi">4</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">r</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">))</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span><span class="p">]</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">map_width</span><span class="p">,</span> <span class="n">map_width</span><span class="p">,</span> <span class="n">dims</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">SOM!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">α0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">σ0</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">50</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>描画用関数を実装する． <code class="docutils literal notranslate"><span class="pre">w_history</span></code>を用いてアニメーションを作成すると発達の過程が可視化されるが，これは読者への課題とする．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">plot_visual_maps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Retinotopic map&quot;</span><span class="p">)</span>
+    <span class="n">plot_som</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Ocular dominance (OD) map&quot;</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">)</span> 
+
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Orientation (OR) angle map&quot;</span><span class="p">)</span>
+    <span class="n">ORmap</span> <span class="o">=</span> <span class="n">atan</span><span class="o">.</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">4</span><span class="p">]);</span> <span class="c"># get angle of polar </span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">ORmap</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;hsv&quot;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">)</span>
+
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Contours of OD and OR&quot;</span><span class="p">)</span>
+    <span class="n">sizex</span><span class="p">,</span> <span class="n">sizey</span> <span class="o">=</span> <span class="n">map_width</span><span class="p">,</span> <span class="n">map_width</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">sizey</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">*</span> <span class="n">ones</span><span class="p">(</span><span class="n">sizex</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
+    <span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">ORmap</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;hsv&quot;</span><span class="p">)</span>
+    <span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">tight_layout</span><span class="p">()</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_visual_maps</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/self-organizing-map_21_0.png" src="../_images/self-organizing-map_21_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id22">
+<h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<p id="id23"><dl class="citation">
+<dt class="label" id="id90"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
+<dd><p>Miguel A Carreira-Perpiñán, Richard J Lister, and Geoffrey J Goodhill. A computational model for the development of multiple maps in primary visual cortex. <em>Cereb. Cortex</em>, 15(8):1222–1233, August 2005.</p>
+</dd>
+<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
+<dd><p>Aniruddha Das. Cortical maps: where theory meets experiments. <em>Neuron</em>, 47(2):168–171, July 2005.</p>
+</dd>
+<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
+<dd><p>R Durbin and D Willshaw. An analogue approach to the travelling salesman problem using an elastic net method. <em>Nature</em>, 326(6114):689–691, 1987.</p>
+</dd>
+<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
+<dd><p>Richard Durbin and Graeme Mitchison. A dimension reduction framework for understanding cortical maps. <em>Nature</em>, 343(6259):644–647, February 1990.</p>
+</dd>
+<dt class="label" id="id70"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
+<dd><p>Geoffrey J Goodhill. Contributions of theoretical modeling to the understanding of neural map development. <em>Neuron</em>, 56(2):301–311, October 2007.</p>
+</dd>
+<dt class="label" id="id72"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
+<dd><p>Teuvo Kohonen. Self-organized formation of topologically correct feature maps. <em>Biol. Cybern.</em>, 43(1):59–69, January 1982.</p>
+</dd>
+<dt class="label" id="id73"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
+<dd><p>Teuvo Kohonen. Essentials of the self-organizing map. <em>Neural Netw.</em>, 37:52–65, January 2013.</p>
+</dd>
+<dt class="label" id="id87"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
+<dd><p>H-U Bauer N. V. Swindale. Application of kohonen's self-organizing feature map algorithm to cortical maps of orientation and direction preference. <em>Proceedings of the Royal Society B: Biological Sciences</em>, 265(1398):827, May 1998.</p>
+</dd>
+<dt class="label" id="id78"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
+<dd><p>K Obermayer, H Ritter, and K Schulten. A principle for the formation of the spatial structure of cortical feature maps. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 87(21):8345–8349, November 1990.</p>
+</dd>
+<dt class="label" id="id77"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
+<dd><p>Dario L Ringach. On the origin of the functional architecture of the cortex. <em>PLoS One</em>, 2(2):e251, February 2007.</p>
+</dd>
+<dt class="label" id="id68"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
+<dd><p>A Takeuchi and S Amari. Formation of topographic maps and columnar microstructures in nerve fields. <em>Biol. Cybern.</em>, 35(2):63–72, November 1979.</p>
+</dd>
+<dt class="label" id="id71"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
+<dd><p>Shigeru Tanaka, Masanobu Miyashita, and Jérôme Ribot. Roles of visual experience and intrinsic mechanism in the activity-dependent self-organization of orientation maps: theory and experiment. <em>Neural Netw.</em>, 17(8-9):1363–1375, October 2004.</p>
+</dd>
+<dt class="label" id="id69"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
+<dd><p>C von der Malsburg. Self-organization of orientation sensitive cells in the striate cortex. <em>Kybernetik</em>, 14(2):85–100, December 1973.</p>
+</dd>
+<dt class="label" id="id84"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
+<dd><p>D J Willshaw, C Von Der Malsburg, and Hugh Christopher Longuet-Higgins. How patterned neural connections can be set up by self-organization. <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em>, 194(1117):431–445, November 1976.</p>
+</dd>
+<dt class="label" id="id80"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
+<dd><p>繁 田中. 神経情報科学サマースクールNISS2001講義録 視覚野神経回路の自己組織化. <em>日本神経回路学会誌</em>, 9(1):41–48, 2002.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.7"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.7",
+            path: "./neural-development"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.7'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">神経回路の形態・発生の数理モデル</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="graph-theory-network-model.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">グラフ理論とネットワークモデル</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020-2021.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

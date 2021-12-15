@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JuliaのTips集 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -44,23 +44,36 @@
     <script src="../_static/custom.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://compneuro-julia.github.io/appendix/tips.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="有用なリンク集" href="useful-links.html" />
     <link rel="prev" title="ラット自由行動下の軌跡のシミュレーション" href="rat-trajectory.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
     
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -76,6 +89,10 @@
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
       <img src="../_static/logo.svg" class="logo" alt="logo">
       
       
@@ -85,7 +102,7 @@
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
@@ -189,6 +206,11 @@
      シナプス入力の重みづけ
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -237,7 +259,7 @@
  </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../information-theory/intro.html">
-   情報理論と最適化原理
+   情報理論と教師なし・自己教師あり学習
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -377,12 +399,34 @@
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neural-development/intro.html">
+   神経回路の形態・発生の数理モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="intro.html">
    付録
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-  <label for="toctree-checkbox-12">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label for="toctree-checkbox-13">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -530,7 +574,7 @@
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
             </div>
-            <nav id="bd-toc-nav">
+            <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
@@ -620,7 +664,7 @@
         
               <div>
                 
-  <div class="section" id="juliatips">
+  <div class="tex2jax_ignore mathjax_ignore section" id="juliatips">
 <h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
 <p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである．体系的にまとまってはいない．</p>
 <div class="section" id="id1">
@@ -661,8 +705,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.5832535214226895 0.9863239196768177; 0.9385627748273042 0.6036749327061697]
-wrong : [0.5832535214226895 0.9863239196768177; 0.9385627748273042 0.6036749327061697]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+wrong : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -679,14 +723,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
 [:, :, 1] =
- 0.171359  0.970301
- 0.368827  0.400136
+ 0.997107  0.0827965
+ 0.394606  0.847174
 
 [:, :, 2] =
- 0.415898  0.193467
- 0.39925   0.588116
+ 0.0305417  0.448929
+ 0.270553   0.601419
 </pre></div>
 </div>
 </div>
@@ -700,15 +744,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.17135901366980444
- 0.3688271762434565
- 0.9703008447114903
- 0.4001358330916738
- 0.41589764263469364
- 0.39925026276573816
- 0.19346717296946458
- 0.5881157611777139
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
 </pre></div>
 </div>
 </div>
@@ -721,15 +765,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
- 0.17135901366980444
- 0.3688271762434565
- 0.9703008447114903
- 0.4001358330916738
- 0.41589764263469364
- 0.39925026276573816
- 0.19346717296946458
- 0.5881157611777139
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
+ 0.25323335359382226
+ 0.8475284309218816
+ 0.46170218524594486
+ 0.3908851101558619
+ 0.2049406129688014
+ 0.20068478557126213
+ 0.29072826846396627
+ 0.5193322837086369
 </pre></div>
 </div>
 </div>
@@ -745,10 +789,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.89766   0.251363  0.621109
- 0.584915  0.156382  0.985538
- 0.288508  0.387411  0.0143406
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+ 0.947321  0.526878  0.464399
+ 0.290191  0.875268  0.279707
+ 0.319338  0.976441  0.375153
 </pre></div>
 </div>
 </div>
@@ -760,10 +804,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
- 0.506842  0.316118  0.383167
- 0.330259  0.196668  0.607986
- 0.162899  0.487214  0.00884685
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
+ 0.608486  0.221509  0.414916
+ 0.186396  0.367978  0.249904
+ 0.205118  0.410513  0.33518
 </pre></div>
 </div>
 </div>
@@ -775,7 +819,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.9999999999999999 1.0 1.0]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.0 1.0 1.0]
 </pre></div>
 </div>
 </div>
@@ -791,7 +835,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Array{Int64,2}:
  1  2
  3  4
 </pre></div>
@@ -805,7 +849,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Array{Int64,2}:
  4  5  6
  7  8  9
 </pre></div>
@@ -822,7 +866,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -836,7 +880,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -851,7 +895,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Matrix{Int64}}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Array{Array{Int64,2},1}:
  [1 2; 3 4]
  [4 5 6; 7 8 9]
 </pre></div>
@@ -868,7 +912,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -885,7 +929,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
  1  2
  3  4
  4  7
@@ -902,7 +946,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Matrix{Int64}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Array{Int64,2}:
  1  2  1  2
  3  4  3  4
  4  7  4  7
@@ -924,10 +968,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- 0.29868483872953977
- 0.9074295824314997
- 0.7142987103485341
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
+ 0.3487808667518093
+ 0.717776723811032
+ 0.3369916406749496
 </pre></div>
 </div>
 </div>
@@ -940,8 +984,8 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
- 0.298685  0.90743  0.714299
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
+ 0.348781  0.717777  0.336992
 </pre></div>
 </div>
 </div>
@@ -960,10 +1004,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{Vector{Float64}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,1},1}
 Size : (5,)
 </pre></div>
 </div>
@@ -979,7 +1020,7 @@ Size : (5,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64, Matrix{Float64}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64,Array{Float64,2}}
 Size : (5, 3)
 </pre></div>
 </div>
@@ -996,7 +1037,7 @@ Size : (5, 3)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector{Array{Float64, 3}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,3},1}
 Size : (6,)
 </pre></div>
 </div>
@@ -1012,7 +1053,7 @@ Size : (6,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64, 4}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64,4}
 Size : (6, 3, 4, 5)
 </pre></div>
 </div>
@@ -1052,13 +1093,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.91 KiB
   allocs estimate:  7
   --------------
-  minimum time:     866.038 ns (0.00% GC)
-  median time:      896.226 ns (0.00% GC)
-  mean time:        967.730 ns (2.68% GC)
-  maximum time:     14.879 μs (87.81% GC)
+  minimum time:     676.823 ns (0.00% GC)
+  median time:      692.073 ns (0.00% GC)
+  mean time:        727.852 ns (2.96% GC)
+  maximum time:     4.498 μs (81.11% GC)
   --------------
   samples:          10000
-  evals/sample:     53
+  evals/sample:     164
 </pre></div>
 </div>
 </div>
@@ -1070,7 +1111,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.68
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7
 </pre></div>
 </div>
 </div>
@@ -1086,13 +1127,13 @@ Size : (6, 3, 4, 5)
   memory estimate:  1.55 KiB
   allocs estimate:  6
   --------------
-  minimum time:     935.714 ns (0.00% GC)
-  median time:      985.714 ns (0.00% GC)
-  mean time:        1.068 μs (2.48% GC)
-  maximum time:     33.625 μs (96.30% GC)
+  minimum time:     853.704 ns (0.00% GC)
+  median time:      885.185 ns (0.00% GC)
+  mean time:        942.825 ns (2.37% GC)
+  maximum time:     14.357 μs (92.66% GC)
   --------------
   samples:          10000
-  evals/sample:     28
+  evals/sample:     54
 </pre></div>
 </div>
 </div>
@@ -1104,7 +1145,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.73
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.75
 </pre></div>
 </div>
 </div>
@@ -1177,10 +1218,10 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
-  -6.36945   -12.1054    -11.5015   -37.2391
-  -7.43169   -13.7294    -12.4696   -37.2072
- -10.8617    -20.535     -19.3533   -61.7945
-   0.569664    0.213792   -1.06218  -10.4073
+  7.48615    9.41654   -20.793     19.7621
+  3.06062    3.92791    -8.25035    7.83341
+ -0.381216  -0.584791    0.720943  -0.674582
+ 10.862     13.4379    -30.8914    29.3825
 </pre></div>
 </div>
 </div>
@@ -1231,9 +1272,7 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
 [6, 7, 8]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
+[6, 7, 8]
 </pre></div>
 </div>
 </div>
@@ -1266,12 +1305,12 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6×5 Matrix{Float64}:
- 0.833379   0.506352  0.587947   0.784246  0.0260247
- 0.506091   0.826972  0.279171   0.86387   0.0400987
- 0.0645915  0.594297  0.126421   0.181552  0.688678
- 0.287908   0.554669  0.265179   0.229792  0.311631
- 0.948209   0.736961  0.0463345  0.39206   0.84656
- 0.254488   0.999719  0.771749   0.868979  0.192396
+ 0.739487  0.8304     0.286207  0.947494   0.0630385
+ 0.356352  0.0060772  0.934196  0.209395   0.811516
+ 0.937235  0.472855   0.612326  0.0594509  0.102762
+ 0.87721   0.620689   0.357544  0.015024   0.16569
+ 0.300086  0.62311    0.240329  0.194447   0.052495
+ 0.250987  0.390994   0.697225  0.305612   0.125621
 </pre></div>
 </div>
 </div>
@@ -1288,36 +1327,47 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.6"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "julia-1.6",
+            kernelName: "julia-1.7",
             path: "./appendix"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.6'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               
         
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="rat-trajectory.html" title="previous page">ラット自由行動下の軌跡のシミュレーション</a>
-    <a class='right-next' id="next-link" href="useful-links.html" title="next page">有用なリンク集</a>
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="rat-trajectory.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">ラット自由行動下の軌跡のシミュレーション</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="useful-links.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">有用なリンク集</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
           By Takuto Yamamoto<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2020-2021.<br/>
           <div class="extra_footer">
             <div>
 <script src="https://utteranc.es/client.js"
@@ -1340,18 +1390,7 @@ async>
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-172979897-1', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>

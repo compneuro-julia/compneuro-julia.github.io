@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ラット自由行動下の軌跡のシミュレーション &#8212; Juliaで学ぶ計算論的神経科学</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -44,7 +44,7 @@
     <script src="../_static/custom.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
@@ -57,8 +57,21 @@
     <link rel="next" title="JuliaのTips集" href="tips.html" />
     <link rel="prev" title="ベイズ線形回帰 (Bayesian linear regression)" href="bayesian-linear-regression.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
     
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -74,6 +87,10 @@
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
       <img src="../_static/logo.svg" class="logo" alt="logo">
       
       
@@ -83,7 +100,7 @@
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
@@ -187,6 +204,11 @@
      シナプス入力の重みづけ
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -235,7 +257,7 @@
  </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../information-theory/intro.html">
-   情報理論と最適化原理
+   情報理論と教師なし・自己教師あり学習
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -375,12 +397,34 @@
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neural-development/intro.html">
+   神経回路の形態・発生の数理モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="intro.html">
    付録
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-  <label for="toctree-checkbox-12">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label for="toctree-checkbox-13">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -533,9 +577,9 @@
         
               <div>
                 
-  <div class="section" id="id1">
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
 <h1>ラット自由行動下の軌跡のシミュレーション<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>(<a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002553">Raudies &amp; Hasselmo, PLoS Comput Biol. 2012</a>) の擬似コードに従って作成．</p>
+<p>(<a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002553">Raudies &amp; Hasselmo, PLoS Comput Biol. 2012</a>) の擬似コードおよび[<a class="reference external" href="https://github.com/ganguli-lab/grid-pattern-formation/blob/master/trajectory_generator.py">https://github.com/ganguli-lab/grid-pattern-formation/blob/master/trajectory_generator.py</a>] を参考に作成．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Distributions</span>
@@ -545,20 +589,13 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ROOM_LEN</span> <span class="o">=</span> <span class="mf">2.2</span>        <span class="c"># Width and height of environment (meters)</span>
-<span class="n">PERIMETER_DIST</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c"># Perimeter region distance to walls (meters)</span>
-<span class="n">σv</span> <span class="o">=</span> <span class="mf">0.13</span>            <span class="c"># Forward velocity Rayleigh distribution scale (m/sec)</span>
-<span class="n">μω</span> <span class="o">=</span> <span class="mf">0.0</span>            <span class="c"># Rotation velocity Gaussian distribution mean (rad/sec)</span>
-<span class="n">σω</span> <span class="o">=</span> <span class="p">(</span><span class="mi">330</span> <span class="o">/</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="nb">π</span> <span class="c"># Rotation velocity Gaussian distribution standard deviation (rad/sec)</span>
-<span class="n">Δt</span> <span class="o">=</span> <span class="mf">0.02</span>            <span class="c"># Simulation-step time increment (seconds)</span>
-<span class="n">ρdecel</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>       <span class="c"># Velocity reduction factor when located in the perimeter</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="nb">π</span><span class="p">);</span> <span class="c"># limit 0~2π angle</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">box_width</span><span class="p">,</span> <span class="n">box_height</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">;</span> <span class="c"># Width and height of environment (meters)</span>
+<span class="n">perimeter_dist</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c"># Perimeter region distance to walls (meters)</span>
+<span class="n">σv</span> <span class="o">=</span> <span class="mf">0.13</span>              <span class="c"># Forward velocity Rayleigh distribution scale (m/sec)</span>
+<span class="n">μω</span> <span class="o">=</span> <span class="mf">0.0</span>               <span class="c"># Rotation velocity Gaussian distribution mean (rad/sec)</span>
+<span class="n">σω</span> <span class="o">=</span> <span class="p">(</span><span class="mi">330</span> <span class="o">/</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="nb">π</span>  <span class="c"># Rotation velocity Gaussian distribution standard deviation (rad/sec)</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.02</span>              <span class="c"># Simulation-step time increment (seconds)</span>
+<span class="n">decel_rate</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">;</span>     <span class="c"># velocity reduction factor when located in the perimeter</span>
 </pre></div>
 </div>
 </div>
@@ -576,31 +613,26 @@
 </div>
 </div>
 </div>
-<p>並進速度をレイリー分布，回転速度を正規分布に従うようにランダムサンプリングする．壁の接ベクトルとラットの距離をdWall, 壁の法線ベクトルとラットの頭方向の角度の差をaWallとする．なお，壁とはラットの自己速度ベクトルと壁全体との交点である．</p>
+<p>並進速度をレイリー分布，回転速度を正規分布に従うようにランダムサンプリングする．壁の接ベクトルとラットの距離をdist_wall, 壁の法線ベクトルとラットの頭方向の角度の差をangle_wallとする．なお，壁とはラットの自己速度ベクトルと壁全体との交点である．</p>
 <ul class="simple">
 <li><p>ラットの自己速度ベクトルと壁全体との交点を求める．</p></li>
 <li><p>交点の接ベクトルと法線ベクトルを求める．</p></li>
-<li><p>接ベクトルとの距離をdWallとする．</p></li>
-<li><p>法線ベクトルと成す角をaWallとする．</p></li>
+<li><p>接ベクトルとの距離をdist_wallとする．</p></li>
+<li><p>法線ベクトルと成す角をangle_wallとする．</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># for square room of size ROOM_LEN x ROOM_LEN</span>
-<span class="c"># d:dist, a:angle</span>
-<span class="k">function</span> <span class="n">minDistAngleSquare</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">PERIMETER_DIST</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">θ</span> <span class="o">+</span> <span class="nb">π</span>
-    <span class="k">elseif</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">PERIMETER_DIST</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">θ</span> <span class="o">+</span> <span class="mf">1.5</span><span class="nb">π</span>
-    <span class="k">elseif</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ROOM_LEN</span> <span class="o">-</span> <span class="n">PERIMETER_DIST</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="n">ROOM_LEN</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">θ</span>
-    <span class="k">elseif</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ROOM_LEN</span> <span class="o">-</span> <span class="n">PERIMETER_DIST</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="n">ROOM_LEN</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">θ</span> <span class="o">+</span> <span class="mf">0.5</span><span class="nb">π</span>
-    <span class="k">else</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.0</span>
-    <span class="k">end</span>
-    <span class="n">aWall</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">aWall</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">minDistAngle</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">head_dir</span><span class="p">,</span> <span class="n">wall_type</span><span class="o">=</span><span class="s">&quot;square&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">pos</span>
+    <span class="k">if</span> <span class="n">wall_type</span> <span class="o">==</span> <span class="s">&quot;square&quot;</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[</span><span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">y</span><span class="p">,</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">,</span> <span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="p">]</span>
+        <span class="n">dist_wall</span><span class="p">,</span> <span class="n">nearest_wall</span> <span class="o">=</span> <span class="n">findmin</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span>
+        <span class="n">angle_wall</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">head_dir</span> <span class="o">-</span> <span class="p">(</span><span class="n">nearest_wall</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="nb">π</span><span class="p">,</span> <span class="mi">2</span><span class="nb">π</span><span class="p">)</span> <span class="o">-</span> <span class="nb">π</span>
+    <span class="k">elseif</span> <span class="n">wall_type</span> <span class="o">==</span> <span class="s">&quot;circle&quot;</span>
+        <span class="n">dist_wall</span> <span class="o">=</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">angle_wall</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">head_dir</span> <span class="o">-</span> <span class="n">atan</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="nb">π</span><span class="p">,</span> <span class="mi">2</span><span class="nb">π</span><span class="p">)</span> <span class="o">-</span> <span class="nb">π</span>
+    <span class="k">end</span> 
+    <span class="k">return</span> <span class="n">dist_wall</span><span class="p">,</span> <span class="n">angle_wall</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -608,39 +640,45 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">generateRatTrajectory</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">generate_trajectory</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">wall_type</span><span class="p">)</span>
     <span class="c"># store arrays</span>
-    <span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">Speed</span><span class="p">,</span> <span class="n">θ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span> <span class="c"># Forward speed, head direction</span>
+    <span class="n">position</span><span class="p">,</span> <span class="n">velocity</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">head_dir</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span> <span class="c"># head direction</span>
+    <span class="n">speed</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Rayleigh</span><span class="p">(</span><span class="n">σv</span><span class="p">),</span> <span class="n">num_steps</span><span class="p">)</span> <span class="c"># Forward speed</span>
+    <span class="n">random_turn</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Normal</span><span class="p">(</span><span class="n">μω</span><span class="p">,</span> <span class="n">σω</span><span class="p">),</span> <span class="n">num_steps</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
 
     <span class="c"># initial values</span>
-    <span class="n">θ</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Speed</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="nb">π</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="n">Position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">clamp</span><span class="o">.</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">ROOM_LEN</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ROOM_LEN</span><span class="o">-</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">Velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">Speed</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+    <span class="n">head_dir</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="nb">π</span>
+    <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">.-</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">.*</span> <span class="p">([</span><span class="n">box_width</span><span class="p">,</span> <span class="n">box_height</span><span class="p">]</span> <span class="o">.-</span> <span class="n">perimeter_dist</span><span class="p">)</span>
     
     <span class="c"># iteration of trajectory</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_steps</span><span class="o">-</span><span class="mi">1</span>
-        <span class="n">dWall</span><span class="p">,</span> <span class="n">aWall</span> <span class="o">=</span> <span class="n">minDistAngleSquare</span><span class="p">(</span><span class="n">Position</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">dWall</span> <span class="o">&lt;</span> <span class="n">PERIMETER_DIST</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">aWall</span> <span class="o">&lt;</span> <span class="nb">π</span><span class="p">)</span>
-            <span class="n">Speed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ρdecel</span> <span class="o">*</span> <span class="n">Speed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="c"># deceleration</span>
-            <span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">sign</span><span class="p">(</span><span class="n">aWall</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">abs</span><span class="p">(</span><span class="n">aWall</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">μω</span> <span class="o">+</span> <span class="n">randn</span><span class="p">()</span><span class="o">*</span><span class="n">σω</span><span class="p">))</span> <span class="c"># turn, </span>
-        <span class="k">else</span>
-            <span class="n">Speed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Rayleigh</span><span class="p">(</span><span class="n">σv</span><span class="p">))</span>
-            <span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">μω</span> <span class="o">+</span> <span class="n">randn</span><span class="p">()</span><span class="o">*</span><span class="n">σω</span><span class="p">)</span> <span class="o">*</span> <span class="n">Δt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_steps</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">turn_angle</span> <span class="o">=</span> <span class="n">random_turn</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+        <span class="n">dist_wall</span><span class="p">,</span> <span class="n">angle_wall</span> <span class="o">=</span> <span class="n">minDistAngle</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">head_dir</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">wall_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dist_wall</span> <span class="o">&lt;</span> <span class="n">perimeter_dist</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">angle_wall</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">π</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="c"># avoid wall</span>
+            <span class="n">speed</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*=</span> <span class="n">decel_rate</span> <span class="c"># deceleration</span>
+            <span class="n">turn_angle</span> <span class="o">+=</span> <span class="n">sign</span><span class="p">(</span><span class="n">angle_wall</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">abs</span><span class="p">(</span><span class="n">angle_wall</span><span class="p">))</span>
         <span class="k">end</span>
-        <span class="n">Position</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">Position</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">Velocity</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">Δt</span>
-        <span class="n">Velocity</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">Speed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]),</span> <span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="n">velocity</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">speed</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="p">[</span><span class="n">cos</span><span class="p">(</span><span class="n">head_dir</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span> <span class="n">sin</span><span class="p">(</span><span class="n">head_dir</span><span class="p">[</span><span class="n">t</span><span class="p">])]</span>
+        <span class="n">position</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">velocity</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">head_dir</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">head_dir</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">turn_angle</span><span class="p">,</span> <span class="mi">2</span><span class="nb">π</span><span class="p">)</span> <span class="c"># turn, </span>
     <span class="k">end</span>
-    <span class="k">return</span> <span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="n">θ</span>
+    <span class="k">return</span> <span class="n">position</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">head_dir</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>5分間のシミュレーションを行う．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_timesteps</span> <span class="o">=</span> <span class="mi">50000</span>
-<span class="n">Position</span><span class="p">,</span> <span class="n">Velocity</span><span class="p">,</span> <span class="n">Speed</span><span class="p">,</span> <span class="n">θ</span> <span class="o">=</span>  <span class="n">generateRatTrajectory</span><span class="p">(</span><span class="n">num_timesteps</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">300</span> <span class="c"># simulation time (sec)</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">wall_types</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;square&quot;</span><span class="p">,</span> <span class="s">&quot;circle&quot;</span><span class="p">]</span>
+<span class="n">positions</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+    <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span>  <span class="n">generate_trajectory</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">wall_types</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
@@ -648,14 +686,15 @@
 <p>黒点から始まり、赤点に終わる。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&quot;Rat trajectory pathway&quot;</span><span class="p">)</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x (meters)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y (meters)&quot;</span><span class="p">)</span>
-<span class="c">#xlim((0, ROOM_LEN+0.01)); ylim((0, ROOM_LEN))</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Position</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;ko&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Start&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Position</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Position</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;ro&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Goal&quot;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">Position</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Position</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">legend</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&quot;Wall type: &quot;</span><span class="o">*</span><span class="n">wall_types</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x (meters)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y (meters)&quot;</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;ko&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Start&quot;</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="k">end</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">&quot;ro&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Goal&quot;</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="k">end</span>
 <span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -675,36 +714,47 @@
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.6"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "julia-1.6",
+            kernelName: "julia-1.7",
             path: "./appendix"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.6'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               
         
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="bayesian-linear-regression.html" title="previous page">ベイズ線形回帰 (Bayesian linear regression)</a>
-    <a class='right-next' id="next-link" href="tips.html" title="next page">JuliaのTips集</a>
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="bayesian-linear-regression.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">ベイズ線形回帰 (Bayesian linear regression)</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="tips.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">JuliaのTips集</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
           By Takuto Yamamoto<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2020-2021.<br/>
           <div class="extra_footer">
             <div>
 <script src="https://utteranc.es/client.js"
@@ -727,18 +777,7 @@ async>
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-172979897-1', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>

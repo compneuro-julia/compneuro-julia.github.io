@@ -5,13 +5,13 @@
 （2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が**講談社サイエンティフィク**で承認されました．出版予定は**2025年春**です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.6.0
+Julia 1.7.0
 ```
 
-### 依存ライブラリ
-`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
+## 依存ライブラリ
+`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
 
-※ PyCallに関してはPythonライブラリ `scipy`を使用．
+※ PyCallに関してはPythonライブラリ `scipy, networkx`を使用．
 
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
@@ -30,13 +30,14 @@ Julia 1.6.0
 	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/synapse-model/expo-synapse.html)
 	1. [動力学モデル](https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html)
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
+	1. [動的シナプス](https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html)
 1. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
 1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
 	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
 	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
-1. [情報理論と最適化原理](https://compneuro-julia.github.io/information-theory/intro.html)
+1. [情報理論と教師なし・自己教師あり学習](https://compneuro-julia.github.io/information-theory/intro.html)
 	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/information-theory/statistics-information.html)
 	1. [Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
 1. [連想記憶モデル](https://compneuro-julia.github.io/associative-memory-model/intro.html)
@@ -56,6 +57,9 @@ Julia 1.6.0
     1. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
 1. [時空間の符号化](https://compneuro-julia.github.io/spatiotemporal-coding/intro.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/spatiotemporal-coding/grid-cells-decoding.html)
+1. [神経回路の形態・発生の数理モデル](https://compneuro-julia.github.io/neural-development/intro.html)
+    1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
+    1. [グラフ理論とネットワークモデル](https://compneuro-julia.github.io/neural-development/graph-theory-network-model.html)
 - [付録](https://compneuro-julia.github.io/appendix/intro.html)
 	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
 	1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
