@@ -625,9 +625,8 @@
 <p>数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">PyCall</span>
-<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyDict</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.top&quot;</span><span class="p">],</span> <span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.right&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -672,6 +671,11 @@
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/expo-synapse_3_0.png" src="../_images/expo-synapse_3_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
+│   caller = npyinitialize() at numpy.jl:67
+└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+</pre></div>
+</div>
 </div>
 </div>
 <p>2種類の指数関数型シナプスの動態．破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである．</p>

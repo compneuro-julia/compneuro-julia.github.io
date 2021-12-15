@@ -620,9 +620,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">Statistics</span><span class="p">,</span> <span class="n">LinearAlgebra</span>
-<span class="k">using</span> <span class="n">PyCall</span>
-<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyDict</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.top&quot;</span><span class="p">],</span> <span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.right&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -695,7 +693,7 @@
 <img alt="../_images/slow-feature-analysis_8_0.png" src="../_images/slow-feature-analysis_8_0.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
 │   caller = npyinitialize() at numpy.jl:67
-└ @ PyCall C:\Users\yamtak\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
 </pre></div>
 </div>
 </div>

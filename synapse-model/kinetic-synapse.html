@@ -618,9 +618,8 @@
 <p>となる．ただし, Tはシナプス前細胞が発火したときにインパルス的に1だけ増加するとする．また, <span class="math notranslate nohighlight">\(\alpha, \beta\)</span>は速度なので, 時定数の逆数であることに注意しよう． <span class="math notranslate nohighlight">\(\alpha=2000 \text{ms}^{-1}\)</span>, <span class="math notranslate nohighlight">\(\beta=200 \text{ms}^{-1}\)</span>とすると, シナプス動態は次のようになる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">PyCall</span>
-<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyDict</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.top&quot;</span><span class="p">],</span> <span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.right&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -649,6 +648,11 @@
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/kinetic-synapse_2_0.png" src="../_images/kinetic-synapse_2_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
+│   caller = npyinitialize() at numpy.jl:67
+└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -737,7 +741,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.169165 seconds (397.92 k allocations: 22.435 MiB, 94.96% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.101354 seconds (505.11 k allocations: 25.856 MiB, 94.52% compilation time)
 </pre></div>
 </div>
 </div>

@@ -690,9 +690,8 @@ f(t; \lambda)=\frac{dF(t; \lambda)}{dt}=\lambda e^{-\lambda t}
 <p>まず必要なパッケージを読み込む．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">PyCall</span>
-<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyDict</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.top&quot;</span><span class="p">],</span> <span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;axes.spines.right&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">Distributions</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -729,7 +728,7 @@ f(t; \lambda)=\frac{dF(t; \lambda)}{dt}=\lambda e^{-\lambda t}
 <img alt="../_images/isi_6_0.png" src="../_images/isi_6_0.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
 │   caller = npyinitialize() at numpy.jl:67
-└ @ PyCall C:\Users\yamtak\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
 </pre></div>
 </div>
 </div>
@@ -890,7 +889,7 @@ Firing rate : 29.8Hz
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.364890 seconds (1.69 M allocations: 86.098 MiB, 3.51% gc time, 98.97% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.418539 seconds (1.69 M allocations: 86.107 MiB, 3.37% gc time, 98.92% compilation time)
 Num. of spikes : 283.0
 Firing rate : 28.299999999999997Hz
 </pre></div>
