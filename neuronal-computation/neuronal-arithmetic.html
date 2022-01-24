@@ -43,7 +43,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -408,6 +408,11 @@
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../neural-development/self-organizing-map.html">
      自己組織化マップと視覚野の構造
     </a>
@@ -512,7 +517,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -567,7 +572,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -587,7 +592,30 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>ゲイン調節と四則演算</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
@@ -606,37 +634,25 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">HHIAParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
-    <span class="n">Cm</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="c"># 膜容量(uF/cm^2)</span>
-    <span class="n">gNa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">37.0</span> <span class="c"># Na+ の最大コンダクタンス(mS/cm^2)</span>
-    <span class="n">gK</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mf">45.0</span> <span class="c"># K+ の最大コンダクタンス(mS/cm^2)</span>
-    <span class="n">gL</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span>  <span class="mf">1.0</span> <span class="c"># 漏れイオンの最大コンダクタンス(mS/cm^2)</span>
-    <span class="n">gA</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span>  <span class="mf">20.0</span>
-    <span class="n">ENa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">55.0</span> <span class="c"># Na+ の平衡電位(mV)</span>
-    <span class="n">EK</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">80.0</span> <span class="c"># K+ の平衡電位(mV)</span>
-    <span class="n">EL</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">70.0</span> <span class="c">#漏れイオンの平衡電位(mV)</span>
-    <span class="n">gExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">gInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">VExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">VInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">85.0</span>
-    <span class="n">βExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.2</span>
-    <span class="n">βInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.18</span>
-    <span class="n">tr</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c"># ms</span>
-    <span class="n">td</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">8.0</span> <span class="c"># ms</span>
-    <span class="n">γ1</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span>
-    <span class="n">γ2</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tr</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span>
-    <span class="n">v0</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">20.0</span> <span class="c"># mV</span>
+    <span class="n">Cm</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mi">1</span> <span class="c"># 膜容量(uF/cm^2)</span>
+    <span class="n">gNa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">37</span><span class="p">;</span> <span class="n">gK</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">45</span><span class="p">;</span> <span class="n">gA</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">gL</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># Na, K, Kₐ, leakの最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">ENa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">55</span><span class="p">;</span> <span class="n">EK</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span><span class="p">;</span> <span class="n">EL</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">70</span> <span class="c">#Na, K, leakの平衡電位(mV)</span>
+    <span class="n">gExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span> <span class="n">gInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">VExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="n">VInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">85</span>
+    <span class="n">βExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span> <span class="n">βInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.18</span>
+    <span class="n">tr</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>   <span class="n">td</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">8</span> <span class="c"># ms</span>
+    <span class="n">γ1</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span><span class="p">;</span>  <span class="n">γ2</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tr</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span>
+    <span class="n">v0</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20</span> <span class="c"># mV</span>
 <span class="k">end</span>
 
 <span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">HHIA</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
     <span class="n">param</span><span class="o">::</span><span class="kt">HHIAParameter</span> <span class="o">=</span> <span class="kt">HHIAParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
     <span class="n">N</span><span class="o">::</span><span class="kt">Int</span>
-    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">n</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">a</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">b</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">70</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">r</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">sExc</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">sInh</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mi">70</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="n">r</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">n</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">70</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mi">70</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mi">70</span> <span class="o">+</span> <span class="mi">70</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">sExc</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">);</span> <span class="n">sInh</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div>
 </div>
@@ -650,8 +666,8 @@
     <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
         <span class="n">m</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">30</span><span class="p">)</span><span class="o">/</span><span class="mi">15</span><span class="p">)),</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         
-        <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.125</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)))</span> <span class="o">-</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">80</span><span class="p">)</span><span class="o">/</span><span class="mi">26</span><span class="p">)))</span>
-        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)))</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.125</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)))</span> <span class="o">-</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">80</span><span class="p">)</span><span class="o">/</span><span class="mi">26</span><span class="p">)))</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)))</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">70</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">))</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">150</span>
         
         <span class="n">sExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">sExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">βExc</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="n">spikesExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -707,7 +723,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">FIcurve</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">spikesExc</span><span class="p">,</span> <span class="n">spikesInh</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01f0</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">FIcurve</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">spikesExc</span><span class="p">,</span> <span class="n">spikesInh</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
     <span class="n">varr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span>  <span class="n">neurons</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
     
@@ -735,7 +751,7 @@
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="mf">5e-2</span> <span class="c"># ms</span>
 <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">maxfrExc</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span> <span class="n">frInh</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0f0</span><span class="p">,</span> <span class="mf">50f0</span><span class="p">];</span> 
+<span class="n">maxfrExc</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span> <span class="n">frInh</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">];</span> 
 </pre></div>
 </div>
 </div>
@@ -798,7 +814,7 @@
 <img alt="../_images/neuronal-arithmetic_9_0.png" src="../_images/neuronal-arithmetic_9_0.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
 │   caller = npyinitialize() at numpy.jl:67
-└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+└ @ PyCall C:\Users\yamtak\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
 </pre></div>
 </div>
 </div>
@@ -839,8 +855,8 @@
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -857,18 +873,17 @@
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Takuto Yamamoto<br/>
-        
-            &copy; Copyright 2020-2021.<br/>
-          <div class="extra_footer">
-            <div>
+  <p>
+    
+      By Takuto Yamamoto<br/>
+    
+        &copy; Copyright 2020-2021.<br/>
+      <div class="extra_footer">
+        <div>
 <script src="https://utteranc.es/client.js"
 repo="compneuro-julia/compneuro-julia.github.io"
 issue-term="title"
@@ -879,10 +894,9 @@ async>
 </script>
 </div>
 
-          </div>
-      </p>
-    </div>
-  </footer>
+      </div>
+  </p>
+</footer>
 </main>
 
 

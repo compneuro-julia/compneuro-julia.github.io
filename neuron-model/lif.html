@@ -43,7 +43,7 @@
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/custom.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -410,6 +410,11 @@
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../neural-development/self-organizing-map.html">
      自己組織化マップと視覚野の構造
     </a>
@@ -514,7 +519,7 @@
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -569,7 +574,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -611,7 +616,52 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Leaky integrate-and-fire モデル</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lif">
+   LIFモデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   LIFモデルのシミュレーションの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#liff-i-curve">
+   LIFモデルのF-I curve
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#f-i-curve">
+     数値的計算によるF-I curveの描画
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     解析的計算によるF-I curveの描画
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="leaky-integrate-and-fire">
@@ -642,19 +692,14 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">LIFParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
-    <span class="n">tref</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="mi">2</span> <span class="c"># 不応期 (ms)</span>
-    <span class="n">tc_m</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="mi">10</span> <span class="c"># 膜時定数 (ms)</span>
-    <span class="n">vrest</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c"># 静止膜電位 (mV) </span>
-    <span class="n">vreset</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="c"># リセット電位 (mV) </span>
-    <span class="n">vthr</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c"># 閾値電位 (mV)</span>
-    <span class="n">vpeak</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mi">30</span> <span class="c">#　ピーク電位 (mV)</span>
+    <span class="n">tref</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">tc_m</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># 不応期, 膜時定数 (ms)</span>
+    <span class="n">vrest</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span><span class="p">;</span> <span class="n">vreset</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span><span class="p">;</span> <span class="n">vthr</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span><span class="p">;</span> <span class="n">vpeak</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">30</span> <span class="c">#　静止膜電位, リセット電位, 閾値電位, ピーク電位 (mV)</span>
 <span class="k">end</span>
 
 <span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">LIF</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
     <span class="n">param</span><span class="o">::</span><span class="kt">LIFParameter</span> <span class="o">=</span> <span class="kt">LIFParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
     <span class="n">N</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c">#ニューロンの数</span>
-    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 膜電位 (mV)</span>
-    <span class="n">v_</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火電位も記録する変数</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="n">v_</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 膜電位, 発火電位も記録する膜電位 (mV)</span>
     <span class="n">fire</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火</span>
     <span class="n">tlast</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="c"># 最後の発火時刻 (ms)</span>
     <span class="n">tcount</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># 時間カウント</span>
@@ -724,7 +769,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.124763 seconds (761.49 k allocations: 21.398 MiB, 5.29% gc time, 60.81% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.117048 seconds (761.73 k allocations: 21.408 MiB, 5.73% gc time, 60.41% compilation time)
 </pre></div>
 </div>
 </div>
@@ -743,7 +788,7 @@
 <img alt="../_images/lif_10_0.png" src="../_images/lif_10_0.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
 │   caller = npyinitialize() at numpy.jl:67
-└ @ PyCall C:\Users\yamta\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
+└ @ PyCall C:\Users\yamtak\.julia\packages\PyCall\3fwVL\src\numpy.jl:67
 </pre></div>
 </div>
 </div>
@@ -782,7 +827,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.115056 seconds (961.16 k allocations: 18.618 MiB, 5.05% gc time, 24.90% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.105205 seconds (961.16 k allocations: 18.618 MiB, 5.16% gc time, 24.48% compilation time)
 </pre></div>
 </div>
 </div>
@@ -925,8 +970,8 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="fhn.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -943,18 +988,17 @@ V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\r
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Takuto Yamamoto<br/>
-        
-            &copy; Copyright 2020-2021.<br/>
-          <div class="extra_footer">
-            <div>
+  <p>
+    
+      By Takuto Yamamoto<br/>
+    
+        &copy; Copyright 2020-2021.<br/>
+      <div class="extra_footer">
+        <div>
 <script src="https://utteranc.es/client.js"
 repo="compneuro-julia/compneuro-julia.github.io"
 issue-term="title"
@@ -965,10 +1009,9 @@ async>
 </script>
 </div>
 
-          </div>
-      </p>
-    </div>
-  </footer>
+      </div>
+  </p>
+</footer>
 </main>
 
 
