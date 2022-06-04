@@ -5,13 +5,13 @@
 （2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が**講談社サイエンティフィク**で承認されました．出版予定は**2025年春**です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.7.0
+Julia v1.8.0-rc1
 ```
 
 ## 依存ライブラリ
-`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
+`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, ImageTransformations, TestImages, ImageIO, ImageMagick, ColorTypes, FFTW`
 
-※ PyCallに関してはPythonライブラリ `scipy, networkx`を使用．
+※ PyCallに関してはPythonライブラリ `networkx`を使用．
 
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
@@ -48,12 +48,13 @@ Julia 1.7.0
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
     1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
     1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
+    1. [ガウススケール混合モデル (Gaussian scale mixture model)](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
 1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
     1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
 1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
     1. [躍度最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-jerk.html)
     1. [終点誤差分散最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-variance.html)
-    1. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html)
+    1. [最適フィードバック制御モデル (optimal feedback control)](https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html)
     1. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
 1. [時空間の符号化](https://compneuro-julia.github.io/spatiotemporal-coding/intro.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/spatiotemporal-coding/grid-cells-decoding.html)

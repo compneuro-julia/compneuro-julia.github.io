@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>自己組織化マップと視覚野の構造 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,41 +19,37 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script src="../_static/custom.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/neural-development/self-organizing-map.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -75,7 +72,21 @@
                     </script>
 
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -84,9 +95,10 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -104,14 +116,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../index.html">
-   Juliaで学ぶ計算論的神経科学
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../preface.html">
    まえがき
@@ -331,6 +344,11 @@
      予測符号化 (predictive coding)
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
+     ガウススケール混合モデル
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -476,111 +494,227 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/neural-development/self-organizing-map.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/neural-development/self-organizing-map.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/neural-development/self-organizing-map.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/neural-development/self-organizing-map.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/neural-development/self-organizing-map.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/neural-development/self-organizing-map.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/neural-development/self-organizing-map.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/neural-development/self-organizing-map.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id18">
    単純なデータセット
@@ -598,12 +732,11 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>自己組織化マップと視覚野の構造</h1>
@@ -637,18 +770,19 @@
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
-<h1>自己組織化マップと視覚野の構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id77">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id78">Kohonen, 2013</a>]</span>を取り上げる．</p>
-<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id83">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id92">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id90">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id94">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id95">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id76">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id82">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id88">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id75">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id85">田中, 2002</a>]</span>が詳しい．</p>
-<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id95">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
-[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id74">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id89">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id73">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
+<h1>自己組織化マップと視覚野の構造<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id90">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id91">Kohonen, 2013</a>]</span>を取り上げる．</p>
+<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id96">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id105">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id103">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id107">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id89">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id95">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id101">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id88">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id98">田中, 2002</a>]</span>が詳しい．</p>
+<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id87">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id102">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id86">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
 <div class="section" id="id18">
-<h2>単純なデータセット<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
-<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id78">Kohonen, 2013</a>]</span>．</p>
+<h2>単純なデータセット<a class="headerlink" href="#id18" title="Permalink to this headline">#</a></h2>
+<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id91">Kohonen, 2013</a>]</span>．</p>
 <p>n番目の入力 <span class="math notranslate nohighlight">\(\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)\)</span>に対して，m番目のニューロン<span class="math notranslate nohighlight">\(（m=1, \ldots, M）\)</span>の活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\in \mathbb{R}^{D}\)</span>を以下のように更新する (重みではなく活動自体を更新するということに注意)．</p>
 <p>まず，<span class="math notranslate nohighlight">\(\mathbf{v}(t)\)</span>と活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\)</span>が最も近いニューロンを見つける．距離はユークリッド距離を用いるのが標準である．</p>
 <div class="math notranslate nohighlight">
@@ -786,7 +920,7 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
 </div>
 </div>
 <div class="section" id="id20">
-<h2>視覚野マップ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<h2>視覚野マップ<a class="headerlink" href="#id20" title="Permalink to this headline">#</a></h2>
 <p>集合の直積を配列として返す関数 <code class="docutils literal notranslate"><span class="pre">product</span></code>と極座標を直交座標に変換する関数 <code class="docutils literal notranslate"><span class="pre">pol2cart</span></code>を用意する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -796,7 +930,7 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
 </div>
 </div>
 </div>
-<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id95">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
+<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># generate stimulus</span>
@@ -893,51 +1027,51 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
 </div>
 </div>
 <div class="section" id="id22">
-<h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">#</a></h2>
 <p id="id23"><dl class="citation">
-<dt class="label" id="id95"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
+<dt class="label" id="id108"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
 <dd><p>Miguel A Carreira-Perpiñán, Richard J Lister, and Geoffrey J Goodhill. A computational model for the development of multiple maps in primary visual cortex. <em>Cereb. Cortex</em>, 15(8):1222–1233, August 2005.</p>
 </dd>
-<dt class="label" id="id88"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
+<dt class="label" id="id101"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
 <dd><p>Aniruddha Das. Cortical maps: where theory meets experiments. <em>Neuron</em>, 47(2):168–171, July 2005.</p>
 </dd>
-<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
+<dt class="label" id="id103"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
 <dd><p>R Durbin and D Willshaw. An analogue approach to the travelling salesman problem using an elastic net method. <em>Nature</em>, 326(6114):689–691, 1987.</p>
 </dd>
-<dt class="label" id="id94"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
+<dt class="label" id="id107"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
 <dd><p>Richard Durbin and Graeme Mitchison. A dimension reduction framework for understanding cortical maps. <em>Nature</em>, 343(6259):644–647, February 1990.</p>
 </dd>
-<dt class="label" id="id75"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
+<dt class="label" id="id88"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
 <dd><p>Geoffrey J Goodhill. Contributions of theoretical modeling to the understanding of neural map development. <em>Neuron</em>, 56(2):301–311, October 2007.</p>
 </dd>
-<dt class="label" id="id77"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
+<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
 <dd><p>Teuvo Kohonen. Self-organized formation of topologically correct feature maps. <em>Biol. Cybern.</em>, 43(1):59–69, January 1982.</p>
 </dd>
-<dt class="label" id="id78"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
+<dt class="label" id="id91"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
 <dd><p>Teuvo Kohonen. Essentials of the self-organizing map. <em>Neural Netw.</em>, 37:52–65, January 2013.</p>
 </dd>
-<dt class="label" id="id92"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
+<dt class="label" id="id105"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
 <dd><p>H-U Bauer N. V. Swindale. Application of kohonen's self-organizing feature map algorithm to cortical maps of orientation and direction preference. <em>Proceedings of the Royal Society B: Biological Sciences</em>, 265(1398):827, May 1998.</p>
 </dd>
-<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
+<dt class="label" id="id96"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
 <dd><p>K Obermayer, H Ritter, and K Schulten. A principle for the formation of the spatial structure of cortical feature maps. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 87(21):8345–8349, November 1990.</p>
 </dd>
-<dt class="label" id="id82"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
+<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
 <dd><p>Dario L Ringach. On the origin of the functional architecture of the cortex. <em>PLoS One</em>, 2(2):e251, February 2007.</p>
 </dd>
-<dt class="label" id="id73"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
+<dt class="label" id="id86"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
 <dd><p>A Takeuchi and S Amari. Formation of topographic maps and columnar microstructures in nerve fields. <em>Biol. Cybern.</em>, 35(2):63–72, November 1979.</p>
 </dd>
-<dt class="label" id="id76"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
+<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
 <dd><p>Shigeru Tanaka, Masanobu Miyashita, and Jérôme Ribot. Roles of visual experience and intrinsic mechanism in the activity-dependent self-organization of orientation maps: theory and experiment. <em>Neural Netw.</em>, 17(8-9):1363–1375, October 2004.</p>
 </dd>
-<dt class="label" id="id74"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
+<dt class="label" id="id87"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
 <dd><p>C von der Malsburg. Self-organization of orientation sensitive cells in the striate cortex. <em>Kybernetik</em>, 14(2):85–100, December 1973.</p>
 </dd>
-<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
+<dt class="label" id="id102"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
 <dd><p>D J Willshaw, C Von Der Malsburg, and Hugh Christopher Longuet-Higgins. How patterned neural connections can be set up by self-organization. <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em>, 194(1117):431–445, November 1976.</p>
 </dd>
-<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
+<dt class="label" id="id98"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
 <dd><p>繁 田中. 神経情報科学サマースクールNISS2001講義録 視覚野神経回路の自己組織化. <em>日本神経回路学会誌</em>, 9(1):41–48, 2002.</p>
 </dd>
 </dl>
@@ -954,22 +1088,24 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8",
             path: "./neural-development"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="neurite-growth-model.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -985,17 +1121,17 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
-    
-      By Takuto Yamamoto<br/>
-    
-        &copy; Copyright 2020-2021.<br/>
-      <div class="extra_footer">
-        <div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+    <div class="extra_footer">
+      <div>
 <script src="https://utteranc.es/client.js"
 repo="compneuro-julia/compneuro-julia.github.io"
 issue-term="title"
@@ -1006,16 +1142,20 @@ async>
 </script>
 </div>
 
-      </div>
-  </p>
-</footer>
-</main>
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

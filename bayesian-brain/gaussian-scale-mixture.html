@@ -1,0 +1,1299 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ガウススケール混合モデル (Gaussian scale mixture model) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="強化学習" href="../reinforcement-learning/intro.html" />
+    <link rel="prev" title="予測符号化 (predictive coding)" href="predictive-coding.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuronal-computation/intro.html">
+   神経回路網の演算処理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../learning-rule/intro.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と教師なし・自己教師あり学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     ガウススケール混合モデル (Gaussian scale mixture model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neural-development/intro.html">
+   神経回路の形態・発生の数理モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neural-development/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <label for="toctree-checkbox-13">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/bayesian-brain/gaussian-scale-mixture.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/bayesian-brain/gaussian-scale-mixture.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/bayesian-brain/gaussian-scale-mixture.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/bayesian-brain/gaussian-scale-mixture.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   重み行列の作成
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#y-mathbf-c">
+   <span class="math notranslate nohighlight">
+    \(y\)
+   </span>
+   の事前分布の分散共分散行列
+   <span class="math notranslate nohighlight">
+    \(\mathbf{C}\)
+   </span>
+   の作成
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   事後分布等の関数
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     シミュレーション
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   結果
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   出力のサンプリング
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>ガウススケール混合モデル (Gaussian scale mixture model)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   重み行列の作成
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#y-mathbf-c">
+   <span class="math notranslate nohighlight">
+    \(y\)
+   </span>
+   の事前分布の分散共分散行列
+   <span class="math notranslate nohighlight">
+    \(\mathbf{C}\)
+   </span>
+   の作成
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   事後分布等の関数
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     シミュレーション
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   結果
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   出力のサンプリング
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="gaussian-scale-mixture-model">
+<h1>ガウススケール混合モデル (Gaussian scale mixture model)<a class="headerlink" href="#gaussian-scale-mixture-model" title="Permalink to this headline">#</a></h1>
+<p><strong>ガウススケール混合 (Gaussian scale mixture; GSM) モデル</strong>は</p>
+<p>neural sampling</p>
+<p><span id="id1">[<a class="reference internal" href="#id67">Sanborn and Chater, 2016</a>]</span>
+<span id="id2">[<a class="reference internal" href="#id64">Echeveste <em>et al.</em>, 2017</a>]</span>
+<span id="id3">[<a class="reference internal" href="#id63">Orbán <em>et al.</em>, 2016</a>]</span>
+<span id="id4">[<a class="reference internal" href="#id62">Echeveste <em>et al.</em>, 2020</a>]</span></p>
+<div class="math notranslate nohighlight">
+\[
+p\left(\mathbf{x}\mid\mathbf{y}, z\right)=\mathcal{N}\left(z \mathbf{A} \mathbf{y}, \sigma_{\mathbf{x}}^{2} \mathbf{I}\right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+p\left(\mathbf{y}\right)=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)
+\]</div>
+<div class="section" id="id5">
+<h2>重み行列の作成<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Distributions</span>
+<span class="k">using</span> <span class="n">PyPlot</span><span class="o">:</span> <span class="n">matplotlib</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gabor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">θ</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">λ</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ψ</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">xθ</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
+    <span class="n">yθ</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">.5</span><span class="p">(</span><span class="n">xθ</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">yθ</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">σ</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="nb">π</span><span class="o">/</span><span class="n">λ</span> <span class="o">*</span> <span class="n">xθ</span> <span class="o">+</span> <span class="n">ψ</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="mi">16</span>   <span class="c"># width/height of input image</span>
+<span class="n">Nx</span> <span class="o">=</span> <span class="n">L</span><span class="o">^</span><span class="mi">2</span> <span class="c"># dimension of the observed variable x</span>
+<span class="n">Ny</span> <span class="o">=</span> <span class="mi">50</span>  <span class="c"># dimension of the hidden variable y</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span> <span class="c"># weight matrix</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">L</span><span class="p">)</span> <span class="c"># position</span>
+<span class="n">θg</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="p">)</span> <span class="o">/</span> <span class="n">Ny</span> <span class="o">*</span> <span class="nb">π</span> <span class="c"># theta for gabor</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ny</span>
+    <span class="n">gb</span> <span class="o">=</span> <span class="n">gabor</span><span class="o">.</span><span class="p">(</span><span class="n">p</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">θg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">gb</span> <span class="o">/=</span> <span class="n">norm</span><span class="p">(</span><span class="n">gb</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-8</span> <span class="c"># normalization</span>
+    <span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gb</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="c"># flatten and save</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>重み行列<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>の一部を描画してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plot_idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">weight_idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">37</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;0°&quot;</span><span class="p">,</span> <span class="s">&quot;±90°&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">plot_idx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">weight_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_6_0.png" src="../_images/gaussian-scale-mixture_6_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="y-mathbf-c">
+<h2><span class="math notranslate nohighlight">\(y\)</span>の事前分布の分散共分散行列<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>の作成<a class="headerlink" href="#y-mathbf-c" title="Permalink to this headline">#</a></h2>
+<p>ガウス過程モデルが基本となっており，Kernelのcovariant matrixを事前分布にしている．重みに周期性があるため．</p>
+<p>正定値行列にする.　<code class="docutils literal notranslate"><span class="pre">Symmetric(Cov)</span></code> or <code class="docutils literal notranslate"><span class="pre">Matrix(Hermitian(Cov)))</span></code>を用いる．<code class="docutils literal notranslate"><span class="pre">cholesky(C)</span></code>が実行できるか確認．</p>
+<p>Pref. oriは最適方位 (preferred orientation)を意味する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">(</span><span class="n">x₁</span><span class="p">,</span> <span class="n">x₂</span><span class="p">,</span> <span class="n">ψ₁</span><span class="p">,</span> <span class="n">ψ₂</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">ψ₁</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">x₁</span><span class="o">-</span><span class="n">x₂</span><span class="p">)</span> <span class="o">/</span> <span class="n">ψ₂</span><span class="p">))</span> <span class="c"># periodic kernel</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="p">(</span><span class="n">θg</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">θg</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="c"># create covariance matrix</span>
+<span class="n">C</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">I</span> <span class="c"># regularization to make C positive definite</span>
+<span class="n">C_min</span><span class="p">,</span> <span class="n">C_max</span> <span class="o">=</span> <span class="n">minimum</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="n">maximum</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="n">C_range</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span> <span class="c"># target min-max of C</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">C_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">.+</span> <span class="p">(</span><span class="n">C_range</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">C_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span> <span class="o">.-</span> <span class="n">C_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">C_max</span> <span class="o">-</span> <span class="n">C_min</span><span class="p">);</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">C</span><span class="p">);</span> <span class="c"># make symmetric matrix using upper triangular matrix</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$\mathbf{C}$&quot;</span><span class="p">)</span>
+<span class="n">ims</span> <span class="o">=</span> <span class="n">imshow</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;bwr&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">]);</span> <span class="n">yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">]);</span> 
+<span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta$ (Pref. ori)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta$ (Pref. ori)&quot;</span><span class="p">)</span>
+<span class="n">colorbar</span><span class="p">(</span><span class="n">ims</span><span class="p">);</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_10_0.png" src="../_images/gaussian-scale-mixture_10_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sampling from p(x|y, z)</span>
+<span class="k">function</span> <span class="n">sampling_x</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">σₓ</span><span class="p">)</span>
+    <span class="n">μₓ</span> <span class="o">=</span> <span class="n">z</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">y</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">σₓ</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">μₓ</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">μₓ</span> <span class="o">+</span> <span class="n">noise</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>事後分布等の関数<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p(z \mid \mathbf{x}) &amp;\propto p(z) \mathcal{N}\left(0, z^{2} \mathbf{A C A}^{\top}+\sigma_{x}^{2} \mathbf{I}\right) \\
+p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
+\end{aligned}
+\end{split}\]</div>
+<p>ただし，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mu(z, \mathbf{x}) = \\
+\Sigma(z) = 
+\end{aligned}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># mean and covariance matrix of p(y|x, z)</span>
+<span class="k">function</span> <span class="n">post_moments</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">AᵀA</span><span class="p">,</span> <span class="n">C⁻¹</span><span class="p">)</span>
+    <span class="n">Σz</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">C⁻¹</span> <span class="o">+</span> <span class="p">(</span><span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="n">σₓ²</span><span class="p">)</span> <span class="o">*</span> <span class="n">AᵀA</span><span class="p">)</span>
+    <span class="n">μzx</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="o">/</span><span class="n">σₓ²</span><span class="p">)</span> <span class="o">*</span> <span class="n">Σz</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">μzx</span><span class="p">,</span> <span class="n">Σz</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># log pdf of p(z)</span>
+<span class="n">log_Pz</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">=</span> <span class="n">logpdf</span><span class="o">.</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">),</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="c"># pdf of p(z|x)</span>
+<span class="k">function</span> <span class="n">Pz_x</span><span class="p">(</span><span class="n">z_range</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ACAᵀ</span><span class="p">,</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span>
+    <span class="n">n_contrasts</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">z_range</span><span class="p">)</span>
+    <span class="n">Nx</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">log_p</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_contrasts</span><span class="p">)</span>
+    <span class="n">μxz</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="p">)</span>
+    <span class="n">dz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_contrasts</span>
+        <span class="n">Cxz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ACAᵀ</span> <span class="o">+</span> <span class="n">σₓ²</span> <span class="o">*</span> <span class="n">I</span>
+        <span class="n">log_p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_Pz</span><span class="p">(</span><span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">+</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">μxz</span><span class="p">,</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">Cxz</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">log_p</span> <span class="o">.-</span> <span class="n">maximum</span><span class="p">(</span><span class="n">log_p</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">/=</span> <span class="n">sum</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">dz</span>
+    <span class="k">return</span> <span class="n">p</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>シミュレーション<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">AᵀA</span> <span class="o">=</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span>
+<span class="n">ACAᵀ</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">C</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span>
+
+<span class="n">σₓ</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c"># Noise of the x process</span>
+<span class="n">σₓ²</span> <span class="o">=</span> <span class="n">σₓ</span><span class="o">^</span><span class="mi">2</span>
+<span class="n">k</span><span class="p">,</span> <span class="n">θ</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="c"># Parameter of the gamma dist. for z (Shape, Scale)</span>
+
+<span class="n">C⁻¹</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">C</span><span class="p">);</span> <span class="c"># We will need the inverse of C</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>入力データの作成</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span> <span class="c"># set true contrasts</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Z</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="n">Ny</span><span class="p">),</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">C</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># sampling from P(y)=N(0, C)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">map</span><span class="p">((</span><span class="n">z</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sampling_x</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">σₓ</span><span class="p">),</span> <span class="n">Z</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">minimum</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">maximum</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z</span><span class="s">$: &quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">x_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">x_max</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_19_0.png" src="../_images/gaussian-scale-mixture_19_0.png" />
+</div>
+</div>
+<p>事後分布の計算をする．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">μ_post</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+<span class="n">σ_post</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+<span class="n">Σ_post</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+
+<span class="n">z_range</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="c"># range of z for MAP estimation</span>
+<span class="n">Z_MAP</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> 
+
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">p_z</span> <span class="o">=</span> <span class="n">Pz_x</span><span class="p">(</span><span class="n">z_range</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">ACAᵀ</span><span class="p">,</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span>
+    <span class="n">Z_MAP</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="n">argmax</span><span class="p">(</span><span class="n">p_z</span><span class="p">)]</span> <span class="c"># MAP estimated z</span>
+    <span class="n">μ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_moments</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Z_MAP</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">AᵀA</span><span class="p">,</span> <span class="n">C⁻¹</span><span class="p">)</span>
+    <span class="n">σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">Σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]))</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>結果<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">θs</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">Ny</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="ss">:Greens</span><span class="p">)</span> <span class="c"># get color map</span>
+<span class="n">cms</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="p">((</span><span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span><span class="p">)</span><span class="o">/</span><span class="n">n_samples</span><span class="p">)</span> <span class="c"># color list</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Z_MAP</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">cms</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Z_MAP</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z</span><span class="s">$&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z_</span><span class="s">{MAP}$&quot;</span><span class="p">);</span> 
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">μ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cms</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cms</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z</span><span class="s">$ : &quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+<span class="k">end</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$\mu$&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$\sigma$&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">2</span><span class="o">:</span><span class="mi">3</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta$ (Pref. ori)&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_23_0.png" src="../_images/gaussian-scale-mixture_23_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">7.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z</span><span class="s">$ : &quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+    <span class="n">ims</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;bwr&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">]);</span> <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">]);</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta$ (Pref. ori)&quot;</span><span class="p">)</span>
+    <span class="k">elseif</span> <span class="n">s</span> <span class="o">==</span> <span class="n">ceil</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> 
+        <span class="n">ax</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">heta$ (Pref. ori)&quot;</span><span class="p">);</span> 
+    <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ims</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">n_samples</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_24_0.png" src="../_images/gaussian-scale-mixture_24_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>出力のサンプリング<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">membrane_potential</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">α</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">β</span><span class="o">=</span><span class="mf">1.9</span><span class="p">,</span> <span class="n">γ</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">β</span><span class="p">)</span><span class="o">^</span><span class="n">γ</span>
+
+<span class="k">function</span> <span class="n">low_pass_filter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">η</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">x_filtered</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="c"># num. of neuron, time steps</span>
+    <span class="n">x_filtered</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">x_filtered</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">η</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_filtered</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">η</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">x_filtered</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>事後分布から応答をサンプリングする．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">nt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">μ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">Σ_post</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">Σ</span><span class="p">)),</span> <span class="n">nt</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">low_pass_filter</span><span class="p">(</span><span class="n">membrane_potential</span><span class="o">.</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># modified from https://matplotlib.org/stable/gallery/statistics/confidence_ellipse.html</span>
+<span class="k">function</span> <span class="n">confidence_ellipse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">n_std</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s">&quot;tab:gray&quot;</span><span class="p">)</span>
+    <span class="n">pearson</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pearson</span><span class="p">),</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pearson</span><span class="p">)</span>
+    <span class="n">ellipse</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Ellipse</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">rx</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">ry</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> 
+        <span class="n">fc</span><span class="o">=</span><span class="n">facecolor</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">std</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="o">*</span> <span class="n">n_std</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+    <span class="n">transf</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Affine2D</span><span class="p">()</span><span class="o">.</span><span class="n">rotate_deg</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">scales</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">means</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">ellipse</span><span class="o">.</span><span class="n">set_transform</span><span class="p">(</span><span class="n">transf</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">ellipse</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">unit_idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
+    <span class="n">u₁</span><span class="p">,</span> <span class="n">u₂</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">unit_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">:</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">unit_idx</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">:</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u₁</span><span class="p">,</span> <span class="n">u₂</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cms</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$z</span><span class="s">$ : &quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+    <span class="n">confidence_ellipse</span><span class="p">(</span><span class="n">u₁</span><span class="p">,</span> <span class="n">u₂</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;none&quot;</span><span class="p">,</span> <span class="n">cms</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+<span class="k">end</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;Neuron #&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">unit_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;Neuron #&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">unit_idx</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/gaussian-scale-mixture_30_0.png" src="../_images/gaussian-scale-mixture_30_0.png" />
+</div>
+</div>
+<p>bayesian brain without probability</p>
+</div>
+<div class="section" id="id10">
+<h2>参考文献<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h2>
+<p id="id11"><dl class="citation">
+<dt class="label" id="id64"><span class="brackets"><a class="fn-backref" href="#id2">EHL17</a></span></dt>
+<dd><p>R Echeveste, G Hennequin, and M Lengyel. Asymptotic scaling properties of the posterior mean and variance in the gaussian scale mixture model. <em>arXiv preprint arXiv:1706.00925</em>, 2017.</p>
+</dd>
+<dt class="label" id="id62"><span class="brackets"><a class="fn-backref" href="#id4">EAHL20</a></span></dt>
+<dd><p>Rodrigo Echeveste, Laurence Aitchison, Guillaume Hennequin, and Máté Lengyel. Cortical-like dynamics in recurrent circuits optimized for sampling-based probabilistic inference. <em>Nat. Neurosci.</em>, 23(9):1138–1149, September 2020.</p>
+</dd>
+<dt class="label" id="id63"><span class="brackets"><a class="fn-backref" href="#id3">OrbanBFL16</a></span></dt>
+<dd><p>Gergő Orbán, Pietro Berkes, József Fiser, and Máté Lengyel. Neural variability and Sampling-Based probabilistic representations in the visual cortex. <em>Neuron</em>, 92(2):530–543, October 2016.</p>
+</dd>
+<dt class="label" id="id67"><span class="brackets"><a class="fn-backref" href="#id1">SC16</a></span></dt>
+<dd><p>Adam N Sanborn and Nick Chater. Bayesian brains without probabilities. <em>Trends Cogn. Sci.</em>, 20(12):883–893, December 2016.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8",
+            path: "./bayesian-brain"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="predictive-coding.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">予測符号化 (predictive coding)</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../reinforcement-learning/intro.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">強化学習</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+    <div class="extra_footer">
+      <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

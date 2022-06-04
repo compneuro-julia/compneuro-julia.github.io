@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JuliaのTips集 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,41 +19,37 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script src="../_static/custom.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="canonical" href="https://compneuro-julia.github.io/appendix/tips.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -75,7 +72,21 @@
                     </script>
 
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -84,9 +95,10 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -104,14 +116,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../index.html">
-   Juliaで学ぶ計算論的神経科学
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../preface.html">
    まえがき
@@ -331,6 +344,11 @@
      予測符号化 (predictive coding)
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
+     ガウススケール混合モデル
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -476,111 +494,227 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/appendix/tips.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        
-        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/tips.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/appendix/tips.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/appendix/tips.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="../_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/appendix/tips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/appendix/tips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/tips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/appendix/tips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
    関数名の!記号
@@ -660,12 +794,11 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>JuliaのTips集</h1>
@@ -761,14 +894,15 @@
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="juliatips">
-<h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">¶</a></h1>
+<h1>JuliaのTips集<a class="headerlink" href="#juliatips" title="Permalink to this headline">#</a></h1>
 <p>このページはJuliaでの実装におけるTips (詰まったところの解決策)をまとめたものである．体系的にまとまってはいない．</p>
 <div class="section" id="id1">
-<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>関数名の!記号<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
 <p>単なる<strong>慣習</strong>として関数への入力を変更する場合に!を付ける．</p>
 <p>関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの要素1の配列で置き換える，ということを目的として書かれた2つの関数がある．違いは<code class="docutils literal notranslate"><span class="pre">v</span></code>の後に<code class="docutils literal notranslate"><span class="pre">[:]</span></code>としているかどうかである．</p>
 <div class="cell docutils container">
@@ -805,8 +939,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
-wrong : [0.41750278591651857 0.03675917069399426; 0.1360642202272484 0.6578991307730526]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>v : 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.34045657122557615 0.27554462236550903; 0.4703396774195381 0.681556925480835]
+wrong : [0.34045657122557615 0.27554462236550903; 0.4703396774195381 0.681556925480835]
 right : [1.0 1.0; 1.0 1.0]
 </pre></div>
 </div>
@@ -814,7 +951,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="id2">
-<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>配列の1次元化<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
 <p>配列を一次元化(flatten)する方法．まずは3次元配列を作成する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -823,14 +960,14 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64,3}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2×2 Array{Float64, 3}:
 [:, :, 1] =
- 0.997107  0.0827965
- 0.394606  0.847174
+ 0.00529206  0.362073
+ 0.961648    0.0596108
 
 [:, :, 2] =
- 0.0305417  0.448929
- 0.270553   0.601419
+ 0.773794  0.0721447
+ 0.443574  0.88182
 </pre></div>
 </div>
 </div>
@@ -844,15 +981,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
+ 0.005292059282109296
+ 0.961647523160213
+ 0.3620729421295156
+ 0.05961081514080513
+ 0.7737936777782087
+ 0.44357433199284624
+ 0.0721446924452327
+ 0.8818199245526218
 </pre></div>
 </div>
 </div>
@@ -865,22 +1002,22 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Array{Float64,1}:
- 0.25323335359382226
- 0.8475284309218816
- 0.46170218524594486
- 0.3908851101558619
- 0.2049406129688014
- 0.20068478557126213
- 0.29072826846396627
- 0.5193322837086369
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8-element Vector{Float64}:
+ 0.005292059282109296
+ 0.961647523160213
+ 0.3620729421295156
+ 0.05961081514080513
+ 0.7737936777782087
+ 0.44357433199284624
+ 0.0721446924452327
+ 0.8818199245526218
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="id3">
-<h2>行列の行・列ごとの正規化<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>行列の行・列ごとの正規化<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
 <p>シミュレーションにおいてニューロン間の重み行列を行あるいは列ごとに正規化 (weight normalization)する場合がある．これは各ニューロンへの入力の大きさを同じにする働きや重みの発散を防ぐ役割がある．以下では行ごとの和を1にする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -889,10 +1026,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.947321  0.526878  0.464399
- 0.290191  0.875268  0.279707
- 0.319338  0.976441  0.375153
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
+ 0.771075  0.873442  0.712519
+ 0.491367  0.301352  0.497528
+ 0.214799  0.823613  0.389931
 </pre></div>
 </div>
 </div>
@@ -904,10 +1041,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Array{Float64,2}:
- 0.608486  0.221509  0.414916
- 0.186396  0.367978  0.249904
- 0.205118  0.410513  0.33518
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3×3 Matrix{Float64}:
+ 0.52197   0.437069  0.44533
+ 0.332625  0.150796  0.310959
+ 0.145406  0.412135  0.24371
 </pre></div>
 </div>
 </div>
@@ -926,7 +1063,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="concatenate">
-<h2>行列の結合 (concatenate)<a class="headerlink" href="#concatenate" title="Permalink to this headline">¶</a></h2>
+<h2>行列の結合 (concatenate)<a class="headerlink" href="#concatenate" title="Permalink to this headline">#</a></h2>
 <p>行列の結合はMATLABに近い形式で行うことができる．まず，2つの行列A, Bを用意する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -935,7 +1072,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Matrix{Int64}:
  1  2
  3  4
 </pre></div>
@@ -949,7 +1086,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×3 Matrix{Int64}:
  4  5  6
  7  8  9
 </pre></div>
@@ -957,7 +1094,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="horizontal-concatenation">
-<h3>水平結合 (Horizontal concatenation)<a class="headerlink" href="#horizontal-concatenation" title="Permalink to this headline">¶</a></h3>
+<h3>水平結合 (Horizontal concatenation)<a class="headerlink" href="#horizontal-concatenation" title="Permalink to this headline">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">hcat</span></code>を使うやり方と，<code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>を使うやり方がある．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -966,7 +1103,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -980,7 +1117,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×5 Matrix{Int64}:
  1  2  4  5  6
  3  4  7  8  9
 </pre></div>
@@ -995,7 +1132,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Array{Array{Int64,2},1}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Matrix{Int64}}:
  [1 2; 3 4]
  [4 5 6; 7 8 9]
 </pre></div>
@@ -1004,7 +1141,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="vertical-concatenation">
-<h3>垂直結合 (Vertical concatenation)<a class="headerlink" href="#vertical-concatenation" title="Permalink to this headline">¶</a></h3>
+<h3>垂直結合 (Vertical concatenation)<a class="headerlink" href="#vertical-concatenation" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">V1</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">&#39;</span><span class="p">)</span>
@@ -1012,7 +1149,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
  1  2
  3  4
  4  7
@@ -1029,7 +1166,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×2 Matrix{Int64}:
  1  2
  3  4
  4  7
@@ -1046,7 +1183,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Array{Int64,2}:
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5×4 Matrix{Int64}:
  1  2  1  2
  3  4  3  4
  4  7  4  7
@@ -1059,7 +1196,7 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="section" id="id4">
-<h2>配列に新しい軸を追加<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>配列に新しい軸を追加<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
 <p>要はnumpyでの<code class="docutils literal notranslate"><span class="pre">A[None,</span> <span class="pre">:]</span></code>や<code class="docutils literal notranslate"><span class="pre">A[np.newaxis,</span> <span class="pre">:]</span></code>のようなことがしたい場合．やや面倒だが，<code class="docutils literal notranslate"><span class="pre">reshape</span></code>を使うか，<code class="docutils literal notranslate"><span class="pre">[CartesianIndex()]</span></code>を用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1068,10 +1205,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Array{Float64,1}:
- 0.3487808667518093
- 0.717776723811032
- 0.3369916406749496
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
+ 0.5415479850585573
+ 0.06332176366571052
+ 0.6662145542466062
 </pre></div>
 </div>
 </div>
@@ -1084,15 +1221,15 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Array{Float64,2}:
- 0.348781  0.717777  0.336992
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1×3 Matrix{Float64}:
+ 0.541548  0.0633218  0.666215
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="array-array-float64-x-1-array-float64-x-1">
-<h2>Array{Array{Float64, x},1}をArray{Float64, x+1}に変換<a class="headerlink" href="#array-array-float64-x-1-array-float64-x-1" title="Permalink to this headline">¶</a></h2>
+<h2>Array{Array{Float64, x},1}をArray{Float64, x+1}に変換<a class="headerlink" href="#array-array-float64-x-1-array-float64-x-1" title="Permalink to this headline">#</a></h2>
 <p>numpyでは<code class="docutils literal notranslate"><span class="pre">array([matrix</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range()])</span></code>などを用いると，1次元配列のリストを2次元配列に変換できた．Juliaでも同様にする場合は<code class="docutils literal notranslate"><span class="pre">hcat(...)</span></code>や<code class="docutils literal notranslate"><span class="pre">cat(...)</span></code>を用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1104,8 +1241,10 @@ right : [1.0 1.0; 1.0 1.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,1},1}
-Size : (5,)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector{Vector{Float64}}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Size : (5,)
 </pre></div>
 </div>
 </div>
@@ -1120,7 +1259,7 @@ Size : (5,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64,Array{Float64,2}}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : LinearAlgebra.Adjoint{Float64, Matrix{Float64}}
 Size : (5, 3)
 </pre></div>
 </div>
@@ -1137,7 +1276,7 @@ Size : (5, 3)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Array{Float64,3},1}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Vector{Array{Float64, 3}}
 Size : (6,)
 </pre></div>
 </div>
@@ -1153,7 +1292,7 @@ Size : (6,)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64,4}
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type : Array{Float64, 4}
 Size : (6, 3, 4, 5)
 </pre></div>
 </div>
@@ -1161,7 +1300,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="section" id="bernoulli-distribution">
-<h2>二項分布 (bernoulli distribution)のサンプリング<a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">¶</a></h2>
+<h2>二項分布 (bernoulli distribution)のサンプリング<a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.7</span>
@@ -1189,17 +1328,16 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 
-  memory estimate:  1.91 KiB
-  allocs estimate:  7
-  --------------
-  minimum time:     676.823 ns (0.00% GC)
-  median time:      692.073 ns (0.00% GC)
-  mean time:        727.852 ns (2.96% GC)
-  maximum time:     4.498 μs (81.11% GC)
-  --------------
-  samples:          10000
-  evals/sample:     164
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 10000 samples with 55 evaluations.
+ Range (<span class=" -Color -Color-Bold -Color-Bold-Cyan">min</span> … <span class=" -Color -Color-Magenta">max</span>):  <span class=" -Color -Color-Bold -Color-Bold-Cyan">861.818 ns</span> … <span class=" -Color -Color-Magenta"> 30.847 μs</span>  ┊ GC (min … max): 0.00% … 95.11%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Blue">median</span>):     <span class=" -Color -Color-Bold -Color-Bold-Blue">896.364 ns               </span>┊ GC (median):    0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Green">mean</span> ± <span class=" -Color -Color-Green">σ</span>):   <span class=" -Color -Color-Bold -Color-Bold-Green">  1.032 μs</span> ± <span class=" -Color -Color-Green">908.149 ns</span>  ┊ GC (mean ± σ):  3.73% ±  4.46%
+
+  █<span class=" -Color -Color-Blue">▇</span>▅▄▃<span class=" -Color -Color-Green">▂</span>▁              ▂▁▁                                      ▁
+  █<span class=" -Color -Color-Blue">█</span>███<span class=" -Color -Color-Green">█</span>█▇▇▆▆▆▆▅▅▇▅▆▅▅████▇▇▇▆▆▆▅▅▅▄▅▅▄▄▄▄▃▄▄▃▄▄▄▃▃▃▅▃▃▃▃▂▃▄▂▃▃ █
+  862 ns        Histogram: <span class=" -Color -Color-Bold">log(</span>frequency<span class=" -Color -Color-Bold">)</span> by time       2.85 μs <span class=" -Color -Color-Bold">&lt;</span>
+
+ Memory estimate: <span class=" -Color -Color-Yellow">1.91 KiB</span>, allocs estimate: <span class=" -Color -Color-Yellow">7</span>.
 </pre></div>
 </div>
 </div>
@@ -1211,7 +1349,7 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.75
 </pre></div>
 </div>
 </div>
@@ -1223,17 +1361,16 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 
-  memory estimate:  1.55 KiB
-  allocs estimate:  6
-  --------------
-  minimum time:     853.704 ns (0.00% GC)
-  median time:      885.185 ns (0.00% GC)
-  mean time:        942.825 ns (2.37% GC)
-  maximum time:     14.357 μs (92.66% GC)
-  --------------
-  samples:          10000
-  evals/sample:     54
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 10000 samples with 21 evaluations.
+ Range (<span class=" -Color -Color-Bold -Color-Bold-Cyan">min</span> … <span class=" -Color -Color-Magenta">max</span>):  <span class=" -Color -Color-Bold -Color-Bold-Cyan">942.857 ns</span> … <span class=" -Color -Color-Magenta">75.395 μs</span>  ┊ GC (min … max): 0.00% … 97.52%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Blue">median</span>):     <span class=" -Color -Color-Bold -Color-Bold-Blue">  1.000 μs              </span>┊ GC (median):    0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Green">mean</span> ± <span class=" -Color -Color-Green">σ</span>):   <span class=" -Color -Color-Bold -Color-Bold-Green">  1.156 μs</span> ± <span class=" -Color -Color-Green"> 1.861 μs</span>  ┊ GC (mean ± σ):  4.14% ±  2.58%
+
+  ▄██<span class=" -Color -Color-Blue">▇</span>▆▃▁    <span class=" -Color -Color-Green"> </span>             ▁▁▂▂▂▂▂▂▁▁▁▁                        ▂
+  ███<span class=" -Color -Color-Blue">█</span>███████<span class=" -Color -Color-Green">█</span>▇▇▆▄▅▆▅▄▄▆▆███████████████▇▇▇▇▇▆▆▅▄▅▅▄▄▄▄▃▄▅▄▄▃▂ █
+  943 ns        Histogram: <span class=" -Color -Color-Bold">log(</span>frequency<span class=" -Color -Color-Bold">)</span> by time      2.15 μs <span class=" -Color -Color-Bold">&lt;</span>
+
+ Memory estimate: <span class=" -Color -Color-Yellow">1.53 KiB</span>, allocs estimate: <span class=" -Color -Color-Yellow">6</span>.
 </pre></div>
 </div>
 </div>
@@ -1245,14 +1382,14 @@ Size : (6, 3, 4, 5)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.75
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.69
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="roth-s-column-lemma">
-<h2>Roth’s column lemma<a class="headerlink" href="#roth-s-column-lemma" title="Permalink to this headline">¶</a></h2>
+<h2>Roth’s column lemma<a class="headerlink" href="#roth-s-column-lemma" title="Permalink to this headline">#</a></h2>
 <p>Roth’s column lemmaは，例えば，<span class="math notranslate nohighlight">\(A, B, C\)</span>が与えられていて，<span class="math notranslate nohighlight">\(X\)</span>を未知とするときの方程式 <span class="math notranslate nohighlight">\(AXB = C\)</span>を考えると，この方程式は</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1318,10 +1455,10 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4×4 Matrix{Float64}:
-  7.48615    9.41654   -20.793     19.7621
-  3.06062    3.92791    -8.25035    7.83341
- -0.381216  -0.584791    0.720943  -0.674582
- 10.862     13.4379    -30.8914    29.3825
+ -888.913   1330.12    922.106   1738.86
+  -91.7101   132.596    89.7183   177.929
+  -52.3583    80.113    56.3792   102.983
+  -71.3051    87.5883   51.63     133.417
 </pre></div>
 </div>
 </div>
@@ -1344,11 +1481,11 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 </div>
 <div class="section" id="splat-operator">
-<h2>“splat” operator …<a class="headerlink" href="#splat-operator" title="Permalink to this headline">¶</a></h2>
+<h2>“splat” operator …<a class="headerlink" href="#splat-operator" title="Permalink to this headline">#</a></h2>
 <p><a class="reference external" href="https://docs.julialang.org/en/v1/base/base/">https://docs.julialang.org/en/v1/base/base/</a>…</p>
 </div>
 <div class="section" id="broadcasting">
-<h2>broadcastingの回避<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h2>
+<h2>broadcastingの回避<a class="headerlink" href="#broadcasting" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
@@ -1372,14 +1509,16 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
 [6, 7, 8]
-[6, 7, 8]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6, 7, 8]
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="var">
-<h2><code class="docutils literal notranslate"><span class="pre">var</span></code>の使用<a class="headerlink" href="#var" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">var</span></code>の使用<a class="headerlink" href="#var" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="sa">var</span><span class="s">&quot;log(θ+μ)&quot;</span> <span class="o">=</span> <span class="mi">10</span>
@@ -1394,7 +1533,7 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 </div>
 <div class="section" id="reshape">
-<h2>reshapeにおける残りの次元の指定<a class="headerlink" href="#reshape" title="Permalink to this headline">¶</a></h2>
+<h2>reshapeにおける残りの次元の指定<a class="headerlink" href="#reshape" title="Permalink to this headline">#</a></h2>
 <p>numpyにおいては(2, 3, 5)次元の配列に対し，reshape(-1, 5)を行うと(6, 5)次元の配列となった．これと同様なことは，Juliaでは:を使うことで実装できる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1405,12 +1544,12 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6×5 Matrix{Float64}:
- 0.739487  0.8304     0.286207  0.947494   0.0630385
- 0.356352  0.0060772  0.934196  0.209395   0.811516
- 0.937235  0.472855   0.612326  0.0594509  0.102762
- 0.87721   0.620689   0.357544  0.015024   0.16569
- 0.300086  0.62311    0.240329  0.194447   0.052495
- 0.250987  0.390994   0.697225  0.305612   0.125621
+ 0.908084  0.722132   0.396659    0.81059    0.601935
+ 0.662575  0.466184   0.00450544  0.703617   0.301845
+ 0.772097  0.0846089  0.81668     0.0524018  0.167286
+ 0.439347  0.0316409  0.558907    0.38736    0.117209
+ 0.510455  0.193172   0.208884    0.949195   0.67698
+ 0.383945  0.26303    0.209588    0.282378   0.150833
 </pre></div>
 </div>
 </div>
@@ -1427,22 +1566,24 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8",
             path: "./appendix"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="rat-trajectory.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1458,17 +1599,17 @@ X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
-    
-      By Takuto Yamamoto<br/>
-    
-        &copy; Copyright 2020-2021.<br/>
-      <div class="extra_footer">
-        <div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2021.<br/>
+    <div class="extra_footer">
+      <div>
 <script src="https://utteranc.es/client.js"
 repo="compneuro-julia/compneuro-julia.github.io"
 issue-term="title"
@@ -1479,16 +1620,20 @@ async>
 </script>
 </div>
 
-      </div>
-  </p>
-</footer>
-</main>
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
