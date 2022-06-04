@@ -346,7 +346,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
-     ガウススケール混合モデル (Gaussian scale mixture model)
+     ガウス尺度混合モデル (Gaussian scale mixture model)
     </a>
    </li>
   </ul>
@@ -867,7 +867,7 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>木構造を描画してみよう．以下では各部位の説明を加えており，<span id="id3">[<a class="reference internal" href="#id72">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id4">[<a class="reference internal" href="#id73">Cuntz <em>et al.</em>, 2010</a>]</span>を参考に作成した．</p>
+<p>木構造を描画してみよう．以下では各部位の説明を加えており，<span id="id3">[<a class="reference internal" href="#id77">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id4">[<a class="reference internal" href="#id78">Cuntz <em>et al.</em>, 2010</a>]</span>を参考に作成した．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rc</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s">&quot;Meiryo&quot;</span><span class="p">)</span> <span class="c"># 日本語用フォント</span>
@@ -917,8 +917,8 @@ title="Print to PDF"
 </div>
 <div class="section" id="van-pelt">
 <h2>Van Peltモデル<a class="headerlink" href="#van-pelt" title="Permalink to this headline">#</a></h2>
-<p>Van PeltモデルはVan Peltらによって構築された，神経突起の成長についての現象論的モデルである <span id="id5">[<a class="reference internal" href="#id71">van Pelt and Uylings, 2002</a>]</span>．以下では<span id="id6">[<a class="reference internal" href="#id72">Koene <em>et al.</em>, 2009</a>]</span>に基づいて記述する．なお，このモデルでは軸索誘導分子 (axon guidance molecules) 等の存在は無視している．</p>
-<p>神経突起の成長の過程には分岐(branching)，伸長(elongation)，転向(turn)が含まれる．簡略化のため，空間を2次元にし，分節の太さおよび成長円錐が向きを変える時のsegment history tension model（後述）を省略する．またVan Peltモデルを元にした神経回路構築ソフトウェア<strong>NETMORPH</strong> <span id="id7">[<a class="reference internal" href="#id72">Koene <em>et al.</em>, 2009</a>]</span>ではシナプス結合の形成も含めたシミュレーションを行っているが，これも本書では省略する．（ページ数に余裕がないため！）</p>
+<p>Van PeltモデルはVan Peltらによって構築された，神経突起の成長についての現象論的モデルである <span id="id5">[<a class="reference internal" href="#id76">van Pelt and Uylings, 2002</a>]</span>．以下では<span id="id6">[<a class="reference internal" href="#id77">Koene <em>et al.</em>, 2009</a>]</span>に基づいて記述する．なお，このモデルでは軸索誘導分子 (axon guidance molecules) 等の存在は無視している．</p>
+<p>神経突起の成長の過程には分岐(branching)，伸長(elongation)，転向(turn)が含まれる．簡略化のため，空間を2次元にし，分節の太さおよび成長円錐が向きを変える時のsegment history tension model（後述）を省略する．またVan Peltモデルを元にした神経回路構築ソフトウェア<strong>NETMORPH</strong> <span id="id7">[<a class="reference internal" href="#id77">Koene <em>et al.</em>, 2009</a>]</span>ではシナプス結合の形成も含めたシミュレーションを行っているが，これも本書では省略する．（ページ数に余裕がないため！）</p>
 <div class="section" id="branching">
 <h3>分岐 (branching)<a class="headerlink" href="#branching" title="Permalink to this headline">#</a></h3>
 <p>時刻<span class="math notranslate nohighlight">\([t_i, t_i + \Delta t]\)</span>において，<span class="math notranslate nohighlight">\(j\)</span>番目の末端分節(terminal segment)が分岐する確率は</p>
@@ -947,7 +947,7 @@ p_{i,j} = n_i^{-E}\cdot B_{\infty} e^{\frac{-t_i}{\tau}} \left(e^{\frac{\Delta t
 </div>
 <div class="section" id="elongation">
 <h3>伸長 (elongation)<a class="headerlink" href="#elongation" title="Permalink to this headline">#</a></h3>
-<p>末端分節が伸長する速さ<span class="math notranslate nohighlight">\(\nu_e(t_i)\ [\mu m/s]\)</span>は正規分布 <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_e, \sigma_e^2)\)</span>に従うとする <span id="id8">[<a class="reference internal" href="#id74">van Ooyen <em>et al.</em>, 2014</a>]</span>．伸長する長さは<span class="math notranslate nohighlight">\(\Delta L_j(t_i)=\nu_e(t_i) \cdot \Delta t\)</span>となる．</p>
+<p>末端分節が伸長する速さ<span class="math notranslate nohighlight">\(\nu_e(t_i)\ [\mu m/s]\)</span>は正規分布 <span class="math notranslate nohighlight">\(\mathcal{N}(\mu_e, \sigma_e^2)\)</span>に従うとする <span id="id8">[<a class="reference internal" href="#id79">van Ooyen <em>et al.</em>, 2014</a>]</span>．伸長する長さは<span class="math notranslate nohighlight">\(\Delta L_j(t_i)=\nu_e(t_i) \cdot \Delta t\)</span>となる．</p>
 </div>
 <div class="section" id="turn">
 <h3>転向 (turn)<a class="headerlink" href="#turn" title="Permalink to this headline">#</a></h3>
@@ -956,7 +956,7 @@ p_{i,j} = n_i^{-E}\cdot B_{\infty} e^{\frac{-t_i}{\tau}} \left(e^{\frac{\Delta t
 \[
 p_d(t_i) = r_L\Delta L_j(t_i)
 \]</div>
-<p>ただし，<span class="math notranslate nohighlight">\(r_L\ [\mu m^{-1}]\)</span>は回転率を表す．確率<span class="math notranslate nohighlight">\(p_d(t_i)\)</span>により転向する部分は新しい分節として定義する．転向する角度は<span id="id9">[<a class="reference internal" href="#id72">Koene <em>et al.</em>, 2009</a>]</span>では転向角度の履歴を考慮したsegment history tension modelが導入されているが，本書では前述のように省略する．代わりに転向角度は一様分布<span class="math notranslate nohighlight">\(U(-\alpha, \alpha)\ \left(\alpha\in \left[0, \frac{\pi}{2}\right]\right)\)</span>に従うとする．</p>
+<p>ただし，<span class="math notranslate nohighlight">\(r_L\ [\mu m^{-1}]\)</span>は回転率を表す．確率<span class="math notranslate nohighlight">\(p_d(t_i)\)</span>により転向する部分は新しい分節として定義する．転向する角度は<span id="id9">[<a class="reference internal" href="#id77">Koene <em>et al.</em>, 2009</a>]</span>では転向角度の履歴を考慮したsegment history tension modelが導入されているが，本書では前述のように省略する．代わりに転向角度は一様分布<span class="math notranslate nohighlight">\(U(-\alpha, \alpha)\ \left(\alpha\in \left[0, \frac{\pi}{2}\right]\right)\)</span>に従うとする．</p>
 <p>分岐した際にも娘枝の長さと角度の設定が必要となる．ここでは長さは末端分節の伸長と同じ正規分布に従うとする．また，分岐角度は2つの娘枝について一様分布<span class="math notranslate nohighlight">\(U(0, \beta_1),\ U(-\beta_2, 0)\ \left(\beta_1, \beta_2\in \left[0, \frac{\pi}{2}\right]\right)\)</span>にそれぞれ従うとする．</p>
 <p>以上をまとめてシミュレーションを実装する．</p>
 <div class="cell docutils container">
@@ -1016,7 +1016,7 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 </div>
 </div>
 </div>
-<p>パラメータを設定する．このパラメータは<span id="id10">[<a class="reference internal" href="#id72">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id11">[<a class="reference internal" href="#id74">van Ooyen <em>et al.</em>, 2014</a>]</span>に基づいている．</p>
+<p>パラメータを設定する．このパラメータは<span id="id10">[<a class="reference internal" href="#id77">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id11">[<a class="reference internal" href="#id79">van Ooyen <em>et al.</em>, 2014</a>]</span>に基づいている．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B∞</span> <span class="o">=</span> <span class="mf">17.38</span><span class="p">;</span> <span class="n">E</span> <span class="o">=</span> <span class="mf">0.39</span><span class="p">;</span> <span class="n">S</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">τ</span> <span class="o">=</span> <span class="mi">14</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">;</span> 
@@ -1085,16 +1085,16 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 <div class="section" id="id12">
 <h2>参考文献<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h2>
 <p id="id13"><dl class="citation">
-<dt class="label" id="id73"><span class="brackets"><a class="fn-backref" href="#id4">CFBHausser10</a></span></dt>
+<dt class="label" id="id78"><span class="brackets"><a class="fn-backref" href="#id4">CFBHausser10</a></span></dt>
 <dd><p>Hermann Cuntz, Friedrich Forstner, Alexander Borst, and Michael Häusser. One rule to grow them all: a general theory of neuronal branching and its practical application. <em>PLoS Comput. Biol.</em>, August 2010.</p>
 </dd>
-<dt class="label" id="id72"><span class="brackets">KTvH+09</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id6">2</a>,<a href="#id7">3</a>,<a href="#id9">4</a>,<a href="#id10">5</a>)</span></dt>
+<dt class="label" id="id77"><span class="brackets">KTvH+09</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id6">2</a>,<a href="#id7">3</a>,<a href="#id9">4</a>,<a href="#id10">5</a>)</span></dt>
 <dd><p>Randal A Koene, Betty Tijms, Peter van Hees, Frank Postma, Alexander de Ridder, Ger J A Ramakers, Jaap van Pelt, and Arjen van Ooyen. NETMORPH: a framework for the stochastic generation of large scale neuronal networks with realistic neuron morphologies. <em>Neuroinformatics</em>, 7(3):195–210, September 2009.</p>
 </dd>
-<dt class="label" id="id74"><span class="brackets">vOCdR+14</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id11">2</a>)</span></dt>
+<dt class="label" id="id79"><span class="brackets">vOCdR+14</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id11">2</a>)</span></dt>
 <dd><p>Arjen van Ooyen, Andrew Carnell, Sander de Ridder, Bernadetta Tarigan, Huibert D Mansvelder, Fetsje Bijma, Mathisca de Gunst, and Jaap van Pelt. Independently outgrowing neurons and geometry-based synapse formation produce networks with realistic synaptic connectivity. <em>PLoS One</em>, 9(1):e85858, January 2014.</p>
 </dd>
-<dt class="label" id="id71"><span class="brackets"><a class="fn-backref" href="#id5">vPU02</a></span></dt>
+<dt class="label" id="id76"><span class="brackets"><a class="fn-backref" href="#id5">vPU02</a></span></dt>
 <dd><p>Jaap van Pelt and Harry B M Uylings. Branching rates and growth functions in the outgrowth of dendritic branching patterns. <em>Network</em>, 13(3):261–281, August 2002.</p>
 </dd>
 </dl>

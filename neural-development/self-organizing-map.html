@@ -346,7 +346,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
-     ガウススケール混合モデル (Gaussian scale mixture model)
+     ガウス尺度混合モデル (Gaussian scale mixture model)
     </a>
    </li>
   </ul>
@@ -776,13 +776,13 @@ title="Print to PDF"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
 <h1>自己組織化マップと視覚野の構造<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
-<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id90">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id91">Kohonen, 2013</a>]</span>を取り上げる．</p>
-<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id96">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id105">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id103">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id107">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id89">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id95">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id101">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id88">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id98">田中, 2002</a>]</span>が詳しい．</p>
-<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
-[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id87">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id102">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id86">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
+<p>視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生 （activity dependent development）により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，<strong>自己組織化マップ (self-organizing map)</strong> <span id="id2">[<a class="reference internal" href="#id95">Kohonen, 1982</a>]</span>, <span id="id3">[<a class="reference internal" href="#id96">Kohonen, 2013</a>]</span>を取り上げる．</p>
+<p>自己組織化マップを視覚野の構造に適応したのは<span id="id4">[<a class="reference internal" href="#id101">Obermayer <em>et al.</em>, 1990</a>]</span> <span id="id5">[<a class="reference internal" href="#id110">N. V. Swindale, 1998</a>]</span>などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している <strong>Elastic net</strong>  <span id="id6">[<a class="reference internal" href="#id108">Durbin and Willshaw, 1987</a>]</span> <span id="id7">[<a class="reference internal" href="#id112">Durbin and Mitchison, 1990</a>]</span> <span id="id8">[<a class="reference internal" href="#id113">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した <span id="id9">[<a class="reference internal" href="#id94">Tanaka <em>et al.</em>, 2004</a>]</span>， <span id="id10">[<a class="reference internal" href="#id100">Ringach, 2007</a>]</span>などのモデルがある．総説としては<span id="id11">[<a class="reference internal" href="#id106">Das, 2005</a>]</span>，<span id="id12">[<a class="reference internal" href="#id93">Goodhill, 2007</a>]</span> ，数理モデル同士の関係については<span id="id13">[<a class="reference internal" href="#id103">田中, 2002</a>]</span>が詳しい．</p>
+<p>自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる <span id="id14">[<a class="reference internal" href="#id113">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　（Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+[<a class="reference external" href="https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html">https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html</a>]）． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを<strong>トポグラフィックマッピング (topographic mapping)</strong> と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては<span id="id15">[<a class="reference internal" href="#id92">von der Malsburg, 1973</a>]</span> <span id="id16">[<a class="reference internal" href="#id107">Willshaw <em>et al.</em>, 1976</a>]</span> <span id="id17">[<a class="reference internal" href="#id91">Takeuchi and Amari, 1979</a>]</span>などがある．</p>
 <div class="section" id="id18">
 <h2>単純なデータセット<a class="headerlink" href="#id18" title="Permalink to this headline">#</a></h2>
-<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id91">Kohonen, 2013</a>]</span>．</p>
+<p>入力を <span class="math notranslate nohighlight">\(\mathbf{v}\in \mathbb{R}^{N\times D}\)</span>, SOMモデルにおけるニューロンの活動ベクトルあるいは参照ベクトルを<span class="math notranslate nohighlight">\(\mathbf{w}\in \mathbb{R}^{M\times D}\)</span>とする　<span id="id19">[<a class="reference internal" href="#id96">Kohonen, 2013</a>]</span>．</p>
 <p>n番目の入力 <span class="math notranslate nohighlight">\(\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)\)</span>に対して，m番目のニューロン<span class="math notranslate nohighlight">\(（m=1, \ldots, M）\)</span>の活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\in \mathbb{R}^{D}\)</span>を以下のように更新する (重みではなく活動自体を更新するということに注意)．</p>
 <p>まず，<span class="math notranslate nohighlight">\(\mathbf{v}(t)\)</span>と活動ベクトル<span class="math notranslate nohighlight">\(\mathbf{w}_m(t)\)</span>が最も近いニューロンを見つける．距離はユークリッド距離を用いるのが標準である．</p>
 <div class="math notranslate nohighlight">
@@ -925,7 +925,7 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
 </div>
 </div>
 </div>
-<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id108">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
+<p>刺激と初期の活動ベクトルは<span id="id21">[<a class="reference internal" href="#id113">Carreira-Perpiñán <em>et al.</em>, 2005</a>]</span>　を参考に作成．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># generate stimulus</span>
@@ -1024,49 +1024,49 @@ h_{cm}(t)=\alpha(t)\exp\left(-\frac{||\mathbf{x}_c-\mathbf{x}_m||^2}{2\sigma^2(t
 <div class="section" id="id22">
 <h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">#</a></h2>
 <p id="id23"><dl class="citation">
-<dt class="label" id="id108"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
+<dt class="label" id="id113"><span class="brackets">CPerpinanLG05</span><span class="fn-backref">(<a href="#id8">1</a>,<a href="#id14">2</a>,<a href="#id21">3</a>)</span></dt>
 <dd><p>Miguel A Carreira-Perpiñán, Richard J Lister, and Geoffrey J Goodhill. A computational model for the development of multiple maps in primary visual cortex. <em>Cereb. Cortex</em>, 15(8):1222–1233, August 2005.</p>
 </dd>
-<dt class="label" id="id101"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
+<dt class="label" id="id106"><span class="brackets"><a class="fn-backref" href="#id11">Das05</a></span></dt>
 <dd><p>Aniruddha Das. Cortical maps: where theory meets experiments. <em>Neuron</em>, 47(2):168–171, July 2005.</p>
 </dd>
-<dt class="label" id="id103"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
+<dt class="label" id="id108"><span class="brackets"><a class="fn-backref" href="#id6">DW87</a></span></dt>
 <dd><p>R Durbin and D Willshaw. An analogue approach to the travelling salesman problem using an elastic net method. <em>Nature</em>, 326(6114):689–691, 1987.</p>
 </dd>
-<dt class="label" id="id107"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
+<dt class="label" id="id112"><span class="brackets"><a class="fn-backref" href="#id7">DM90</a></span></dt>
 <dd><p>Richard Durbin and Graeme Mitchison. A dimension reduction framework for understanding cortical maps. <em>Nature</em>, 343(6259):644–647, February 1990.</p>
 </dd>
-<dt class="label" id="id88"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
+<dt class="label" id="id93"><span class="brackets"><a class="fn-backref" href="#id12">Goo07</a></span></dt>
 <dd><p>Geoffrey J Goodhill. Contributions of theoretical modeling to the understanding of neural map development. <em>Neuron</em>, 56(2):301–311, October 2007.</p>
 </dd>
-<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
+<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id2">Koh82</a></span></dt>
 <dd><p>Teuvo Kohonen. Self-organized formation of topologically correct feature maps. <em>Biol. Cybern.</em>, 43(1):59–69, January 1982.</p>
 </dd>
-<dt class="label" id="id91"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
+<dt class="label" id="id96"><span class="brackets">Koh13</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id19">2</a>)</span></dt>
 <dd><p>Teuvo Kohonen. Essentials of the self-organizing map. <em>Neural Netw.</em>, 37:52–65, January 2013.</p>
 </dd>
-<dt class="label" id="id105"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
+<dt class="label" id="id110"><span class="brackets"><a class="fn-backref" href="#id5">NVS98</a></span></dt>
 <dd><p>H-U Bauer N. V. Swindale. Application of kohonen's self-organizing feature map algorithm to cortical maps of orientation and direction preference. <em>Proceedings of the Royal Society B: Biological Sciences</em>, 265(1398):827, May 1998.</p>
 </dd>
-<dt class="label" id="id96"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
+<dt class="label" id="id101"><span class="brackets"><a class="fn-backref" href="#id4">ORS90</a></span></dt>
 <dd><p>K Obermayer, H Ritter, and K Schulten. A principle for the formation of the spatial structure of cortical feature maps. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 87(21):8345–8349, November 1990.</p>
 </dd>
-<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
+<dt class="label" id="id100"><span class="brackets"><a class="fn-backref" href="#id10">Rin07</a></span></dt>
 <dd><p>Dario L Ringach. On the origin of the functional architecture of the cortex. <em>PLoS One</em>, 2(2):e251, February 2007.</p>
 </dd>
-<dt class="label" id="id86"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
+<dt class="label" id="id91"><span class="brackets"><a class="fn-backref" href="#id17">TA79</a></span></dt>
 <dd><p>A Takeuchi and S Amari. Formation of topographic maps and columnar microstructures in nerve fields. <em>Biol. Cybern.</em>, 35(2):63–72, November 1979.</p>
 </dd>
-<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
+<dt class="label" id="id94"><span class="brackets"><a class="fn-backref" href="#id9">TMR04</a></span></dt>
 <dd><p>Shigeru Tanaka, Masanobu Miyashita, and Jérôme Ribot. Roles of visual experience and intrinsic mechanism in the activity-dependent self-organization of orientation maps: theory and experiment. <em>Neural Netw.</em>, 17(8-9):1363–1375, October 2004.</p>
 </dd>
-<dt class="label" id="id87"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
+<dt class="label" id="id92"><span class="brackets"><a class="fn-backref" href="#id15">vdM73</a></span></dt>
 <dd><p>C von der Malsburg. Self-organization of orientation sensitive cells in the striate cortex. <em>Kybernetik</em>, 14(2):85–100, December 1973.</p>
 </dd>
-<dt class="label" id="id102"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
+<dt class="label" id="id107"><span class="brackets"><a class="fn-backref" href="#id16">WVDMLH76</a></span></dt>
 <dd><p>D J Willshaw, C Von Der Malsburg, and Hugh Christopher Longuet-Higgins. How patterned neural connections can be set up by self-organization. <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em>, 194(1117):431–445, November 1976.</p>
 </dd>
-<dt class="label" id="id98"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
+<dt class="label" id="id103"><span class="brackets"><a class="fn-backref" href="#id13">02</a></span></dt>
 <dd><p>繁 田中. 神経情報科学サマースクールNISS2001講義録 視覚野神経回路の自己組織化. <em>日本神経回路学会誌</em>, 9(1):41–48, 2002.</p>
 </dd>
 </dl>

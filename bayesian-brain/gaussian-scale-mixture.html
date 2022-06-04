@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ガウススケール混合モデル (Gaussian scale mixture model) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>ガウス尺度混合モデル (Gaussian scale mixture model) &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -346,7 +346,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     ガウススケール混合モデル (Gaussian scale mixture model)
+     ガウス尺度混合モデル (Gaussian scale mixture model)
     </a>
    </li>
   </ul>
@@ -716,16 +716,34 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   重み行列の作成
+  <a class="reference internal nav-link" href="#id1">
+   神経活動の変動性による不確実性の表現
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#y-mathbf-c">
-   <span class="math notranslate nohighlight">
-    \(y\)
-   </span>
-   の事前分布の分散共分散行列
+  <a class="reference internal nav-link" href="#id8">
+   ガウス尺度混合モデル
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     事前分布
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mathbf-a">
+     重み行列
+     <span class="math notranslate nohighlight">
+      \(\mathbf{A}\)
+     </span>
+     の作成
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathbf-c">
+   分散共分散行列
    <span class="math notranslate nohighlight">
     \(\mathbf{C}\)
    </span>
@@ -733,29 +751,34 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   事後分布等の関数
+  <a class="reference internal nav-link" href="#id15">
+   事後分布の計算
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id17">
      シミュレーション
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     結果
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id19">
+     出力のサンプリング
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   結果
+  <a class="reference internal nav-link" href="#id20">
+   神経活動のサンプリング仮説
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   出力のサンプリング
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
+  <a class="reference internal nav-link" href="#id22">
    参考文献
   </a>
  </li>
@@ -768,7 +791,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>ガウススケール混合モデル (Gaussian scale mixture model)</h1>
+                <h1>ガウス尺度混合モデル (Gaussian scale mixture model)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -779,16 +802,34 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   重み行列の作成
+  <a class="reference internal nav-link" href="#id1">
+   神経活動の変動性による不確実性の表現
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#y-mathbf-c">
-   <span class="math notranslate nohighlight">
-    \(y\)
-   </span>
-   の事前分布の分散共分散行列
+  <a class="reference internal nav-link" href="#id8">
+   ガウス尺度混合モデル
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     事前分布
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mathbf-a">
+     重み行列
+     <span class="math notranslate nohighlight">
+      \(\mathbf{A}\)
+     </span>
+     の作成
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mathbf-c">
+   分散共分散行列
    <span class="math notranslate nohighlight">
     \(\mathbf{C}\)
    </span>
@@ -796,29 +837,34 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   事後分布等の関数
+  <a class="reference internal nav-link" href="#id15">
+   事後分布の計算
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id17">
      シミュレーション
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     結果
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id19">
+     出力のサンプリング
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   結果
+  <a class="reference internal nav-link" href="#id20">
+   神経活動のサンプリング仮説
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   出力のサンプリング
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
+  <a class="reference internal nav-link" href="#id22">
    参考文献
   </a>
  </li>
@@ -833,23 +879,44 @@ title="Print to PDF"
               <div>
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="gaussian-scale-mixture-model">
-<h1>ガウススケール混合モデル (Gaussian scale mixture model)<a class="headerlink" href="#gaussian-scale-mixture-model" title="Permalink to this headline">#</a></h1>
-<p><strong>ガウススケール混合 (Gaussian scale mixture; GSM) モデル</strong>は</p>
-<p>neural sampling</p>
-<p><span id="id1">[<a class="reference internal" href="#id67">Sanborn and Chater, 2016</a>]</span>
-<span id="id2">[<a class="reference internal" href="#id64">Echeveste <em>et al.</em>, 2017</a>]</span>
-<span id="id3">[<a class="reference internal" href="#id63">Orbán <em>et al.</em>, 2016</a>]</span>
-<span id="id4">[<a class="reference internal" href="#id62">Echeveste <em>et al.</em>, 2020</a>]</span></p>
+<h1>ガウス尺度混合モデル (Gaussian scale mixture model)<a class="headerlink" href="#gaussian-scale-mixture-model" title="Permalink to this headline">#</a></h1>
+<div class="section" id="id1">
+<h2>神経活動の変動性による不確実性の表現<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<p>神経活動の変動性 (neural variability)</p>
+<p><span id="id2">[<a class="reference internal" href="#id84">Shimazaki, 2019</a>]</span>, <span id="id3">[<a class="reference internal" href="#id85">Shimazaki, 2020</a>]</span>,  <span id="id4">[<a class="reference internal" href="#id75">Orbán <em>et al.</em>, 2016</a>]</span>, <span id="id5">[<a class="reference internal" href="#id74">Echeveste <em>et al.</em>, 2020</a>]</span>,</p>
+<p>自発活動が事前分布であるという説 <span id="id6">[<a class="reference internal" href="#id82">Fiser <em>et al.</em>, 2010</a>]</span>, <span id="id7">[<a class="reference internal" href="#id81">Berkes <em>et al.</em>, 2011</a>]</span>.</p>
+</div>
+<div class="section" id="id8">
+<h2>ガウス尺度混合モデル<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
+<p><strong>ガウス尺度混合 (Gaussian scale mixture; GSM) モデル</strong>は確率的生成モデルの一種である<span id="id9">[<a class="reference internal" href="#id83">Wainwright and Simoncelli, 1999</a>]</span>．GSMモデルでは入力を次式で予測する：</p>
+<div class="math notranslate nohighlight">
+\[
+\text{入力}={z}\left(\sum \text{神経活動} \times \text{基底} \right) + \text{ノイズ}
+\]</div>
+<p>前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ<span class="math notranslate nohighlight">\(z\)</span>が基底の線形和に乗じられている点が異なる．</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>コードは<span id="id10">[<a class="reference internal" href="#id75">Orbán <em>et al.</em>, 2016</a>]</span> <a class="reference external" href="https://github.com/gergoorban/sampling_in_gsm">https://github.com/gergoorban/sampling_in_gsm</a>, および<span id="id11">[<a class="reference internal" href="#id74">Echeveste <em>et al.</em>, 2020</a>]</span> <a class="reference external" href="https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/">https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/</a>を参考に作成した．</p>
+</div>
+<div class="section" id="id12">
+<h3>事前分布<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h3>
+<p><span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{N_x}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{A} \in \mathbb{R}^{N_x\times N_y}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{y} \in \mathbb{R}^{N_y}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{z} \in \mathbb{R}\)</span>とする．</p>
 <div class="math notranslate nohighlight">
 \[
 p\left(\mathbf{x}\mid\mathbf{y}, z\right)=\mathcal{N}\left(z \mathbf{A} \mathbf{y}, \sigma_{\mathbf{x}}^{2} \mathbf{I}\right)
 \]</div>
+<p>事前分布を</p>
 <div class="math notranslate nohighlight">
-\[
-p\left(\mathbf{y}\right)=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)
-\]</div>
-<div class="section" id="id5">
-<h2>重み行列の作成<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+\[\begin{split}
+\begin{aligned}
+p\left(\mathbf{y}\right)&amp;=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)\\
+p\left(z\right)&amp;=\Gamma (k, \vartheta)
+\end{aligned}
+\end{split}\]</div>
+<p>とする．<span class="math notranslate nohighlight">\(\Gamma(k, \vartheta)\)</span>はガンマ分布であり，<span class="math notranslate nohighlight">\(k\)</span>は形状(shape)パラメータ，<span class="math notranslate nohighlight">\(\vartheta\)</span>は尺度(scale)パラメータである．<span class="math notranslate nohighlight">\(p\left(\mathbf{y}\right)\)</span>は<span class="math notranslate nohighlight">\(\mathbf{y}\)</span>の事前分布であるが，この分布が刺激がない場合の自発活動の分布を表していると</p>
+</div>
+<div class="section" id="mathbf-a">
+<h3>重み行列<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>の作成<a class="headerlink" href="#mathbf-a" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Distributions</span>
@@ -899,7 +966,7 @@ p\left(\mathbf{y}\right)=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)
 <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
     <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">plot_idx</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">weight_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">weight_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
     <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
 <span class="k">end</span>
 <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
@@ -910,12 +977,28 @@ p\left(\mathbf{y}\right)=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)
 <img alt="../_images/gaussian-scale-mixture_6_0.png" src="../_images/gaussian-scale-mixture_6_0.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sampling from p(x|y, z)</span>
+<span class="k">function</span> <span class="n">sampling_x</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">σₓ</span><span class="p">)</span>
+    <span class="n">μₓ</span> <span class="o">=</span> <span class="n">z</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">y</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">σₓ</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">μₓ</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">μₓ</span> <span class="o">+</span> <span class="n">noise</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
 </div>
-<div class="section" id="y-mathbf-c">
-<h2><span class="math notranslate nohighlight">\(y\)</span>の事前分布の分散共分散行列<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>の作成<a class="headerlink" href="#y-mathbf-c" title="Permalink to this headline">#</a></h2>
-<p>ガウス過程モデルが基本となっており，Kernelのcovariant matrixを事前分布にしている．重みに周期性があるため．</p>
-<p>正定値行列にする.　<code class="docutils literal notranslate"><span class="pre">Symmetric(Cov)</span></code> or <code class="docutils literal notranslate"><span class="pre">Matrix(Hermitian(Cov)))</span></code>を用いる．<code class="docutils literal notranslate"><span class="pre">cholesky(C)</span></code>が実行できるか確認．</p>
-<p>Pref. oriは最適方位 (preferred orientation)を意味する．</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="mathbf-c">
+<h2>分散共分散行列<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>の作成<a class="headerlink" href="#mathbf-c" title="Permalink to this headline">#</a></h2>
+<p><span class="math notranslate nohighlight">\(\mathbf{C}\)</span>は<span class="math notranslate nohighlight">\(y\)</span>の事前分布の分散共分散行列である．<span id="id13">[<a class="reference internal" href="#id75">Orbán <em>et al.</em>, 2016</a>]</span>では自然画像を用いて作成しているが，ここでは簡単のため<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>と同様に<span id="id14">[<a class="reference internal" href="#id74">Echeveste <em>et al.</em>, 2020</a>]</span>に従って作成する．前項で作成した通り，<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは<span class="math notranslate nohighlight">\(\theta\in[-\pi/2, \pi/2)\)</span>の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel)</p>
+<div class="math notranslate nohighlight">
+\[
+K(\theta, \theta')=\exp\left[\phi_1 \cos \left(\dfrac{|\theta-\theta'|}{\theta_2}\right)\right]
+\]</div>
+<p>を用いる．<span class="math notranslate nohighlight">\(|\theta-\theta'|=m\pi\ (m=0,1,\ldots)\)</span>の際に類似度が最大になればよいので，<span class="math notranslate nohighlight">\(\theta_2=0.5\)</span>とする．これが正定値行列になるように単位行列の係数倍<span class="math notranslate nohighlight">\(\epsilon\mathbf{I}\)</span>を加算し，スケーリングした上で，<code class="docutils literal notranslate"><span class="pre">Symmetric(C)</span></code>や<code class="docutils literal notranslate"><span class="pre">Matrix(Hermitian(C)))</span></code>により実対象行列としたものを<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>とする．<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>を正定値行列にする理由はJuliaの<code class="docutils literal notranslate"><span class="pre">MvNormal</span></code>がCholesky分解を用いて多変量正規分布の乱数を生成するためである． 事前に<code class="docutils literal notranslate"><span class="pre">cholesky(C)</span></code>が実行できるか確認するのもよい．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">(</span><span class="n">x₁</span><span class="p">,</span> <span class="n">x₂</span><span class="p">,</span> <span class="n">ψ₁</span><span class="p">,</span> <span class="n">ψ₂</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">ψ₁</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">x₁</span><span class="o">-</span><span class="n">x₂</span><span class="p">)</span> <span class="o">/</span> <span class="n">ψ₂</span><span class="p">))</span> <span class="c"># periodic kernel</span>
@@ -937,39 +1020,64 @@ p\left(\mathbf{y}\right)=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/gaussian-scale-mixture_10_0.png" src="../_images/gaussian-scale-mixture_10_0.png" />
+<img alt="../_images/gaussian-scale-mixture_9_0.png" src="../_images/gaussian-scale-mixture_9_0.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sampling from p(x|y, z)</span>
-<span class="k">function</span> <span class="n">sampling_x</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">σₓ</span><span class="p">)</span>
-    <span class="n">μₓ</span> <span class="o">=</span> <span class="n">z</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">y</span>
-    <span class="n">noise</span> <span class="o">=</span> <span class="n">σₓ</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">μₓ</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">μₓ</span> <span class="o">+</span> <span class="n">noise</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
+<p>ここでPref. oriは最適方位 (preferred orientation)を意味する．</p>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="id6">
-<h2>事後分布等の関数<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id15">
+<h2>事後分布の計算<a class="headerlink" href="#id15" title="Permalink to this headline">#</a></h2>
+<p>事後分布は<span class="math notranslate nohighlight">\(z\)</span>と<span class="math notranslate nohighlight">\(\mathbf{y}\)</span>のそれぞれについて次のように求められる．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-p(z \mid \mathbf{x}) &amp;\propto p(z) \mathcal{N}\left(0, z^{2} \mathbf{A C A}^{\top}+\sigma_{x}^{2} \mathbf{I}\right) \\
-p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
+p(z \mid \mathbf{x}) &amp;\propto p(z) \mathcal{N}\left(0, z^{2} \mathbf{A C A}^{\top}+\sigma_{x}^{2} \mathbf{I}\right)\\
+p(\mathbf{y} \mid z, \mathbf{x})&amp; = \mathcal{N}\left(\mu(z, \mathbf{x}), \Sigma(z)\right)
 \end{aligned}
 \end{split}\]</div>
 <p>ただし，</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-\mu(z, \mathbf{x}) = \\
-\Sigma(z) = 
+\Sigma(z)&amp;=\left(\mathbf{C}^{-1}+\frac{z^{2}}{\sigma_{x}^{2}} \mathbf{A}^{\top} \mathbf{A}\right)^{-1}\\
+\mu(z, \mathbf{x})&amp;=\frac{z}{\sigma_{x}^{2}} \Sigma(z) \mathbf{A}^{\top} \mathbf{x}
 \end{aligned}
 \end{split}\]</div>
+<p>である．</p>
+<p>最終的な予測において<span class="math notranslate nohighlight">\(z\)</span>の事後分布は必要でないため，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid z, \mathbf{x})\)</span>から<span class="math notranslate nohighlight">\(z\)</span>を消去することを考えよう．厳密に行う場合，次式のように周辺化(marginalization)により，<span class="math notranslate nohighlight">\(z\)</span>を（積分）消去する必要がある．</p>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{y} \mid \mathbf{x}) = \int dz\ p(z\mid \mathbf{x})\cdot p(\mathbf{y} \mid z, \mathbf{x})
+\]</div>
+<p>周辺化においては，まず<span class="math notranslate nohighlight">\(z\)</span>のMAP推定（最大事後確率推定）値 <span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>を求める．</p>
+<div class="math notranslate nohighlight">
+\[
+z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
+\]</div>
+<p>次に<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>の周辺で<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\)</span>を積分し，積分値が一定の閾値を超える<span class="math notranslate nohighlight">\(z\)</span>の範囲を求め，この範囲で<span class="math notranslate nohighlight">\(z\)</span>を積分消去してやればよい．しかし，<span class="math notranslate nohighlight">\(z\)</span>は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が<span id="id16">[<a class="reference internal" href="#id76">Echeveste <em>et al.</em>, 2017</a>]</span>において提案されている．Echevesteらは第一の近似として，<span class="math notranslate nohighlight">\(z\)</span>の分布を<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>でのデルタ関数に置き換える，すなわち，<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})\)</span>とすることを提案している．この場合，<span class="math notranslate nohighlight">\(z\)</span>は定数とみなせ，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})\)</span>となる．第二の近似として，<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>を真のコントラスト<span class="math notranslate nohighlight">\(z^*\)</span>で置き換えることが提案されている．GSMへの入力<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>は元の画像を<span class="math notranslate nohighlight">\(\mathbf{\tilde x}\)</span>とすると，<span class="math notranslate nohighlight">\(\mathbf{x}=z^* \mathbf{\tilde x}\)</span>としてスケーリングされる．この入力の前処理の際に用いる<span class="math notranslate nohighlight">\(z^*\)</span>を用いてしまおうということである．この場合，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)\)</span>となる．しかし，入力を任意の画像とする場合，<span class="math notranslate nohighlight">\(z^*\)</span>は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，<span class="math notranslate nohighlight">\(z=z_{\mathrm{MAP}}\)</span>とする手法を用いることにする．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># log pdf of p(z)</span>
+<span class="n">log_Pz</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">=</span> <span class="n">logpdf</span><span class="o">.</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">),</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="c"># pdf of p(z|x)</span>
+<span class="k">function</span> <span class="n">Pz_x</span><span class="p">(</span><span class="n">z_range</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ACAᵀ</span><span class="p">,</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span>
+    <span class="n">n_contrasts</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">z_range</span><span class="p">)</span>
+    <span class="n">log_p</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_contrasts</span><span class="p">)</span>
+    <span class="n">μxz</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">dz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_contrasts</span>
+        <span class="n">Cxz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ACAᵀ</span> <span class="o">+</span> <span class="n">σₓ²</span> <span class="o">*</span> <span class="n">I</span>
+        <span class="n">log_p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_Pz</span><span class="p">(</span><span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">+</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">μxz</span><span class="p">,</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">Cxz</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">log_p</span> <span class="o">.-</span> <span class="n">maximum</span><span class="p">(</span><span class="n">log_p</span><span class="p">))</span> <span class="c"># for numerical stability</span>
+    <span class="n">p</span> <span class="o">/=</span> <span class="n">sum</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">dz</span>
+    <span class="k">return</span> <span class="n">p</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># mean and covariance matrix of p(y|x, z)</span>
@@ -982,32 +1090,8 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># log pdf of p(z)</span>
-<span class="n">log_Pz</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">=</span> <span class="n">logpdf</span><span class="o">.</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">),</span> <span class="n">z</span><span class="p">)</span>
-
-<span class="c"># pdf of p(z|x)</span>
-<span class="k">function</span> <span class="n">Pz_x</span><span class="p">(</span><span class="n">z_range</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">ACAᵀ</span><span class="p">,</span> <span class="n">σₓ²</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span>
-    <span class="n">n_contrasts</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">z_range</span><span class="p">)</span>
-    <span class="n">Nx</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">log_p</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_contrasts</span><span class="p">)</span>
-    <span class="n">μxz</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span><span class="p">)</span>
-    <span class="n">dz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">z_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_contrasts</span>
-        <span class="n">Cxz</span> <span class="o">=</span> <span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ACAᵀ</span> <span class="o">+</span> <span class="n">σₓ²</span> <span class="o">*</span> <span class="n">I</span>
-        <span class="n">log_p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_Pz</span><span class="p">(</span><span class="n">z_range</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">)</span> <span class="o">+</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">μxz</span><span class="p">,</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">Cxz</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">log_p</span> <span class="o">.-</span> <span class="n">maximum</span><span class="p">(</span><span class="n">log_p</span><span class="p">))</span>
-    <span class="n">p</span> <span class="o">/=</span> <span class="n">sum</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">dz</span>
-    <span class="k">return</span> <span class="n">p</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="id7">
-<h3>シミュレーション<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id17">
+<h3>シミュレーション<a class="headerlink" href="#id17" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">AᵀA</span> <span class="o">=</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">A</span>
@@ -1025,7 +1109,7 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 <p>入力データの作成</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span> <span class="c"># set true contrasts</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]</span> <span class="c"># set true contrasts z^*</span>
 <span class="n">n_samples</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Z</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">MvNormal</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="n">Ny</span><span class="p">),</span> <span class="n">Symmetric</span><span class="p">(</span><span class="n">C</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># sampling from P(y)=N(0, C)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">map</span><span class="p">((</span><span class="n">z</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sampling_x</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">σₓ</span><span class="p">),</span> <span class="n">Z</span><span class="p">)</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
@@ -1049,7 +1133,7 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/gaussian-scale-mixture_19_0.png" src="../_images/gaussian-scale-mixture_19_0.png" />
+<img alt="../_images/gaussian-scale-mixture_18_0.png" src="../_images/gaussian-scale-mixture_18_0.png" />
 </div>
 </div>
 <p>事後分布の計算をする．</p>
@@ -1073,9 +1157,8 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="id8">
-<h2>結果<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id18">
+<h3>結果<a class="headerlink" href="#id18" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">θs</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">Ny</span><span class="p">)</span>
@@ -1101,7 +1184,7 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/gaussian-scale-mixture_23_0.png" src="../_images/gaussian-scale-mixture_23_0.png" />
+<img alt="../_images/gaussian-scale-mixture_22_0.png" src="../_images/gaussian-scale-mixture_22_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1122,12 +1205,12 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/gaussian-scale-mixture_24_0.png" src="../_images/gaussian-scale-mixture_24_0.png" />
+<img alt="../_images/gaussian-scale-mixture_23_0.png" src="../_images/gaussian-scale-mixture_23_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>出力のサンプリング<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id19">
+<h3>出力のサンプリング<a class="headerlink" href="#id19" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">membrane_potential</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">α</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">β</span><span class="o">=</span><span class="mf">1.9</span><span class="p">,</span> <span class="n">γ</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">β</span><span class="p">)</span><span class="o">^</span><span class="n">γ</span>
@@ -1179,7 +1262,7 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">unit_idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">s</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_samples</span>
     <span class="n">u₁</span><span class="p">,</span> <span class="n">u₂</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">unit_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">:</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">unit_idx</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">:</span><span class="p">]</span>
@@ -1187,30 +1270,57 @@ p(\mathbf{y} \mid z, \mathbf{x})&amp;=\mathcal{N}(\mu(z, \mathbf{x}), \Sigma(z))
     <span class="n">confidence_ellipse</span><span class="p">(</span><span class="n">u₁</span><span class="p">,</span> <span class="n">u₂</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;none&quot;</span><span class="p">,</span> <span class="n">cms</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
 <span class="k">end</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;Neuron #&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">unit_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]));</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;Neuron #&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">unit_idx</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">axins</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]),</span> <span class="n">ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">([</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">])]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+    <span class="n">axins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">unit_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/gaussian-scale-mixture_30_0.png" src="../_images/gaussian-scale-mixture_30_0.png" />
+<img alt="../_images/gaussian-scale-mixture_29_0.png" src="../_images/gaussian-scale-mixture_29_0.png" />
 </div>
 </div>
-<p>bayesian brain without probability</p>
 </div>
-<div class="section" id="id10">
-<h2>参考文献<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h2>
-<p id="id11"><dl class="citation">
-<dt class="label" id="id64"><span class="brackets"><a class="fn-backref" href="#id2">EHL17</a></span></dt>
+</div>
+<div class="section" id="id20">
+<h2>神経活動のサンプリング仮説<a class="headerlink" href="#id20" title="Permalink to this headline">#</a></h2>
+<p>Neural sampling</p>
+<p>bayesian brain without probability <span id="id21">[<a class="reference internal" href="#id79">Sanborn and Chater, 2016</a>]</span></p>
+<p>neural sampling</p>
+</div>
+<div class="section" id="id22">
+<h2>参考文献<a class="headerlink" href="#id22" title="Permalink to this headline">#</a></h2>
+<p id="id23"><dl class="citation">
+<dt class="label" id="id81"><span class="brackets"><a class="fn-backref" href="#id7">BOrbanLF11</a></span></dt>
+<dd><p>Pietro Berkes, Gergo Orbán, Máté Lengyel, and József Fiser. Spontaneous cortical activity reveals hallmarks of an optimal internal model of the environment. <em>Science</em>, 331(6013):83–87, January 2011.</p>
+</dd>
+<dt class="label" id="id76"><span class="brackets"><a class="fn-backref" href="#id16">EHL17</a></span></dt>
 <dd><p>R Echeveste, G Hennequin, and M Lengyel. Asymptotic scaling properties of the posterior mean and variance in the gaussian scale mixture model. <em>arXiv preprint arXiv:1706.00925</em>, 2017.</p>
 </dd>
-<dt class="label" id="id62"><span class="brackets"><a class="fn-backref" href="#id4">EAHL20</a></span></dt>
+<dt class="label" id="id74"><span class="brackets">EAHL20</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id11">2</a>,<a href="#id14">3</a>)</span></dt>
 <dd><p>Rodrigo Echeveste, Laurence Aitchison, Guillaume Hennequin, and Máté Lengyel. Cortical-like dynamics in recurrent circuits optimized for sampling-based probabilistic inference. <em>Nat. Neurosci.</em>, 23(9):1138–1149, September 2020.</p>
 </dd>
-<dt class="label" id="id63"><span class="brackets"><a class="fn-backref" href="#id3">OrbanBFL16</a></span></dt>
+<dt class="label" id="id82"><span class="brackets"><a class="fn-backref" href="#id6">FBOrbanL10</a></span></dt>
+<dd><p>József Fiser, Pietro Berkes, Gergő Orbán, and Máté Lengyel. Statistically optimal perception and learning: from behavior to neural representations. <em>Trends Cogn. Sci.</em>, 14(3):119–130, March 2010.</p>
+</dd>
+<dt class="label" id="id75"><span class="brackets">OrbanBFL16</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id10">2</a>,<a href="#id13">3</a>)</span></dt>
 <dd><p>Gergő Orbán, Pietro Berkes, József Fiser, and Máté Lengyel. Neural variability and Sampling-Based probabilistic representations in the visual cortex. <em>Neuron</em>, 92(2):530–543, October 2016.</p>
 </dd>
-<dt class="label" id="id67"><span class="brackets"><a class="fn-backref" href="#id1">SC16</a></span></dt>
+<dt class="label" id="id79"><span class="brackets"><a class="fn-backref" href="#id21">SC16</a></span></dt>
 <dd><p>Adam N Sanborn and Nick Chater. Bayesian brains without probabilities. <em>Trends Cogn. Sci.</em>, 20(12):883–893, December 2016.</p>
+</dd>
+<dt class="label" id="id84"><span class="brackets"><a class="fn-backref" href="#id2">Shi19</a></span></dt>
+<dd><p><strong>missing journal in Shimazaki2019-yx</strong></p>
+</dd>
+<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id3">Shi20</a></span></dt>
+<dd><p><strong>missing journal in Shimazaki2020-kx</strong></p>
+</dd>
+<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id9">WS99</a></span></dt>
+<dd><p>Martin J Wainwright and Eero Simoncelli. Scale mixtures of gaussians and the statistics of natural images. <em>Advances in Neural Information Processing Systems</em>, 1999.</p>
 </dd>
 </dl>
 </p>
