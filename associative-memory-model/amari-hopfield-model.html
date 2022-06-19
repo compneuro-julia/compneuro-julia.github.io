@@ -254,6 +254,11 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/hebbian-learning.html">
+     Hebb則と教師なし学習
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
      勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
     </a>
@@ -335,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
      スパース符号化 (sparse coding)
     </a>
@@ -345,8 +355,33 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
-     ガウス尺度混合モデル (Gaussian scale mixture model)
+    <a class="reference internal" href="../bayesian-brain/neural-uncertainty-representation.html">
+     ベイズ脳仮説と神経活動による不確実性の表現
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/mcmc.html">
+     マルコフ連鎖モンテカルロ法 (MCMC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-sampling.html">
+     神経サンプリング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/probabilistic-population-coding.html">
+     確率的集団符号化 (probabilistic population coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
     </a>
    </li>
   </ul>
@@ -454,21 +489,6 @@ const thebe_selector_output = ".output, .cell_output"
    </i>
   </label>
   <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../appendix/linear-regression.html">
-     線形回帰と最小二乗法
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
-     分位点回帰とエクスペクタイル回帰
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../appendix/bayesian-linear-regression.html">
-     ベイズ線形回帰 (Bayesian linear regression)
-    </a>
-   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../appendix/rat-trajectory.html">
      ラット自由行動下の軌跡のシミュレーション
@@ -806,9 +826,26 @@ title="Print to PDF"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="amari-hopfield">
 <h1>Amari-Hopfield モデル<a class="headerlink" href="#amari-hopfield" title="Permalink to this headline">#</a></h1>
-<p>Amariの先駆的研究<span id="id1">[<a class="reference internal" href="#id40">Amari, 1972</a>]</span></p>
-<p><span id="id2">[<a class="reference internal" href="#id53">Hopfield, 1982</a>]</span>で提案．始めは1と0の状態を取った．</p>
-<p>Hopfieldモデルと呼ばれることが多いが，Amari-Hopfieldモデルと呼称することについては<span id="id3">[<a class="reference internal" href="#id46">Sulehria and Zhang, 2007</a>]</span>を参照．</p>
+<p>Amariの先駆的研究<span id="id1">[<a class="reference internal" href="#id57">Amari, 1972</a>]</span></p>
+<p><span id="id2">[<a class="reference internal" href="#id70">Hopfield, 1982</a>]</span>で提案．始めは1と0の状態を取った．</p>
+<p>Hopfieldモデルと呼ばれることが多いが，Amari-Hopfieldモデルと呼称することについては<span id="id3">[<a class="reference internal" href="#id63">Sulehria and Zhang, 2007</a>]</span>を参照．</p>
+<p>次のような連続時間線形モデルを考える．シナプス前活動を<span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^n\)</span>, 後活動を<span class="math notranslate nohighlight">\(\mathbf{y}\in \mathbb{R}^m\)</span>, 重み行列を<span class="math notranslate nohighlight">\(\mathbf{W}\in \mathbb{R}^{m\times n}\)</span>とする．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{y}}{dt}=-\mathbf{y}+\mathbf{W}\mathbf{x}+\mathbf{b}
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}\)</span>となるような<span class="math notranslate nohighlight">\(\mathcal{L}\in \mathbb{R}\)</span>を仮定すると，</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}=\int \left(\mathbf{y}-\mathbf{W}\mathbf{x}-\mathbf{b}\right)\ d\mathbf{y}=\frac{1}{2}\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x}-\mathbf{y}^\top \mathbf{b}
+\]</div>
+<p>となる． これをさらに<span class="math notranslate nohighlight">\(\mathbf{W}\)</span>で微分すると，</p>
+<div class="math notranslate nohighlight">
+\[
+\dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=-\mathbf{y}\mathbf{x}^\top\Rightarrow
+\frac{d\mathbf{W}}{dt}=-\dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
+\]</div>
+<p>となり，Hebb則が導出できる．</p>
 <div class="section" id="id4">
 <h2>モデルの定義<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -990,13 +1027,13 @@ E=-{\frac 12}\sum _{{i,j}}{w_{{ij}}{s_{i}}{s_{j}}}+\sum _{i}{\theta _{i}}{s_{i}}
 <div class="section" id="id8">
 <h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
 <p id="id9"><dl class="citation">
-<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id1">Ama72</a></span></dt>
+<dt class="label" id="id57"><span class="brackets"><a class="fn-backref" href="#id1">Ama72</a></span></dt>
 <dd><p>S-I Amari. Learning patterns and pattern sequences by Self-Organizing nets of threshold elements. <em>IEEE Trans. Comput.</em>, C-21(11):1197–1206, November 1972.</p>
 </dd>
-<dt class="label" id="id53"><span class="brackets"><a class="fn-backref" href="#id2">Hop82</a></span></dt>
+<dt class="label" id="id70"><span class="brackets"><a class="fn-backref" href="#id2">Hop82</a></span></dt>
 <dd><p>J J Hopfield. Neural networks and physical systems with emergent collective computational abilities. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 79(8):2554–2558, April 1982.</p>
 </dd>
-<dt class="label" id="id46"><span class="brackets"><a class="fn-backref" href="#id3">SZ07</a></span></dt>
+<dt class="label" id="id63"><span class="brackets"><a class="fn-backref" href="#id3">SZ07</a></span></dt>
 <dd><p>Humayun Karim Sulehria and Ye Zhang. Hopfield neural networks: a survey. In <em>Proceedings of the 6th Conference on 6th WSEAS Int. Conf. on Artificial Intelligence, Knowledge Engineering and Data Bases</em>, volume 6, 125–130. 2007.</p>
 </dd>
 </dl>

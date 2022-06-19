@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ベイズ線形回帰 (Bayesian linear regression) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>&lt;no title&gt; &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -48,13 +48,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="canonical" href="https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html" />
+    <link rel="canonical" href="https://compneuro-julia.github.io/introduction/construct-model.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ラット自由行動下の軌跡のシミュレーション" href="rat-trajectory.html" />
-    <link rel="prev" title="分位点回帰とエクスペクタイル回帰" href="quantile-expectile-regression.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -124,14 +120,14 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../preface.html">
    まえがき
   </a>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../introduction/intro.html">
+  <a class="reference internal" href="intro.html">
    はじめに
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
@@ -141,7 +137,7 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../introduction/notation.html">
+    <a class="reference internal" href="notation.html">
      記号の表記
     </a>
    </li>
@@ -254,6 +250,11 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/hebbian-learning.html">
+     Hebb則と教師なし学習
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
      勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
     </a>
@@ -335,6 +336,11 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
      スパース符号化 (sparse coding)
     </a>
@@ -345,8 +351,33 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../bayesian-brain/gaussian-scale-mixture.html">
-     ガウス尺度混合モデル (Gaussian scale mixture model)
+    <a class="reference internal" href="../bayesian-brain/neural-uncertainty-representation.html">
+     ベイズ脳仮説と神経活動による不確実性の表現
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/mcmc.html">
+     マルコフ連鎖モンテカルロ法 (MCMC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-sampling.html">
+     神経サンプリング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/probabilistic-population-coding.html">
+     確率的集団符号化 (probabilistic population coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
     </a>
    </li>
   </ul>
@@ -444,48 +475,33 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="intro.html">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
    付録
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
   <label for="toctree-checkbox-13">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="linear-regression.html">
-     線形回帰と最小二乗法
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="quantile-expectile-regression.html">
-     分位点回帰とエクスペクタイル回帰
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     ベイズ線形回帰 (Bayesian linear regression)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="rat-trajectory.html">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
      ラット自由行動下の軌跡のシミュレーション
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="tips.html">
+    <a class="reference internal" href="../appendix/tips.html">
      JuliaのTips集
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="useful-links.html">
+    <a class="reference internal" href="../appendix/useful-links.html">
      有用なリンク集
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="usage-jupyter-book.html">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
      Jupyter bookの使い方 (Julia言語版)
     </a>
    </li>
@@ -550,7 +566,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/appendix/bayesian-linear-regression.ipynb"
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/introduction/construct-model.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -568,7 +584,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/appendix/bayesian-linear-regression.ipynb"
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/introduction/construct-model.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -628,7 +644,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/bayesian-linear-regression.ipynb"
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/introduction/construct-model.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -656,7 +672,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/appendix/bayesian-linear-regression.ipynb"
+        <a href="../_sources/introduction/construct-model.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -693,23 +709,50 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>ベイズ線形回帰 (Bayesian linear regression)</h1>
+                <h1><no title></h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -717,135 +760,42 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="bayesian-linear-regression">
-<h1>ベイズ線形回帰 (Bayesian linear regression)<a class="headerlink" href="#bayesian-linear-regression" title="Permalink to this headline">#</a></h1>
-<div class="cell docutils container">
+  <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
-<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span>
-<span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Distributions</span>
-<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">PyPlot</span><span class="o">:</span> <span class="n">matplotlib</span>
+<span class="c">#rc(&quot;axes.spines&quot;, top=false, right=false)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Generate Toy datas</span>
-<span class="n">num_train</span><span class="p">,</span> <span class="n">num_test</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span> <span class="c"># sample size</span>
-<span class="n">dims</span> <span class="o">=</span> <span class="mi">4</span> <span class="c"># dimensions</span>
-<span class="n">σy</span> <span class="o">=</span> <span class="mf">0.3</span>
-
-<span class="n">polynomial_expansion</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">x</span> <span class="o">.^</span> <span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="n">degree</span><span class="p">]</span><span class="o">...</span><span class="p">);</span>
-
-<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="nb">π</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">σy</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_train</span><span class="p">);</span>
-<span class="n">ϕ</span> <span class="o">=</span> <span class="n">polynomial_expansion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">dims</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c"># design matrix</span>
-
-<span class="n">xtest</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">num_test</span><span class="p">)</span>
-<span class="n">ytest</span> <span class="o">=</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="mi">2</span><span class="nb">π</span><span class="o">*</span><span class="n">xtest</span><span class="p">)</span>
-<span class="n">ϕtest</span> <span class="o">=</span> <span class="n">polynomial_expansion</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">dims</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>conjugate prior</p>
-<div class="math notranslate nohighlight">
-\[
-p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \mathbf{\Sigma}_0)
-\]</div>
-<p>posterior</p>
-<div class="math notranslate nohighlight">
-\[
-p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\mathbf{\Sigma}})
-\]</div>
-<p>ただし，</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-\hat{\mathbf{\Sigma}}^{-1}&amp;= \mathbf{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
-\hat{\boldsymbol{\mu}}&amp;=\Sigma_N (\mathbf{\Sigma}_0^{-1}\boldsymbol{\mu}_0+\beta \Phi^\top \mathbf{y})
-\end{align}
-\end{split}\]</div>
-<p>である．また，<span class="math notranslate nohighlight">\(\Phi=\phi.(\mathbf{x})\)</span>であり，<span class="math notranslate nohighlight">\(\phi(x)=[1, x, x^2, x^3]\)</span>とする．</p>
-<p>ここで<span class="math notranslate nohighlight">\(\boldsymbol{\mu}_0=\mathbf{0}, \mathbf{\Sigma}_0= \alpha^{-1} \mathbf{I}\)</span>とする．<span class="math notranslate nohighlight">\(\alpha=0, \beta=1\)</span>のとき，正規方程式と同じになることを確認しよう．</p>
-<p>テストデータを<span class="math notranslate nohighlight">\(\mathbf{x}^*\)</span>とした際，予測分布は</p>
-<div class="math notranslate nohighlight">
-\[
-p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \mathbf{\Sigma}^*)
-\]</div>
-<p>となる．ただし，</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-\boldsymbol{\mu}^*&amp;=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
-\mathbf{\Sigma}^* &amp;= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\mathbf{\Sigma}}\phi(\mathbf{x}^*)\\
-\end{align}
-\end{split}\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">BayesianLinearReg</span>
-    <span class="n">μ̂</span><span class="o">::</span><span class="kt">Array</span>
-    <span class="n">Σ̂</span><span class="o">::</span><span class="kt">Array</span>
-<span class="k">end</span>
-
-<span class="c"># Training params &amp; definition of model</span>
-<span class="k">function</span> <span class="n">BayesianLinearReg</span><span class="p">(</span><span class="n">ϕ</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
-    <span class="n">Σ̂</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">α</span> <span class="o">*</span> <span class="n">I</span> <span class="o">+</span> <span class="n">β</span> <span class="o">*</span> <span class="n">ϕ</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">ϕ</span><span class="p">)</span>
-    <span class="n">μ̂</span> <span class="o">=</span> <span class="n">β</span> <span class="o">*</span> <span class="n">Σ̂</span>  <span class="o">*</span> <span class="n">ϕ</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">BayesianLinearReg</span><span class="p">(</span><span class="n">μ̂</span><span class="o">=</span><span class="n">μ̂</span><span class="p">,</span> <span class="n">Σ̂</span><span class="o">=</span><span class="n">Σ̂</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span>
-
-<span class="k">function</span> <span class="n">predict</span><span class="p">(</span><span class="n">ϕ</span><span class="p">,</span> <span class="n">blr</span><span class="o">::</span><span class="kt">BayesianLinearReg</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
-    <span class="nd">@unpack</span> <span class="n">μ̂</span><span class="p">,</span> <span class="n">Σ̂</span> <span class="o">=</span> <span class="n">blr</span>
-    <span class="n">μp</span> <span class="o">=</span> <span class="n">ϕ</span> <span class="o">*</span> <span class="n">μ̂</span>
-    <span class="n">σp</span> <span class="o">=</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">β</span> <span class="o">.+</span> <span class="n">diag</span><span class="p">(</span><span class="n">ϕ</span> <span class="o">*</span> <span class="n">Σ̂</span> <span class="o">*</span> <span class="n">ϕ</span><span class="o">&#39;</span><span class="p">));</span>
-    <span class="k">return</span> <span class="n">μp</span><span class="p">,</span> <span class="n">σp</span>
-<span class="k">end</span><span class="p">;</span>
-
-<span class="k">function</span> <span class="n">sampling_func</span><span class="p">(</span><span class="n">ϕ</span><span class="p">,</span> <span class="n">blr</span><span class="o">::</span><span class="kt">BayesianLinearReg</span><span class="p">,</span> <span class="n">num_sampling</span><span class="p">)</span>
-    <span class="nd">@unpack</span> <span class="n">μ̂</span><span class="p">,</span> <span class="n">Σ̂</span> <span class="o">=</span> <span class="n">blr</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="n">MvNormal</span><span class="p">(</span><span class="n">μ̂</span><span class="p">,</span> <span class="kt">Matrix</span><span class="p">(</span><span class="n">Hermitian</span><span class="p">(</span><span class="n">Σ̂</span><span class="p">)))</span>
-    <span class="n">sampled_params</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">num_sampling</span><span class="p">);</span>
-    <span class="k">return</span> <span class="n">ϕ</span> <span class="o">*</span> <span class="n">sampled_params</span> 
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">α</span><span class="p">,</span> <span class="n">β</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">;</span>
-
-<span class="n">blr</span> <span class="o">=</span> <span class="n">BayesianLinearReg</span><span class="p">(</span><span class="n">ϕ</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">);</span>
-<span class="n">μtest</span><span class="p">,</span> <span class="n">σtest</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">ϕtest</span><span class="p">,</span> <span class="n">blr</span><span class="p">,</span> <span class="n">β</span><span class="p">);</span>
-
-<span class="n">num_sampling</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">sampled_func</span> <span class="o">=</span> <span class="n">sampling_func</span><span class="p">(</span><span class="n">ϕtest</span><span class="p">,</span> <span class="n">blr</span><span class="p">,</span> <span class="n">num_sampling</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
-<span class="n">title</span><span class="p">(</span><span class="s">&quot;Bayesian Linear Regression&quot;</span><span class="p">)</span>
-<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&quot;None&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span> <span class="c"># samples</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">ytest</span><span class="p">,</span> <span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Actual&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">μtest</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Predicted mean&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:blue&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
-<span class="n">fill_between</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">μtest</span><span class="o">+</span><span class="n">σtest</span><span class="p">,</span> <span class="n">μtest</span><span class="o">-</span><span class="n">σtest</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Predicted std.&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_sampling</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">xtest</span><span class="p">,</span> <span class="n">sampled_func</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:green&quot;</span><span class="p">)</span>
-<span class="k">end</span>
-<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
-<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span> <span class="n">tight_layout</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rc</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s">&quot;Meiryo&quot;</span><span class="p">)</span>
+<span class="n">props</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;boxstyle&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;round&quot;</span><span class="p">,</span> <span class="s">&quot;facecolor&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;wheat&quot;</span><span class="p">,</span> <span class="s">&quot;alpha&quot;</span> <span class="o">=&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bayesian-linear-regression_6_0.png" src="../_images/bayesian-linear-regression_6_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dict{String, Any} with 3 entries:
+  &quot;facecolor&quot; =&gt; &quot;wheat&quot;
+  &quot;boxstyle&quot;  =&gt; &quot;round&quot;
+  &quot;alpha&quot;     =&gt; 0.5
+</pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">,</span><span class="n">constrained_layout</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&quot;実験&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s">&quot;神経科学の数理モデル&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&quot;工学的モデル&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/construct-model_2_0.png" src="../_images/construct-model_2_0.png" />
 </div>
 </div>
 
@@ -862,7 +812,7 @@ p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, 
         },
         kernelOptions: {
             kernelName: "julia-1.8",
-            path: "./appendix"
+            path: "./introduction"
         },
         predefinedOutput: true
     }
@@ -876,20 +826,6 @@ p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, 
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="quantile-expectile-regression.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">分位点回帰とエクスペクタイル回帰</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="rat-trajectory.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">ラット自由行動下の軌跡のシミュレーション</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
