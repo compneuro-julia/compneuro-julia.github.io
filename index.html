@@ -138,8 +138,43 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="introduction/computational-neuroscience.html">
+     神経科学と数理モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="introduction/notation.html">
      記号の表記
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/usage-julia-lang.html">
+     Julia言語の基本構文
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/linear-algebra.html">
+     線形代数
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/differential-equation.html">
+     微分方程式
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/probability-information-theory.html">
+     確率論
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction/stochastic-process-differential-equation.html">
+     確率過程と確率微分方程式
     </a>
    </li>
   </ul>
@@ -154,6 +189,11 @@ const thebe_selector_output = ".output, .cell_output"
    </i>
   </label>
   <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuron-model/neuron-physiol.html">
+     神経細胞の形態と生理
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="neuron-model/hodgkin-huxley.html">
      Hodgkin-Huxleyモデル
@@ -179,6 +219,11 @@ const thebe_selector_output = ".output, .cell_output"
      Inter-spike interval モデル
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuron-model/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -192,8 +237,8 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="synapse-model/synapse.html">
-     シナプス伝達
+    <a class="reference internal" href="synapse-model/synapse-physiol.html">
+     シナプスの形態と生理
     </a>
    </li>
    <li class="toctree-l2">
@@ -241,8 +286,8 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="learning-rule/intro.html">
-   神経回路網の学習則
+  <a class="reference internal" href="local-learning-rule/intro.html">
+   局所学習則
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
@@ -251,30 +296,20 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="learning-rule/hebbian-learning.html">
+    <a class="reference internal" href="local-learning-rule/hebbian-learning.html">
      Hebb則と教師なし学習
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="learning-rule/backpropagation-zipser-andersen.html">
-     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="learning-rule/bptt.html">
-     BPTT (backpropagation through time)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="learning-rule/linear-network-learning-dynamics.html">
-     線形多層ニューラルネットワークの学習ダイナミクス
+    <a class="reference internal" href="local-learning-rule/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="information-theory/intro.html">
-   情報理論と教師なし・自己教師あり学習
+  <a class="reference internal" href="energy-based-model/intro.html">
+   エネルギーベースモデル
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -283,20 +318,35 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="information-theory/statistics-information.html">
-     統計と情報理論の基礎
+    <a class="reference internal" href="energy-based-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="information-theory/slow-feature-analysis.html">
-     Slow Feature Analysis (SFA)
+    <a class="reference internal" href="energy-based-model/hopfield-model.html">
+     Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="energy-based-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="energy-based-model/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="energy-based-model/predictive-coding.html">
+     予測符号化 (predictive coding)
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="associative-memory-model/intro.html">
-   連想記憶モデル
+  <a class="reference internal" href="solve-credit-assignment-problem/intro.html">
+   貢献度分配問題の解決策
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
   <label for="toctree-checkbox-7">
@@ -305,25 +355,25 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="associative-memory-model/energy-based-model.html">
-     エネルギーベースモデル (Energy-based model)
+    <a class="reference internal" href="solve-credit-assignment-problem/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="associative-memory-model/amari-hopfield-model.html">
-     Amari-Hopfield モデル
+    <a class="reference internal" href="solve-credit-assignment-problem/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="associative-memory-model/boltzmann-machine.html">
-     Boltzmann マシン
+    <a class="reference internal" href="solve-credit-assignment-problem/bptt.html">
+     BPTT (backpropagation through time)
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="bayesian-brain/intro.html">
-   ベイズ脳仮説と生成モデル
+  <a class="reference internal" href="motor-learning/intro.html">
+   運動制御
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
   <label for="toctree-checkbox-8">
@@ -332,25 +382,54 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="bayesian-brain/bayes-statistics.html">
-     ベイズ統計の基礎
+    <a class="reference internal" href="motor-learning/minimum-jerk.html">
+     躍度最小モデル
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="bayesian-brain/linear-regression.html">
-     線形回帰と最小二乗法
+    <a class="reference internal" href="motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="bayesian-brain/sparse-coding.html">
-     スパース符号化 (sparse coding)
+    <a class="reference internal" href="motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="bayesian-brain/predictive-coding.html">
-     予測符号化 (predictive coding)
+    <a class="reference internal" href="motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="bayesian-brain/intro.html">
+   神経回路網によるベイズ推論
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="bayesian-brain/neural-uncertainty-representation.html">
      ベイズ脳仮説と神経活動による不確実性の表現
@@ -384,104 +463,11 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="reinforcement-learning/intro.html">
-   強化学習
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-  <label for="toctree-checkbox-9">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="reinforcement-learning/td-learning.html">
-     TD学習
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="motor-learning/intro.html">
-   運動制御
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="motor-learning/minimum-jerk.html">
-     躍度最小モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="motor-learning/minimum-variance.html">
-     終点誤差分散最小モデル (minimum-variance model)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="motor-learning/optimal-feedback-control.html">
-     最適フィードバック制御モデル (optimal feedback control; OFC)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="motor-learning/infinite-horizon-ofc.html">
-     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="spatiotemporal-coding/intro.html">
-   時空間の符号化
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
-  <label for="toctree-checkbox-11">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="spatiotemporal-coding/grid-cells-decoding.html">
-     格子細胞のデコーディング
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="neural-development/intro.html">
-   神経回路の形態・発生の数理モデル
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-  <label for="toctree-checkbox-12">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="neural-development/neurite-growth-model.html">
-     神経突起の成長モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="neural-development/self-organizing-map.html">
-     自己組織化マップと視覚野の構造
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="neural-development/graph-theory-network-model.html">
-     グラフ理論とネットワークモデル
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
   <a class="reference internal" href="appendix/intro.html">
    付録
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
-  <label for="toctree-checkbox-13">
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -492,8 +478,18 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="appendix/tips.html">
-     JuliaのTips集
+    <a class="reference internal" href="appendix/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="appendix/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="appendix/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -715,6 +711,11 @@ title="Print to PDF"
      第4部：
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     第5部：
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -771,6 +772,11 @@ title="Print to PDF"
      第4部：
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     第5部：
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -804,16 +810,21 @@ title="Print to PDF"
 <div class="section" id="id2">
 <h2>目次<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/intro.html">まえがき</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/preface.html">まえがき</a></p></li>
 </ul>
 <div class="section" id="id3">
 <h3>第1部：<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/intro.html">はじめに</a></p>
 <ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/computational-neuroscience.html">神経科学と数理モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/notation.html">記号の表記</a></p></li>
-<li><p>基本的なJuliaの使い方</p></li>
-<li><p>なぜ計算論的モデルが必要か</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/usage-julia-lang.html">Julia言語の基本構文</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/linear-algebra.html">線形代数</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/differential-equation.html">微分方程式</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/linear-regression.html">線形回帰と最小二乗法</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/probability-information-theory.html">確率論と情報理論</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/stochastic-process-differential-equation.html">確率過程と確率微分方程式</a></p></li>
 </ol>
 </li>
 </ol>
@@ -823,16 +834,18 @@ title="Print to PDF"
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/intro.html">神経細胞のモデル</a></p>
 <ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/neuron-physiol.html">神経細胞の形態と生理</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/hodgkin-huxley.html">Hodgkin-Huxleyモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/fhn.html">FitzHugh–Nagumoモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/lif.html">Leaky integrate-and-fire モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/izhikevich.html">Izhikevich モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/isi.html">Inter-spike interval モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/neurite-growth-model.html">神経突起の成長モデル</a></p></li>
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/intro.html">シナプス伝達のモデル</a></p>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/synapse.html">シナプス伝達</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/synapse-physiol.html">シナプスの形態と生理</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/current-conductance-synapse.html">Current-based / Conductance-based シナプス</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/expo-synapse.html">指数関数型シナプスモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html">動力学モデル</a></p></li>
@@ -840,11 +853,17 @@ title="Print to PDF"
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html">動的シナプス</a></p></li>
 </ol>
 </li>
+<li><p>神経回路網の構築</p>
+<ol class="simple">
+<li><p>神経細胞間の接続</p></li>
+<li><p>ランダムネットワークの構築</p></li>
+</ol>
+</li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuronal-computation/intro.html">神経回路網の演算処理</a></p>
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html">ゲイン調節と四則演算</a></p></li>
 <li><p>正規化</p></li>
-<li><p>winner take all</p></li>
+<li><p>樹状突起計算</p></li>
 </ol>
 </li>
 </ol>
@@ -852,30 +871,33 @@ title="Print to PDF"
 <div class="section" id="id5">
 <h3>第3部：<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/intro.html">神経回路網と学習則</a></p>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/intro.html">局所学習則</a></p>
 <ol class="simple">
-<li><p>学習アルゴリズムについて（教師あり，教師なし…）</p></li>
-<li><p>Hebb則と教師なし学習</p>
-<ol class="simple">
-<li><p>PCA</p></li>
-<li><p>ICA</p></li>
+<li><p>学習と学習則</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/local-learning-rule/hebbian-learning.html">Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則</a></p></li>
+<li><p>STDP則</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/local-learning-rule/self-organizing-map.html">自己組織化マップと視覚野の構造</a></p></li>
 </ol>
 </li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html">Amari-Hopfield モデル</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/neural-development/self-organizing-map.html">自己組織化マップと視覚野の構造</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/linear-regression.html">線形回帰と最小二乗法</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html">勾配法と誤差逆伝播法</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/bptt.html">BPTT (backpropagation through time)</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/intro.html">エネルギーベースモデル</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/energy-based-model.html">エネルギーベースモデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/hopfield-model.html">Hopfield モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/boltzmann-machine.html">Boltzmann マシン</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/sparse-coding.html">スパース符号化</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/predictive-coding.html">予測符号化</a></p></li>
 </ol>
 </li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/intro.html">ベイズ脳仮説と生成モデル</a></p>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/intro.html">貢献度分配問題の解決策</a></p>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html">ベイズ統計の基礎</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html">スパース符号化 (sparse coding)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html">予測符号化 (predictive coding)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html">ベイズ線形回帰</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html">ガウス尺度混合モデル (Gaussian scale mixture model)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html">分位点回帰とエクスペクタイル回帰</a></p></li>
+<li><p>貢献度分配問題</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/backpropagation-zipser-andersen.html">勾配法と誤差逆伝播法</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/linear-network-learning-dynamics.html">深層線形ニューラルネットの学習ダイナミクス</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/bptt.html">BPTT (backpropagation through time)</a></p></li>
+<li><p>RTRL</p></li>
+<li><p>適格度トレースによるRTRLの近似</p></li>
+<li><p>予測符号化による誤差逆伝播法の近似</p></li>
+<li><p>SNNの訓練法</p></li>
 </ol>
 </li>
 </ol>
@@ -887,9 +909,8 @@ title="Print to PDF"
 <ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/minimum-jerk.html">躍度最小モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/minimum-variance.html">終点誤差分散最小モデル</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html">最適フィードバック制御モデル (optimal feedback control)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html">無限時間最適制御モデル (infinite-horizon optimal feedback control model)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/rat-trajectory.html">ラット自由行動下の軌跡のシミュレーション</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html">最適フィードバック制御モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html">無限時間最適制御モデル</a></p></li>
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/reinforcement-learning/intro.html">強化学習</a></p>
@@ -898,22 +919,36 @@ title="Print to PDF"
 </ol>
 </li>
 </ol>
+</div>
+<div class="section" id="id7">
+<h3>第5部：<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/intro.html">神経回路網によるベイズ推論</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/neural-uncertainty-representation.html">ベイズ脳仮説と神経活動による不確実性の表現</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html">ベイズ線形回帰</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/mcmc.html">マルコフ連鎖モンテカルロ法</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/neural-sampling.html">神経サンプリング</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/probabilistic-population-coding.html">確率的集団符号化</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html">分位点・エクスペクタイル回帰による分布符号化</a></p></li>
+<li><p>自由エネルギー原理</p></li>
+</ol>
+</li>
+</ol>
 <ul class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/intro.html">付録</a></p>
 <ol class="simple">
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/tips.html">JuliaのTips集</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/rat-trajectory.html">ラット自由行動下の軌跡のシミュレーション</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/grid-cells-decoding.html">格子細胞のデコーディング</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/slow-feature-analysis.html">Slow Feature Analysis</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/graph-theory-network-model.html">グラフ理論とネットワークモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/useful-links.html">有用なリンク集</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/usage-jupyter-book.html">Jupyter bookの使い方 (Julia言語版)</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html">非掲載：Boltzmann マシン</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html">非掲載：Slow Feature Analysis</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html">非掲載：深層線形ニューラルネットの学習ダイナミクス</a></p></li>
-<li><p><a class="reference external" href="https://compneuro-julia.github.io/neural-development/neurite-growth-model.html">未分類：神経突起の成長モデル</a></p></li>
 </ol>
 </li>
 </ul>
 </div>
 </div>
-<hr class="docutils" />
 <div class="section" id="spiking-neural-networks">
 <h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this headline">#</a></h2>
 <p>『<strong>ゼロから作るSpiking Neural Networks</strong>』 (通称：SNN本) は<strong>Python</strong>でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です．本サイトはこの本をベースとして作成しています．技術書典7で頒布し，BOOTHで有料で販売してきましたが，無料で公開することとしました．それでも購入していただける方はBOOTHから購入いただければと思います．なお，物理本は完売し，再販の予定はありません．</p>
@@ -973,7 +1008,7 @@ title="Print to PDF"
   
     By Takuto Yamamoto<br/>
   
-      &copy; Copyright 2020-2021.<br/>
+      &copy; Copyright 2020-2022.<br/>
     <div class="extra_footer">
       <div>
 <script src="https://utteranc.es/client.js"

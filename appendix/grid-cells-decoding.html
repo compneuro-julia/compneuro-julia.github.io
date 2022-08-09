@@ -1,0 +1,1131 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>格子細胞のデコーディング &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/appendix/grid-cells-decoding.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Slow Feature Analysis (SFA)" href="slow-feature-analysis.html" />
+    <link rel="prev" title="ラット自由行動下の軌跡のシミュレーション" href="rat-trajectory.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/computational-neuroscience.html">
+     神経科学と数理モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/usage-julia-lang.html">
+     Julia言語の基本構文
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-algebra.html">
+     線形代数
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/differential-equation.html">
+     微分方程式
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/probability-information-theory.html">
+     確率論
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/stochastic-process-differential-equation.html">
+     確率過程と確率微分方程式
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neuron-physiol.html">
+     神経細胞の形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse-physiol.html">
+     シナプスの形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuronal-computation/intro.html">
+   神経回路網の演算処理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../local-learning-rule/intro.html">
+   局所学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../local-learning-rule/hebbian-learning.html">
+     Hebb則と教師なし学習
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../local-learning-rule/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../energy-based-model/intro.html">
+   エネルギーベースモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/hopfield-model.html">
+     Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../solve-credit-assignment-problem/intro.html">
+   貢献度分配問題の解決策
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   神経回路網によるベイズ推論
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-uncertainty-representation.html">
+     ベイズ脳仮説と神経活動による不確実性の表現
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/mcmc.html">
+     マルコフ連鎖モンテカルロ法 (MCMC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-sampling.html">
+     神経サンプリング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/probabilistic-population-coding.html">
+     確率的集団符号化 (probabilistic population coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   付録
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     格子細胞のデコーディング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/appendix/grid-cells-decoding.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/appendix/grid-cells-decoding.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/grid-cells-decoding.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/appendix/grid-cells-decoding.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grid-cells">
+   グリッド細胞(Grid Cells)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     空間基底としてのグリッド細胞
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     データについて
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   ラットの行動軌跡と発火の描画
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   発火率マップ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autocorrelation-map">
+   Autocorrelation Map
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   参考にした文献・サイト
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>格子細胞のデコーディング</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grid-cells">
+   グリッド細胞(Grid Cells)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     空間基底としてのグリッド細胞
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     データについて
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   ラットの行動軌跡と発火の描画
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   発火率マップ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autocorrelation-map">
+   Autocorrelation Map
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   参考にした文献・サイト
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>格子細胞のデコーディング<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<div class="section" id="grid-cells">
+<h2>グリッド細胞(Grid Cells)<a class="headerlink" href="#grid-cells" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id2">
+<h3>空間基底としてのグリッド細胞<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<p>海馬には場所特異的に発火する<strong>場所細胞</strong>(place cell)があり，これはO’keefeによって発見された．次にMay-Britt MoserとEdvard Moserが六角形格子状の場所受容野を持つ<strong>グリッド細胞</strong>(格子細胞, grid cell)を内側嗅内皮質(medial entorhinal cortex; MEC)で発見した．この3人は2014年のノーベル生理学・医学賞を受賞している．</p>
+</div>
+<div class="section" id="id3">
+<h3>データについて<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<p>格子細胞の活動データはMoser研が公開しており，<a class="reference external" href="https://www.ntnu.edu/kavli/research/grid-cell-data">https://www.ntnu.edu/kavli/research/grid-cell-data</a>からダウンロードできる．公開されているデータはMATLABのmatファイル形式である．使用するデータ：<a class="reference external" href="https://github.com/Salad-bowl-of-knowledge/hp/blob/master/_notebooks/data/grid_cells_data/10704-07070407_POS.mat">10704-07070407_POS.mat</a>, <a class="reference external" href="https://github.com/Salad-bowl-of-knowledge/hp/blob/master/_notebooks/data/grid_cells_data/10704-07070407_T2C3.mat">10704-07070407_T2C3.mat</a></p>
+<p>これらのファイルは<a class="reference external" href="https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7">https://archive.norstore.no/pages/public/datasetDetail.jsf?id=8F6BE356-3277-475C-87B1-C7A977632DA7</a>からダウンロードできるファイルの一部である．以下では<code class="docutils literal notranslate"><span class="pre">./data/grid_cells_data/</span></code>ディレクトリの下にファイルを置いている．</p>
+<p>データの末尾の”POS”と”T2C3”の意味について説明しておく．まず，”POS”はpost, posx, posyを含む構造体でそれぞれ試行の経過時間，x座標, y座標である．座標は<span class="math notranslate nohighlight">\([-50, 50]\)</span>で記録されている．1m四方の正方形の部屋で，原点を部屋の中心としている．”T2C3”はtがtetrode（テトロード電極）でcがcell（細胞）を意味する．後ろの数字は番号付けである．</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>ラットの行動軌跡と発火の描画<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
+<p>データを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">MAT</span><span class="p">,</span> <span class="n">StatsBase</span><span class="p">,</span> <span class="n">FFTW</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># from http://www.ntnu.edu/kavli/research/grid-cell-data</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;../_static/datasets/grid_cells_data/10704-07070407_POS.mat&quot;</span><span class="p">)</span>
+<span class="n">spk</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;../_static/datasets/grid_cells_data/10704-07070407_T2C3.mat&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MAT.MAT_v5.Matlabv5File(IOStream(&lt;file ../_static/datasets/grid_cells_data/10704-07070407_T2C3.mat&gt;), false, #undef)
+</pre></div>
+</div>
+</div>
+</div>
+<p>posファイル内の構造は次のようになっている．</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pos[&quot;post&quot;]</span></code>: times at which positions were recorded</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos[&quot;posx&quot;]</span></code>: x positions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos[&quot;posy&quot;]</span></code>: y positions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spk[&quot;cellTS&quot;]</span></code>: spike times</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">post</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="s">&quot;post&quot;</span><span class="p">)[</span><span class="o">:</span><span class="p">]</span> <span class="c">#  times at which positions were recorded</span>
+<span class="n">posx</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="s">&quot;posx&quot;</span><span class="p">)[</span><span class="o">:</span><span class="p">]</span> <span class="c">#x positions</span>
+<span class="n">posy</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="s">&quot;posy&quot;</span><span class="p">)[</span><span class="o">:</span><span class="p">]</span> <span class="c"># y positions</span>
+<span class="n">spkt</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">spk</span><span class="p">,</span> <span class="s">&quot;cellTS&quot;</span><span class="p">)[</span><span class="o">:</span><span class="p">]</span> <span class="c">#spike time</span>
+
+<span class="n">println</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">post</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">posx</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">posy</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">spkt</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(30000,)(30000,)(30000,)(2326,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>行動軌跡を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">posx</span><span class="p">,</span> <span class="n">posy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/grid-cells-decoding_11_0.png" src="../_images/grid-cells-decoding_11_0.png" />
+</div>
+</div>
+<p>発火を描画するために発火時刻 <code class="docutils literal notranslate"><span class="pre">spkt</span></code> のそれぞれの要素と最も近い <code class="docutils literal notranslate"><span class="pre">post</span></code> のインデックスを求める関数を実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">nearest_pos</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">argmin</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">array</span> <span class="o">.-</span> <span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">idx</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nearest_pos (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">nearest_pos</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">spkt</span><span class="p">]</span>
+
+<span class="n">print</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2326,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">posx</span><span class="p">,</span> <span class="n">posy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">posx</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">posy</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/grid-cells-decoding_15_0.png" src="../_images/grid-cells-decoding_15_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>発火率マップ<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<p>発火率<span class="math notranslate nohighlight">\(\lambda(\boldsymbol{x})\)</span>は，場所<span class="math notranslate nohighlight">\(\boldsymbol{x}=(x,y)\)</span>で記録されたスパイクの回数を，場所<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>における滞在時間(s)で割ることで得られる．</p>
+<div class="math notranslate nohighlight">
+\[ 
+\lambda(\boldsymbol{x})=\frac{\displaystyle \sum_{i=1}^n
+g\left(\frac{\boldsymbol{s}_i-\boldsymbol{x}}{h}\right)}{\displaystyle \int_0^T g\left(\frac{\boldsymbol{y}(t)-\boldsymbol{x}}{h}\right)dt} 
+\]</div>
+<p>ただし，<span class="math notranslate nohighlight">\(n\)</span>はスパイクの回数，<span class="math notranslate nohighlight">\(T\)</span>は計測時間，<span class="math notranslate nohighlight">\(g(\cdot)\)</span>はGaussain
+Kernel（中身の分子が平均，分母が標準偏差），<span class="math notranslate nohighlight">\(\boldsymbol{s}_i\)</span>は<span class="math notranslate nohighlight">\(i\)</span>番目のスパイクの発生した位置，<span class="math notranslate nohighlight">\(\boldsymbol{y}(t)\)</span>は時刻<span class="math notranslate nohighlight">\(t\)</span>でのラットの位置である．分母は積分になっているが，実際には離散的に記録をするので，累積和に変更し，<span class="math notranslate nohighlight">\(dt\)</span>を時間のステップ幅(今回は0.02s)とする．</p>
+<p>この式の分母はマウスの位置，分子はニューロンが発火したときのマウスの位置についてそれぞれカーネル密度推定 (kernel density estimation)を行うことを意味する．今回はヒストグラムを求め，描画の際にGaussianで平滑化することで計算量を下げることとする．</p>
+<p>発火数のヒストグラムを描画する．PyPlotで<code class="docutils literal notranslate"><span class="pre">hist2D(posx[idx],</span> <span class="pre">posy[idx],</span> <span class="pre">bins=10,</span> <span class="pre">cmap=&quot;jet&quot;)</span></code>などとする方が簡便だが，今回はhistgramの各binの値を用いるために<code class="docutils literal notranslate"><span class="pre">StatsBase.jl</span></code>を用いる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">activ_hist</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">Histogram</span><span class="p">,</span> <span class="p">(</span><span class="n">posy</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">posx</span><span class="p">[</span><span class="n">idx</span><span class="p">]),</span> <span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">weights</span> <span class="c"># activation</span>
+<span class="n">occup_hist</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">Histogram</span><span class="p">,</span> <span class="p">(</span><span class="n">posy</span><span class="p">,</span> <span class="n">posx</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">weights　</span><span class="c"># occup position while trajectory </span>
+<span class="n">occup_hist</span> <span class="o">*=</span> <span class="mf">0.02</span> <span class="c"># one time step is 0.02s </span>
+<span class="n">occup_hist</span><span class="p">[</span><span class="n">occup_hist</span> <span class="o">.==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span> <span class="c"># avoid devide by zero</span>
+
+<span class="n">rate_hist</span> <span class="o">=</span> <span class="n">activ_hist</span> <span class="o">./</span> <span class="n">occup_hist</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Activation map&quot;</span><span class="p">,</span> <span class="s">&quot;Occupation map&quot;</span><span class="p">,</span> <span class="s">&quot;Firing rate map&quot;</span><span class="p">]</span>
+<span class="n">hists</span> <span class="o">=</span> <span class="p">[</span><span class="n">activ_hist</span><span class="p">,</span> <span class="n">occup_hist</span><span class="p">,</span> <span class="n">rate_hist</span><span class="p">]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="n">hists</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">ims</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ims</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Hz&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/grid-cells-decoding_19_0.png" src="../_images/grid-cells-decoding_19_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="autocorrelation-map">
+<h2>Autocorrelation Map<a class="headerlink" href="#autocorrelation-map" title="Permalink to this headline">#</a></h2>
+<p>2次元の自己相関マップ (autocorrelation map)を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">correlate_fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">fftshift</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">.*</span> <span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)))))</span>
+    <span class="k">return</span> <span class="n">corr</span> <span class="o">/</span> <span class="n">maximum</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">corr_map</span> <span class="o">=</span> <span class="n">correlate_fft</span><span class="p">(</span><span class="n">rate_hist</span><span class="p">,</span> <span class="n">rate_hist</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Autocorrelation map&quot;</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">corr_map</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&quot;lower&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;Autocorr.&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/grid-cells-decoding_24_0.png" src="../_images/grid-cells-decoding_24_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>参考にした文献・サイト<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/Felix11H/grid_cell_rate_map">https://github.com/Felix11H/grid_cell_rate_map</a></p></li>
+<li><p><a class="reference external" href="https://www.ntnu.edu/kavli/research/grid-cell-data">https://www.ntnu.edu/kavli/research/grid-cell-data</a></p></li>
+<li><p><a class="reference external" href="https://core.ac.uk/download/pdf/30859910.pdf">https://core.ac.uk/download/pdf/30859910.pdf</a>のSupporting Online Material</p></li>
+<li><p><a class="reference external" href="https://github.com/MattNolanLab/gridcells">https://github.com/MattNolanLab/gridcells</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1810.07429.pdf">https://arxiv.org/pdf/1810.07429.pdf</a></p></li>
+<li><p><a class="reference external" href="https://www.diogosantospata.com/gridcells/">https://www.diogosantospata.com/gridcells/</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8",
+            path: "./appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="rat-trajectory.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">ラット自由行動下の軌跡のシミュレーション</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="slow-feature-analysis.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Slow Feature Analysis (SFA)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2022.<br/>
+    <div class="extra_footer">
+      <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

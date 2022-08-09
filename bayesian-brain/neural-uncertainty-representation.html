@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="ベイズ線形回帰 (Bayesian linear regression)" href="bayesian-linear-regression.html" />
-    <link rel="prev" title="予測符号化 (predictive coding)" href="predictive-coding.html" />
+    <link rel="prev" title="神経回路網によるベイズ推論" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -139,8 +139,43 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/computational-neuroscience.html">
+     神経科学と数理モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../introduction/notation.html">
      記号の表記
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/usage-julia-lang.html">
+     Julia言語の基本構文
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-algebra.html">
+     線形代数
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/differential-equation.html">
+     微分方程式
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/probability-information-theory.html">
+     確率論
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/stochastic-process-differential-equation.html">
+     確率過程と確率微分方程式
     </a>
    </li>
   </ul>
@@ -155,6 +190,11 @@ const thebe_selector_output = ".output, .cell_output"
    </i>
   </label>
   <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neuron-physiol.html">
+     神経細胞の形態と生理
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
      Hodgkin-Huxleyモデル
@@ -180,6 +220,11 @@ const thebe_selector_output = ".output, .cell_output"
      Inter-spike interval モデル
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -193,8 +238,8 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../synapse-model/synapse.html">
-     シナプス伝達
+    <a class="reference internal" href="../synapse-model/synapse-physiol.html">
+     シナプスの形態と生理
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,8 +287,8 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../learning-rule/intro.html">
-   神経回路網の学習則
+  <a class="reference internal" href="../local-learning-rule/intro.html">
+   局所学習則
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
@@ -252,30 +297,20 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/hebbian-learning.html">
+    <a class="reference internal" href="../local-learning-rule/hebbian-learning.html">
      Hebb則と教師なし学習
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
-     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/bptt.html">
-     BPTT (backpropagation through time)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
-     線形多層ニューラルネットワークの学習ダイナミクス
+    <a class="reference internal" href="../local-learning-rule/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../information-theory/intro.html">
-   情報理論と教師なし・自己教師あり学習
+  <a class="reference internal" href="../energy-based-model/intro.html">
+   エネルギーベースモデル
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
@@ -284,20 +319,35 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../information-theory/statistics-information.html">
-     統計と情報理論の基礎
+    <a class="reference internal" href="../energy-based-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
-     Slow Feature Analysis (SFA)
+    <a class="reference internal" href="../energy-based-model/hopfield-model.html">
+     Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/predictive-coding.html">
+     予測符号化 (predictive coding)
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../associative-memory-model/intro.html">
-   連想記憶モデル
+  <a class="reference internal" href="../solve-credit-assignment-problem/intro.html">
+   貢献度分配問題の解決策
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
   <label for="toctree-checkbox-7">
@@ -306,52 +356,81 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
-     エネルギーベースモデル (Energy-based model)
+    <a class="reference internal" href="../solve-credit-assignment-problem/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
-     Amari-Hopfield モデル
+    <a class="reference internal" href="../solve-credit-assignment-problem/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
-     Boltzmann マシン
+    <a class="reference internal" href="../solve-credit-assignment-problem/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="intro.html">
-   ベイズ脳仮説と生成モデル
+   神経回路網によるベイズ推論
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-  <label for="toctree-checkbox-8">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="bayes-statistics.html">
-     ベイズ統計の基礎
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="linear-regression.html">
-     線形回帰と最小二乗法
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="sparse-coding.html">
-     スパース符号化 (sparse coding)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="predictive-coding.html">
-     予測符号化 (predictive coding)
-    </a>
-   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      ベイズ脳仮説と神経活動による不確実性の表現
@@ -385,104 +464,11 @@ const thebe_selector_output = ".output, .cell_output"
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../reinforcement-learning/intro.html">
-   強化学習
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-  <label for="toctree-checkbox-9">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
-     TD学習
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../motor-learning/intro.html">
-   運動制御
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
-     躍度最小モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../motor-learning/minimum-variance.html">
-     終点誤差分散最小モデル (minimum-variance model)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
-     最適フィードバック制御モデル (optimal feedback control; OFC)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
-     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
-   時空間の符号化
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
-  <label for="toctree-checkbox-11">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
-     格子細胞のデコーディング
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../neural-development/intro.html">
-   神経回路の形態・発生の数理モデル
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-  <label for="toctree-checkbox-12">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../neural-development/neurite-growth-model.html">
-     神経突起の成長モデル
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../neural-development/self-organizing-map.html">
-     自己組織化マップと視覚野の構造
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../neural-development/graph-theory-network-model.html">
-     グラフ理論とネットワークモデル
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
   <a class="reference internal" href="../appendix/intro.html">
    付録
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
-  <label for="toctree-checkbox-13">
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -493,8 +479,18 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../appendix/tips.html">
-     JuliaのTips集
+    <a class="reference internal" href="../appendix/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -739,12 +735,12 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
+  <a class="reference internal nav-link" href="#id3">
    神経活動による不確実性の表現
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
+  <a class="reference internal nav-link" href="#id8">
    参考文献
   </a>
  </li>
@@ -773,12 +769,12 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
+  <a class="reference internal nav-link" href="#id3">
    神経活動による不確実性の表現
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
+  <a class="reference internal nav-link" href="#id8">
    参考文献
   </a>
  </li>
@@ -797,22 +793,21 @@ title="Print to PDF"
 <div class="section" id="id2">
 <h2>ベイズ脳仮説<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
 <p><em>ToDo:</em></p>
-<ul class="simple">
-<li><p><span id="id3">[<a class="reference internal" href="#id89">Shimazaki, 2019</a>]</span></p></li>
-<li><p><span id="id4">[<a class="reference internal" href="#id90">Shimazaki, 2020</a>]</span>,</p></li>
-</ul>
+<blockquote>
+<div><p>Knill, David C., and Alexandre Pouget. 2004. “The Bayesian Brain: The Role of Uncertainty in Neural Coding and Computation.” Trends in Neurosciences 27 (12): 712–19.</p>
+</div></blockquote>
 </div>
-<div class="section" id="id5">
-<h2>神経活動による不確実性の表現<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id3">
+<h2>神経活動による不確実性の表現<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
 <p>ここまでは最尤推定やMAP推定などにより，パラメータ(神経活動，シナプス結合)の点推定を行ってきた．<strong>不確実性(uncertainty)</strong> を神経回路で表現する方法として主に2つの符号化方法，<strong>サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)</strong> および<strong>確率的集団符号化(probabilistic population coding; PPC)</strong> が提案されている．SBCは神経活動が元の確率分布のサンプルを表現しており，時間的に多数の活動を集めることで元の分布の情報が得られるというモデルである．PPCは神経細胞集団により，確率分布を表現するというモデルである．</p>
 <p><em>ToDo:</em></p>
 <ul class="simple">
 <li><p>(Walker et al., 2022)がまとめ．</p></li>
 <li><p>(Fiser et al., 2010)の比較表を入れる．</p></li>
 <li><p>神経活動の変動性 (neural variability)</p></li>
-<li><p>自発活動が事前分布であるという説 <span id="id6">[<a class="reference internal" href="#id87">Fiser <em>et al.</em>, 2010</a>]</span>, <span id="id7">[<a class="reference internal" href="#id86">Berkes <em>et al.</em>, 2011</a>]</span>.</p></li>
-<li><p><span id="id8">[<a class="reference internal" href="#id93">Hoyer and Hyvärinen, 2002</a>]</span></p></li>
-<li><p><span id="id9">[<a class="reference internal" href="#id84">Sanborn and Chater, 2016</a>]</span></p></li>
+<li><p>自発活動が事前分布であるという説 <span id="id4">[<a class="reference internal" href="#id85">Fiser <em>et al.</em>, 2010</a>]</span>, <span id="id5">[<a class="reference internal" href="#id84">Berkes <em>et al.</em>, 2011</a>]</span>.</p></li>
+<li><p><span id="id6">[<a class="reference internal" href="#id91">Hoyer and Hyvärinen, 2002</a>]</span></p></li>
+<li><p><span id="id7">[<a class="reference internal" href="#id82">Sanborn and Chater, 2016</a>]</span></p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -949,26 +944,20 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="section" id="id10">
-<h2>参考文献<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h2>
-<p id="id11"><dl class="citation">
-<dt class="label" id="id86"><span class="brackets"><a class="fn-backref" href="#id7">BOrbanLF11</a></span></dt>
+<div class="section" id="id8">
+<h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
+<p id="id9"><dl class="citation">
+<dt class="label" id="id84"><span class="brackets"><a class="fn-backref" href="#id5">BOrbanLF11</a></span></dt>
 <dd><p>Pietro Berkes, Gergo Orbán, Máté Lengyel, and József Fiser. Spontaneous cortical activity reveals hallmarks of an optimal internal model of the environment. <em>Science</em>, 331(6013):83–87, January 2011.</p>
 </dd>
-<dt class="label" id="id87"><span class="brackets"><a class="fn-backref" href="#id6">FBOrbanL10</a></span></dt>
+<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id4">FBOrbanL10</a></span></dt>
 <dd><p>József Fiser, Pietro Berkes, Gergő Orbán, and Máté Lengyel. Statistically optimal perception and learning: from behavior to neural representations. <em>Trends Cogn. Sci.</em>, 14(3):119–130, March 2010.</p>
 </dd>
-<dt class="label" id="id93"><span class="brackets"><a class="fn-backref" href="#id8">HHyvarinen02</a></span></dt>
+<dt class="label" id="id91"><span class="brackets"><a class="fn-backref" href="#id6">HHyvarinen02</a></span></dt>
 <dd><p>Patrik O Hoyer and Aapo Hyvärinen. Interpreting neural response variability as monte carlo sampling of the posterior. In <em>Proceedings of the 15th International Conference on Neural Information Processing Systems</em>, NIPS'02, 293–300. Cambridge, MA, USA, January 2002. MIT Press.</p>
 </dd>
-<dt class="label" id="id84"><span class="brackets"><a class="fn-backref" href="#id9">SC16</a></span></dt>
+<dt class="label" id="id82"><span class="brackets"><a class="fn-backref" href="#id7">SC16</a></span></dt>
 <dd><p>Adam N Sanborn and Nick Chater. Bayesian brains without probabilities. <em>Trends Cogn. Sci.</em>, 20(12):883–893, December 2016.</p>
-</dd>
-<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id3">Shi19</a></span></dt>
-<dd><p><strong>missing journal in Shimazaki2019-yx</strong></p>
-</dd>
-<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id4">Shi20</a></span></dt>
-<dd><p><strong>missing journal in Shimazaki2020-kx</strong></p>
 </dd>
 </dl>
 </p>
@@ -1002,11 +991,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="predictive-coding.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">予測符号化 (predictive coding)</p>
+            <p class="prev-next-title">神経回路網によるベイズ推論</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="bayesian-linear-regression.html" title="next page">
@@ -1025,7 +1014,7 @@ title="Print to PDF"
   
     By Takuto Yamamoto<br/>
   
-      &copy; Copyright 2020-2021.<br/>
+      &copy; Copyright 2020-2022.<br/>
     <div class="extra_footer">
       <div>
 <script src="https://utteranc.es/client.js"

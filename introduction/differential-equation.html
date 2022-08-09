@@ -1,0 +1,1079 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>微分方程式 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/introduction/differential-equation.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="線形回帰と最小二乗法" href="linear-regression.html" />
+    <link rel="prev" title="線形代数" href="linear-algebra.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   はじめに
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="computational-neuroscience.html">
+     神経科学と数理モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="notation.html">
+     記号の表記
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="usage-julia-lang.html">
+     Julia言語の基本構文
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear-algebra.html">
+     線形代数
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     微分方程式
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="probability-information-theory.html">
+     確率論
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="stochastic-process-differential-equation.html">
+     確率過程と確率微分方程式
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neuron-physiol.html">
+     神経細胞の形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse-physiol.html">
+     シナプスの形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuronal-computation/intro.html">
+   神経回路網の演算処理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../local-learning-rule/intro.html">
+   局所学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../local-learning-rule/hebbian-learning.html">
+     Hebb則と教師なし学習
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../local-learning-rule/self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../energy-based-model/intro.html">
+   エネルギーベースモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/hopfield-model.html">
+     Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../solve-credit-assignment-problem/intro.html">
+   貢献度分配問題の解決策
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   神経回路網によるベイズ推論
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-uncertainty-representation.html">
+     ベイズ脳仮説と神経活動による不確実性の表現
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/mcmc.html">
+     マルコフ連鎖モンテカルロ法 (MCMC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-sampling.html">
+     神経サンプリング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/probabilistic-population-coding.html">
+     確率的集団符号化 (probabilistic population coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/introduction/differential-equation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/introduction/differential-equation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/introduction/differential-equation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/introduction/differential-equation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   微分方程式の基礎
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     微分方程式の解
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     連立線形微分方程式
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   連続時間モデルから離散時間モデルへの変換
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     離散化方法1: 解析解を用いた方法
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id7">
+       1次元の場合
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n">
+       n次元の場合
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     離散化方法2: 微分方程式の数値解法
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#euler">
+       Euler法
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#runge-kutta">
+       Runge-Kutta法
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#solver">
+       その他のsolver
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>微分方程式</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   微分方程式の基礎
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     微分方程式の解
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     連立線形微分方程式
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   連続時間モデルから離散時間モデルへの変換
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     離散化方法1: 解析解を用いた方法
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id7">
+       1次元の場合
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#n">
+       n次元の場合
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     離散化方法2: 微分方程式の数値解法
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#euler">
+       Euler法
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#runge-kutta">
+       Runge-Kutta法
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#solver">
+       その他のsolver
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>微分方程式<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<div class="section" id="id2">
+<h2>微分方程式の基礎<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<p>微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+\]</div>
+<p>状態変数 <span class="math notranslate nohighlight">\(x(t)\)</span>は，時間<span class="math notranslate nohighlight">\(t\)</span>に対する関数である．</p>
+<p>添え字の<span class="math notranslate nohighlight">\(c\)</span>は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては<span class="math notranslate nohighlight">\(b_c=0\)</span>の場合を<strong>同次方程式</strong>, <span class="math notranslate nohighlight">\(b_c\neq 0\)</span>の場合を<strong>非同次方程式</strong>という．</p>
+<div class="section" id="id3">
+<h3>微分方程式の解<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<p>微分方程式を解くとは<span class="math notranslate nohighlight">\(x(t)\)</span>のような関数の具体的な式を求めることである．上式の解は</p>
+<div class="math notranslate nohighlight">
+\[
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+\]</div>
+<p>として与えられる．微分方程式を解く手法は様々で，それぞれの方程式について適切な手法を選択する．本書ではLaplace変換を多用するが，細かい説明は付録にて行う．</p>
+</div>
+<div class="section" id="id4">
+<h3>連立線形微分方程式<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p><span class="math notranslate nohighlight">\(n\)</span>個の微分方程式</p>
+<p>連立線形微分方程式という．これをベクトル，行列を用いて</p>
+<p>時不変 (time-invariant) の定数行列を<span class="math notranslate nohighlight">\(\mathbf{A}_c \in \mathbb{R}^{n\times n}, \mathbf{B}_c \in \mathbb{R}^{n\times m}\)</span>, 状態ベクトルを<span class="math notranslate nohighlight">\(\mathbf{x}(t)\in\mathbb{R}^n\)</span>, 入力ベクトルを<span class="math notranslate nohighlight">\(\mathbf{u}(t)\in\mathbb{R}^m\)</span>とする．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
+\]</div>
+<p>解は</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
+\]</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>連続時間モデルから離散時間モデルへの変換<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id6">
+<h3>離散化方法1: 解析解を用いた方法<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id7">
+<h4>1次元の場合<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h4>
+<p>区間<span class="math notranslate nohighlight">\([t, t+\Delta t]\)</span>において入力<span class="math notranslate nohighlight">\(u(t)\)</span>が一定であると仮定すると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+x(t+\Delta t)&amp;= \underbrace{e^{a_c \Delta t}}_{=: a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{=: b_d}u(t)\\
+&amp;=a_d x(t)+b_d u(t)\\
+\end{aligned}
+\end{split}\]</div>
+</div>
+<div class="section" id="n">
+<h4>n次元の場合<a class="headerlink" href="#n" title="Permalink to this headline">#</a></h4>
+<p>区間<span class="math notranslate nohighlight">\([t, t+\Delta t]\)</span>において入力<span class="math notranslate nohighlight">\(\mathbf{u}(t)\)</span>が一定であると仮定すると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbf{x}(t+\Delta t)&amp;=e^{(t+\Delta t)\mathbf{A}_c}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&amp;=e^{\Delta t\mathbf{A}_c}e^{t\mathbf{A}_c}\mathbf{x}(0)+e^{\Delta t\mathbf{A}_c}\int_0^{t} e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&amp;\approx \underbrace{e^{\Delta t\mathbf{A}_c}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c} d\tau\right] \mathbf{B}_c}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&amp;=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{aligned}
+\end{split}\]</div>
+<p>離散化した場合の</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}_{t+1} = \mathbf{A}_c\mathbf{x}_t + \mathbf{B}_c\mathbf{u}_t
+\]</div>
+<p>状態遷移方程式 (dynamics equations) とも呼ぶ．</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>離散化方法2: 微分方程式の数値解法<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
+<div class="section" id="euler">
+<h4>Euler法<a class="headerlink" href="#euler" title="Permalink to this headline">#</a></h4>
+<p>Euler法は<span class="math notranslate nohighlight">\(\dfrac{dx}{dt}=f(x, t)\)</span>において，<span class="math notranslate nohighlight">\(x_{n+1}=x_t+\Delta t f(x_n, t_n)\)</span>とする手法である．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+x(t+\Delta t)&amp;=x(t) + \left[a_c x(t)+b_c u(t) \right]\Delta t\\
+&amp;=(1+a_c \Delta t)x(t) + b_c\Delta t u(t
+)
+\end{aligned}
+\end{split}\]</div>
+<p>ここで，解析解を用いる方法とEuler法の離散化係数の比較をしよう．</p>
+<p><span class="math notranslate nohighlight">\(\Delta t=0\)</span>でTaylor展開により1次近似すると</p>
+<div class="math notranslate nohighlight">
+\[
+e^{a \Delta t} \approx 1 + a\Delta t
+\]</div>
+<p><span class="math notranslate nohighlight">\(a_c\neq 0\)</span>の場合，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau&amp;=\frac{1}{a_c}(e^{a_c \Delta t}-1)\\
+&amp;\approx \frac{1}{a_c}\cdot a_c \Delta t=\Delta t
+\end{aligned}
+\end{split}\]</div>
+</div>
+<div class="section" id="runge-kutta">
+<h4>Runge-Kutta法<a class="headerlink" href="#runge-kutta" title="Permalink to this headline">#</a></h4>
+</div>
+<div class="section" id="solver">
+<h4>その他のsolver<a class="headerlink" href="#solver" title="Permalink to this headline">#</a></h4>
+<p>adaptiveな方法など．Juliaであれば<code class="docutils literal notranslate"><span class="pre">DifferentialEquations.jl</span></code>などで実装されているsolverを用いる方が効率的である．</p>
+<p>本書では主にEuler法を用いて実装を行う．Euler法は精度が低い手法であるという欠点があるものの，実装が簡便で可読性が高いことや，本書で扱うモデルに関してはEuler法でも定性的に同様の結果が再現できることなどが採用する理由である．</p>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8",
+            path: "./introduction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="linear-algebra.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">線形代数</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="linear-regression.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">線形回帰と最小二乗法</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2022.<br/>
+    <div class="extra_footer">
+      <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

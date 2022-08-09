@@ -1,0 +1,74 @@
+Traceback (most recent call last):
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\jupyter_cache\executors\utils.py", line 56, in single_nb_execution
+    record_timing=False,
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\asyncio\base_events.py", line 587, in run_until_complete
+    return future.result()
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\client.py", line 554, in async_execute
+    cell, index, execution_count=self.code_cells_executed + 1
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "c:\users\yamta\miniconda3\envs\workenv\lib\site-packages\nbclient\client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+using PyPlot, LinearAlgebra, Random, Distributions
+using PyPlot: matplotlib
+using KernelDensity
+Random.seed!(2)
+rc("font", family="Meiryo")
+
+gaussian(x, μ, σ) = 1/(σ*sqrt(2*π))*exp(-0.5*((x-μ)/σ)^2)
+
+x = -4:0.01:4
+d = Normal(0, 1); 
+
+props = Dict("boxstyle" => "round", "facecolor" => "wheat", "alpha" => 0.5)
+fig, ax = subplots(1,2, figsize=(6,2),sharex="all",sharey="all",constrained_layout=true)
+ax[1].set_title("点推定\n (Point estimation)")
+ax[2].set_title("分布推定\n (Distribution estimation)")
+ax[2].set_ylabel(L"$p(\theta)$")
+ax[1].scatter(0, 0,clip_on=false,zorder=5)
+ax[2].plot(x, pdf.(d, x), zorder=5)
+ax[1].spines.left.set_visible(false)
+for i in 1:2
+    ax[i].set_xlabel(L"$\theta^*$")
+    ax[i].set_xticks([])
+    ax[i].set_yticks([])
+    ax[i].set_ylim(0, )
+    ax[i].set_xlim(-4,4)
+    ax[i].axvline(0, linestyle="dashed", color="tab:gray")
+    ax[i].spines.right.set_visible(false)
+    ax[i].spines.top.set_visible(false)
+end
+
+ax[2].annotate(text="", xy=(0,pdf(d, 1)), xytext=(1,pdf(d, 1)), arrowprops=Dict("arrowstyle" => "<->", "color" => "tab:red"))
+ax[2].text(0.55, pdf(d, 1)-0.06, L"$\sigma^*$",ha="center",va="center",color="tab:red");
+
+ax[1].text(-6, -0.25, "神経活動で\n表現する方法",fontsize=11,ha="center",va="center");
+ax[1].text(0, -0.25, "単一の細胞の瞬時的な活動",fontsize=10,ha="center",va="center", bbox=props);
+ax[2].text(0, -0.25, "単一の細胞の経時的な活動 (例. SBC)\n or\n 複数の細胞の瞬時的な活動 (例. PPC)",fontsize=10,ha="center",va="center", bbox=props);
+------------------
+
+ArgumentError: Package KernelDensity not found in current path.
+- Run `import Pkg; Pkg.add("KernelDensity")` to install the KernelDensity package.
+
+Stacktrace:
+ [1] macro expansion
+   @ .\loading.jl:1054 [inlined]
+ [2] macro expansion
+   @ .\lock.jl:223 [inlined]
+ [3] require(into::Module, mod::Symbol)
+   @ Base .\loading.jl:1035
+ [4] eval
+   @ .\boot.jl:368 [inlined]
+ [5] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+   @ Base .\loading.jl:1281
+LoadError: ArgumentError: Package KernelDensity not found in current path.
+- Run `import Pkg; Pkg.add("KernelDensity")` to install the KernelDensity package.
+

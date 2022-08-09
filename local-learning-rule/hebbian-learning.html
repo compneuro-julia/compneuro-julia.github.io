@@ -1,0 +1,1616 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hebb則と教師なし学習 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/local-learning-rule/hebbian-learning.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="自己組織化マップと視覚野の構造" href="self-organizing-map.html" />
+    <link rel="prev" title="局所学習則" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Juliaで学ぶ計算論的神経科学
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/computational-neuroscience.html">
+     神経科学と数理モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/usage-julia-lang.html">
+     Julia言語の基本構文
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-algebra.html">
+     線形代数
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/differential-equation.html">
+     微分方程式
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/probability-information-theory.html">
+     確率論
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/stochastic-process-differential-equation.html">
+     確率過程と確率微分方程式
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neuron-physiol.html">
+     神経細胞の形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/neurite-growth-model.html">
+     神経突起の成長モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse-physiol.html">
+     シナプスの形態と生理
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/dynamical-synapses.html">
+     動的シナプス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuronal-computation/intro.html">
+   神経回路網の演算処理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuronal-computation/neuronal-arithmetic.html">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   局所学習則
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Hebb則と教師なし学習
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="self-organizing-map.html">
+     自己組織化マップと視覚野の構造
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../energy-based-model/intro.html">
+   エネルギーベースモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/hopfield-model.html">
+     Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../energy-based-model/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../solve-credit-assignment-problem/intro.html">
+   貢献度分配問題の解決策
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../solve-credit-assignment-problem/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   神経回路網によるベイズ推論
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-uncertainty-representation.html">
+     ベイズ脳仮説と神経活動による不確実性の表現
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayesian-linear-regression.html">
+     ベイズ線形回帰 (Bayesian linear regression)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/mcmc.html">
+     マルコフ連鎖モンテカルロ法 (MCMC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/neural-sampling.html">
+     神経サンプリング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/probabilistic-population-coding.html">
+     確率的集団符号化 (probabilistic population coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/graph-theory-network-model.html">
+     グラフ理論とネットワークモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/local-learning-rule/hebbian-learning.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/local-learning-rule/hebbian-learning.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/local-learning-rule/hebbian-learning.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/local-learning-rule/hebbian-learning.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Hebb則
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Hebb則の導出
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hebbltp-ltd">
+   Hebb則の安定化とLTP/LTD
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bcm">
+     BCM則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Hebb則の生理的機序
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#oja">
+     Oja則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     恒常的可塑性
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   Hebb則と主成分分析
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ojapca">
+     Oja則によるPCAの実行
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sanger">
+     Sanger則
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id18">
+   非線形Hebb学習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id21">
+     非負主成分分析によるグリッドパターンの創発
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id23">
+       場所細胞の発火パターン
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pca">
+       線形PCAの場合
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id24">
+       非負PCAの場合
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id25">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Hebb則と教師なし学習</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Hebb則
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Hebb則の導出
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hebbltp-ltd">
+   Hebb則の安定化とLTP/LTD
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bcm">
+     BCM則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Hebb則の生理的機序
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#oja">
+     Oja則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     恒常的可塑性
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id17">
+   Hebb則と主成分分析
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ojapca">
+     Oja則によるPCAの実行
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sanger">
+     Sanger則
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id18">
+   非線形Hebb学習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id21">
+     非負主成分分析によるグリッドパターンの創発
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id23">
+       場所細胞の発火パターン
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pca">
+       線形PCAの場合
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id24">
+       非負PCAの場合
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id25">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="hebb">
+<h1>Hebb則と教師なし学習<a class="headerlink" href="#hebb" title="Permalink to this headline">#</a></h1>
+<div class="section" id="id1">
+<h2>Hebb則<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+<p>神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書”The Organization of Behavior”<span id="id2">[<a class="reference internal" href="#id119">Hebb, 1949</a>]</span> で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを<strong>Hebbの学習則 (Hebbian learning rule)</strong> あるいは<strong>Hebb則(Hebb’s rule)</strong> という．Hebb則は (Hebb自身ではなく) Shatzにより”cells that fire together wire together” (共に活動する細胞は共に結合する)と韻を踏みながら短く言い換えられている <span id="id3">[<a class="reference internal" href="#id120">Shatz, 1992</a>]</span>．</p>
+<div class="section" id="id4">
+<h3>Hebb則の導出<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p>数式でHebb則を表してみよう．<span class="math notranslate nohighlight">\(n\)</span>個のシナプス前細胞と<span class="math notranslate nohighlight">\(m\)</span>個の後細胞の発火率をそれぞれ<span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^n, \mathbf{y}\in \mathbb{R}^m\)</span> とする．前細胞と後細胞間のシナプス結合強度を表す行列を<span class="math notranslate nohighlight">\(\mathbf{W}\in \mathbb{R}^{m\times n}\)</span>とし，<span class="math notranslate nohighlight">\(\mathbf{y}=\mathbf{W}\mathbf{x}\)</span>が成り立つとする．このようなモデルを線形ニューロンモデル (Linear neuron model) という．このとき，Hebb則は</p>
+<div class="math notranslate nohighlight">
+\[
+\tau\frac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
+\]</div>
+<p>として表される．ただし，<span class="math notranslate nohighlight">\(\tau\)</span>は時定数であり，<span class="math notranslate nohighlight">\(\eta:=1/\tau\)</span> は<strong>学習率 (learning rate)</strong> と呼ばれる，学習の速さを決定するパラメータとなる．</p>
+<p>このHebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを<strong>エネルギーベースモデル (energy-based models)</strong> といい，次章で扱う．エネルギーベースモデルでは，先に目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> を定義し，その目的関数を最小化するような神経活動 <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> および重み行列 <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> のダイナミクスをそれぞれ,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d \mathbf{z}}{dt}\propto-\frac{\partial \mathcal{L}}{\partial \mathbf{z}},\ \frac{d \mathbf{W}}{dt}\propto-\frac{\partial \mathcal{L}}{\partial \mathbf{W}}
+\]</div>
+<p>として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路の目的関数<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を導出でき，さらに<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>を重み行列で微分することでHebb則が導出できる <span id="id5">[<a class="reference internal" href="#id136">Isomura and Friston, 2020</a>]</span>．Hebb則の導出を連続時間線形ニューロンモデル <span class="math notranslate nohighlight">\(\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}\)</span> を例にして考えよう．ここで<span class="math notranslate nohighlight">\(\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}\)</span>となるような目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\in \mathbb{R}\)</span>を仮定すると，</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}=-\int \mathbf{W}\mathbf{x}\ d\mathbf{y}=-\mathbf{y}^\top \mathbf{W}\mathbf{x}
+\]</div>
+<p>となる．これをさらに<span class="math notranslate nohighlight">\(\mathbf{W}\)</span>で微分すると，</p>
+<div class="math notranslate nohighlight">
+\[
+\dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=-\mathbf{y}\mathbf{x}^\top\Rightarrow
+\frac{d\mathbf{W}}{dt}=-\dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=\mathbf{y}\mathbf{x}^\top
+\]</div>
+<p>となり，Hebb則が導出できる (簡単のため時定数は1とした)．</p>
+</div>
+</div>
+<div class="section" id="hebbltp-ltd">
+<h2>Hebb則の安定化とLTP/LTD<a class="headerlink" href="#hebbltp-ltd" title="Permalink to this headline">#</a></h2>
+<div class="section" id="bcm">
+<h3>BCM則<a class="headerlink" href="#bcm" title="Permalink to this headline">#</a></h3>
+<p>Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，0に近づくこととなってしまう．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を<span class="math notranslate nohighlight">\(w\ (&gt;0)\)</span> とし，<span class="math notranslate nohighlight">\(y=wx\)</span>が成り立つとすると，Hebb則は<span class="math notranslate nohighlight">\(\dfrac{dw}{dt}=\eta yx=\eta x^2w\)</span>となる．この場合，<span class="math notranslate nohighlight">\(\eta x^2&gt;1\)</span> なら <span class="math notranslate nohighlight">\(\lim_{t\to\infty} w= \infty\)</span>, <span class="math notranslate nohighlight">\(\eta x^2&lt;1\)</span> なら <span class="math notranslate nohighlight">\(\lim_{t\to\infty} w= 0\)</span> となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．</p>
+<p>Cooper, Liberman, Ojaらにより頭文字をとって<strong>CLO則</strong> (CLO rule) が提案された <span id="id6">[<a class="reference internal" href="#id131">Cooper <em>et al.</em>, 1979</a>]</span>．その後，Bienenstock, Cooper, Munroらにより提案された学習則は同様に頭文字をとって<strong>BCM則</strong> (BCM rule) と呼ばれている<span id="id7">[<a class="reference internal" href="#id126">Bienenstock <em>et al.</em>, 1982</a>]</span> <span id="id8">[<a class="reference internal" href="#id129">Cooper and Bear, 2012</a>]</span>．</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}\)</span>とし，単一の出力<span class="math notranslate nohighlight">\(y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}\)</span>を持つ線形ニューロンを仮定する．重みの更新則は次のようにする．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{w}}{dt} = \eta_w \mathbf{x} \phi(y, \theta_m)
+\]</div>
+<p>ここで関数<span class="math notranslate nohighlight">\(\phi\)</span>は<span class="math notranslate nohighlight">\(\phi(y, \theta_m)=y(y-\theta_m)\)</span>などとする．また<span class="math notranslate nohighlight">\(\theta_m:=\mathbb{E}[y^2]\)</span>は閾値を決定するパラメータ，<strong>修正閾値(modification threshold)</strong> であり，</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\theta_m}{dt} = \eta_{\theta} \left(y^2-\theta_m\right)
+\]</div>
+<p>として更新される．</p>
+<p><em>ToDo: 詳細</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">FFTW</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s">&quot;Meiryo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ϕ</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">θₘ</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">θₘ</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">0.1</span><span class="o">:</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">θₘ</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">props</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;boxstyle&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;round&quot;</span><span class="p">,</span> <span class="s">&quot;facecolor&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;wheat&quot;</span><span class="p">,</span> <span class="s">&quot;alpha&quot;</span> <span class="o">=&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ϕ</span><span class="o">.</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">θₘ</span><span class="p">))</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,)</span>
+<span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">arrowprops</span><span class="o">=</span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;arrowstyle&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;&lt;-&gt;&quot;</span><span class="p">,</span> <span class="s">&quot;color&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;tab:purple&quot;</span><span class="p">))</span>
+<span class="n">axvline</span><span class="p">(</span><span class="n">θₘ</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:purple&quot;</span><span class="p">)</span>
+<span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:gray&quot;</span><span class="p">)</span>
+<span class="n">xticks</span><span class="p">([]);</span> <span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$y</span><span class="s">$ &quot;</span><span class="o">*</span><span class="s">&quot;(シナプス後細胞の活動)&quot;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;$\phi(y, </span><span class="se">\t</span><span class="s">heta_m)$&quot;</span><span class="p">)</span>
+<span class="n">text</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">heta_m&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:purple&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s">&quot;LTD&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:blue&quot;</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">);</span>
+<span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s">&quot;LTP&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">);</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_4_0.png" src="../_images/hebbian-learning_4_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Hebb則の生理的機序<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
+<p>ここでHebb則およびBCM則の生理的基盤について触れておこう．
+LTPの実験的発見 <span id="id10">[<a class="reference internal" href="#id123">Bliss and Lomo, 1973</a>]</span> <span id="id11">[<a class="reference internal" href="#id122">Dudek and Bear, 1992</a>]</span></p>
+<p><em>ToDo:実験的発見のsurvey</em></p>
+</div>
+<div class="section" id="oja">
+<h3>Oja則<a class="headerlink" href="#oja" title="Permalink to this headline">#</a></h3>
+<p>Hebb則を安定化させる別のアプローチとして，結合強度を正規化するという手法が考えられる．BCM則と同様に<span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}\)</span>とし，単一の出力<span class="math notranslate nohighlight">\(y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}\)</span>を持つ線形ニューロンを仮定する．<span class="math notranslate nohighlight">\(\eta\)</span>を学習率とすると，<span class="math notranslate nohighlight">\(\mathbf{w}\leftarrow\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}\)</span>とすれば正規化できる．ここで，<span class="math notranslate nohighlight">\(f(\eta):=\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}\)</span>とし，<span class="math notranslate nohighlight">\(\eta=0\)</span>においてTaylor展開を行うと，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+f(\eta)&amp;\approx f(0) + \eta \left.\frac{df(\eta^*)}{d\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
+&amp;=\frac{\mathbf{w}}{\|\mathbf{w}\|} + \eta \left(\frac{\mathbf{x}y}{\|\mathbf{w}\|}-\frac{y^2\mathbf{w}}{\|\mathbf{w}\|^3}\right)+ \mathcal{O}(\eta^2)\\
+\end{aligned}
+\end{split}\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(\|\mathbf{w}\|=1\)</span>として，1次近似すれば<span class="math notranslate nohighlight">\(f(\eta)\approx \mathbf{w} + \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)\)</span>となる．重みの変化が連続的であるとすると，</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{w}}{dt} = \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)
+\]</div>
+<p>として重みの更新則が得られる．これを<strong>Oja則 (Oja’s rule)</strong> と呼ぶ <span id="id12">[<a class="reference internal" href="#id124">Oja, 1982</a>]</span>．こうして得られた学習則において<span class="math notranslate nohighlight">\(\|\mathbf{w}\|\to 1\)</span>となることを確認しよう．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\|\mathbf{w}\|^2}{dt}=2\mathbf{w}^\top\frac{d\mathbf{w}}{dt}= 2\eta y^2\left(1-\|\mathbf{w}\|^2\right)
+\]</div>
+<p>より，<span class="math notranslate nohighlight">\(\dfrac{d\|\mathbf{w}\|^2}{dt}=0\)</span>のとき，<span class="math notranslate nohighlight">\(\|\mathbf{w}\|= 1\)</span>となる．</p>
+</div>
+<div class="section" id="id13">
+<h3>恒常的可塑性<a class="headerlink" href="#id13" title="Permalink to this headline">#</a></h3>
+<p>Oja則は更新時の即時的な正規化から導出されたものであるが，恒常的可塑性 (synaptic scaling)により安定化しているという説がある<span id="id14">[<a class="reference internal" href="#id127">Turrigiano, 2008</a>]</span><span id="id15">[<a class="reference internal" href="#id132">Yee <em>et al.</em>, 2017</a>]</span>．しかし，この過程は遅すぎるため，Hebb則の不安定化を安定化するに至らない<span id="id16">[<a class="reference internal" href="#id128">Zenke <em>et al.</em>, 2017</a>]</span></p>
+<p><em>ToDo:恒常的可塑性の詳細</em></p>
+<blockquote>
+<div><p>Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id17">
+<h2>Hebb則と主成分分析<a class="headerlink" href="#id17" title="Permalink to this headline">#</a></h2>
+<p>Oja則を用いることで<strong>主成分分析(Principal component analysis; PCA)</strong> という処理をニューラルネットワークにおいて実現できる．主成分分析とは-</p>
+<p><em>ToDo:主成分分析の説明</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">MvNormal</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span> <span class="mf">0.5</span><span class="p">;</span> <span class="mf">0.5</span> <span class="mf">1.0</span><span class="p">])</span> <span class="c"># multivariate normal distribution</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">300</span> <span class="c"># sample size</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set seed</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>  <span class="c"># generate toy data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="n">X</span><span class="o">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SVD{Float64, Float64, Matrix{Float64}, Vector{Float64}}
+U factor:
+2×2 Matrix{Float64}:
+ -0.722509  -0.691362
+ -0.691362   0.722509
+singular values:
+2-element Vector{Float64}:
+ 418.9073852600819
+ 138.22321877667497
+Vt factor:
+2×2 Matrix{Float64}:
+ -0.722509  -0.691362
+ -0.691362   0.722509
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">V</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">V</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:orange&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;PC2&quot;</span><span class="p">)</span>
+<span class="n">θc</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">1e-2</span><span class="o">:</span><span class="mi">2</span><span class="nb">pi</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="s">&quot;k--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_1</span><span class="s">$&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_2</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_11_0.png" src="../_images/hebbian-learning_11_0.png" />
+</div>
+</div>
+<div class="section" id="ojapca">
+<h3>Oja則によるPCAの実行<a class="headerlink" href="#ojapca" title="Permalink to this headline">#</a></h3>
+<p>ここでOja則が主成分分析を実行できることを示す．重みの変化量の期待値を取る．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{d\mathbf{w}}{dt} &amp;= \eta \left(\mathbf{x}y - y^2 \mathbf{w}\right)=\eta \left(\mathbf{x}\mathbf{x}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{x}\mathbf{x}^\top \mathbf{w}\right] \mathbf{w}\right)\\
+\mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &amp;= \eta \left(\mathbf{C} \mathbf{w} - \left[\mathbf{w}^\top \mathbf{C} \mathbf{w}\right] \mathbf{w}\right)\\
+\end{aligned}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{C}:=\mathbb{E}[\mathbf{x}\mathbf{x}^\top]\in \mathbb{R}^{d\times d}\)</span>とする．<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>の平均が0の場合，<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>は分散共分散行列である．<span class="math notranslate nohighlight">\(\mathbb{E}\left[\dfrac{d\mathbf{w}}{dt}\right]=0\)</span>となる<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>が収束する固定点(fixed point)では次の式が成り立つ．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{C}\mathbf{w} = \lambda \mathbf{w}
+\]</div>
+<p>これは固有値問題であり，<span class="math notranslate nohighlight">\(\lambda:=\mathbf{w}^\top \mathbf{C} \mathbf{w}\)</span>は固有値，<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>は固有ベクトル(eigen vector)になる．</p>
+<p>ここでサンプルサイズを<span class="math notranslate nohighlight">\(n\)</span>とし，<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{d\times n}, \mathbf{y}=\mathbf{X}^\top\mathbf{w} \in \mathbb{R}^n\)</span>とする．標本平均で近似して<span class="math notranslate nohighlight">\(\mathbf{C}\simeq \mathbf{X}\mathbf{X}^\top\)</span>とする．この場合，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &amp;\simeq \eta \left(\mathbf{X}\mathbf{X}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{X}\mathbf{X}^\top \mathbf{w}\right] \mathbf{w}\right)\\
+&amp;=\eta \left(\mathbf{X}\mathbf{y} - \left[\mathbf{y}^\top\mathbf{y}\right] \mathbf{w}\right)
+\end{aligned}
+\end{split}\]</div>
+<p>となる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c"># initialize weight</span>
+<span class="n">w</span> <span class="o">./=</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span> <span class="c"># L2 normalize</span>
+<span class="n">initw</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="c"># save initial weight</span>
+<span class="n">η</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c"># learning rate</span>
+<span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">200</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">w</span>  
+    <span class="n">w</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span> <span class="c"># Oja&#39;s rule</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">initw</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">initw</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;Init. </span><span class="si">$w</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">w</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;Opt. </span><span class="si">$w</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="s">&quot;k--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_1</span><span class="s">$&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_2</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_14_0.png" src="../_images/hebbian-learning_14_0.png" />
+</div>
+</div>
+<p>後のためにOja則においてネットワークが<span class="math notranslate nohighlight">\(q\)</span>個の複数出力を持つ場合を考えよう．重み行列を<span class="math notranslate nohighlight">\(\mathbf{W} \in \mathbb{R}^{q\times d}\)</span>, 出力を<span class="math notranslate nohighlight">\(\mathbf{y}=\mathbf{W}\mathbf{x} \in \mathbb{R}^{q}, \mathbf{Y}=\mathbf{W}\mathbf{X} \in \mathbb{R}^{q\times n}\)</span>とする．この場合の更新則は</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{Diag}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
+\]</div>
+<p>となる．ただし，<span class="math notranslate nohighlight">\(\mathrm{Diag}(\cdot)\)</span>は行列の対角成分からなる対角行列を生み出す作用素である．</p>
+</div>
+<div class="section" id="sanger">
+<h3>Sanger則<a class="headerlink" href="#sanger" title="Permalink to this headline">#</a></h3>
+<p>Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．<strong>Sanger則 (Sanger’s rule)</strong>，あるいは<strong>一般化Hebb則 (generalized Hebbian algorithm; GHA)</strong> は，Oja則に<strong>Gram–Schmidtの正規直交化法(Gram–Schmidt orthonormalization)</strong> を組み合わせた学習則であり，次式で表される．</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{LT}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
+\]</div>
+<p><span class="math notranslate nohighlight">\(\mathrm{LT}(\cdot)\)</span>は行列の対角成分より上側の要素を0にした下三角行列(lower triangular matrix)を作り出す作用素である．Sanger則を用いればPCAの第2主成分以降も求めることができる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># initialize weight</span>
+<span class="n">W</span> <span class="o">./=</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">W</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span> <span class="c"># normalize</span>
+<span class="n">initW</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">W</span><span class="p">)</span> <span class="c"># save initial weight</span>
+<span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">200</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="n">W</span> <span class="o">+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">LowerTriangular</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">Y</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">W</span><span class="p">)</span> <span class="c"># Sanger&#39;s rule</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$w_1</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:orange&quot;</span><span class="p">,</span> <span class="n">length_includes_head</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$w_2</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">θc</span><span class="p">),</span> <span class="s">&quot;k--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_1</span><span class="s">$&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$X_2</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_18_0.png" src="../_images/hebbian-learning_18_0.png" />
+</div>
+</div>
+<p>Oja則，Sanger則をまとめて一つの関数にしておこう．<code class="docutils literal notranslate"><span class="pre">identity()</span></code>は恒等関数である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">HebbianPCA</span><span class="p">(</span><span class="n">X</span><span class="p">;</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">η</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">identity</span><span class="p">,</span> <span class="n">orthogonal</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+    <span class="c"># X : n x m -&gt; Y : n_components x m</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">η</span> <span class="o">/=</span> <span class="n">n</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span> <span class="o">./</span> <span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c"># normalization</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="nb">nothing</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">n_components</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c"># initialize weight</span>
+    <span class="n">W</span> <span class="o">./=</span> <span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">W</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span> <span class="c"># normalization</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">maxiter</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">orthogonal</span>
+            <span class="n">W</span> <span class="o">.+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">LowerTriangular</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">Y</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">W</span><span class="p">)</span> <span class="c"># Sanger&#39;s rule</span>
+        <span class="k">else</span>
+            <span class="n">W</span> <span class="o">.+=</span> <span class="n">η</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">Y</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">W</span><span class="p">)</span> <span class="c"># Oja&#39;s rule</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">Y</span><span class="p">,</span> <span class="n">W</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id18">
+<h2>非線形Hebb学習<a class="headerlink" href="#id18" title="Permalink to this headline">#</a></h2>
+<p>出力<span class="math notranslate nohighlight">\(\mathbf{y}\)</span>に非線形関数<span class="math notranslate nohighlight">\(g(\cdot)\)</span>を適用し，<span class="math notranslate nohighlight">\(\mathbf{y}\to g(\mathbf{y})\)</span>として置き換えることで非線形Hebb学習となる<span id="id19">[<a class="reference internal" href="#id125">Oja, 1997</a>]</span><span id="id20">[<a class="reference internal" href="#id133">Brito and Gerstner, 2016</a>]</span>. 関数<code class="docutils literal notranslate"><span class="pre">HebbianPCA</span></code>の<code class="docutils literal notranslate"><span class="pre">func</span></code>引数に非線形関数を渡すことで実現できる．</p>
+<p><em>ToDo: 詳細</em></p>
+<div class="section" id="id21">
+<h3>非負主成分分析によるグリッドパターンの創発<a class="headerlink" href="#id21" title="Permalink to this headline">#</a></h3>
+<p>内側嗅内皮質(MEC)にある<strong>グリッド細胞 (grid cells)</strong> は六角形格子状の発火パターンにより自己位置等を符号化するのに貢献している．この発火パターンを生み出すモデルは多数あるが，<strong>場所細胞(place cells)</strong> の発火パターンを<strong>非負主成分分析(nonnegative principal component analysis)</strong> で次元削減するとグリッド細胞のパターンが生まれるというモデルがある <span id="id22">[<a class="reference internal" href="#id135">Dordek <em>et al.</em>, 2016</a>]</span>．非線形Hebb学習を用いてこのモデルを実装しよう．なお，同様のことは<strong>非負値行列因子分解 (NMF: nonnegative matrix factorization)</strong> でも可能である．</p>
+<div class="section" id="id23">
+<h4>場所細胞の発火パターン<a class="headerlink" href="#id23" title="Permalink to this headline">#</a></h4>
+<p>まず，訓練データとなる場所細胞の発火パターンを人工的に作成する．場所細胞の発火パターンは<strong>Difference of Gaussians (DoG)</strong> で近似する．DoGは大きさの異なる2つのガウス関数の差分を取った関数であり，画像に適応すればband-passフィルタとして機能する．また，DoGは網膜神経節細胞等の受容野のON中心OFF周辺型受容野のモデルとしても用いられる．受容野中央では活動が大きく，その周辺では活動が抑制される，という特性を持つ．2次元のガウス関数とDoG関数を実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gaussian2d</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">step</span><span class="p">),</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">center</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">scale</span><span class="o">*</span><span class="p">(</span><span class="n">sigma</span><span class="o">^</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">gau</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gau</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">gau</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">DoG</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span> <span class="n">surround_scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">gaussian2d</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">gaussian2d</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">surround_scale</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g1</span> <span class="o">-</span> <span class="n">g2</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DoG (generic function with 6 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルのパラメータを設定する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sqNp</span> <span class="o">=</span> <span class="mi">32</span>          <span class="c"># 場所細胞の数の平方根: Np=sqNp^2</span>
+<span class="n">Ng</span> <span class="o">=</span> <span class="mi">9</span>             <span class="c"># 格子細胞の数</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.12</span>       <span class="c"># 場所細胞のtuning curveの幅 [m]</span>
+<span class="n">surround_scale</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># DoGのσ²の比率</span>
+<span class="n">box_width</span> <span class="o">=</span> <span class="mf">2.2</span>    <span class="c"># 箱の横幅 [m]</span>
+<span class="n">box_height</span> <span class="o">=</span> <span class="mf">2.2</span>   <span class="c"># 箱の縦幅 [m]</span>
+<span class="n">step</span> <span class="o">=</span> <span class="mi">45</span><span class="p">;</span>         <span class="c"># 空間位置の離散化数</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>先にガウス関数とDoG関数がどのような見た目になるか確認しよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">c_eg</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">gau_eg</span> <span class="o">=</span> <span class="n">gaussian2d</span><span class="p">(</span><span class="n">c_eg</span><span class="p">,</span> <span class="n">box_width</span><span class="p">,</span> <span class="n">box_height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">dog_eg</span> <span class="o">=</span> <span class="n">DoG</span><span class="p">(</span><span class="n">c_eg</span><span class="p">,</span> <span class="n">box_width</span><span class="p">,</span> <span class="n">box_height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">surround_scale</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="s">&quot;all&quot;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Gaussian&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gau_eg</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;y [m]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Difference of</span><span class="se">\n</span><span class="s"> Gaussians (DoG)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dog_eg</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">x_pos</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">step</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">gau_eg</span><span class="p">[</span><span class="n">div</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">:</span><span class="p">]</span><span class="o">/</span><span class="n">maximum</span><span class="p">(</span><span class="n">gau_eg</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;x [m]&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$y</span><span class="s">=0$&quot;</span><span class="o">*</span><span class="s">&quot;の形状 (正規化)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">dog_eg</span><span class="p">[</span><span class="n">div</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">:</span><span class="p">]</span><span class="o">/</span><span class="n">maximum</span><span class="p">(</span><span class="n">dog_eg</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;x [m]&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_29_0.png" src="../_images/hebbian-learning_29_0.png" />
+</div>
+</div>
+<p>場所細胞の活動パターンを生み出す．それぞれの場所受容野の中心は空間を均等に覆うように作成する (一様分布で生み出してもよい)．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x_pos</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_width</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">sqNp</span><span class="p">)</span>
+<span class="n">y_pos</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">box_height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">sqNp</span><span class="p">)</span>
+<span class="n">centers</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">x_pos</span> <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="n">y_pos</span><span class="p">]</span>
+<span class="n">X_place</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">DoG</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">box_width</span><span class="p">,</span> <span class="n">box_height</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">surround_scale</span><span class="p">)[</span><span class="o">:</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">centers</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="pca">
+<h4>線形PCAの場合<a class="headerlink" href="#pca" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Y_pca</span><span class="p">,</span> <span class="n">W_pca</span> <span class="o">=</span> <span class="n">HebbianPCA</span><span class="p">(</span><span class="n">X_place</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="n">Ng</span><span class="p">,</span> <span class="n">η</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">orthogonal</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">Y_pca</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">Y_pca</span><span class="p">,</span> <span class="p">(</span><span class="n">Ng</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">step</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19.396461 seconds (3.85 M allocations: 2.947 GiB, 1.45% gc time, 4.99% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;次元削減された活動 (PCA)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">Y_pca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_34_0.png" src="../_images/hebbian-learning_34_0.png" />
+</div>
+</div>
+<p>自己相関マップ(autocorrelation map)を確認する．</p>
+<p><em>ToDo: 相関の計算の説明</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">correlate_fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">fftshift</span><span class="p">(</span><span class="n">real</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">.*</span> <span class="n">conj</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)))))</span>
+    <span class="k">return</span> <span class="n">corr</span> <span class="o">/</span> <span class="n">maximum</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">corr_pca</span> <span class="o">=</span> <span class="p">[</span><span class="n">correlate_fft</span><span class="p">(</span><span class="n">Y_pca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Y_pca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;自己相関マップ (PCA)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">corr_pca</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_38_0.png" src="../_images/hebbian-learning_38_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id24">
+<h4>非負PCAの場合<a class="headerlink" href="#id24" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>relu (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Y_npca</span><span class="p">,</span> <span class="n">W_npca</span> <span class="o">=</span> <span class="n">HebbianPCA</span><span class="p">(</span><span class="n">X_place</span><span class="p">;</span> <span class="n">n_components</span><span class="o">=</span><span class="n">Ng</span><span class="p">,</span> <span class="n">η</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">relu</span><span class="p">,</span> <span class="n">orthogonal</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+<span class="n">Y_npca</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">Y_npca</span><span class="p">,</span> <span class="p">(</span><span class="n">Ng</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">step</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19.117123 seconds (459.91 k allocations: 2.769 GiB, 1.85% gc time, 0.31% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;次元削減された活動 (非負PCA)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">Y_npca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_42_0.png" src="../_images/hebbian-learning_42_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">corr_npca</span> <span class="o">=</span> <span class="p">[</span><span class="n">correlate_fft</span><span class="p">(</span><span class="n">Y_npca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Y_npca</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;自己相関マップ (非負PCA)&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Ng</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">corr_npca</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;turbo&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/hebbian-learning_44_0.png" src="../_images/hebbian-learning_44_0.png" />
+</div>
+</div>
+<p><em>ToDo: 他のgrid cellsのモデルについて</em></p>
+</div>
+</div>
+</div>
+<div class="section" id="id25">
+<h2>参考文献<a class="headerlink" href="#id25" title="Permalink to this headline">#</a></h2>
+<p id="id26"><dl class="citation">
+<dt class="label" id="id126"><span class="brackets"><a class="fn-backref" href="#id7">BCM82</a></span></dt>
+<dd><p>E L Bienenstock, L N Cooper, and P W Munro. Theory for the development of neuron selectivity: orientation specificity and binocular interaction in visual cortex. <em>J. Neurosci.</em>, 2(1):32–48, January 1982.</p>
+</dd>
+<dt class="label" id="id123"><span class="brackets"><a class="fn-backref" href="#id10">BL73</a></span></dt>
+<dd><p>T V Bliss and T Lomo. Long-lasting potentiation of synaptic transmission in the dentate area of the anaesthetized rabbit following stimulation of the perforant path. <em>J. Physiol.</em>, 232(2):331–356, July 1973.</p>
+</dd>
+<dt class="label" id="id133"><span class="brackets"><a class="fn-backref" href="#id20">BG16</a></span></dt>
+<dd><p>Carlos S N Brito and Wulfram Gerstner. Nonlinear hebbian learning as a unifying principle in receptive field formation. <em>PLoS Comput. Biol.</em>, 12(9):e1005070, September 2016.</p>
+</dd>
+<dt class="label" id="id129"><span class="brackets"><a class="fn-backref" href="#id8">CB12</a></span></dt>
+<dd><p>Leon N Cooper and Mark F Bear. The BCM theory of synapse modification at 30: interaction of theory with experiment. <em>Nat. Rev. Neurosci.</em>, 13(11):798–810, November 2012.</p>
+</dd>
+<dt class="label" id="id131"><span class="brackets"><a class="fn-backref" href="#id6">CLO79</a></span></dt>
+<dd><p>Leon N Cooper, Fishel Liberman, and Erkki Oja. A theory for the acquisition and loss of neuron specificity in visual cortex. <em>Biol. Cybern.</em>, 33(1):9–28, March 1979.</p>
+</dd>
+<dt class="label" id="id135"><span class="brackets"><a class="fn-backref" href="#id22">DSMD16</a></span></dt>
+<dd><p>Yedidyah Dordek, Daniel Soudry, Ron Meir, and Dori Derdikman. Extracting grid cell characteristics from place cell inputs using non-negative principal component analysis. <em>Elife</em>, 5:e10094, March 2016.</p>
+</dd>
+<dt class="label" id="id122"><span class="brackets"><a class="fn-backref" href="#id11">DB92</a></span></dt>
+<dd><p>S M Dudek and M F Bear. Homosynaptic long-term depression in area CA1 of hippocampus and effects of N-methyl-D-aspartate receptor blockade. <em>Proc. Natl. Acad. Sci. U. S. A.</em>, 89(10):4363–4367, May 1992.</p>
+</dd>
+<dt class="label" id="id119"><span class="brackets"><a class="fn-backref" href="#id2">Heb49</a></span></dt>
+<dd><p>Donald Olding Hebb. <em>The organization of behavior: A neuropsychological theory</em>. Wiley &amp; Sons, 1949.</p>
+</dd>
+<dt class="label" id="id136"><span class="brackets"><a class="fn-backref" href="#id5">IF20</a></span></dt>
+<dd><p>Takuya Isomura and Karl Friston. Reverse-Engineering neural networks to characterize their cost functions. <em>Neural Comput.</em>, 32(11):2085–2121, November 2020.</p>
+</dd>
+<dt class="label" id="id124"><span class="brackets"><a class="fn-backref" href="#id12">Oja82</a></span></dt>
+<dd><p>E Oja. A simplified neuron model as a principal component analyzer. <em>J. Math. Biol.</em>, 15(3):267–273, 1982.</p>
+</dd>
+<dt class="label" id="id125"><span class="brackets"><a class="fn-backref" href="#id19">Oja97</a></span></dt>
+<dd><p>Erkki Oja. The nonlinear PCA learning rule in independent component analysis. <em>Neurocomputing</em>, 17(1):25–45, September 1997.</p>
+</dd>
+<dt class="label" id="id120"><span class="brackets"><a class="fn-backref" href="#id3">Sha92</a></span></dt>
+<dd><p>C J Shatz. The developing brain. <em>Sci. Am.</em>, 267(3):60–67, September 1992.</p>
+</dd>
+<dt class="label" id="id127"><span class="brackets"><a class="fn-backref" href="#id14">Tur08</a></span></dt>
+<dd><p>Gina G Turrigiano. The self-tuning neuron: synaptic scaling of excitatory synapses. <em>Cell</em>, 135(3):422–435, October 2008.</p>
+</dd>
+<dt class="label" id="id132"><span class="brackets"><a class="fn-backref" href="#id15">YHC17</a></span></dt>
+<dd><p>Ada X Yee, Yu-Tien Hsu, and Lu Chen. A metaplasticity view of the interaction between homeostatic and hebbian plasticity. <em>Philos. Trans. R. Soc. Lond. B Biol. Sci.</em>, March 2017.</p>
+</dd>
+<dt class="label" id="id128"><span class="brackets"><a class="fn-backref" href="#id16">ZGG17</a></span></dt>
+<dd><p>Friedemann Zenke, Wulfram Gerstner, and Surya Ganguli. The temporal paradox of hebbian learning and homeostatic plasticity. <em>Curr. Opin. Neurobiol.</em>, 43:166–176, April 2017.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8",
+            path: "./local-learning-rule"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">局所学習則</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="self-organizing-map.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">自己組織化マップと視覚野の構造</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Takuto Yamamoto<br/>
+  
+      &copy; Copyright 2020-2022.<br/>
+    <div class="extra_footer">
+      <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
