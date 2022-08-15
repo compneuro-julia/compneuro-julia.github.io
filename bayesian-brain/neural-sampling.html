@@ -905,7 +905,7 @@ title="Print to PDF"
 <p>サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)をガウス尺度混合モデルを例にとり実装する．</p>
 <div class="section" id="id2">
 <h2>ガウス尺度混合モデル<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
-<p><strong>ガウス尺度混合 (Gaussian scale mixture; GSM) モデル</strong>は確率的生成モデルの一種である<span id="id3">[<a class="reference internal" href="#id102">Wainwright and Simoncelli, 1999</a>]</span><span id="id4">[<a class="reference internal" href="#id94">Orbán <em>et al.</em>, 2016</a>]</span>．GSMモデルでは入力を次式で予測する：</p>
+<p><strong>ガウス尺度混合 (Gaussian scale mixture; GSM) モデル</strong>は確率的生成モデルの一種である<span id="id3">[<a class="reference internal" href="#id146">Wainwright and Simoncelli, 1999</a>]</span><span id="id4">[<a class="reference internal" href="#id138">Orbán <em>et al.</em>, 2016</a>]</span>．GSMモデルでは入力を次式で予測する：</p>
 <div class="math notranslate nohighlight">
 \[
 \text{入力}={z}\left(\sum \text{神経活動} \times \text{基底} \right) + \text{ノイズ}
@@ -913,7 +913,7 @@ title="Print to PDF"
 <p>前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ<span class="math notranslate nohighlight">\(z\)</span>が基底の線形和に乗じられている点が異なる．</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>コードは<span id="id5">[<a class="reference internal" href="#id94">Orbán <em>et al.</em>, 2016</a>]</span> <a class="reference external" href="https://github.com/gergoorban/sampling_in_gsm">https://github.com/gergoorban/sampling_in_gsm</a>, および<span id="id6">[<a class="reference internal" href="#id93">Echeveste <em>et al.</em>, 2020</a>]</span> <a class="reference external" href="https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/">https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/</a>を参考に作成した．</p>
+<p>コードは<span id="id5">[<a class="reference internal" href="#id138">Orbán <em>et al.</em>, 2016</a>]</span> <a class="reference external" href="https://github.com/gergoorban/sampling_in_gsm">https://github.com/gergoorban/sampling_in_gsm</a>, および<span id="id6">[<a class="reference internal" href="#id137">Echeveste <em>et al.</em>, 2020</a>]</span> <a class="reference external" href="https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/">https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/</a>を参考に作成した．</p>
 </div>
 <div class="section" id="id7">
 <h3>事前分布<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
@@ -1008,7 +1008,7 @@ p\left(z\right)&amp;=\Gamma (k, \vartheta)
 </div>
 <div class="section" id="mathbf-c">
 <h3>分散共分散行列<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>の作成<a class="headerlink" href="#mathbf-c" title="Permalink to this headline">#</a></h3>
-<p><span class="math notranslate nohighlight">\(\mathbf{C}\)</span>は<span class="math notranslate nohighlight">\(y\)</span>の事前分布の分散共分散行列である．<span id="id8">[<a class="reference internal" href="#id94">Orbán <em>et al.</em>, 2016</a>]</span>では自然画像を用いて作成しているが，ここでは簡単のため<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>と同様に<span id="id9">[<a class="reference internal" href="#id93">Echeveste <em>et al.</em>, 2020</a>]</span>に従って作成する．前項で作成した通り，<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは<span class="math notranslate nohighlight">\(\theta\in[-\pi/2, \pi/2)\)</span>の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel)</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{C}\)</span>は<span class="math notranslate nohighlight">\(y\)</span>の事前分布の分散共分散行列である．<span id="id8">[<a class="reference internal" href="#id138">Orbán <em>et al.</em>, 2016</a>]</span>では自然画像を用いて作成しているが，ここでは簡単のため<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>と同様に<span id="id9">[<a class="reference internal" href="#id137">Echeveste <em>et al.</em>, 2020</a>]</span>に従って作成する．前項で作成した通り，<span class="math notranslate nohighlight">\(\mathbf{A}\)</span>の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは<span class="math notranslate nohighlight">\(\theta\in[-\pi/2, \pi/2)\)</span>の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを<span class="math notranslate nohighlight">\(\mathbf{C}\)</span>と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel)</p>
 <div class="math notranslate nohighlight">
 \[
 K(\theta, \theta')=\exp\left[\phi_1 \cos \left(\dfrac{|\theta-\theta'|}{\phi_2}\right)\right]
@@ -1078,7 +1078,7 @@ p(\mathbf{y} \mid \mathbf{x}) = \int dz\ p(z\mid \mathbf{x})\cdot p(\mathbf{y} \
 \[
 z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
 \]</div>
-<p>次に<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>の周辺で<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\)</span>を積分し，積分値が一定の閾値を超える<span class="math notranslate nohighlight">\(z\)</span>の範囲を求め，この範囲で<span class="math notranslate nohighlight">\(z\)</span>を積分消去してやればよい．しかし，<span class="math notranslate nohighlight">\(z\)</span>は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が<span id="id11">[<a class="reference internal" href="#id95">Echeveste <em>et al.</em>, 2017</a>]</span>において提案されている．Echevesteらは第一の近似として，<span class="math notranslate nohighlight">\(z\)</span>の分布を<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>でのデルタ関数に置き換える，すなわち，<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})\)</span>とすることを提案している．この場合，<span class="math notranslate nohighlight">\(z\)</span>は定数とみなせ，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})\)</span>となる．第二の近似として，<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>を真のコントラスト<span class="math notranslate nohighlight">\(z^*\)</span>で置き換えることが提案されている．GSMへの入力<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>は元の画像を<span class="math notranslate nohighlight">\(\mathbf{\tilde x}\)</span>とすると，<span class="math notranslate nohighlight">\(\mathbf{x}=z^* \mathbf{\tilde x}\)</span>としてスケーリングされる．この入力の前処理の際に用いる<span class="math notranslate nohighlight">\(z^*\)</span>を用いてしまおうということである．この場合，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)\)</span>となる．しかし，入力を任意の画像とする場合，<span class="math notranslate nohighlight">\(z^*\)</span>は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，<span class="math notranslate nohighlight">\(z=z_{\mathrm{MAP}}\)</span>とする手法を用いることにする．</p>
+<p>次に<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>の周辺で<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\)</span>を積分し，積分値が一定の閾値を超える<span class="math notranslate nohighlight">\(z\)</span>の範囲を求め，この範囲で<span class="math notranslate nohighlight">\(z\)</span>を積分消去してやればよい．しかし，<span class="math notranslate nohighlight">\(z\)</span>は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が<span id="id11">[<a class="reference internal" href="#id139">Echeveste <em>et al.</em>, 2017</a>]</span>において提案されている．Echevesteらは第一の近似として，<span class="math notranslate nohighlight">\(z\)</span>の分布を<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>でのデルタ関数に置き換える，すなわち，<span class="math notranslate nohighlight">\(p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})\)</span>とすることを提案している．この場合，<span class="math notranslate nohighlight">\(z\)</span>は定数とみなせ，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})\)</span>となる．第二の近似として，<span class="math notranslate nohighlight">\(z_{\mathrm{MAP}}\)</span>を真のコントラスト<span class="math notranslate nohighlight">\(z^*\)</span>で置き換えることが提案されている．GSMへの入力<span class="math notranslate nohighlight">\(\mathbf{x}\)</span>は元の画像を<span class="math notranslate nohighlight">\(\mathbf{\tilde x}\)</span>とすると，<span class="math notranslate nohighlight">\(\mathbf{x}=z^* \mathbf{\tilde x}\)</span>としてスケーリングされる．この入力の前処理の際に用いる<span class="math notranslate nohighlight">\(z^*\)</span>を用いてしまおうということである．この場合，<span class="math notranslate nohighlight">\(p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)\)</span>となる．しかし，入力を任意の画像とする場合，<span class="math notranslate nohighlight">\(z^*\)</span>は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，<span class="math notranslate nohighlight">\(z=z_{\mathrm{MAP}}\)</span>とする手法を用いることにする．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># log pdf of p(z)</span>
@@ -1496,8 +1496,8 @@ z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
 <p>Hamiltonianネットワークの方が安定して事後分布を推定することができている．</p>
 <p><em>ToDo: 以下の記述</em></p>
 <ul class="simple">
-<li><p>ここでは重みを設定したが， <span id="id16">[<a class="reference internal" href="#id93">Echeveste <em>et al.</em>, 2020</a>]</span>ではRNNにBPTTで重みを学習させている．</p></li>
-<li><p>動的な入力に対するサンプリング <span id="id17">[<a class="reference internal" href="#id106">Berkes <em>et al.</em>, 2011</a>]</span>．burn-inがなくなり効率良くサンプリングできる．</p></li>
+<li><p>ここでは重みを設定したが， <span id="id16">[<a class="reference internal" href="#id137">Echeveste <em>et al.</em>, 2020</a>]</span>ではRNNにBPTTで重みを学習させている．</p></li>
+<li><p>動的な入力に対するサンプリング <span id="id17">[<a class="reference internal" href="#id150">Berkes <em>et al.</em>, 2011</a>]</span>．burn-inがなくなり効率良くサンプリングできる．</p></li>
 </ul>
 </div>
 <div class="section" id="spiking">
@@ -1505,9 +1505,9 @@ z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
 <p>前項で挙げた例は発火率モデルであったが，SNNにおいてサンプリングを実行する機構自体は考案されている．</p>
 <p><em>ToDo: 以下の記述</em></p>
 <ul class="simple">
-<li><p><span id="id18">[<a class="reference internal" href="#id105">Buesing <em>et al.</em>, 2011</a>]</span></p></li>
-<li><p><span id="id19">[<a class="reference internal" href="#id110">Masset <em>et al.</em>, 2022</a>]</span></p></li>
-<li><p><span id="id20">[<a class="reference internal" href="#id111">Zhang <em>et al.</em>, 2022</a>]</span></p></li>
+<li><p><span id="id18">[<a class="reference internal" href="#id149">Buesing <em>et al.</em>, 2011</a>]</span></p></li>
+<li><p><span id="id19">[<a class="reference internal" href="#id154">Masset <em>et al.</em>, 2022</a>]</span></p></li>
+<li><p><span id="id20">[<a class="reference internal" href="#id155">Zhang <em>et al.</em>, 2022</a>]</span></p></li>
 </ul>
 </div>
 <div class="section" id="id21">
@@ -1515,41 +1515,41 @@ z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
 <p>ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，<strong>シナプスサンプリング(synaptic sampling)</strong> と呼ばれる．</p>
 <p><em>ToDo: 以下の記述</em></p>
 <ul class="simple">
-<li><p><span id="id22">[<a class="reference internal" href="#id108">Kappel <em>et al.</em>, 2015</a>]</span></p></li>
-<li><p><span id="id23">[<a class="reference internal" href="#id109">Aitchison <em>et al.</em>, 2021</a>]</span></p></li>
+<li><p><span id="id22">[<a class="reference internal" href="#id152">Kappel <em>et al.</em>, 2015</a>]</span></p></li>
+<li><p><span id="id23">[<a class="reference internal" href="#id153">Aitchison <em>et al.</em>, 2021</a>]</span></p></li>
 </ul>
 </div>
 <div class="section" id="id24">
 <h2>参考文献<a class="headerlink" href="#id24" title="Permalink to this headline">#</a></h2>
 <p id="id25"><dl class="citation">
-<dt class="label" id="id109"><span class="brackets"><a class="fn-backref" href="#id23">AJM+21</a></span></dt>
+<dt class="label" id="id153"><span class="brackets"><a class="fn-backref" href="#id23">AJM+21</a></span></dt>
 <dd><p>Laurence Aitchison, Jannes Jegminat, Jorge Aurelio Menendez, Jean-Pascal Pfister, Alexandre Pouget, and Peter E Latham. Synaptic plasticity as bayesian inference. <em>Nat. Neurosci.</em>, 24(4):565–571, April 2021.</p>
 </dd>
-<dt class="label" id="id106"><span class="brackets"><a class="fn-backref" href="#id17">BTF11</a></span></dt>
+<dt class="label" id="id150"><span class="brackets"><a class="fn-backref" href="#id17">BTF11</a></span></dt>
 <dd><p>Pietro Berkes, Richard Turner, and Jozsef Fiser. The army of one (sample): the characteristics of sampling-based probabilistic neural representations. <em>Nature Precedings</em>, pages 1–1, March 2011.</p>
 </dd>
-<dt class="label" id="id105"><span class="brackets"><a class="fn-backref" href="#id18">BBNM11</a></span></dt>
+<dt class="label" id="id149"><span class="brackets"><a class="fn-backref" href="#id18">BBNM11</a></span></dt>
 <dd><p>Lars Buesing, Johannes Bill, Bernhard Nessler, and Wolfgang Maass. Neural dynamics as sampling: a model for stochastic computation in recurrent networks of spiking neurons. <em>PLoS Comput. Biol.</em>, 7(11):e1002211, November 2011.</p>
 </dd>
-<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id11">EHL17</a></span></dt>
+<dt class="label" id="id139"><span class="brackets"><a class="fn-backref" href="#id11">EHL17</a></span></dt>
 <dd><p>R Echeveste, G Hennequin, and M Lengyel. Asymptotic scaling properties of the posterior mean and variance in the gaussian scale mixture model. <em>arXiv preprint arXiv:1706.00925</em>, 2017.</p>
 </dd>
-<dt class="label" id="id93"><span class="brackets">EAHL20</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id9">2</a>,<a href="#id16">3</a>)</span></dt>
+<dt class="label" id="id137"><span class="brackets">EAHL20</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id9">2</a>,<a href="#id16">3</a>)</span></dt>
 <dd><p>Rodrigo Echeveste, Laurence Aitchison, Guillaume Hennequin, and Máté Lengyel. Cortical-like dynamics in recurrent circuits optimized for sampling-based probabilistic inference. <em>Nat. Neurosci.</em>, 23(9):1138–1149, September 2020.</p>
 </dd>
-<dt class="label" id="id108"><span class="brackets"><a class="fn-backref" href="#id22">KHLM15</a></span></dt>
+<dt class="label" id="id152"><span class="brackets"><a class="fn-backref" href="#id22">KHLM15</a></span></dt>
 <dd><p>David Kappel, Stefan Habenschuss, Robert Legenstein, and Wolfgang Maass. Network plasticity as bayesian inference. <em>PLoS Comput. Biol.</em>, 11(11):e1004485, November 2015.</p>
 </dd>
-<dt class="label" id="id110"><span class="brackets"><a class="fn-backref" href="#id19">MZVPC+22</a></span></dt>
+<dt class="label" id="id154"><span class="brackets"><a class="fn-backref" href="#id19">MZVPC+22</a></span></dt>
 <dd><p>Paul Masset, Jacob A Zavatone-Veth, J Patrick Connor, Venkatesh N Murthy, and Cengiz Pehlevan. Population geometry enables fast sampling in spiking neural networks. <em>bioRxiv</em>, pages 2022.06.03.494680, June 2022.</p>
 </dd>
-<dt class="label" id="id94"><span class="brackets">OrbanBFL16</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id5">2</a>,<a href="#id8">3</a>)</span></dt>
+<dt class="label" id="id138"><span class="brackets">OrbanBFL16</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id5">2</a>,<a href="#id8">3</a>)</span></dt>
 <dd><p>Gergő Orbán, Pietro Berkes, József Fiser, and Máté Lengyel. Neural variability and Sampling-Based probabilistic representations in the visual cortex. <em>Neuron</em>, 92(2):530–543, October 2016.</p>
 </dd>
-<dt class="label" id="id102"><span class="brackets"><a class="fn-backref" href="#id3">WS99</a></span></dt>
+<dt class="label" id="id146"><span class="brackets"><a class="fn-backref" href="#id3">WS99</a></span></dt>
 <dd><p>Martin J Wainwright and Eero Simoncelli. Scale mixtures of gaussians and the statistics of natural images. <em>Advances in Neural Information Processing Systems</em>, 1999.</p>
 </dd>
-<dt class="label" id="id111"><span class="brackets"><a class="fn-backref" href="#id20">ZWJosicD22</a></span></dt>
+<dt class="label" id="id155"><span class="brackets"><a class="fn-backref" href="#id20">ZWJosicD22</a></span></dt>
 <dd><p>Wen-Hao Zhang, Si Wu, Krešimir Josić, and Brent Doiron. Sampling-based bayesian inference in recurrent circuits of stochastic spiking neurons. <em>bioRxiv</em>, pages 2022.01.26.477877, January 2022.</p>
 </dd>
 </dl>

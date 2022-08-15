@@ -926,7 +926,7 @@ title="Print to PDF"
 <h1>スパース符号化 (sparse coding)<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">#</a></h1>
 <div class="section" id="id1">
 <h2>Sparse codingと生成モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
-<p><strong>Sparse codingモデル</strong> <span id="id2">[<a class="reference internal" href="#id87">Olshausen and Field, 1996</a>]</span> <span id="id3">[<a class="reference internal" href="#id86">Olshausen and Field, 1997</a>]</span>はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である．まず，画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_j]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_j]\)</span> とする)．</p>
+<p><strong>Sparse codingモデル</strong> <span id="id2">[<a class="reference internal" href="#id131">Olshausen and Field, 1996</a>]</span> <span id="id3">[<a class="reference internal" href="#id130">Olshausen and Field, 1997</a>]</span>はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である．まず，画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_j]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_j]\)</span> とする)．</p>
 <div class="math notranslate nohighlight">
 \[
 \mathbf{x} = \sum_j r_j \phi_j +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
@@ -1087,7 +1087,7 @@ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&amp;-\ln p(\mathbf{x}|\mathbf{r}, \mat
 \[
 \frac{d \mathbf{r}}{dt}= -\frac{\eta_\mathbf{r}}{2}\frac{\partial E}{\partial \mathbf{r}}=\eta_\mathbf{r} \cdot\left[\mathbf{\Phi}^\top (\mathbf{x}-\mathbf{\Phi}\mathbf{r})- \frac{\lambda}{2}S'\left(\mathbf{r}\right)\right]
 \]</div>
-<p>ただし，<span class="math notranslate nohighlight">\(\eta_{\mathbf{r}}\)</span>は学習率である．この式により<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>が収束するまで最適化するが，単なる勾配法ではなく，<span id="id9">[<a class="reference internal" href="#id87">Olshausen and Field, 1996</a>]</span>では<strong>共役勾配法</strong> (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，<strong>LCA</strong>  (locally competitive algorithm)が提案されている <span id="id10">[<a class="reference internal" href="#id85">Rozell <em>et al.</em>, 2008</a>]</span>．LCAは<strong>側抑制</strong> (local competition, lateral inhibition)と<strong>閾値関数</strong> (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは<strong>Hopfield trick</strong>と呼んでいる．</p>
+<p>ただし，<span class="math notranslate nohighlight">\(\eta_{\mathbf{r}}\)</span>は学習率である．この式により<span class="math notranslate nohighlight">\(\mathbf{r}\)</span>が収束するまで最適化するが，単なる勾配法ではなく，<span id="id9">[<a class="reference internal" href="#id131">Olshausen and Field, 1996</a>]</span>では<strong>共役勾配法</strong> (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，<strong>LCA</strong>  (locally competitive algorithm)が提案されている <span id="id10">[<a class="reference internal" href="#id129">Rozell <em>et al.</em>, 2008</a>]</span>．LCAは<strong>側抑制</strong> (local competition, lateral inhibition)と<strong>閾値関数</strong> (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは<strong>Hopfield trick</strong>と呼んでいる．</p>
 <div class="section" id="ista">
 <h3>軟判定閾値関数を用いる場合 (ISTA)<a class="headerlink" href="#ista" title="Permalink to this headline">#</a></h3>
 <p><span class="math notranslate nohighlight">\(S(x)=|x|\)</span>とした場合の閾値関数を用いる手法として<strong>ISTA</strong>(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．</p>
@@ -1113,7 +1113,7 @@ y-\lambda &amp; (y&gt;\lambda)\\
  y+\lambda &amp; (y&lt;-\lambda) 
 \end{cases}
 \end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を関数として定義すると次のようになる．また，ReLU (ランプ関数)は<code class="docutils literal notranslate"><span class="pre">max(x,</span> <span class="pre">0)</span></code>で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる <span id="id11">[<a class="reference internal" href="#id95">Papyan <em>et al.</em>, 2018</a>]</span>．</p>
+<p><span class="math notranslate nohighlight">\(\Theta_\lambda(\cdot)\)</span>を関数として定義すると次のようになる．また，ReLU (ランプ関数)は<code class="docutils literal notranslate"><span class="pre">max(x,</span> <span class="pre">0)</span></code>で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる <span id="id11">[<a class="reference internal" href="#id139">Papyan <em>et al.</em>, 2018</a>]</span>．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># thresholding function of S(x)=|x|</span>
@@ -1590,16 +1590,16 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
 <div class="section" id="id20">
 <h2>参考文献<a class="headerlink" href="#id20" title="Permalink to this headline">#</a></h2>
 <p id="id21"><dl class="citation">
-<dt class="label" id="id87"><span class="brackets">OF96</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id9">2</a>)</span></dt>
+<dt class="label" id="id131"><span class="brackets">OF96</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id9">2</a>)</span></dt>
 <dd><p>B A Olshausen and D J Field. Emergence of simple-cell receptive field properties by learning a sparse code for natural images. <em>Nature</em>, 381(6583):607–609, June 1996.</p>
 </dd>
-<dt class="label" id="id86"><span class="brackets"><a class="fn-backref" href="#id3">OF97</a></span></dt>
+<dt class="label" id="id130"><span class="brackets"><a class="fn-backref" href="#id3">OF97</a></span></dt>
 <dd><p>B A Olshausen and D J Field. Sparse coding with an overcomplete basis set: a strategy employed by v1? <em>Vision Res.</em>, 37(23):3311–3325, December 1997.</p>
 </dd>
-<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id11">PRSE18</a></span></dt>
+<dt class="label" id="id139"><span class="brackets"><a class="fn-backref" href="#id11">PRSE18</a></span></dt>
 <dd><p>Vardan Papyan, Yaniv Romano, Jeremias Sulam, and Michael Elad. Theoretical foundations of deep learning via sparse representations: a multilayer sparse model and its connection to convolutional neural networks. <em>IEEE Signal Process. Mag.</em>, 35(4):72–89, July 2018.</p>
 </dd>
-<dt class="label" id="id85"><span class="brackets"><a class="fn-backref" href="#id10">RJBO08</a></span></dt>
+<dt class="label" id="id129"><span class="brackets"><a class="fn-backref" href="#id10">RJBO08</a></span></dt>
 <dd><p>Christopher J Rozell, Don H Johnson, Richard G Baraniuk, and Bruno A Olshausen. Sparse coding via thresholding and local competition in neural circuits. <em>Neural Comput.</em>, 20(10):2526–2563, October 2008.</p>
 </dd>
 </dl>

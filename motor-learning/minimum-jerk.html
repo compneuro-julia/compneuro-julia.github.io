@@ -802,7 +802,7 @@ title="Print to PDF"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="id1">
 <h1>躍度最小モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
-<p>躍度最小モデル (minimum-jerk model; <span id="id2">[<a class="reference internal" href="#id94">Flash and Hogan, 1985</a>]</span>)を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．</p>
+<p>躍度最小モデル (minimum-jerk model; <span id="id2">[<a class="reference internal" href="#id107">Flash and Hogan, 1985</a>]</span>)を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．</p>
 <div class="section" id="equality-constrained-quadratic-programming">
 <h2>等式制約下の二次計画法 (Equality Constrained Quadratic Programming)<a class="headerlink" href="#equality-constrained-quadratic-programming" title="Permalink to this headline">#</a></h2>
 <p><span class="math notranslate nohighlight">\(n\)</span>個の変数があり，<span class="math notranslate nohighlight">\(m\)</span>個の制約条件がある等式制約二次計画問題を考える．<span class="math notranslate nohighlight">\(\mathbf {x}\in \mathbb{R}^n\)</span>, 対称行列<span class="math notranslate nohighlight">\(\mathbf{P}\in \mathbb{R}^{n\times n}\)</span>,  <span class="math notranslate nohighlight">\(\mathbf {q}\in \mathbb{R}^{n}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{A}\in \mathbb{R}^{m\times n}\)</span>, <span class="math notranslate nohighlight">\(\mathbf {b}\in \mathbb{R}^m\)</span>．このとき，問題は次のようになる．</p>
@@ -864,7 +864,7 @@ title="Print to PDF"
 </div>
 <div class="section" id="id3">
 <h2>躍度最小モデルの実装<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
-<p>1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では <span id="id4">[<a class="reference internal" href="#id95">Yazdani <em>et al.</em>, 2012</a>]</span> での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．</p>
+<p>1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では <span id="id4">[<a class="reference internal" href="#id108">Yazdani <em>et al.</em>, 2012</a>]</span> での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．</p>
 <p>問題設定は以下のようにする．
 $<span class="math notranslate nohighlight">\(
 \begin{align}
@@ -1032,10 +1032,10 @@ $<span class="math notranslate nohighlight">\(
 <div class="section" id="id6">
 <h2>参考文献<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h2>
 <p id="id7"><dl class="citation">
-<dt class="label" id="id94"><span class="brackets"><a class="fn-backref" href="#id2">FH85</a></span></dt>
+<dt class="label" id="id107"><span class="brackets"><a class="fn-backref" href="#id2">FH85</a></span></dt>
 <dd><p>T Flash and N Hogan. The coordination of arm movements: an experimentally confirmed mathematical model. <em>J. Neurosci.</em>, 5(7):1688–1703, July 1985.</p>
 </dd>
-<dt class="label" id="id95"><span class="brackets"><a class="fn-backref" href="#id4">YGHHN12</a></span></dt>
+<dt class="label" id="id108"><span class="brackets"><a class="fn-backref" href="#id4">YGHHN12</a></span></dt>
 <dd><p>Mehrdad Yazdani, Geoffrey Gamble, Gavin Henderson, and Robert Hecht-Nielsen. A simple control policy for achieving minimum jerk trajectories. <em>Neural Netw.</em>, 27:74–80, March 2012.</p>
 </dd>
 </dl>
