@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>スパース符号化 (sparse coding) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>スパース符号化 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://compneuro-julia.github.io/energy-based-model/sparse-coding.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="予測符号化 (predictive coding)" href="predictive-coding.html" />
+    <link rel="next" title="予測符号化" href="predictive-coding.html" />
     <link rel="prev" title="Boltzmann マシン" href="boltzmann-machine.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -322,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="energy-based-model.html">
-     エネルギーベースモデル (Energy-based model)
+     エネルギーベースモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -337,12 +337,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     スパース符号化 (sparse coding)
+     スパース符号化
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="predictive-coding.html">
-     予測符号化 (predictive coding)
+     予測符号化
     </a>
    </li>
   </ul>
@@ -391,7 +391,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../motor-learning/minimum-variance.html">
-     終点誤差分散最小モデル (minimum-variance model)
+     終点誤差分散最小モデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -732,7 +732,7 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#sparse-coding">
    Sparse codingと生成モデル
   </a>
   <ul class="nav section-nav flex-column">
@@ -821,7 +821,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>スパース符号化 (sparse coding)</h1>
+                <h1>スパース符号化</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -832,7 +832,7 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#sparse-coding">
    Sparse codingと生成モデル
   </a>
   <ul class="nav section-nav flex-column">
@@ -922,10 +922,10 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="sparse-coding">
-<h1>スパース符号化 (sparse coding)<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">#</a></h1>
-<div class="section" id="id1">
-<h2>Sparse codingと生成モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>スパース符号化<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<div class="section" id="sparse-coding">
+<h2>Sparse codingと生成モデル<a class="headerlink" href="#sparse-coding" title="Permalink to this headline">#</a></h2>
 <p><strong>Sparse codingモデル</strong> <span id="id2">[<a class="reference internal" href="#id131">Olshausen and Field, 1996</a>]</span> <span id="id3">[<a class="reference internal" href="#id130">Olshausen and Field, 1997</a>]</span>はV1のニューロンの応答特性を説明する<strong>線形生成モデル</strong> (linear generative model)である．まず，画像パッチ <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> が基底関数(basis function) <span class="math notranslate nohighlight">\(\mathbf{\Phi} = [\phi_j]\)</span> のノイズを含む線形和で表されるとする (係数は <span class="math notranslate nohighlight">\(\mathbf{r}=[r_j]\)</span> とする)．</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1666,7 +1666,7 @@ C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
     <a class='right-next' id="next-link" href="predictive-coding.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">予測符号化 (predictive coding)</p>
+        <p class="prev-next-title">予測符号化</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

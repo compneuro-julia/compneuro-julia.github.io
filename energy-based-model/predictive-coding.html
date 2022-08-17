@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>予測符号化 (predictive coding) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>予測符号化 &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="貢献度分配問題の解決策" href="../solve-credit-assignment-problem/intro.html" />
-    <link rel="prev" title="スパース符号化 (sparse coding)" href="sparse-coding.html" />
+    <link rel="prev" title="スパース符号化" href="sparse-coding.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -322,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="energy-based-model.html">
-     エネルギーベースモデル (Energy-based model)
+     エネルギーベースモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -337,12 +337,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="sparse-coding.html">
-     スパース符号化 (sparse coding)
+     スパース符号化
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     予測符号化 (predictive coding)
+     予測符号化
     </a>
    </li>
   </ul>
@@ -391,7 +391,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../motor-learning/minimum-variance.html">
-     終点誤差分散最小モデル (minimum-variance model)
+     終点誤差分散最小モデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -732,59 +732,59 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    観測世界の階層的予測
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    損失関数と学習則
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      事前分布の設定
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id6">
      損失関数の設定
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
+    <a class="reference internal nav-link" href="#id7">
      再帰ネットワークの更新則
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id8">
      画像データの読み込み
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
+    <a class="reference internal nav-link" href="#id9">
      モデルの定義
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
+    <a class="reference internal nav-link" href="#id10">
      シミュレーションの実行
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
+    <a class="reference internal nav-link" href="#id11">
      訓練中の損失の描画
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
+    <a class="reference internal nav-link" href="#id12">
      重み行列 (受容野)の描画
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id12">
+  <a class="reference internal nav-link" href="#id13">
    参考文献
   </a>
  </li>
@@ -797,7 +797,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>予測符号化 (predictive coding)</h1>
+                <h1>予測符号化</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -808,59 +808,59 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    観測世界の階層的予測
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    損失関数と学習則
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      事前分布の設定
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id6">
      損失関数の設定
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
+    <a class="reference internal nav-link" href="#id7">
      再帰ネットワークの更新則
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
+    <a class="reference internal nav-link" href="#id8">
      画像データの読み込み
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id8">
+    <a class="reference internal nav-link" href="#id9">
      モデルの定義
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id9">
+    <a class="reference internal nav-link" href="#id10">
      シミュレーションの実行
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
+    <a class="reference internal nav-link" href="#id11">
      訓練中の損失の描画
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
+    <a class="reference internal nav-link" href="#id12">
      重み行列 (受容野)の描画
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id12">
+  <a class="reference internal nav-link" href="#id13">
    参考文献
   </a>
  </li>
@@ -874,11 +874,11 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="predictive-coding">
-<h1>予測符号化 (predictive coding)<a class="headerlink" href="#predictive-coding" title="Permalink to this headline">#</a></h1>
-<div class="section" id="id1">
-<h2>観測世界の階層的予測<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
-<p><strong>階層的予測符号化(hierarchical predictive coding; HPC)</strong> は<span id="id2">[<a class="reference internal" href="#id119">Rao and Ballard, 1999</a>]</span>により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{n_0}\)</span>を考える．画像 <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> の観測世界における隠れ変数，すなわち<strong>潜在変数</strong> (latent variable)を<span class="math notranslate nohighlight">\(\mathbf{r} \in \mathbb{R}^{n_1}\)</span>とし，ニューロン群によって発火率で表現されているとする (真の変数と <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>予測符号化<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<div class="section" id="id2">
+<h2>観測世界の階層的予測<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<p><strong>階層的予測符号化(hierarchical predictive coding; HPC)</strong> は<span id="id3">[<a class="reference internal" href="#id120">Rao and Ballard, 1999</a>]</span>により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{n_0}\)</span>を考える．画像 <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> の観測世界における隠れ変数，すなわち<strong>潜在変数</strong> (latent variable)を<span class="math notranslate nohighlight">\(\mathbf{r} \in \mathbb{R}^{n_1}\)</span>とし，ニューロン群によって発火率で表現されているとする (真の変数と <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，</p>
 <div class="math notranslate nohighlight">
 \[
 \mathbf{x} = f(\mathbf{U}\mathbf{r}) + \boldsymbol{\epsilon} \tag{1}
@@ -900,10 +900,10 @@ title="Print to PDF"
 </ul>
 <p>である．ここまでは高次表現による低次表現の予測，というFeedback信号について説明してきたが，この部分はSparse codingでも同じである．それではPredictive codingのもう一つの要となる，低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか．結論から言えば，これは<strong>復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる</strong>．</p>
 </div>
-<div class="section" id="id3">
-<h2>損失関数と学習則<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
 <div class="section" id="id4">
-<h3>事前分布の設定<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<h2>損失関数と学習則<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id5">
+<h3>事前分布の設定<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <p><span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の事前分布<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>はCauchy分布を用いる．<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>の負の対数事前分布を<span class="math notranslate nohighlight">\(g(\mathbf{r}):=-\log p(\mathbf{r})\)</span>としておく．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -924,8 +924,8 @@ h'(\mathbf{U})&amp;=\frac{\partial h(\mathbf{U})}{\partial \mathbf{U}}=2\lambda 
 \end{split}\]</div>
 <p>ただし，<span class="math notranslate nohighlight">\(\|\cdot \| _ F^2\)</span>はフロベニウスノルムを意味する．</p>
 </div>
-<div class="section" id="id5">
-<h3>損失関数の設定<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id6">
+<h3>損失関数の設定<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
 <p><a class="reference external" href="https://compneuro-julia.github.io/11-2_sparse-coding.html">11-2</a>と同様に考えることにより，損失関数 <span class="math notranslate nohighlight">\(E\)</span>を次のように定義する．</p>
 <div class="math notranslate nohighlight">
 \[
@@ -935,8 +935,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 \]</div>
 <p>潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}, \mathbf{r}^h\)</span> と 重み行列 <span class="math notranslate nohighlight">\(\mathbf{U}, \mathbf{U}^h\)</span> のそれぞれに事前分布を仮定しているため，これらについてのMAP推定を行うことに相当する．</p>
 </div>
-<div class="section" id="id6">
-<h3>再帰ネットワークの更新則<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id7">
+<h3>再帰ネットワークの更新則<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <p>簡単のために<span class="math notranslate nohighlight">\(\mathbf{z}:=\mathbf{U}\mathbf{r}, \mathbf{z}^h:=\mathbf{U}^h\mathbf{r}^h\)</span>とする．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -947,8 +947,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 \end{split}\]</div>
 <p>ただし，<span class="math notranslate nohighlight">\(k_1\)</span>は更新率 (updating rate)である．または，発火率の時定数を<span class="math notranslate nohighlight">\(\tau:=1/k_1\)</span>として，<span class="math notranslate nohighlight">\(k_1\)</span>は発火率の時定数<span class="math notranslate nohighlight">\(\tau\)</span>の逆数であると捉えることもできる．ここで(5)式において，中間表現 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> のダイナミクスはbottom-up errorとtop-down errorで記述されている．このようにbottom-up errorが <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> への入力となることは自然に導出される．なお，top-down errorに関しては高次からの予測 (prediction)の項 <span class="math notranslate nohighlight">\(f(\mathbf{x}^h)\)</span>とleaky-integratorとしての項 <span class="math notranslate nohighlight">\(-\mathbf{r}\)</span>に分割することができる．また<span class="math notranslate nohighlight">\(\mathbf{U}^\top, (\mathbf{U}^h)^\top\)</span>は重み行列の転置となっており，bottom-upとtop-downの投射において対称な重み行列を用いることを意味している．<span class="math notranslate nohighlight">\(-g'(\mathbf{r})\)</span>は発火率を抑制してスパースにすることを目的とする項だが，無理やり解釈をすると自己再帰的な抑制と言える．</p>
 </div>
-<div class="section" id="id7">
-<h3>画像データの読み込み<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id8">
+<h3>画像データの読み込み<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
 <p>「スパース符号化」と同様にデータは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできるファイルを用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -964,8 +964,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 </div>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>モデルの定義<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id9">
+<h3>モデルの定義<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
 <p>必要なパッケージを読み込む．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1178,8 +1178,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 </div>
 </div>
 </div>
-<div class="section" id="id9">
-<h3>シミュレーションの実行<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id10">
+<h3>シミュレーションの実行<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Simulation constants</span>
@@ -1193,8 +1193,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 </div>
 </div>
 </div>
-<div class="section" id="id10">
-<h3>訓練中の損失の描画<a class="headerlink" href="#id10" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id11">
+<h3>訓練中の損失の描画<a class="headerlink" href="#id11" title="Permalink to this headline">#</a></h3>
 <p>訓練中の損失の変化を描画してみよう．損失が低下し，学習が進行したことが分かる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1219,8 +1219,8 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 </div>
 </div>
 </div>
-<div class="section" id="id11">
-<h3>重み行列 (受容野)の描画<a class="headerlink" href="#id11" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id12">
+<h3>重み行列 (受容野)の描画<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h3>
 <p>学習後の重み行列 (<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>)を可視化してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1271,10 +1271,10 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 </div>
 </div>
 </div>
-<div class="section" id="id12">
-<h2>参考文献<a class="headerlink" href="#id12" title="Permalink to this headline">#</a></h2>
-<p id="id13"><dl class="citation">
-<dt class="label" id="id119"><span class="brackets"><a class="fn-backref" href="#id2">RB99</a></span></dt>
+<div class="section" id="id13">
+<h2>参考文献<a class="headerlink" href="#id13" title="Permalink to this headline">#</a></h2>
+<p id="id14"><dl class="citation">
+<dt class="label" id="id120"><span class="brackets"><a class="fn-backref" href="#id3">RB99</a></span></dt>
 <dd><p>R P Rao and D H Ballard. Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects. <em>Nat. Neurosci.</em>, 2(1):79–87, January 1999.</p>
 </dd>
 </dl>
@@ -1313,7 +1313,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">スパース符号化 (sparse coding)</p>
+            <p class="prev-next-title">スパース符号化</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../solve-credit-assignment-problem/intro.html" title="next page">

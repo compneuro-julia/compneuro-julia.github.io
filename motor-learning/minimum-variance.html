@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>終点誤差分散最小モデル (minimum-variance model) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>終点誤差分散最小モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -322,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../energy-based-model/energy-based-model.html">
-     エネルギーベースモデル (Energy-based model)
+     エネルギーベースモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -337,12 +337,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../energy-based-model/sparse-coding.html">
-     スパース符号化 (sparse coding)
+     スパース符号化
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../energy-based-model/predictive-coding.html">
-     予測符号化 (predictive coding)
+     予測符号化
     </a>
    </li>
   </ul>
@@ -391,7 +391,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     終点誤差分散最小モデル (minimum-variance model)
+     終点誤差分散最小モデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -732,12 +732,12 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id3">
    終点誤差分散最小モデルの実装
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    参考文献
   </a>
  </li>
@@ -750,7 +750,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>終点誤差分散最小モデル (minimum-variance model)</h1>
+                <h1>終点誤差分散最小モデル</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -761,12 +761,12 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id3">
    終点誤差分散最小モデルの実装
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    参考文献
   </a>
  </li>
@@ -780,9 +780,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="minimum-variance-model">
-<h1>終点誤差分散最小モデル (minimum-variance model)<a class="headerlink" href="#minimum-variance-model" title="Permalink to this headline">#</a></h1>
-<p><strong>終点誤差分散最小モデル</strong> (minimum-variance model; <span id="id1">[<a class="reference internal" href="#id106">Harris and Wolpert, 1998</a>]</span>)を実装する．</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>終点誤差分散最小モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<p><strong>終点誤差分散最小モデル</strong> (minimum-variance model; <span id="id2">[<a class="reference internal" href="#id107">Harris and Wolpert, 1998</a>]</span>)を実装する．</p>
 <p><span class="math notranslate nohighlight">\(\mathbf{A}\in \mathbb{R}^{n\times n}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{B}\in \mathbb{R}^{n}\)</span>とする．<span class="math notranslate nohighlight">\(\dot{x}=\mathbf{A}_{c}\mathbf{x}+\mathbf{B}_{c}(u + w)\)</span>について，差分化すると</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -807,8 +807,8 @@ title="Print to PDF"
 \operatorname{Cov}\left[\mathbf{x}_{t}\right]=k \sum_{i=0}^{t-1}\left(\mathbf{A}^{t-1-i} \mathbf{B}\right)\left(\mathbf{A}^{t-1-i} \mathbf{B}\right)^{\top} u_{i}^{2}
 \]</div>
 <p>となる．</p>
-<div class="section" id="id2">
-<h2>終点誤差分散最小モデルの実装<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id3">
+<h2>終点誤差分散最小モデルの実装<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
 <p>以下では田中先生の<a class="reference external" href="https://www.motorcontrol.jp/archives/?MC13">https://www.motorcontrol.jp/archives/?MC13</a>のコードを参考に作成した．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -953,10 +953,10 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>参考文献<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
-<p id="id4"><dl class="citation">
-<dt class="label" id="id106"><span class="brackets"><a class="fn-backref" href="#id1">HW98</a></span></dt>
+<div class="section" id="id4">
+<h2>参考文献<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
+<p id="id5"><dl class="citation">
+<dt class="label" id="id107"><span class="brackets"><a class="fn-backref" href="#id2">HW98</a></span></dt>
 <dd><p>C M Harris and D M Wolpert. Signal-dependent noise determines motor planning. <em>Nature</em>, 394(6695):780–784, August 1998.</p>
 </dd>
 </dl>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>エネルギーベースモデル (Energy-based model) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>エネルギーベースモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -322,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     エネルギーベースモデル (Energy-based model)
+     エネルギーベースモデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -337,12 +337,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="sparse-coding.html">
-     スパース符号化 (sparse coding)
+     スパース符号化
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="predictive-coding.html">
-     予測符号化 (predictive coding)
+     予測符号化
     </a>
    </li>
   </ul>
@@ -391,7 +391,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../motor-learning/minimum-variance.html">
-     終点誤差分散最小モデル (minimum-variance model)
+     終点誤差分散最小モデル
     </a>
    </li>
    <li class="toctree-l2">
@@ -685,7 +685,7 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id3">
    参考文献
   </a>
  </li>
@@ -698,7 +698,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>エネルギーベースモデル (Energy-based model)</h1>
+                <h1>エネルギーベースモデル</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -709,7 +709,7 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id2">
+  <a class="reference internal nav-link" href="#id3">
    参考文献
   </a>
  </li>
@@ -723,9 +723,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="energy-based-model">
-<h1>エネルギーベースモデル (Energy-based model)<a class="headerlink" href="#energy-based-model" title="Permalink to this headline">#</a></h1>
-<p>本章では<strong>エネルギーベースモデル (energy-based models; EBMs)</strong> という枠組みに含まれるモデルを紹介する．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義し，推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する．<span id="id1">[<a class="reference internal" href="#id102">LeCun <em>et al.</em>, 2006</a>]</span></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>エネルギーベースモデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<p>本章では<strong>エネルギーベースモデル (energy-based models; EBMs)</strong> という枠組みに含まれるモデルを紹介する．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義し，推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する．<span id="id2">[<a class="reference internal" href="#id103">LeCun <em>et al.</em>, 2006</a>]</span></p>
 <p>入力 <span class="math notranslate nohighlight">\(\mathbf{x}\in \mathbb{R}^d\)</span>, エネルギー関数 <span class="math notranslate nohighlight">\(E_\theta: \mathbb{R}^d\to \mathbb{R}\)</span>を考える．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -735,10 +735,10 @@ Z_\theta &amp;= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
 \end{align}
 \end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(Z_\theta\)</span>は分配関数．</p>
-<div class="section" id="id2">
-<h2>参考文献<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
-<p id="id3"><dl class="citation">
-<dt class="label" id="id102"><span class="brackets"><a class="fn-backref" href="#id1">LCH+06</a></span></dt>
+<div class="section" id="id3">
+<h2>参考文献<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
+<p id="id4"><dl class="citation">
+<dt class="label" id="id103"><span class="brackets"><a class="fn-backref" href="#id2">LCH+06</a></span></dt>
 <dd><p>Y LeCun, S Chopra, R Hadsell, M Ranzato, and F Huang. A tutorial on energy-based learning. <em>Predicting structured</em>, 2006.</p>
 </dd>
 </dl>
