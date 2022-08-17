@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>最適フィードバック制御モデル (optimal feedback control; OFC) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>最適フィードバック制御モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="無限時間最適制御モデル (infinite-horizon optimal feedback control model)" href="infinite-horizon-ofc.html" />
+    <link rel="next" title="無限時間最適フィードバック制御モデル" href="infinite-horizon-ofc.html" />
     <link rel="prev" title="終点誤差分散最小モデル (minimum-variance model)" href="minimum-variance.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -396,12 +396,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     最適フィードバック制御モデル (optimal feedback control; OFC)
+     最適フィードバック制御モデル
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="infinite-horizon-ofc.html">
-     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+     無限時間最適フィードバック制御モデル
     </a>
    </li>
   </ul>
@@ -732,67 +732,54 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    最適フィードバック制御モデルの構造
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      系の状態変化
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#linear-quadratic-regulator">
-     運動制御 (Linear-Quadratic Regulator)
+    <a class="reference internal nav-link" href="#lqg">
+     LQG
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear-quadratic-regulator">
+       運動制御 (Linear-Quadratic Regulator)
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kalman-filter">
+       状態推定 (Kalman Filter)
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#kalman-filter">
-     状態推定 (Kalman Filter)
+    <a class="reference internal nav-link" href="#id4">
+     一般化LQG
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   最適フィードバック制御モデルの実装
+  <a class="reference internal nav-link" href="#id5">
+   実装
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     前処理
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#glqg">
-     gLQG
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     理想的な軌跡の計算
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id6">
-     ノイズを含む軌跡のシミュレーション
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     メイン関数
+     シミュレーション
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   シミュレーションの実行
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   結果の描画
+  <a class="reference internal nav-link" href="#id7">
+   参考文献
   </a>
  </li>
 </ul>
@@ -804,7 +791,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>最適フィードバック制御モデル (optimal feedback control; OFC)</h1>
+                <h1>最適フィードバック制御モデル</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -815,67 +802,54 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    最適フィードバック制御モデルの構造
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
+    <a class="reference internal nav-link" href="#id3">
      系の状態変化
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#linear-quadratic-regulator">
-     運動制御 (Linear-Quadratic Regulator)
+    <a class="reference internal nav-link" href="#lqg">
+     LQG
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear-quadratic-regulator">
+       運動制御 (Linear-Quadratic Regulator)
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#kalman-filter">
+       状態推定 (Kalman Filter)
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#kalman-filter">
-     状態推定 (Kalman Filter)
+    <a class="reference internal nav-link" href="#id4">
+     一般化LQG
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   最適フィードバック制御モデルの実装
+  <a class="reference internal nav-link" href="#id5">
+   実装
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
-     前処理
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#glqg">
-     gLQG
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
-     理想的な軌跡の計算
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id6">
-     ノイズを含む軌跡のシミュレーション
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     メイン関数
+     シミュレーション
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
-   シミュレーションの実行
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id9">
-   結果の描画
+  <a class="reference internal nav-link" href="#id7">
+   参考文献
   </a>
  </li>
 </ul>
@@ -888,39 +862,40 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="optimal-feedback-control-ofc">
-<h1>最適フィードバック制御モデル (optimal feedback control; OFC)<a class="headerlink" href="#optimal-feedback-control-ofc" title="Permalink to this headline">#</a></h1>
-<div class="section" id="id1">
-<h2>最適フィードバック制御モデルの構造<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
-<blockquote>
-<div><p>Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. <em>Neural Computation</em> 17(5): 1084-1108</p>
-</div></blockquote>
-<p>本節はTodorovの<a class="reference external" href="https://homes.cs.washington.edu/~todorov/software/gLQG.zip">MATLABコード</a>を元にしている (現状ほぼJuliaへの単なる移植であることを明言しておく)．</p>
-<p><strong>最適フィードバック制御モデル(optimal feedback control; OFC)</strong> の特徴として目標軌道を必要としないことが挙げられる．<strong>Kalman フィルタ</strong>による状態推定と<strong>線形2次レギュレーター(LQR: linear-quadratic regurator)</strong> により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．ここで考える制御問題は<strong>線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御</strong>と呼ばれる．</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>最適フィードバック制御モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
 <div class="section" id="id2">
-<h3>系の状態変化<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<h2>最適フィードバック制御モデルの構造<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<p><strong>最適フィードバック制御モデル (optimal feedback control; OFC)</strong> の特徴として目標軌道を必要としないことが挙げられる．<strong>Kalman フィルタ</strong>による状態推定と<strong>線形2次レギュレーター(LQR: linear-quadratic regurator)</strong> により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．</p>
+<div class="section" id="id3">
+<h3>系の状態変化<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
 &amp;\text {Dynamics} \quad \mathbf{x}_{t+1}=A \mathbf{x}_{t}+B \mathbf{u}_{t}+\boldsymbol{\xi}_{t}+\sum_{i=1}^{c} \varepsilon_{t}^{i} C_{i} \mathbf{u}_{t}\\
 &amp;\text {Feedback} \quad \mathbf{y}_{t}=H \mathbf{x}_{t}+\omega_{t}+\sum_{i=1}^{d} \epsilon_{t}^{i} D_{i} \mathbf{x}_{t}\\
-&amp;\text{Cost per step}\quad \mathbf{x}_{t}^{T} Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^{T} R \mathbf{u}_{t}
+&amp;\text{Cost per step}\quad \mathbf{x}_{t}^\top Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^\top R \mathbf{u}_{t}
 \end{aligned}
 \end{split}\]</div>
 </div>
+<div class="section" id="lqg">
+<h3>LQG<a class="headerlink" href="#lqg" title="Permalink to this headline">#</a></h3>
+<p>加法ノイズしかない場合(<span class="math notranslate nohighlight">\(C=D=0\)</span>)，制御問題は<strong>線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御</strong>と呼ばれる．</p>
 <div class="section" id="linear-quadratic-regulator">
-<h3>運動制御 (Linear-Quadratic Regulator)<a class="headerlink" href="#linear-quadratic-regulator" title="Permalink to this headline">#</a></h3>
+<h4>運動制御 (Linear-Quadratic Regulator)<a class="headerlink" href="#linear-quadratic-regulator" title="Permalink to this headline">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
 \mathbf{u}_{t}&amp;=-L_{t} \widehat{\mathbf{x}}_{t}\\
 L_{t}&amp;=\left(R+B^{\top} S_{t+1} B\right)^{-1} B^{\top} S_{t+1} A\\
 S_{t}&amp;=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
+s_t &amp;= \mathrm{tr}(S_{t+1}\Omega^\xi) + s_{t+1}; s_T=0
 \end{align}
 \end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{S}_{T}=Q\)</span></p>
 </div>
 <div class="section" id="kalman-filter">
-<h3>状態推定 (Kalman Filter)<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">#</a></h3>
+<h4>状態推定 (Kalman Filter)<a class="headerlink" href="#kalman-filter" title="Permalink to this headline">#</a></h4>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -929,446 +904,325 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
 \Sigma_{t+1}&amp;=\Omega^{\xi}+\left(A-K_{t} H\right) \Sigma_{t} A^{\top}
 \end{align}
 \end{split}\]</div>
-<p><span class="math notranslate nohighlight">\(K\)</span>はカルマンゲイン(Kalman gains)，<span class="math notranslate nohighlight">\(L\)</span>はフィードバックゲイン(feedback gains)である．<span class="math notranslate nohighlight">\(K, L\)</span>は時間に依存する行列であることに注意しよう．実装上は<span class="math notranslate nohighlight">\(\boldsymbol{\xi}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">C0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\omega_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">D0</span> <span class="pre">*</span> <span class="pre">randn</span></code>，<span class="math notranslate nohighlight">\(\boldsymbol{\eta}_{t}=\)</span> <code class="docutils literal notranslate"><span class="pre">E0</span> <span class="pre">*</span> <span class="pre">randn</span></code></p>
-</div>
-</div>
-<div class="section" id="id3">
-<h2>最適フィードバック制御モデルの実装<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
-<p>ライブラリの読み込み．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Kronecker</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">BlockDiagonals</span><span class="p">,</span> <span class="n">PyPlot</span>
-<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
-
-<span class="n">eye</span><span class="p">(</span><span class="n">T</span><span class="o">::</span><span class="kt">Type</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">Diagonal</span><span class="p">{</span><span class="kt">T</span><span class="p">}(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eye (generic function with 2 methods)
-</pre></div>
-</div>
+<p>この場合に限り，運動制御と状態推定を独立させることができる．</p>
 </div>
 </div>
 <div class="section" id="id4">
-<h3>前処理<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
-<p>一部のスカラーをベクトルに変換する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">convertScalar2Vec!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">)</span>
-    <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">szU</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szY</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    
-    <span class="c"># if C or D are scalar, replicate them into vectors</span>
-    <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="c">#&amp;&amp; szU&gt;1</span>
-       <span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">szU</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">end</span>
-
-    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span>
-            <span class="n">D</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span> <span class="n">szX</span><span class="p">)</span>
-        <span class="k">else</span>
-            <span class="n">D</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">szX</span> <span class="o">!=</span> <span class="n">szY</span>
-                <span class="n">error</span><span class="p">(</span><span class="s">&quot;D can only be a scalar when szX = szY&quot;</span><span class="p">)</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-
-    <span class="c"># if C0,D0,E0 are scalar, set them to 0 matrices and adjust size</span>
-    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">C0</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">C0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span>
-        <span class="n">C0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">D0</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">D0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span>
-        <span class="n">D0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">E0</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">E0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span>
-        <span class="n">E0</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>convertScalar2Vec! (generic function with 1 method)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="glqg">
-<h3>gLQG<a class="headerlink" href="#glqg" title="Permalink to this headline">#</a></h3>
-<p>メインとなるgeneralized LQGの関数．カルマンゲイン<span class="math notranslate nohighlight">\(K\)</span>とフィードバックゲイン<span class="math notranslate nohighlight">\(L\)</span>を学習する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">;</span> <span class="n">Init</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Niter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">MaxIter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">Eps</span><span class="o">=</span><span class="mi">10</span><span class="o">^-</span><span class="mi">8</span><span class="p">)</span>
-    <span class="s">&quot;&quot;&quot;</span>
-<span class="s">    - Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)</span>
-<span class="s">    - Niter : iterations; 0 (default) - until convergence   (optional)</span>
-
-<span class="s">    - K : Filter gains</span>
-<span class="s">    - L : Control gains</span>
-<span class="s">    - Cost : Expected cost (per iteration)</span>
-<span class="s">    &quot;&quot;&quot;</span>
-    <span class="c"># determine sizes</span>
-    <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">szU</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szY</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">szC</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-    <span class="n">szC0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">C0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szD</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-    <span class="n">szD0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">D0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szE0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">E0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-    
-    <span class="c"># initialize policy and filter</span>
-    <span class="n">K</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">szY</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c"># Filter gains</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szU</span><span class="p">,</span><span class="n">szX</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c"># Control gains</span>
-
-    <span class="n">Cost</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">MaxIter</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">iter</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">MaxIter</span>
-        <span class="c"># initialize covariances</span>
-        <span class="n">SiE</span> <span class="o">=</span> <span class="n">S1</span>
-        <span class="n">SiX</span> <span class="o">=</span> <span class="n">X1</span> <span class="o">*</span> <span class="n">X1</span><span class="o">&#39;</span>
-        <span class="n">SiXE</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">szX</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-            <span class="c"># compute Kalman gain</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="n">SiE</span> <span class="o">+</span> <span class="n">SiX</span> <span class="o">+</span> <span class="n">SiXE</span> <span class="o">+</span> <span class="n">SiXE</span><span class="o">&#39;</span>
-
-            <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-                <span class="n">DSiD</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">((</span><span class="n">diag</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">.*</span><span class="n">D</span><span class="o">.^</span><span class="mi">2</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-            <span class="k">else</span>
-                <span class="n">DSiD</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span><span class="n">szY</span><span class="p">);</span>
-                <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szD</span>
-                    <span class="n">DSiD</span> <span class="o">+=</span> <span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">temp</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">&#39;</span>
-                <span class="k">end</span>
-            <span class="k">end</span>
-
-            <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">SiE</span> <span class="o">*</span> <span class="n">H</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">pinv</span><span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">SiE</span> <span class="o">*</span> <span class="n">H</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">D0</span> <span class="o">*</span> <span class="n">D0</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">DSiD</span><span class="p">)</span>
-
-            <span class="c"># compute new SiE</span>
-            <span class="n">newE</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">*</span> <span class="n">E0</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">C0</span> <span class="o">*</span> <span class="n">C0</span><span class="o">&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span> <span class="o">*</span> <span class="n">SiE</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span>
-            <span class="n">LSiL</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">SiX</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">&#39;</span>
-
-            <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-                <span class="n">newE</span> <span class="o">+=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">LSiL</span><span class="p">)</span> <span class="o">.*</span> <span class="n">C</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="o">&#39;</span>
-            <span class="k">else</span>
-                <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szC</span>
-                    <span class="n">newE</span> <span class="o">+=</span> <span class="n">B</span><span class="o">*</span><span class="n">C</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">LSiL</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">&#39;*</span><span class="n">B</span><span class="o">&#39;</span>
-                <span class="k">end</span>
-            <span class="k">end</span>
-
-            <span class="c"># update SiX, SiE, SiXE</span>
-            <span class="n">AmBL</span> <span class="o">=</span> <span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span>
-            <span class="n">SiX</span> <span class="o">=</span> <span class="n">E0</span> <span class="o">*</span> <span class="n">E0</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span> <span class="o">*</span> <span class="n">SiE</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">AmBL</span> <span class="o">*</span> <span class="n">SiX</span> <span class="o">*</span> <span class="n">AmBL</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">AmBL</span> <span class="o">*</span> <span class="n">SiXE</span> <span class="o">*</span> <span class="n">H</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span> <span class="o">*</span> <span class="n">SiXE</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">AmBL</span><span class="o">&#39;</span>
-            <span class="n">SiE</span> <span class="o">=</span> <span class="n">newE</span>
-            <span class="n">SiXE</span> <span class="o">=</span> <span class="n">AmBL</span> <span class="o">*</span> <span class="n">SiXE</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">H</span><span class="p">)</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">E0</span> <span class="o">*</span> <span class="n">E0</span><span class="o">&#39;</span>
-        <span class="k">end</span>
-
-        <span class="c"># first pass initialization</span>
-        <span class="k">if</span> <span class="n">iter</span><span class="o">==</span><span class="mi">1</span>
-            <span class="k">if</span> <span class="n">Init</span><span class="o">==</span><span class="mi">0</span>         <span class="c"># open loop</span>
-                <span class="n">K</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">szY</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">elseif</span> <span class="n">Init</span><span class="o">==</span><span class="mi">2</span>     <span class="c"># random</span>
-                <span class="n">K</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">szY</span><span class="p">,</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-
-        <span class="c"># initialize optimal cost-to-go function</span>
-        <span class="n">Sx</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">N</span><span class="p">]</span>
-        <span class="n">Se</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">szX</span><span class="p">)</span>
-        <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="c"># backward pass - recompute control policy</span>
-        <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span>
-            <span class="c"># update Cost</span>
-            <span class="n">Kk</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span>
-            <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">(</span><span class="n">Sx</span><span class="o">*</span><span class="n">C0</span><span class="o">*</span><span class="n">C0</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">tr</span><span class="p">(</span><span class="n">Se</span> <span class="o">*</span> <span class="p">(</span><span class="n">Kk</span> <span class="o">*</span> <span class="n">D0</span> <span class="o">*</span> <span class="n">D0</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Kk</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">E0</span> <span class="o">*</span> <span class="n">E0</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">C0</span> <span class="o">*</span> <span class="n">C0</span><span class="o">&#39;</span><span class="p">))</span>
-
-            <span class="c"># Controller</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="n">R</span> <span class="o">.+</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">B</span>
-            <span class="n">BSxeB</span> <span class="o">=</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">Sx</span> <span class="o">+</span> <span class="n">Se</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span>
-
-            <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-                <span class="n">temp</span> <span class="o">+=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">BSxeB</span><span class="p">)</span><span class="o">.*</span><span class="n">C</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">else</span>
-                <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-                    <span class="n">temp</span> <span class="o">+=</span> <span class="n">C</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">BSxeB</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">end</span>
-            <span class="k">end</span>
-
-            <span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">pinv</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="o">*</span><span class="n">B</span><span class="o">&#39;*</span><span class="n">Sx</span><span class="o">*</span><span class="n">A</span><span class="p">;</span>
-            <span class="n">Lk</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span>
-
-            <span class="c"># compute new Se</span>
-            <span class="n">newE</span> <span class="o">=</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Lk</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">Kk</span> <span class="o">*</span> <span class="n">H</span><span class="p">)</span><span class="o">&#39;*</span><span class="n">Se</span><span class="o">*</span><span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">Kk</span> <span class="o">*</span> <span class="n">H</span><span class="p">);</span>
-
-            <span class="c"># update Sx and Se</span>
-            <span class="n">Sx</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">Lk</span><span class="p">);</span>
-            <span class="n">KSeK</span> <span class="o">=</span> <span class="n">Kk</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Se</span> <span class="o">*</span> <span class="n">Kk</span><span class="p">;</span>
-            <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-                <span class="n">Sx</span> <span class="o">+=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">KSeK</span><span class="p">)</span><span class="o">.*</span><span class="n">D</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">else</span>
-                <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szD</span>
-                <span class="n">Sx</span> <span class="o">+=</span> <span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">&#39;*</span><span class="n">KSeK</span><span class="o">*</span><span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">end</span>
-            <span class="k">end</span>    
-            <span class="n">Se</span> <span class="o">=</span> <span class="n">newE</span><span class="p">;</span>
-        <span class="k">end</span>
-
-        <span class="c"># adjust cost</span>
-        <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">X1</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">X1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tr</span><span class="p">((</span><span class="n">Se</span> <span class="o">+</span> <span class="n">Sx</span><span class="p">)</span> <span class="o">*</span> <span class="n">S1</span><span class="p">)</span>
-        <span class="c"># check convergence of Cost</span>
-        <span class="k">if</span> <span class="n">iter</span> <span class="o">&gt;</span> <span class="mi">1</span>
-            <span class="n">ΔCost</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">])</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">Niter</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">iter</span><span class="o">&gt;=</span><span class="n">Niter</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">Niter</span><span class="o">==</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">ΔCost</span> <span class="o">&lt;</span> <span class="n">Eps</span><span class="p">)</span>
-                <span class="c"># print result</span>
-                <span class="k">if</span> <span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">Cost</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span>
-                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;Log10ΔCost = &quot;</span><span class="p">,</span> <span class="n">log10</span><span class="p">(</span><span class="n">ΔCost</span><span class="p">))</span>
-                <span class="k">else</span>
-                   <span class="n">println</span><span class="p">(</span><span class="s">&quot;ΔCost = 0&quot;</span><span class="p">)</span>
-                <span class="k">end</span>
-
-                <span class="k">break</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gLQG (generic function with 1 method)
-</pre></div>
-</div>
-</div>
+<h3>一般化LQG<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<p>状態および制御依存ノイズがある場合，</p>
 </div>
 </div>
 <div class="section" id="id5">
-<h3>理想的な軌跡の計算<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
-<p>学習したフィードバックゲインを用い，系の状態の予測が実際の状態と一致している場合の軌跡<code class="docutils literal notranslate"><span class="pre">Xa</span></code>を計算する．この場合，系の内部状態の正解が得られているのと同じなので，カルマンゲインは用いない．</p>
+<h2>実装<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h2>
+<p>ライブラリの読み込みと関数の定義．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">Xa</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">Xa</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X1</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Kronecker</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">BlockDiagonals</span><span class="p">,</span> <span class="n">PyPlot</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">rc</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s">&quot;Arial&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">Reaching1DModelParameter</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span> <span class="c"># number of dims</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># </span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="c"># kgm^2, </span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c"># kgm^2/s</span>
+    <span class="n">ta</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c"># s</span>
+    <span class="n">te</span> <span class="o">=</span> <span class="mf">0.04</span> <span class="c"># s</span>
+    <span class="n">L0</span> <span class="o">=</span> <span class="mf">0.35</span> <span class="c"># m</span>
 
-    <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">Xa</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span>
-        <span class="n">Xa</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">Xa</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">Xa</span>
+    <span class="n">bu</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">ta</span> <span class="o">*</span> <span class="n">te</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">α1</span> <span class="o">=</span> <span class="n">bu</span> <span class="o">*</span> <span class="n">b</span>
+    <span class="n">α2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">ta</span> <span class="o">*</span> <span class="n">te</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">ta</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">te</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="o">/</span><span class="n">i</span>
+    <span class="n">α3</span> <span class="o">=</span> <span class="n">b</span><span class="o">/</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">ta</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">te</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="n">I</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="o">-</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">α1</span><span class="p">,</span> <span class="n">α2</span><span class="p">,</span> <span class="n">α3</span><span class="p">]</span><span class="o">&#39;</span><span class="p">]</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">);</span> <span class="n">bu</span><span class="p">]</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="p">[</span><span class="n">I</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">([</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">5e-2</span><span class="p">])</span>
+
+    <span class="n">Y</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="o">*</span> <span class="n">B</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">I</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">Reaching1DModelCostParameter</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="c"># sec</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c"># sec</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># num time steps</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span> <span class="n">reshape</span><span class="p">(</span><span class="n">Diagonal</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">]),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="mf">1e-4</span> <span class="o">/</span> <span class="n">nt</span>
+    
+    <span class="n">init_pos</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+    <span class="n">x₁</span> <span class="o">=</span> <span class="p">[</span><span class="n">init_pos</span><span class="p">;</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span><span class="c">#zeros(n)</span>
+    <span class="n">Σ₁</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 <span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>computeAverageTrajectory (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reaching1DModelCostParameter
 </pre></div>
 </div>
+</div>
+</div>
+<p>Qの値は各時刻において一般座標 (位置，速度，加速度，躍度)のそれぞれを0にするコストに対する重みづけである．例えば，速度も0にすることを重視すれば2番目の係数を上げる．</p>
+<p><span class="math notranslate nohighlight">\(S\)</span>と<span class="math notranslate nohighlight">\(\Sigma\)</span>は各時点での値を一時的にしか必要としないので更新する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">LQG</span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="kt">Reaching1DModelParameter</span><span class="p">,</span> <span class="n">cost_param</span><span class="o">::</span><span class="kt">Reaching1DModelCostParameter</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@unpack</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">x₁</span><span class="p">,</span> <span class="n">Σ₁</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">nt</span> <span class="o">=</span> <span class="n">cost_param</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">D</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">G</span>
+    
+    <span class="n">L</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c"># Feedback gains</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="c"># Kalman gains</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span> <span class="c"># S_T = Q</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Σ₁</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">Σ</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">/</span> <span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">Σ</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">D</span><span class="p">)</span> <span class="c"># update K</span>
+        <span class="n">Σ</span> <span class="o">=</span> <span class="n">G</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span> <span class="o">*</span> <span class="n">Σ</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span>      <span class="c"># update Σ</span>
+    <span class="k">end</span>　
+
+    <span class="n">cost</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span>
+        <span class="n">cost</span> <span class="o">+=</span> <span class="n">tr</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">G</span><span class="p">)</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">+</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="n">B</span><span class="p">)</span> <span class="o">\</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="n">A</span> <span class="c"># update L</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">)</span>     <span class="c"># update S</span>
+    <span class="k">end</span>
+    
+    <span class="c"># adjust cost</span>
+    <span class="n">cost</span> <span class="o">+=</span> <span class="n">x₁</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="n">x₁</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">cost</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LQG (generic function with 1 method)
+</pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="id6">
-<h3>ノイズを含む軌跡のシミュレーション<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">NSim</span></code>回のシミュレーションを並列で計算する．</p>
+<h3>シミュレーション<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<p>信号依存ノイズ Yが入っている場合はLQGとは異なってくる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+&amp;\mathbf{u}_{t}=-L_{t} \hat{\mathbf{x}}_{t} \\
+&amp;L_{t}=\left(B^\top S_{t+1}^{\mathbf{x}} B+R+\sum_{n} C_{n}^\top\left(S_{t+1}^{\mathbf{x}}+S_{t+1}^{\mathrm{e}}\right) C_{n}\right)^{-1} B^\top S_{t+1}^{\mathbf{x}} A \\
+&amp;S_{t}^{\mathbf{x}}=Q_{t}+A^\top S_{t+1}^{\mathbf{x}}\left(A-B L_{t}\right) ; \quad S_{T}^{\mathbf{x}}=Q_{T} \\
+&amp;S_{t}^{\mathrm{e}}=A^\top S_{t+1}^{\mathbf{x}} B L_t+\left(A-K_{t} H\right)^\top S_{t+1}^{\mathrm{e}}\left(A-K_{t} H\right) ; \quad S_{T}^{\mathrm{e}}=0\\
+&amp;s_{t}=\operatorname{tr}\left(S_{t+1}^{\mathrm{x}}\Omega^{\xi}+S_{t+1}^{\mathrm{e}}\left(\Omega^{\xi}+\Omega^{\eta}+K_{t} \Omega^{\omega} K_{t}^{\top}\right)\right)+s_{t+1} ; \quad s_{n}=0 .
+\end{aligned}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\hat{\mathbf{x}}_{t+1} &amp;=A \hat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \hat{\mathbf{x}}_{t}\right) \\
+K_{t} &amp;=A \Sigma_{t}^{\mathrm{e}} H^\top\left(H \Sigma_{t}^{\mathrm{e}} H^\top+\Omega^{\omega}\right)^{-1} \\
+\Sigma_{t+1}^{\mathrm{e}} &amp;=\left(A-K_{t} H\right) \Sigma_{t}^{\mathrm{e}} A^\top+\sum_{n} C_{n} L_{t} \Sigma_{t}^{\hat{x}} L_{t}^\top C_{n}^\top ; \quad \Sigma_{1}^{\mathrm{e}}=\Sigma_{1} \\
+\Sigma_{t+1}^{\hat{\mathbf{x}}} &amp;=K_{t} H \Sigma_{t}^{\mathrm{e}} A^\top+\left(A-B L_{t}\right) \Sigma_{t}^{\hat{\mathbf{x}}}\left(A-B L_{t}\right)^\top ; \quad \Sigma_{1}^{\hat{\mathbf{x}}}=\hat{\mathbf{x}}_{1} \hat{\mathbf{x}}_{1}^\top
+\end{aligned}
+\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># simulate noisy trajectories</span>
-<span class="k">function</span> <span class="n">simulateNoisyTrajectories</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span><span class="n">S1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-    <span class="s">&quot;&quot;&quot;</span>
-<span class="s">    - NSim : number of simulated trajectories (default 0)  (optional)</span>
-<span class="s">    - XSim : Simulated trajectories</span>
-<span class="s">    - CostSim : Empirical cost</span>
-<span class="s">    &quot;&quot;&quot;</span>
-    <span class="n">szX</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">szU</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szY</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">szC0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">C0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szD</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-    <span class="n">szD0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">D0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">szE0</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">E0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="kt">Reaching1DModelParameter</span><span class="p">,</span> <span class="n">cost_param</span><span class="o">::</span><span class="kt">Reaching1DModelCostParameter</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">ϵ</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@unpack</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">x₁</span><span class="p">,</span> <span class="n">Σ₁</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">nt</span> <span class="o">=</span> <span class="n">cost_param</span>
 
-    <span class="c"># square root of S1</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">S1</span><span class="p">)</span>
-    <span class="n">sqrtS</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Diagonal</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">*</span> <span class="n">v</span><span class="o">&#39;</span>
-
-    <span class="c"># initialize</span>
-    <span class="n">XSim</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">NSim</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">Xhat</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">NSim</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-    <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-    <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sqrtS</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szX</span><span class="p">,</span><span class="n">NSim</span><span class="p">);</span>
-    <span class="n">CostSim</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c"># loop over N</span>
-    <span class="k">for</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span>
-        <span class="c"># update control and cost</span>
-        <span class="n">U</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span>
-        <span class="n">CostSim</span> <span class="o">+=</span> <span class="n">sum</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">U</span><span class="o">.*</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">U</span><span class="p">)))</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">.*</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">])))</span>
-
-        <span class="c"># compute noisy control</span>
-        <span class="n">Un</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-            <span class="n">Un</span> <span class="o">+=</span> <span class="n">U</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szU</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span> <span class="o">.*</span> <span class="n">repeat</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-        <span class="k">else</span>
-            <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szC</span>
-                <span class="n">Un</span> <span class="o">+=</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">U</span><span class="p">)</span> <span class="o">.*</span> <span class="n">repeat</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NSim</span><span class="p">),</span> <span class="n">szU</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-
-        <span class="c"># compute noisy observation</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">D0</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szD0</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">size</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span>
-            <span class="n">y</span> <span class="o">+=</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">szY</span><span class="p">,</span><span class="n">NSim</span><span class="p">)</span> <span class="o">.*</span> <span class="n">repeat</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-        <span class="k">else</span>
-            <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">szD</span>
-                <span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">])</span><span class="o">.*</span><span class="n">repeat</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NSim</span><span class="p">),</span> <span class="n">szY</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-
-        <span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">Un</span> <span class="o">+</span> <span class="n">C0</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">szC0</span><span class="p">,</span><span class="n">NSim</span><span class="p">);</span>
-        <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">U</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">H</span> <span class="o">*</span> <span class="n">Xhat</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="p">])</span> <span class="o">+</span> <span class="n">E0</span><span class="o">*</span><span class="n">randn</span><span class="p">(</span><span class="n">szE0</span><span class="p">,</span><span class="n">NSim</span><span class="p">);</span>
-    <span class="k">end</span>
-
-    <span class="c"># final cost update</span>
-    <span class="n">CostSim</span> <span class="o">+=</span> <span class="n">sum</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">N</span><span class="p">]</span><span class="o">.*</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="n">XSim</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">N</span><span class="p">])));</span>
-    <span class="n">CostSim</span> <span class="o">/=</span> <span class="n">NSim</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">A</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">D</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">G</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span>
     
-    <span class="k">return</span> <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="c"># Feedback gains</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="c"># Kalman gains</span>
+    
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">maxiter</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">maxiter</span>
+        <span class="n">Sˣ</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
+        <span class="n">Sᵉ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">Σˣ̂</span> <span class="o">=</span> <span class="n">x₁</span> <span class="o">*</span> <span class="n">x₁</span><span class="o">&#39;</span> <span class="c"># \Sigma TAB \^x TAB \hat TAB</span>
+        <span class="n">Σᵉ</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Σ₁</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">Σᵉ</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">/</span> <span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">Σᵉ</span> <span class="o">*</span> <span class="n">C</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">D</span><span class="p">)</span>
+
+            <span class="n">AmBL</span> <span class="o">=</span> <span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span>
+            <span class="n">LΣˣ̂L</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Σˣ̂</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+
+            <span class="n">Σˣ̂</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span> <span class="o">*</span> <span class="n">Σᵉ</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">AmBL</span> <span class="o">*</span> <span class="n">Σˣ̂</span> <span class="o">*</span> <span class="n">AmBL</span><span class="o">&#39;</span>
+            <span class="n">Σᵉ</span> <span class="o">=</span> <span class="n">G</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span> <span class="o">*</span> <span class="n">Σᵉ</span> <span class="o">*</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">LΣˣ̂L</span> <span class="o">*</span> <span class="n">Y</span><span class="o">&#39;</span>
+        <span class="k">end</span>
+        
+        <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span>
+            <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tr</span><span class="p">(</span><span class="n">Sˣ</span> <span class="o">*</span> <span class="n">G</span> <span class="o">+</span> <span class="n">Sᵉ</span> <span class="o">*</span> <span class="p">(</span><span class="n">G</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">D</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">))</span>
+            
+            <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">+</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sˣ</span> <span class="o">*</span> <span class="n">B</span> <span class="o">+</span> <span class="n">Y</span><span class="o">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">Sˣ</span> <span class="o">+</span> <span class="n">Sᵉ</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span> <span class="o">\</span> <span class="n">B</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sˣ</span> <span class="o">*</span> <span class="n">A</span>
+
+            <span class="n">AmKC</span> <span class="o">=</span> <span class="n">A</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span>
+            <span class="n">Sᵉ</span> <span class="o">=</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sˣ</span> <span class="o">*</span> <span class="n">B</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">+</span> <span class="n">AmKC</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sᵉ</span> <span class="o">*</span> <span class="n">AmKC</span>
+            <span class="n">Sˣ</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sˣ</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span> <span class="o">*</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">)</span>
+        <span class="k">end</span>
+        
+        <span class="c"># adjust cost</span>
+        <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x₁</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">Sˣ</span> <span class="o">*</span> <span class="n">x₁</span> <span class="o">+</span> <span class="n">tr</span><span class="p">((</span><span class="n">Sˣ</span> <span class="o">+</span> <span class="n">Sᵉ</span><span class="p">)</span> <span class="o">*</span> <span class="n">Σ₁</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">abs</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">ϵ</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">cost</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">break</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">cost</span>
 <span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>simulateNoisyTrajectories (generic function with 1 method)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gLQG (generic function with 3 methods)
 </pre></div>
+</div>
+</div>
+</div>
+<p>状態ノイズがある場合に関してはTodorovの<a class="reference external" href="https://homes.cs.washington.edu/~todorov/software/gLQG.zip">MATLABコード</a>を参照．</p>
+<p>位置は目標位置を基準とする座標で表現し，位置が0になるように運動を行う．状態の中に標的位置を含めコストパラメータを修正することで初期位置を基準とする座標系での運動を記述できる．モデルに関してはTodorov2005を参照．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">simulation</span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="kt">Reaching1DModelParameter</span><span class="p">,</span> <span class="n">cost_param</span><span class="o">::</span><span class="kt">Reaching1DModelCostParameter</span><span class="p">,</span> 
+                    <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">;</span> <span class="n">noisy</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@unpack</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">x₁</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">nt</span> <span class="o">=</span> <span class="n">cost_param</span>
+    
+    <span class="n">X</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x₁</span> <span class="c"># m; initial position (target position is zero)</span>
+
+    <span class="k">if</span> <span class="n">noisy</span>
+        <span class="n">sqrtdt</span> <span class="o">=</span> <span class="o">√</span><span class="n">dt</span>
+        <span class="n">X̂</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+        <span class="n">X̂</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">X̂</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span>
+            <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">sqrtdt</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">randn</span><span class="p">()</span> <span class="o">+</span> <span class="n">G</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">D</span> <span class="o">*</span> <span class="n">sqrtdt</span> <span class="o">*</span> <span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">X̂</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X̂</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">X̂</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dy</span> <span class="o">-</span> <span class="n">C</span> <span class="o">*</span> <span class="n">X̂</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">else</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span>
+            <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">u</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>simulation (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">simulation_all</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">Xa</span><span class="p">,</span> <span class="n">ua</span> <span class="o">=</span> <span class="n">simulation</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">noisy</span><span class="o">=</span><span class="nb">false</span><span class="p">);</span>
+    
+    <span class="c"># noisy</span>
+    <span class="n">nsim</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">XSimAll</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">uSimAll</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nsim</span>
+        <span class="n">XSim</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">simulation</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">noisy</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">XSimAll</span><span class="p">,</span> <span class="n">XSim</span><span class="p">)</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">uSimAll</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="k">end</span>
+    
+    <span class="c"># visualization</span>
+    <span class="nd">@unpack</span> <span class="n">dt</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">cost_param</span>
+    <span class="n">tarray</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">dt</span><span class="o">:</span><span class="n">dt</span><span class="ss">:T</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="sa">L</span><span class="s">&quot;Position (</span><span class="si">$m</span><span class="s">$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Velocity (</span><span class="si">$m</span><span class="s">/s$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Acceleration (</span><span class="si">$m</span><span class="s">/s^2$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Jerk (</span><span class="si">$m</span><span class="s">/s^3$)&quot;</span><span class="p">]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nsim</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XSimAll</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">end</span>
+
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xa</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> 
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="k">end</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nsim</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">uSimAll</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="s">&quot;tab:gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">ua</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Control signal (</span><span class="si">$N</span><span class="s">\cdot m$)&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Time (</span><span class="si">$s</span><span class="s">$)&quot;</span><span class="p">);</span> 
+    <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+    <span class="n">tight_layout</span><span class="p">()</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>simulation_all (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">param</span> <span class="o">=</span> <span class="n">Reaching1DModelParameter</span><span class="p">()</span>
+<span class="n">cost_param</span> <span class="o">=</span> <span class="n">Reaching1DModelCostParameter</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">LQG</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">);</span>
+<span class="n">simulation_all</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/optimal-feedback-control_19_0.png" src="../_images/optimal-feedback-control_19_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">);</span>
+<span class="n">simulation_all</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cost_param</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/optimal-feedback-control_20_0.png" src="../_images/optimal-feedback-control_20_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="id7">
-<h3>メイン関数<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
-<p>上記の関数をまとめた関数を記述する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">kalman_lqg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-    <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span> <span class="o">=</span> <span class="n">convertScalar2Vec!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">)</span>
-    <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span> <span class="o">=</span> <span class="n">gLQG</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">)</span>
-    <span class="n">Xa</span> <span class="o">=</span> <span class="n">computeAverageTrajectory</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-    <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span> <span class="o">=</span> <span class="n">simulateNoisyTrajectories</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span><span class="n">S1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">NSim</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Xa</span><span class="p">,</span> <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kalman_lqg (generic function with 1 method)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id8">
-<h2>シミュレーションの実行<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">N</span></code>で到達時刻，<code class="docutils literal notranslate"><span class="pre">T</span></code>で目標位置を設定する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>        <span class="c"># time step (sec)</span>
-<span class="n">m</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>            <span class="c"># mass (kg)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>            <span class="c"># damping (N/sec)</span>
-<span class="n">τ</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>          <span class="c"># time constant (msec)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>          <span class="c"># control-dependent noise</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">;</span>      <span class="c"># control signal penalty</span>
-<span class="n">v</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>          <span class="c"># endpoint velocity penalty</span>
-<span class="n">f</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">;</span>         <span class="c"># endpoint force penalty</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">0.02</span><span class="p">;</span>   <span class="c"># position noise</span>
-<span class="n">vel</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">0.2</span><span class="p">;</span>    <span class="c"># velocity noise</span>
-<span class="n">frc</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="mf">1.0</span><span class="p">;</span>    <span class="c"># force noise</span>
-
-<span class="n">N</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>               <span class="c"># duration in number of time steps</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>              <span class="c"># target distance</span>
-
-<span class="n">dtt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">/</span><span class="p">(</span><span class="n">τ</span><span class="o">/</span><span class="mi">1000</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">NSim</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>系の状態を決定する定数，定行列を定義する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Tridiagonal</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">dtt</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">dtt</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="n">dt</span><span class="p">,</span> <span class="n">dt</span><span class="o">/</span><span class="n">m</span><span class="p">,</span> <span class="n">dtt</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="n">dtt</span><span class="p">;</span> <span class="mi">0</span><span class="p">][</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">c</span>
-<span class="n">C0</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">H</span> <span class="o">=</span> <span class="p">[</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
-<span class="n">D</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">D0</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">([</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">frc</span><span class="p">])</span>
-<span class="n">E0</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">r</span><span class="o">/</span><span class="n">N</span>
-<span class="n">d</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">([</span><span class="n">Diagonal</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">f</span><span class="p">])</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)]])</span>
-<span class="n">Q</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
-<span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">&#39;*</span><span class="n">d</span>
-<span class="n">X1</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">T</span><span class="p">][</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span>
-<span class="n">S1</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>シミュレーションを実行する．</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">K</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Xa</span><span class="p">,</span> <span class="n">XSim</span><span class="p">,</span> <span class="n">CostSim</span> <span class="o">=</span> <span class="n">kalman_lqg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">C0</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D0</span><span class="p">,</span> <span class="n">E0</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">NSim</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Log10ΔCost = -10.020441448217328
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id9">
-<h2>結果の描画<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tarray</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
-<span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="sa">L</span><span class="s">&quot;Position (</span><span class="si">$m</span><span class="s">$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Velocity (</span><span class="si">$m</span><span class="s">/s$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Acceleration (</span><span class="si">$m</span><span class="s">/s^2$)&quot;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&quot;Jerk (</span><span class="si">$m</span><span class="s">/s^3$)&quot;</span><span class="p">]</span>
-
-<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
-    <span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">XSim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">,</span> <span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">tarray</span><span class="p">,</span> <span class="n">Xa</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">],</span> <span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="n">grid</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">3</span>
-        <span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Time (</span><span class="si">$ms</span><span class="s">$)&quot;</span><span class="p">)</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-<span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/optimal-feedback-control_25_0.png" src="../_images/optimal-feedback-control_25_0.png" />
-</div>
-</div>
-</div>
+<h2>参考文献<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h2>
+<span class="target" id="id8"></span></div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -1408,7 +1262,7 @@ K_{t}&amp;=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\righ
     <a class='right-next' id="next-link" href="infinite-horizon-ofc.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">無限時間最適制御モデル (infinite-horizon optimal feedback control model)</p>
+        <p class="prev-next-title">無限時間最適フィードバック制御モデル</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

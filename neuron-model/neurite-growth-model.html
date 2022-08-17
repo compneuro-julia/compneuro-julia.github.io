@@ -396,12 +396,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
-     最適フィードバック制御モデル (optimal feedback control; OFC)
+     最適フィードバック制御モデル
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
-     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+     無限時間最適フィードバック制御モデル
     </a>
    </li>
   </ul>
@@ -1051,10 +1051,10 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 </div>
 </div>
 </div>
-<p>パラメータを設定する．このパラメータは<span id="id10">[<a class="reference internal" href="#id29">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id11">[<a class="reference internal" href="#id31">van Ooyen <em>et al.</em>, 2014</a>]</span>に基づいている．</p>
+<p>パラメータを設定する．このパラメータは<span id="id10">[<a class="reference internal" href="#id29">Koene <em>et al.</em>, 2009</a>]</span>, <span id="id11">[<a class="reference internal" href="#id31">van Ooyen <em>et al.</em>, 2014</a>]</span>に基づいている．Van Peltモデルにおいて錐体細胞のような複雑な形態を作成するには，各部位に分割してシミュレーションし結合することが必要となる．今回は軸索のパラメータを用いる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B∞</span> <span class="o">=</span> <span class="mf">13.2</span><span class="p">;</span> <span class="n">E</span> <span class="o">=</span> <span class="mf">0.319</span><span class="p">;</span> <span class="n">S</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.205</span><span class="p">;</span> <span class="n">τ</span> <span class="o">=</span> <span class="mi">1681541</span> <span class="c">#14*24*60*60; </span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">B∞</span> <span class="o">=</span> <span class="mf">13.2</span><span class="p">;</span> <span class="n">E</span> <span class="o">=</span> <span class="mf">0.319</span><span class="p">;</span> <span class="n">S</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.205</span><span class="p">;</span> <span class="n">τ</span> <span class="o">=</span> <span class="mi">1681541</span><span class="p">;</span> 
 <span class="n">μₑ</span> <span class="o">=</span> <span class="mf">2.14e-4</span><span class="p">;</span> <span class="n">σₑ</span> <span class="o">=</span> <span class="mf">3.98e-4</span><span class="p">;</span>
 
 <span class="n">turn_rate</span> <span class="o">=</span> <span class="mi">3</span>
@@ -1071,15 +1071,18 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 <p>シミュレーションを実行する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">history_num</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">init_branch_num</span> <span class="o">=</span> <span class="mi">8</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">history_num</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># 記録する状態の数; 等間隔で記録．</span>
+<span class="n">init_branch_num</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># 初めの神経突起枝の数</span>
+
+<span class="c"># 細胞体のパラメータ</span>
 <span class="n">tree_info_init</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
 <span class="n">seg_vec_init</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>
 
+<span class="c"># 初期神経突起のパラメータ （神経突起が放射状に出るように設定）</span>
 <span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">init_branch_num</span>
     <span class="n">push!</span><span class="p">(</span><span class="n">tree_info_init</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">seg_vec_init</span><span class="p">,</span> <span class="p">[(</span><span class="n">μₑ</span> <span class="o">+</span> <span class="n">randn</span><span class="p">()</span> <span class="o">*</span> <span class="n">σₑ</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span> <span class="n">rand</span><span class="p">()</span><span class="o">*</span><span class="mi">2</span><span class="nb">π</span><span class="p">])</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">seg_vec_init</span><span class="p">,</span> <span class="p">[(</span><span class="n">μₑ</span> <span class="o">+</span> <span class="n">randn</span><span class="p">()</span><span class="o">*</span><span class="n">σₑ</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">init_branch_num</span><span class="o">*</span><span class="mi">2</span><span class="nb">π</span><span class="o">+</span><span class="mf">1e-2</span><span class="o">*</span><span class="n">randn</span><span class="p">()])</span>
 <span class="k">end</span>
 
 <span class="nd">@time</span> <span class="n">tree_info_history</span><span class="p">,</span> <span class="n">seg_vec_history</span> <span class="o">=</span> <span class="n">neurite_growth_model</span><span class="p">(</span><span class="n">tree_info_init</span><span class="p">,</span> <span class="n">seg_vec_init</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">B∞</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">τ</span><span class="p">,</span> <span class="n">μₑ</span><span class="p">,</span> <span class="n">σₑ</span><span class="p">,</span>
@@ -1088,16 +1091,16 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num. branching: 92
-  2.033826 seconds (4.15 M allocations: 214.942 MiB, 2.82% gc time, 53.54% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num. branching: 40
+  1.657159 seconds (4.07 M allocations: 204.847 MiB, 2.96% gc time, 77.06% compilation time)
 </pre></div>
 </div>
 </div>
 </div>
-<p>結果を表示する．</p>
+<p>結果を表示する．初めの神経突起の数を2にしていてもそれ以上出ているように見えるのは最初期に分岐しているためである (細胞体を描画しなければ確認できる)．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">maxwidth</span><span class="p">,</span> <span class="n">minwidth</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">maxwidth</span><span class="p">,</span> <span class="n">minwidth</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span> <span class="c"># 描画する神経突起の最大/最小の太さ</span>
 <span class="n">days_range</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">collect</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="n">history_num</span><span class="o">+</span><span class="mi">1</span><span class="p">)))[</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">history_num</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
@@ -1106,11 +1109,11 @@ p_d(t_i) = r_L\Delta L_j(t_i)
     <span class="n">linewidths</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="n">maxwidth</span><span class="p">,</span> <span class="n">minwidth</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">(</span><span class="n">lines</span><span class="p">));</span>
 
     <span class="n">line_segments</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">collections</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">linewidths</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">line_segments</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">line_segments</span><span class="p">)</span>  <span class="c"># dendrite</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span> <span class="c"># soma</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">\ (\mu m)$&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$y</span><span class="s">\ (\mu m)$&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">days_range</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="s">&quot; days&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$x</span><span class="s">\ (\mu m)$&quot;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$y</span><span class="s">\ (\mu m)$&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">label_outer</span><span class="p">()</span>
 <span class="k">end</span>
 </pre></div>
@@ -1120,7 +1123,9 @@ p_d(t_i) = r_L\Delta L_j(t_i)
 <img alt="../_images/neurite-growth-model_19_0.png" src="../_images/neurite-growth-model_19_0.png" />
 </div>
 </div>
-<p>Van Peltモデルにおいて錐体細胞のような複雑な形態を作成するには，各部位に分割してシミュレーションし結合することが必要となる．複雑化するため本書では省略する．</p>
+<p>対称性の破れを考慮していないので，円系に成長している．</p>
+<p><em>ToDo</em>:
+神経細胞極性についての記述．</p>
 </div>
 </div>
 <div class="section" id="id12">

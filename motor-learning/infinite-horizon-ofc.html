@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>無限時間最適制御モデル (infinite-horizon optimal feedback control model) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <title>無限時間最適フィードバック制御モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="強化学習" href="../reinforcement-learning/intro.html" />
-    <link rel="prev" title="最適フィードバック制御モデル (optimal feedback control; OFC)" href="optimal-feedback-control.html" />
+    <link rel="prev" title="最適フィードバック制御モデル" href="optimal-feedback-control.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -396,12 +396,12 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="optimal-feedback-control.html">
-     最適フィードバック制御モデル (optimal feedback control; OFC)
+     最適フィードバック制御モデル
     </a>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+     無限時間最適フィードバック制御モデル
     </a>
    </li>
   </ul>
@@ -732,12 +732,12 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    モデルの構造
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    実装
   </a>
   <ul class="nav section-nav flex-column">
@@ -747,17 +747,17 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      シミュレーション
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id6">
      ノイズを含むシミュレーション
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
+    <a class="reference internal nav-link" href="#id7">
      結果の描画
     </a>
    </li>
@@ -769,7 +769,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
+  <a class="reference internal nav-link" href="#id9">
    参考文献
   </a>
  </li>
@@ -782,7 +782,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>無限時間最適制御モデル (infinite-horizon optimal feedback control model)</h1>
+                <h1>無限時間最適フィードバック制御モデル</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -793,12 +793,12 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
+  <a class="reference internal nav-link" href="#id2">
    モデルの構造
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id4">
    実装
   </a>
   <ul class="nav section-nav flex-column">
@@ -808,17 +808,17 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id5">
      シミュレーション
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id5">
+    <a class="reference internal nav-link" href="#id6">
      ノイズを含むシミュレーション
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id6">
+    <a class="reference internal nav-link" href="#id7">
      結果の描画
     </a>
    </li>
@@ -830,7 +830,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id8">
+  <a class="reference internal nav-link" href="#id9">
    参考文献
   </a>
  </li>
@@ -844,11 +844,11 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="infinite-horizon-optimal-feedback-control-model">
-<h1>無限時間最適制御モデル (infinite-horizon optimal feedback control model)<a class="headerlink" href="#infinite-horizon-optimal-feedback-control-model" title="Permalink to this headline">#</a></h1>
-<div class="section" id="id1">
-<h2>モデルの構造<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
-<p>無限時間最適制御モデル <span id="id2">[<a class="reference internal" href="#id112">Qian <em>et al.</em>, 2013</a>]</span></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>無限時間最適フィードバック制御モデル<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h1>
+<div class="section" id="id2">
+<h2>モデルの構造<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
+<p>無限時間最適フィードバック制御モデル (infinite-horizon optimal feedback control model) <span id="id3">[<a class="reference internal" href="#id113">Qian <em>et al.</em>, 2013</a>]</span></p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{array}{l}
@@ -858,8 +858,8 @@ d \hat{x}=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x} 
 \end{array}
 \end{split}\]</div>
 </div>
-<div class="section" id="id3">
-<h2>実装<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h2>
+<div class="section" id="id4">
+<h2>実装<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h2>
 <p>ライブラリの読み込みと関数の定義．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -868,18 +868,6 @@ d \hat{x}=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x} 
 <span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Kronecker</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">BlockDiagonals</span><span class="p">,</span> <span class="n">PyPlot</span>
 <span class="n">rc</span><span class="p">(</span><span class="s">&quot;axes.spines&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 <span class="n">rc</span><span class="p">(</span><span class="s">&quot;font&quot;</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s">&quot;Arial&quot;</span><span class="p">)</span> 
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">Diagonal</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eye (generic function with 1 method)
 </pre></div>
 </div>
 </div>
@@ -1056,8 +1044,8 @@ d \xi
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>シミュレーション<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id5">
+<h3>シミュレーション<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">simulation</span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="kt">SaccadeModelParameter</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">init_pos</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">;</span> <span class="n">noisy</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
@@ -1116,8 +1104,8 @@ d \xi
 </div>
 </div>
 </div>
-<div class="section" id="id5">
-<h3>ノイズを含むシミュレーション<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id6">
+<h3>ノイズを含むシミュレーション<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
@@ -1134,8 +1122,8 @@ d \xi
 </div>
 </div>
 </div>
-<div class="section" id="id6">
-<h3>結果の描画<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<div class="section" id="id7">
+<h3>結果の描画<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tarray</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">dt</span><span class="o">:</span><span class="n">dt</span><span class="ss">:T</span><span class="p">)</span>
@@ -1162,14 +1150,14 @@ d \xi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/infinite-horizon-ofc_22_0.png" src="../_images/infinite-horizon-ofc_22_0.png" />
+<img alt="../_images/infinite-horizon-ofc_21_0.png" src="../_images/infinite-horizon-ofc_21_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="target-jump">
 <h2>Target jump<a class="headerlink" href="#target-jump" title="Permalink to this headline">#</a></h2>
-<p>target jumpする場合の最適制御 <span id="id7">[<a class="reference internal" href="#id114">Li <em>et al.</em>, 2018</a>]</span></p>
+<p>target jumpする場合の最適制御 <span id="id8">[<a class="reference internal" href="#id115">Li <em>et al.</em>, 2018</a>]</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">target_jump_simulation</span><span class="p">(</span><span class="n">param</span><span class="o">::</span><span class="kt">SaccadeModelParameter</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> 
@@ -1276,17 +1264,17 @@ d \xi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/infinite-horizon-ofc_28_0.png" src="../_images/infinite-horizon-ofc_28_0.png" />
+<img alt="../_images/infinite-horizon-ofc_27_0.png" src="../_images/infinite-horizon-ofc_27_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="id8">
-<h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h2>
-<p id="id9"><dl class="citation">
-<dt class="label" id="id114"><span class="brackets"><a class="fn-backref" href="#id7">LMSQ18</a></span></dt>
+<div class="section" id="id9">
+<h2>参考文献<a class="headerlink" href="#id9" title="Permalink to this headline">#</a></h2>
+<p id="id10"><dl class="citation">
+<dt class="label" id="id115"><span class="brackets"><a class="fn-backref" href="#id8">LMSQ18</a></span></dt>
 <dd><p>Zhe Li, Pietro Mazzoni, Sen Song, and Ning Qian. A single, continuously applied control policy for modeling reaching movements with and without perturbation. <em>Neural Comput.</em>, 30(2):397–427, February 2018.</p>
 </dd>
-<dt class="label" id="id112"><span class="brackets"><a class="fn-backref" href="#id2">QJJM13</a></span></dt>
+<dt class="label" id="id113"><span class="brackets"><a class="fn-backref" href="#id3">QJJM13</a></span></dt>
 <dd><p>Ning Qian, Yu Jiang, Zhong-Ping Jiang, and Pietro Mazzoni. Movement duration, fitts's law, and an infinite-horizon optimal feedback control model for biological motor systems. <em>Neural Comput.</em>, 25(3):697–724, March 2013.</p>
 </dd>
 </dl>
@@ -1325,7 +1313,7 @@ d \xi
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">最適フィードバック制御モデル (optimal feedback control; OFC)</p>
+            <p class="prev-next-title">最適フィードバック制御モデル</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../reinforcement-learning/intro.html" title="next page">
